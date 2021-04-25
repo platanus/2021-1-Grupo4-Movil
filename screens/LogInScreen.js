@@ -1,14 +1,14 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View , TextInput, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View , TextInput, TouchableOpacity, Alert} from 'react-native';
 import {loginUserAction} from "../store/actions/logInActions";
 import {connect} from "react-redux"
 
-const mapStateToProps = (state) => ({loggedIn: state.logged});
+const mapStateToProps = (state) => ({
+    loggedIn: state.logged,
+    loginError: state.loginError});
 
 const mapDispatchToProps = (dispatch) => ({
-//     addText: (text) => dispatch(addTextAction(text)),
-//     deleteText: () => dispatch(deleteTextAction()),
     loginUser: (data) => dispatch(loginUserAction(data))});
 
 
@@ -17,25 +17,33 @@ function connectedLogIn(props) {
 
     const [user, setUser] = useState("");
     const [password, setPassword] = useState("");
-    
+    const [errorMessage, setErrorMessage] = useState("");
+    useEffect(() => {
+      if (props.loginError) {
+        const message = props.loginError;
+        if(message === "record_not_found") {
+          setErrorMessage("Try again: This user does not exists");
+        }
+        else{
+          setErrorMessage("Try again: Invalid email or password");
+        }   
+      } 
+    }, [props.loginError])
 
     function handleLogin() {
       props.loginUser({user: user, password: password});
-      
     }
-    // (condition ? ifTrue : ifFalse)
-    // props.logged
+
     if (props.loggedIn) {
       return(
       <View>
         <Text>hola estas loggeado</Text>
-
       </View>)
       
     } else {
       return (
         <View style={styles.container}>
-          <Text style={styles.helloText}>Hello SuperKitchen!</Text>
+          <Text style={styles.helloText}>Hello KitchenGram!</Text>
           <View style={styles.logContainer}>
           <Text style={styles.loginText}> Mail:</Text>
           <TextInput
@@ -48,12 +56,21 @@ function connectedLogIn(props) {
             secureTextEntry={true}
             style={styles.input}
           />
+          <Text style={{textAlign: "center", color:"#074eec"}}>
+            {errorMessage}
+          </Text>
            <TouchableOpacity
             onPress={handleLogin} 
             style={styles.button}>
             <Text style={styles.buttonText}>Log In</Text>
           </TouchableOpacity>
+          <TouchableOpacity>
+            <Text style={{textAlign: "center", color:"#074eec"}}>
+              Don't have an account? Sign up!
+            </Text>
+          </TouchableOpacity>
           </View>
+         
           <StatusBar style="auto" />
         </View>
         )
@@ -116,7 +133,7 @@ const styles = StyleSheet.create({
    
   });
 
-const logIn = connect(mapStateToProps, mapDispatchToProps,)(connectedLogIn);
+const LogIn = connect(mapStateToProps, mapDispatchToProps,)(connectedLogIn);
 
 
-export default logIn
+export default LogIn
