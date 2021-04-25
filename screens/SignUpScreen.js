@@ -1,37 +1,39 @@
 import React, {useState, useEffect} from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View , TextInput, TouchableOpacity, Alert} from 'react-native';
-import {loginUserAction} from "../store/actions/logInActions";
+import {signUpUserAction} from "../store/actions/logInActions";
 import {connect} from "react-redux"
 
 const mapStateToProps = (state) => ({
     loggedIn: state.logged,
-    loginError: state.loginError});
+    signUpError: state.signUpError});
 
 const mapDispatchToProps = (dispatch) => ({
-    loginUser: (data) => dispatch(loginUserAction(data))});
+    signUpUser: (data) => dispatch(signUpUserAction(data))});
 
 
 
-function connectedLogIn(props) {
+function connectedSignUp(props) {
 
     const [user, setUser] = useState("");
     const [password, setPassword] = useState("");
+    const [password2, setPassword2] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
     useEffect(() => {
-      if (props.loginError) {
+      if (props.signUpError) {
         const message = props.loginError;
-        if(message === "record_not_found") {
+        if(message === "invalid_attributes") {
           setErrorMessage("Try again: This user does not exists");
         }
         else{
           setErrorMessage("Try again: Invalid email or password");
         }   
       } 
-    }, [props.loginError])
+    }, [props.signUpError])
 
-    function handleLogin() {
-      props.loginUser({user: user, password: password});
+    function handleSignUp() {
+     // verificar que contraseñas sean iguales
+      props.signUpUser({user: user, password: password});
     }
 
     if (props.loggedIn) {
@@ -56,17 +58,23 @@ function connectedLogIn(props) {
             secureTextEntry={true}
             style={styles.input}
           />
+        <Text style={styles.loginText}> Confirm Password:</Text>
+           <TextInput  
+            onChangeText={(password) => setPassword2(password)}
+            secureTextEntry={true}
+            style={styles.input}
+          />
           <Text style={{textAlign: "center", color:"#074eec"}}>
             {errorMessage}
           </Text>
            <TouchableOpacity
-            onPress={handleLogin} 
+            onPress={handleSignUp} 
             style={styles.button}>
-            <Text style={styles.buttonText}>Log In</Text>
+            <Text style={styles.buttonText}>Sign Up</Text>
           </TouchableOpacity>
           <TouchableOpacity>
             <Text style={{textAlign: "center", color:"#074eec"}}>
-              Don't have an account? Sign up!
+              Do you have an account? Log in!
             </Text>
           </TouchableOpacity>
           </View>
@@ -133,7 +141,7 @@ const styles = StyleSheet.create({
    
   });
 
-const LogIn = connect(mapStateToProps, mapDispatchToProps,)(connectedLogIn);
+const SignUp = connect(mapStateToProps, mapDispatchToProps,)(connectedSignUp);
 
 
-export default LogIn
+export default SignUp;
