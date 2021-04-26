@@ -1,14 +1,14 @@
 import {takeLatest, takeEvery, delay, put, call} from "redux-saga/effects";
 import {loginUserSuccess , loginUserFailed, signUpFailed, signUpSuccess} from "../actions/logInActions"
-import {fetchlogin} from "../../api/api"
+// import {postAuth} from '../../api/api'
 
 const loginUrl = "https://pl-super-kitchen-staging.herokuapp.com/api/v1/users/sessions";
 const signUpUrl = "https://pl-super-kitchen-staging.herokuapp.com/api/v1/users/registrations";
 
-
-async function submitToServer(data) {
+// mover esta función a api
+async function postAuth(data, url) {
     try {
-        let response = await fetch(loginUrl,
+        let response = await fetch(url,
             {
                 method: 'POST',
                 headers:{
@@ -24,33 +24,16 @@ async function submitToServer(data) {
     }  
 }
 
-async function signUpSubmitToServer(data) {
-    try {
-        let response = await fetch(signUpUrl,
-            {
-                method: 'POST',
-                headers:{
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json' 
-                },
-                body: JSON.stringify(data)
-            })
-        let responseJson = await response.json();
-        return responseJson;
-    } catch (error) {
-        console.error(error);
-    }
-    
-}
+
 
 function* processLogIn(action) {
     try {
-        const result = yield call(submitToServer, {
+        const result = yield call(postAuth, {
             user: {
               email: action.payload.user,
               password: action.payload.password
             }
-          })
+          }, loginUrl)
         if (result.message) {
             yield put(loginUserFailed(result.message))  
         } else {
@@ -63,12 +46,12 @@ function* processLogIn(action) {
 
 function* processSignUp(action) {
     try {
-        const result = yield call(signUpSubmitToServer, {
+        const result = yield call(postAuth, {
             user: {
               email: action.payload.user,
               password: action.payload.password
             }
-          })
+          }, signUpUrl)
         if (result.message) {
             yield put(signUpFailed(result.message))  
         } else {
@@ -78,9 +61,8 @@ function* processSignUp(action) {
         console.error(error);
     }
 }
-         
 
-export default function *apiSaga(){
+export default function *authSaga(){
     yield takeEvery('USER_LOGIN', processLogIn);
     yield takeEvery('USER_SIGN_UP', processSignUp)
 };

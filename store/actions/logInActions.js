@@ -1,3 +1,7 @@
+export const changeAuthAction = () => ({
+  type: 'CHANGE_AUTH',
+});
+
 // LOGIN
 
 export const loginUserAction = (data) => ({

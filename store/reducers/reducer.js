@@ -1,11 +1,11 @@
 const initialState = {
     logged: false,
     loginError: "",
-    signUpError: ""
-    
+    signUpError: "",
+    haveAccount: true    
   }
   
-  const loginReducer = (state= initialState, action) => {
+  const authReducer = (state= initialState, action) => {
       const newState = { ...state};
       switch (action.type) {
             case 'LOGIN_SUCCESS':
@@ -20,9 +20,14 @@ const initialState = {
             case 'SIGN_UP_FAILED':
               newState.signUpError = action.payload;
               return newState
+            case 'CHANGE_AUTH':
+              newState.haveAccount = !state.haveAccount;
+              newState.loginError = "";
+              newState.signUpError = "";
+              return newState
         default:
           return state;
       }
     };
     
-    export default loginReducer;
+    export default authReducer;
