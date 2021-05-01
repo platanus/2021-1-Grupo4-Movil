@@ -1,8 +1,10 @@
 
 import axios from 'axios';
-import config from '../config'
+import { HOST } from "@env";
 
 export default async function fetchData(_body, path, token) {
+
+    axios.defaults.baseURL = HOST;
 
     var response;
 
@@ -12,12 +14,12 @@ export default async function fetchData(_body, path, token) {
     }
 
     // Aqui agregar el email almacenado en el state al loguearse
-    if (token) headers['X-User-Email'] = ''; headers['X-User-Token'] = token;
+    if (token) { headers['X-User-Email'] = ''; headers['X-User-Token'] = token }
     try {
       await axios({
         method: 'post',
-        url: `${config.api.host}/${path}`,
-        data: { ..._body, code },
+        url: `/${path}`,
+        data: _body,
         headers: headers,
       })
         .then((resp) => {
@@ -25,6 +27,6 @@ export default async function fetchData(_body, path, token) {
         })
       return { status: response.status, body: response };
     } catch (err) {
-      return { status: 500, body: 'Error' }
+      return { body: "API error" }
     }
 }

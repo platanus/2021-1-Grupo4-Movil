@@ -1,7 +1,9 @@
 import axios from 'axios';
-import config from '../config'
+import { HOST } from "@env";
 
 export default async function fetchData(path, params) {
+
+    axios.defaults.baseURL = HOST;
 
     var response;
 
@@ -15,7 +17,7 @@ export default async function fetchData(path, params) {
         return paramsStr
     }
 
-    let url = `${config.api.host}/${path}`
+    let url = `/${path}`
     url += params ? extractParams(params) : ''
 
     await axios(url).then((resp) => { response = resp })
