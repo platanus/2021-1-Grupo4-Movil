@@ -1,4 +1,4 @@
-export default config = {
+const config = {
     api: {
         host: process.env.REACT_APP_API_HOST,
         endpoints: {
@@ -9,3 +9,5 @@ export default config = {
         }
     },
 }
+
+export default config;
