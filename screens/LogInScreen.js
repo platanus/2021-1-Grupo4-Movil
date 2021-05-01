@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react';
 import { StatusBar } from 'expo-status-bar';
 import {Text, View , TextInput, TouchableOpacity} from 'react-native';
 import {loginUserAction, changeAuthAction} from "../store/actions/logInActions";
+import config from "../config";
+import fetchData from "../services/postFetch";
 import {connect} from "react-redux"
 import styles from "../styles/authStyles"
 
@@ -37,6 +39,12 @@ function connectedLogIn(props) {
     function handleLogin() {
       props.loginUser({user: user, password: password});
     }
+
+    /*
+   const handleLogin =  async () => {
+    const response = await fetchData({ user: { email: user, password: password }  }, config.api.endpoints.users.logIn, null)
+   }
+   */
 
     return (
       <View style={styles.container}>
