@@ -1,57 +1,57 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import { StatusBar } from 'expo-status-bar';
-import {Text, View , TextInput, TouchableOpacity} from 'react-native';
-import {loginUserAction, changeAuthAction} from "../store/actions/logInActions";
-import {connect} from "react-redux"
-import styles from "../styles/authStyles"
+import { Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { loginUserAction, changeAuthAction } from '../store/actions/authActions';
+import styles from '../styles/authStyles';
 
-const mapStateToProps = (state) => ({
+function mapStateToProps(state) {
+  return ({
     loggedIn: state.logged,
-    loginError: state.loginError});
+    loginError: state.loginError });
+}
 
-const mapDispatchToProps = (dispatch) => ({
+function mapDispatchToProps(dispatch) {
+  return ({
     loginUser: (data) => dispatch(loginUserAction(data)),
-    changeToSignUp: () => dispatch(changeAuthAction())
-    });
+    changeToSignUp: () => dispatch(changeAuthAction()),
+  });
+}
 
+function ConnectedLogIn(props) {
+  const [user, setUser] = useState('');
+  const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
-
-function connectedLogIn(props) {
-
-    const [user, setUser] = useState("");
-    const [password, setPassword] = useState("");
-    const [errorMessage, setErrorMessage] = useState("");
-
-    useEffect(() => {
-      if (props.loginError) {
-        const message = props.loginError;
-        if(message === "record_not_found") {
-          setErrorMessage("Try again: This user does not exists");
-        }
-        else{
-          setErrorMessage("Try again: Invalid email or password");
-        }   
-      } 
-    }, [props.loginError])
-
-    function handleLogin() {
-      props.loginUser({user: user, password: password});
+  useEffect(() => {
+    if (props.loginError) {
+      const message = props.loginError;
+      if (message === 'record_not_found') {
+        setErrorMessage('Try again: This user does not exists');
+      } else {
+        setErrorMessage('Try again: Invalid email or password');
+      }
     }
+  }, [props.loginError]);
 
-    return (
-      <View style={styles.container}>
-        <Text style={styles.helloText}>Hello KitchenGram!</Text>
-        <View style={styles.logContainer}>
+  function handleLogin() {
+    props.loginUser({ user, password });
+  }
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.helloText}>Hello KitchenGram!</Text>
+      <View style={styles.logContainer}>
 
         <Text style={styles.loginText}> Mail:</Text>
         <TextInput
-        onChangeText={(mail) => setUser(mail)}
-        style={styles.input}
-        autoCapitalize="none"/>
+          onChangeText={(mail) => setUser(mail)}
+          style={styles.input}
+          autoCapitalize="none"/>
 
         <Text style={styles.loginText}> Password:</Text>
-          <TextInput  
-          onChangeText={(password) => setPassword(password)}
+        <TextInput
+          onChangeText={(pass) => setPassword(pass)}
           secureTextEntry={true}
           style={styles.input}
         />
@@ -60,30 +60,26 @@ function connectedLogIn(props) {
           {errorMessage}
         </Text>
 
-          <TouchableOpacity
-          onPress={handleLogin} 
+        <TouchableOpacity
+          onPress={handleLogin}
           style={styles.button}>
           <Text style={styles.buttonText}>Log In</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
-        onPress={() =>props.changeToSignUp()}>
-          <Text style={{textAlign: "center", color:"#074eec", marginTop:"4%"}}>
-            Don't have an account? Sign up!
+          onPress={() => props.changeToSignUp()}>
+          <Text style={{ textAlign: 'center', color: '#074eec', marginTop: '4%' }}>
+            Don&apos;t have an account? Sign up!
           </Text>
         </TouchableOpacity>
 
-        </View>
-        
-        <StatusBar style="auto" />
       </View>
-      )
-      
-    
+
+      <StatusBar style="auto" />
+    </View>
+  );
 }
 
+const LogIn = connect(mapStateToProps, mapDispatchToProps)(ConnectedLogIn);
 
-const LogIn = connect(mapStateToProps, mapDispatchToProps,)(connectedLogIn);
-
-
-export default LogIn
+export default LogIn;
