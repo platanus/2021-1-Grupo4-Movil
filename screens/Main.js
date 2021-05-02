@@ -1,16 +1,9 @@
 import React from 'react';
 import { View } from 'react-native';
-import { connect } from 'react-redux';
 import LogIn from './LogInScreen';
 import SignUp from './SignUpScreen';
 
-function mapStateToProps(state) {
-  return ({
-    loggedIn: state.logged,
-    haveAccount: state.haveAccount });
-}
-
-function ConnectedMain(props) {
+function Main(props) {
   return (
     <View style={{ flex: 1 }}>
 
@@ -19,13 +12,11 @@ function ConnectedMain(props) {
       // aqui irá el navegador de App principal (logeado)
         :
         props.haveAccount ?
-          <LogIn/> :
-          <SignUp/>}
+          <SignUp/> :
+          <LogIn/>}
 
     </View>
   );
 }
-
-const Main = connect(mapStateToProps, null)(ConnectedMain);
 
 export default Main;

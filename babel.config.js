@@ -1,20 +1,20 @@
-module.exports = function (api) {
+export default function (api) {
   api.cache(true);
 
   return {
     presets: ['babel-preset-expo'],
-    plugins: [    
+    plugins: [
       [
-        "module:react-native-dotenv", 
+        'module:react-native-dotenv',
         {
-          "moduleName": "@env",
-          "path": ".env.development",
-          "blacklist": null,
-          "whitelist": null,
-          "safe": false,
-          "allowUndefined": true  
-        }
-      ] 
-    ]
+          'moduleName': '@env',
+          'path': '.env.development',
+          'blacklist': null,
+          'whitelist': null,
+          'safe': false,
+          'allowUndefined': true,
+        },
+      ],
+    ],
   };
-};
+}

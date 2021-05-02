@@ -1,33 +1,41 @@
-import { createStore, action, thunk, persist, computed } from 'easy-peasy';
+import { createStore, action, thunk, computed } from 'easy-peasy';
+import fetchData from '../services/postFetch';
 
-const storeState = (name) => (persist({
-  user: name,
-}));
+const storeState = {
+  currentUser: null,
+  loginError: '',
+};
 
 const getters = {
+  /*
   enabledAndHistoricalBankAccounts: computed(state => (
     state.bankAccounts.filter((bankAccount => bankAccount.active && bankAccount.withMatches))
   )),
+  */
 };
 
 const storeActions = {
-  setName: action((state, payload) => {
-    state.user = payload;
+  addCurrentUser: action((state, payload) => {
+    state.currentUser = payload;
+  }),
+  setLoginError: action((state, payload) => {
+    state.loginError = payload;
   }),
 };
 
 const storeThunks = {
-  getSomething: thunk(async (actions, payload) => {
-    const response = await api.getData(payload);
-    const data = response.data;
-    actions.setName(data);
-
-    // return opcional
+  sendCredentials: thunk(async (actions, payload) => {
+    const response = await fetchData(payload);
+    if (response.status == 200) {
+      actions.addCurrentUser(response.body.attributes);
+    } else {
+      actions.setLoginError(response.body);
+    }
   }),
 };
 
-const generateStore = (name) => createStore({
-  ...storeState(name),
+const generateStore = createStore({
+  ...storeState,
   ...getters,
   ...storeActions,
   ...storeThunks,

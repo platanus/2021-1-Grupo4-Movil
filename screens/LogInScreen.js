@@ -1,29 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import {Text, View , TextInput, TouchableOpacity} from 'react-native';
-import {loginUserAction, changeAuthAction} from "../store/actions/logInActions";
-import config from "../config";
-import fetchData from "../services/postFetch";
-import {connect} from "react-redux"
-import styles from "../styles/authStyles"
+import { Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { useStoreState, useStoreActions } from 'easy-peasy';
+import config from '../config';
+import styles from '../styles/authStyles';
 
-function mapStateToProps(state) {
-  return ({
-    loggedIn: state.logged,
-    loginError: state.loginError });
-}
-
-function mapDispatchToProps(dispatch) {
-  return ({
-    loginUser: (data) => dispatch(loginUserAction(data)),
-    changeToSignUp: () => dispatch(changeAuthAction()),
-  });
-}
-
-function ConnectedLogIn(props) {
-  const [user, setUser] = useState('');
+function LogIn(props) {
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const sendCredentials = useStoreActions((actions) => actions.sendCredentials);
+  const currentUser = useStoreState((state) => state.currentUser);
 
   useEffect(() => {
     if (props.loginError) {
@@ -37,57 +24,62 @@ function ConnectedLogIn(props) {
   }, [props.loginError]);
 
   function handleLogin() {
-    props.loginUser({ user, password });
+    const body = { user: { email, password } };
+    const path = config.api.endpoints.users.logIn;
+    sendCredentials({ _body: body, path, token: null });
   }
 
-   /*
-   const handleLogin =  async () => {
-    const response = await fetchData({ user: { email: user, password: password }  }, config.api.endpoints.users.logIn, null)
-   }
-   */
+  if (!currentUser) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.helloText}>Hello KitchenGram!</Text>
+        <View style={styles.logContainer}>
+
+          <Text style={styles.loginText}> Mail:</Text>
+          <TextInput
+            onChangeText={(mail) => setEmail(mail)}
+            style={styles.input}
+            autoCapitalize="none"/>
+
+          <Text style={styles.loginText}> Password:</Text>
+          <TextInput
+            onChangeText={(pass) => setPassword(pass)}
+            secureTextEntry={true}
+            style={styles.input}
+          />
+
+          <Text style={styles.errorMessage}>
+            {errorMessage}
+          </Text>
+
+          <TouchableOpacity
+            onPress={handleLogin}
+            style={styles.button}>
+            <Text style={styles.buttonText}>Log In</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => props.changeToSignUp()}>
+            <Text style={{ textAlign: 'center', color: '#074eec', marginTop: '4%' }}>
+              Don&apos;t have an account? Sign up!
+            </Text>
+          </TouchableOpacity>
+
+        </View>
+
+        <StatusBar style="auto" />
+      </View>
+    );
+  }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.helloText}>Hello KitchenGram!</Text>
-      <View style={styles.logContainer}>
-
-        <Text style={styles.loginText}> Mail:</Text>
-        <TextInput
-          onChangeText={(mail) => setUser(mail)}
-          style={styles.input}
-          autoCapitalize="none"/>
-
-        <Text style={styles.loginText}> Password:</Text>
-        <TextInput
-          onChangeText={(pass) => setPassword(pass)}
-          secureTextEntry={true}
-          style={styles.input}
-        />
-
-        <Text style={styles.errorMessage}>
-          {errorMessage}
-        </Text>
-
-        <TouchableOpacity
-          onPress={handleLogin}
-          style={styles.button}>
-          <Text style={styles.buttonText}>Log In</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={() => props.changeToSignUp()}>
-          <Text style={{ textAlign: 'center', color: '#074eec', marginTop: '4%' }}>
-            Don&apos;t have an account? Sign up!
-          </Text>
-        </TouchableOpacity>
-
-      </View>
-
-      <StatusBar style="auto" />
-    </View>
+    <>
+      <Text>{currentUser.email}</Text>
+      <Text>{currentUser.authentication_token}</Text>
+    </>
   );
 }
 
-const LogIn = connect(mapStateToProps, mapDispatchToProps)(ConnectedLogIn);
+// const LogIn = connect(mapStateToProps, mapDispatchToProps)(ConnectedLogIn);
 
 export default LogIn;

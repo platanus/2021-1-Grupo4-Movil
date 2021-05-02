@@ -1,23 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
 import { StatusBar } from 'expo-status-bar';
 import { Text, View, TextInput, TouchableOpacity } from 'react-native';
-import { signUpUserAction, changeAuthAction } from '../store/actions/authActions';
 import styles from '../styles/authStyles';
 
-function mapStateToProps(state) {
-  return ({
-    loggedIn: state.logged,
-    signUpError: state.signUpError });
-}
-
-function mapDispatchToProps(dispatch) {
-  return ({
-    signUpUser: (data) => dispatch(signUpUserAction(data)),
-    changeToLogIn: () => dispatch(changeAuthAction()) });
-}
-
-function ConnectedSignUp(props) {
+function SignUp(props) {
   const [user, setUser] = useState('');
   const [password, setPassword] = useState('');
   const [password2, setPassword2] = useState('');
@@ -81,6 +67,6 @@ function ConnectedSignUp(props) {
   );
 }
 
-const SignUp = connect(mapStateToProps, mapDispatchToProps)(ConnectedSignUp);
+// const SignUp = connect(mapStateToProps, mapDispatchToProps)(ConnectedSignUp);
 
 export default SignUp;
