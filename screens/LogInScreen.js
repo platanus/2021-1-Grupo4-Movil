@@ -6,11 +6,11 @@ import config from '../config';
 import styles from '../styles/authStyles';
 
 function LogIn(props) {
+  const { setLoginView } = props;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const sendCredentials = useStoreActions((actions) => actions.sendCredentials);
-  const currentUser = useStoreState((state) => state.currentUser);
 
   useEffect(() => {
     if (props.loginError) {
@@ -29,54 +29,45 @@ function LogIn(props) {
     sendCredentials({ _body: body, path, token: null });
   }
 
-  if (!currentUser) {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.helloText}>Hello KitchenGram!</Text>
-        <View style={styles.logContainer}>
-
-          <Text style={styles.loginText}> Mail:</Text>
-          <TextInput
-            onChangeText={(mail) => setEmail(mail)}
-            style={styles.input}
-            autoCapitalize="none"/>
-
-          <Text style={styles.loginText}> Password:</Text>
-          <TextInput
-            onChangeText={(pass) => setPassword(pass)}
-            secureTextEntry={true}
-            style={styles.input}
-          />
-
-          <Text style={styles.errorMessage}>
-            {errorMessage}
-          </Text>
-
-          <TouchableOpacity
-            onPress={handleLogin}
-            style={styles.button}>
-            <Text style={styles.buttonText}>Log In</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => props.changeToSignUp()}>
-            <Text style={{ textAlign: 'center', color: '#074eec', marginTop: '4%' }}>
-              Don&apos;t have an account? Sign up!
-            </Text>
-          </TouchableOpacity>
-
-        </View>
-
-        <StatusBar style="auto" />
-      </View>
-    );
-  }
-
   return (
-    <>
-      <Text>{currentUser.email}</Text>
-      <Text>{currentUser.authentication_token}</Text>
-    </>
+    <View style={styles.container}>
+      <Text style={styles.helloText}>Hello KitchenGram!</Text>
+      <View style={styles.logContainer}>
+
+        <Text style={styles.loginText}> Mail:</Text>
+        <TextInput
+          onChangeText={(mail) => setEmail(mail)}
+          style={styles.input}
+          autoCapitalize="none"/>
+
+        <Text style={styles.loginText}> Password:</Text>
+        <TextInput
+          onChangeText={(pass) => setPassword(pass)}
+          secureTextEntry={true}
+          style={styles.input}
+        />
+
+        <Text style={styles.errorMessage}>
+          {errorMessage}
+        </Text>
+
+        <TouchableOpacity
+          onPress={handleLogin}
+          style={styles.button}>
+          <Text style={styles.buttonText}>Log In</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => setLoginView(false)}>
+          <Text style={{ textAlign: 'center', color: '#074eec', marginTop: '4%' }}>
+            Don&apos;t have an account? Sign up!
+          </Text>
+        </TouchableOpacity>
+
+      </View>
+
+      <StatusBar style="auto" />
+    </View>
   );
 }
 

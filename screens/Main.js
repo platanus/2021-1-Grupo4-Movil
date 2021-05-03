@@ -1,21 +1,30 @@
-import React from 'react';
-import { View } from 'react-native';
+import React, { useState } from 'react';
+import { Text } from 'react-native';
+import { useStoreState } from 'easy-peasy';
 import LogIn from './LogInScreen';
 import SignUp from './SignUpScreen';
 
-function Main(props) {
+function Main() {
+  const currentUser = useStoreState((state) => state.currentUser);
+  const [loginView, setLoginView] = useState(true);
+
+  if (currentUser) {
+    return (
+      <>
+        <Text>{currentUser.email}</Text>
+        <Text>{currentUser.authentication_token}</Text>
+      </>
+    );
+  }
+
+  if (loginView) {
+    return (
+      <LogIn setLoginView={ setLoginView } />
+    );
+  }
+
   return (
-    <View style={{ flex: 1 }}>
-
-      {props.loggedIn ?
-        <View></View>
-      // aqui irá el navegador de App principal (logeado)
-        :
-        props.haveAccount ?
-          <SignUp/> :
-          <LogIn/>}
-
-    </View>
+    <SignUp setLoginView ={ setLoginView }/>
   );
 }
 

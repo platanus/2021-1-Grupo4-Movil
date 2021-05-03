@@ -26,11 +26,14 @@ export default async function fetchData(credentials) {
       headers,
     })
       .then((resp) => {
+        console.log(resp);
         response = resp;
       });
 
     return { status: response.status, body: response.data.data };
   } catch (err) {
+    console.log(err);
+
     return { body: 'API error' };
   }
 }

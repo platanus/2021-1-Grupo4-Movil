@@ -26,7 +26,7 @@ const storeActions = {
 const storeThunks = {
   sendCredentials: thunk(async (actions, payload) => {
     const response = await fetchData(payload);
-    if (response.status == 200) {
+    if (response.status == 200 || response.status == 201) {
       actions.addCurrentUser(response.body.attributes);
     } else {
       actions.setLoginError(response.body);
