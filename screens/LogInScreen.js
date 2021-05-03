@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Text, View, TextInput, TouchableOpacity } from 'react-native';
 import { useStoreState, useStoreActions } from 'easy-peasy';
-import config from '../config';
 import styles from '../styles/authStyles';
 
 function LogIn(props) {
@@ -11,36 +10,33 @@ function LogIn(props) {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const sendCredentials = useStoreActions((actions) => actions.sendCredentials);
+  const loginError = useStoreState((state) => state.loginError);
 
   useEffect(() => {
-    if (props.loginError) {
-      const message = props.loginError;
-      if (message === 'record_not_found') {
-        setErrorMessage('Try again: This user does not exists');
-      } else {
-        setErrorMessage('Try again: Invalid email or password');
-      }
+    if (loginError) {
+      setErrorMessage('Inténtalo de nuevo: email o contraseña inválido');
     }
-  }, [props.loginError]);
+  }, [loginError]);
 
   function handleLogin() {
-    const body = { user: { email, password } };
-    const path = config.api.endpoints.users.logIn;
-    sendCredentials({ _body: body, path, token: null });
+    const body = {
+      user: { email, password },
+      logIn: true };
+    sendCredentials(body);
   }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.helloText}>Hello KitchenGram!</Text>
+      <Text style={styles.helloText}>Hola KitchenGram!</Text>
       <View style={styles.logContainer}>
 
-        <Text style={styles.loginText}> Mail:</Text>
+        <Text style={styles.loginText}> Email:</Text>
         <TextInput
           onChangeText={(mail) => setEmail(mail)}
           style={styles.input}
           autoCapitalize="none"/>
 
-        <Text style={styles.loginText}> Password:</Text>
+        <Text style={styles.loginText}> Contraseña:</Text>
         <TextInput
           onChangeText={(pass) => setPassword(pass)}
           secureTextEntry={true}
@@ -54,13 +50,13 @@ function LogIn(props) {
         <TouchableOpacity
           onPress={handleLogin}
           style={styles.button}>
-          <Text style={styles.buttonText}>Log In</Text>
+          <Text style={styles.buttonText}>Iniciar Sesión</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           onPress={() => setLoginView(false)}>
           <Text style={{ textAlign: 'center', color: '#074eec', marginTop: '4%' }}>
-            Don&apos;t have an account? Sign up!
+            ¿No tienes una cuenta? Regístrate!
           </Text>
         </TouchableOpacity>
 
