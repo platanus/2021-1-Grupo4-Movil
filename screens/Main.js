@@ -1,8 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import { View, Text } from 'react-native';
 import {connect} from "react-redux";
-import LogIn from './LogInScreen'
-import SignUp from './SignUpScreen'
+import { NavigationContainer } from '@react-navigation/native';
+
+import LogIn from './LogInScreen';
+import SignUp from './SignUpScreen';
+import HomeTabs from '../navigators/bottomNavigation';
+
 
 const mapStateToProps = (state) => ({
     loggedIn: state.logged,
@@ -16,8 +20,9 @@ function connectedMain(props) {
 
 
        {props.loggedIn ? 
-          <View></View>
-          // aqui irá el navegador de App principal (logeado)
+        <NavigationContainer>
+          <HomeTabs />
+        </NavigationContainer>
        :
        props.haveAccount ? 
         <LogIn/>
