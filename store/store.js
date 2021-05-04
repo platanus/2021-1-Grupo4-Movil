@@ -1,4 +1,4 @@
-import { createStore, action, thunk, computed } from 'easy-peasy';
+import { createStore, action, thunk } from 'easy-peasy';
 import config from '../config';
 import apiUtils from '../api/api';
 
@@ -6,6 +6,9 @@ const storeState = {
   currentUser: null,
   loginError: '',
   signUpError: '',
+  ingredients: {
+    getError: '',
+  },
 };
 
 const getters = {
@@ -26,6 +29,9 @@ const storeActions = {
   setSignUpError: action((state, payload) => {
     state.signUpError = payload;
   }),
+  setGetIngredientsError: action((state, payload) => {
+    state.ingredients.getErrors = payload;
+  }),
 };
 
 const storeThunks = {
@@ -40,7 +46,7 @@ const storeThunks = {
         const user = resp.data.data.attributes;
         actions.addCurrentUser(user);
         apiUtils.api.defaults.headers = { 'Accept': 'application/json',
-          'Content-Type': 'application/json', 'X-User-Mail': user.email,
+          'Content-Type': 'application/json', 'X-User-Email': user.email,
           'X-User-Token': user.authentication_token };
       }
     }).catch((error) => {
@@ -50,6 +56,21 @@ const storeThunks = {
         actions.setSignUpError(error.response.data.message);
       }
     });
+  }),
+  getIngredients: thunk(async (actions, payload) => {
+    const url = config.endpoints.ingredients.inedx;
+    await apiUtils.api({
+      method: 'get',
+      url,
+      data: payload,
+    })
+      .then((res) => {
+        console.log('response', res);
+      })
+      .catch((err) => {
+        console.log('Fuckin error');
+        actions.setGetIngredientsError(err.response.data.message);
+      });
   }),
 };
 
