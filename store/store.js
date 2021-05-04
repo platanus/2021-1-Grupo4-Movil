@@ -6,6 +6,9 @@ const storeState = {
   currentUser: null,
   loginError: '',
   signUpError: '',
+  ingredients: {
+    getError: '',
+  },
 };
 
 const getters = {
@@ -31,6 +34,8 @@ const storeActions = {
         'Content-Type': 'application/json', 'X-User-Email': user.email,
         'X-User-Token': user.authentication_token };
     }
+  setGetIngredientsError: action((state, payload) => {
+    state.ingredients.getErrors = payload;
   }),
 };
 
@@ -49,6 +54,21 @@ const storeThunks = {
         actions.setUserAndApiHeaders(resp);
       }).catch((error) => {
         actions.setSignUpError(error.response.data.message);
+      });
+  }),
+  getIngredients: thunk(async (actions, payload) => {
+    const url = config.endpoints.ingredients.inedx;
+    await apiUtils.api({
+      method: 'get',
+      url,
+      data: payload,
+    })
+      .then((res) => {
+        console.log('response', res);
+      })
+      .catch((err) => {
+        console.log('Fuckin error');
+        actions.setGetIngredientsError(err.response.data.message);
       });
   }),
 };
