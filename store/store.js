@@ -1,4 +1,5 @@
-import { createStore, action, thunk } from 'easy-peasy'; // agregar computed si se usa getters
+import { createStore, action, thunk } from 'easy-peasy';
+import config from '../config';
 import apiUtils from '../api/api';
 import sessionsApi from '../api/sessions';
 
@@ -34,6 +35,7 @@ const storeActions = {
         'Content-Type': 'application/json', 'X-User-Email': user.email,
         'X-User-Token': user.authentication_token };
     }
+  }),
   setGetIngredientsError: action((state, payload) => {
     state.ingredients.getErrors = payload;
   }),
