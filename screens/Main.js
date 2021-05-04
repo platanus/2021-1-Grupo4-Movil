@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { Text } from 'react-native';
 import { useStoreState } from 'easy-peasy';
+import { NavigationContainer } from '@react-navigation/native';
+
 import LogIn from './LogInScreen';
 import SignUp from './SignUpScreen';
+import HomeTabs from '../navigators/bottomNavigation';
 
 function Main() {
   const currentUser = useStoreState((state) => state.currentUser);
@@ -10,10 +12,9 @@ function Main() {
 
   if (currentUser) {
     return (
-      <>
-        <Text>{currentUser.email}</Text>
-        <Text>{currentUser.authentication_token}</Text>
-      </>
+      <NavigationContainer>
+        <HomeTabs />
+      </NavigationContainer>
     );
   }
 
