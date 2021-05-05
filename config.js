@@ -5,7 +5,8 @@ const config = {
       logIn: 'api/v1/users/sessions',
     },
     ingredients: {
-      inedx: '/api/v1/ingredients',
+      index: '/api/v1/ingredients',
+      specific: '/api/v1/ingredients/',
     },
   },
 };

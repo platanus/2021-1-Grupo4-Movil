@@ -58,18 +58,43 @@ const storeThunks = {
     });
   }),
   getIngredients: thunk(async (actions, payload) => {
-    const url = config.endpoints.ingredients.inedx;
-    await apiUtils.api({
+    const url = config.endpoints.ingredients.index;
+    const ingredients = await apiUtils.api({
       method: 'get',
       url,
       data: payload,
     })
-      .then((res) => {
-        console.log('response', res);
-      })
+      .then((res) => res.data.data)
       .catch((err) => {
-        console.log('Fuckin error');
         actions.setGetIngredientsError(err.response.data.message);
+        throw err;
+      });
+
+    return ingredients;
+  }),
+  createIngredient: thunk(async (actions, payload) => {
+    const url = config.endpoints.ingredients.index;
+    const ingredients = await apiUtils.api({
+      method: 'post',
+      url,
+      data: payload,
+    })
+      .catch((err) => {
+        actions.setGetIngredientsError(err.response.data.message);
+        throw err;
+      });
+
+    return ingredients;
+  }),
+  deleteIngredient: thunk(async (actions, payload) => {
+    const url = `${config.endpoints.ingredients.specific}${payload.actualIngredient.id}`;
+    await apiUtils.api({
+      method: 'delete',
+      url,
+    })
+      .catch((err) => {
+        actions.setGetIngredientsError(err.response.data.message);
+        throw err;
       });
   }),
 };
