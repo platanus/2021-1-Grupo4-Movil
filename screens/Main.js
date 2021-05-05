@@ -11,15 +11,7 @@ function Main() {
   const currentUser = useStoreState((state) => state.currentUser);
   const [loginView, setLoginView] = useState(true);
 
-  const [editIngredient, setEditIngredient] = useState(false);
-
-  if (currentUser) {
-    if (editIngredient) {
-      return (
-        <EditIngredient setEditIngredient={setEditIngredient} />
-      );
-    }
-
+  if (true) {
     return (
       <NavigationContainer>
         <HomeTabs />
