@@ -1,8 +1,9 @@
 import { StyleSheet } from 'react-native';
+import colors from './appColors';
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: '#074eec',
+    backgroundColor: colors.blue,
     padding: 12,
     borderRadius: 5,
     width: '100%',
@@ -17,7 +18,7 @@ const styles = StyleSheet.create({
 
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: colors.white,
     alignItems: 'center',
     // justifyContent: 'center',
     paddingTop: '30%',
@@ -25,12 +26,17 @@ const styles = StyleSheet.create({
 
   errorMessage: {
     textAlign: 'center',
-    color: 'red' },
+    color: colors.red },
+
+  haveAccountText: {
+    textAlign: 'center',
+    color: colors.blue,
+    marginTop: '4%' },
 
   helloText: {
     marginTop: 0,
     fontSize: 24,
-    color: '#074eec',
+    color: colors.blue,
     fontWeight: 'bold',
     marginBottom: '20%',
 
@@ -39,7 +45,7 @@ const styles = StyleSheet.create({
     height: 40,
     margin: 5,
     borderWidth: 2,
-    borderColor: '#074eec',
+    borderColor: colors.blue,
     maxWidth: '100%',
     marginLeft: 3,
     borderRadius: 5,
@@ -48,13 +54,13 @@ const styles = StyleSheet.create({
   },
   logContainer: {
     width: '70%',
-    backgroundColor: '#fff',
+    backgroundColor: colors.white,
     // alignItems: 'center',
     // justifyContent: 'flex-start',
   },
   loginText: {
     fontSize: 18,
-    color: '#074eec',
+    color: colors.blue,
   },
 
 });

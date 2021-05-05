@@ -9,12 +9,12 @@ function LogIn(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const sendCredentials = useStoreActions((actions) => actions.sendCredentials);
+  const login = useStoreActions((actions) => actions.login);
   const loginError = useStoreState((state) => state.loginError);
 
   useEffect(() => {
     if (loginError) {
-      setErrorMessage('Inténtalo de nuevo: email o contraseña inválido');
+      setErrorMessage('Inténtalo de nuevo: email o contraseña inválidos');
     }
   }, [loginError]);
 
@@ -22,14 +22,13 @@ function LogIn(props) {
     const body = {
       user: { email, password },
       logIn: true };
-    sendCredentials(body);
+    login(body);
   }
 
   return (
     <View style={styles.container}>
       <Text style={styles.helloText}>Hola KitchenGram!</Text>
       <View style={styles.logContainer}>
-
         <Text style={styles.loginText}> Email:</Text>
         <TextInput
           onChangeText={(mail) => setEmail(mail)}
@@ -55,7 +54,7 @@ function LogIn(props) {
 
         <TouchableOpacity
           onPress={() => setLoginView(false)}>
-          <Text style={{ textAlign: 'center', color: '#074eec', marginTop: '4%' }}>
+          <Text style={styles.haveAccountText}>
             ¿No tienes una cuenta? Regístrate!
           </Text>
         </TouchableOpacity>
@@ -66,7 +65,5 @@ function LogIn(props) {
     </View>
   );
 }
-
-// const LogIn = connect(mapStateToProps, mapDispatchToProps)(ConnectedLogIn);
 
 export default LogIn;

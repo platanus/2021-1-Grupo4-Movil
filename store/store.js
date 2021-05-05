@@ -1,6 +1,6 @@
-import { createStore, action, thunk, computed } from 'easy-peasy';
-import config from '../config';
+import { createStore, action, thunk } from 'easy-peasy'; // agregar computed si se usa getters
 import apiUtils from '../api/api';
+import sessionsApi from '../api/sessions';
 
 const storeState = {
   currentUser: null,
@@ -17,39 +17,39 @@ const getters = {
 };
 
 const storeActions = {
-  addCurrentUser: action((state, payload) => {
-    state.currentUser = payload;
-  }),
   setLoginError: action((state, payload) => {
     state.loginError = payload;
   }),
   setSignUpError: action((state, payload) => {
     state.signUpError = payload;
   }),
+  setUserAndApiHeaders: action((state, payload) => {
+    if (payload.status === apiUtils.statusCodes.ok || payload.status === apiUtils.statusCodes.created) {
+      const user = payload.data.data.attributes;
+      state.currentUser = user;
+      apiUtils.api.defaults.headers = { 'Accept': 'application/json',
+        'Content-Type': 'application/json', 'X-User-Email': user.email,
+        'X-User-Token': user.authentication_token };
+    }
+  }),
 };
 
 const storeThunks = {
-  sendCredentials: thunk(async (actions, payload) => {
-    const url = payload.logIn ? config.endpoints.users.logIn : config.endpoints.users.createUser;
-    await apiUtils.api({
-      method: 'post',
-      url,
-      data: payload,
-    }).then((resp) => {
-      if (resp.status === apiUtils.statusCodes.ok || resp.status === apiUtils.statusCodes.created) {
-        const user = resp.data.data.attributes;
-        actions.addCurrentUser(user);
-        apiUtils.api.defaults.headers = { 'Accept': 'application/json',
-          'Content-Type': 'application/json', 'X-User-Mail': user.email,
-          'X-User-Token': user.authentication_token };
-      }
-    }).catch((error) => {
-      if (payload.logIn) {
+  login: thunk(async (actions, payload) => {
+    sessionsApi.login(payload)
+      .then((resp) => {
+        actions.setUserAndApiHeaders(resp);
+      }).catch((error) => {
         actions.setLoginError(error.response.data.message);
-      } else {
+      });
+  }),
+  signUp: thunk(async (actions, payload) => {
+    sessionsApi.signUp(payload)
+      .then((resp) => {
+        actions.setUserAndApiHeaders(resp);
+      }).catch((error) => {
         actions.setSignUpError(error.response.data.message);
-      }
-    });
+      });
   }),
 };
 

@@ -10,12 +10,12 @@ function SignUp(props) {
   const [password, setPassword] = useState('');
   const [password2, setPassword2] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const sendCredentials = useStoreActions((actions) => actions.sendCredentials);
+  const signUp = useStoreActions((actions) => actions.signUp);
   const signUpError = useStoreState((state) => state.signUpError);
 
   useEffect(() => {
     if (signUpError) {
-      setErrorMessage('Inténtalo de nuevo: email o contraseña inválido');
+      setErrorMessage('Inténtalo de nuevo: email o contraseña inválidos');
     }
   }, [signUpError]);
 
@@ -24,7 +24,7 @@ function SignUp(props) {
       const body = {
         user: { email, password },
         logIn: false };
-      sendCredentials(body);
+      signUp(body);
     } else {
       setErrorMessage('Las contraseñas no coinciden');
     }
@@ -34,7 +34,7 @@ function SignUp(props) {
     <View style={styles.container}>
       <Text style={styles.helloText}>Hola KitchenGram!</Text>
       <View style={styles.logContainer}>
-        <Text style={styles.loginText}>Email:</Text>
+        <Text style={styles.loginText}> Email:</Text>
         <TextInput
           onChangeText={(mail) => setEmail(mail)}
           style={styles.input}
@@ -57,11 +57,11 @@ function SignUp(props) {
         <TouchableOpacity
           onPress={() => handleSignUp()}
           style={styles.button}>
-          <Text style={styles.buttonText}>Sign Up</Text>
+          <Text style={styles.buttonText}>Registrarse</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => setLoginView(true)}>
-          <Text style={{ textAlign: 'center', color: '#074eec', marginTop: '4%' }}>
+          <Text style={styles.haveAccountText}>
             ¿Ya tienes una cuenta? Inicia Sesión!
           </Text>
         </TouchableOpacity>
@@ -71,7 +71,5 @@ function SignUp(props) {
     </View>
   );
 }
-
-// const SignUp = connect(mapStateToProps, mapDispatchToProps)(ConnectedSignUp);
 
 export default SignUp;
