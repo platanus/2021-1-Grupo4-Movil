@@ -3,6 +3,7 @@
 import React, {
   useEffect,
   useState,
+  useCallback,
 } from 'react';
 import {
   Modal,
@@ -35,7 +36,7 @@ function Ingredients() {
     },
   });
 
-  function handleSubmit() {
+  const callIngredientsApi = useCallback(() => {
     getIngredients()
       .then((res) => {
         setIngredients(res);
@@ -44,18 +45,7 @@ function Ingredients() {
         setShowError(true);
         setErrorMessage(err.response.data.message);
       });
-  }
-
-  function callIngredientsApi() {
-    getIngredients()
-      .then((res) => {
-        setIngredients(res);
-      })
-      .catch((err) => {
-        setShowError(true);
-        setErrorMessage(err.response.data.message);
-      });
-  }
+  }, [getIngredients]);
 
   function deleteModal() {
     const body = { actualIngredient };
