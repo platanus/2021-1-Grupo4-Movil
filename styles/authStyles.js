@@ -3,7 +3,7 @@ import colors from './appColors';
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: colors.blue,
+    backgroundColor: colors.greenButtons,
     padding: 12,
     borderRadius: 5,
     width: '100%',
@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     marginTop: 10 },
 
   buttonText: {
-    color: 'white',
+    color: colors.white,
     fontWeight: 'bold',
   },
 
@@ -26,17 +26,17 @@ const styles = StyleSheet.create({
 
   errorMessage: {
     textAlign: 'center',
-    color: colors.red },
+    color: colors.selectedTabYellow },
 
   haveAccountText: {
     textAlign: 'center',
-    color: colors.blue,
+    color: colors.tableBorder,
     marginTop: '4%' },
 
   helloText: {
     marginTop: 0,
     fontSize: 24,
-    color: colors.blue,
+    color: colors.ingredientsTitle,
     fontWeight: 'bold',
     marginBottom: '20%',
 
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     height: 40,
     margin: 5,
     borderWidth: 2,
-    borderColor: colors.blue,
+    borderColor: colors.tableBorder,
     maxWidth: '100%',
     marginLeft: 3,
     borderRadius: 5,
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   },
   loginText: {
     fontSize: 18,
-    color: colors.blue,
+    color: colors.tableBorder,
   },
 
 });

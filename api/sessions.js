@@ -2,7 +2,7 @@ import config from '../config';
 import apiUtils from './api';
 
 const sessionsApi = {
-  login: async (payload) => {
+  login: (payload) => {
     const url = config.endpoints.users.logIn;
 
     return apiUtils.api({
@@ -12,7 +12,7 @@ const sessionsApi = {
     });
   },
 
-  signUp: async (payload) => {
+  signUp: (payload) => {
     const url = config.endpoints.users.createUser;
 
     return apiUtils.api({
