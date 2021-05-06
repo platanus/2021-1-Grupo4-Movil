@@ -11,6 +11,7 @@ const colors = {
   editIgredientHeader: '#262626',
   ingredientsTitle: '#000000',
   selectedTabYellow: '#DCAB24',
+  recipeIcon: '#074eec',
 };
 
 export default colors;
