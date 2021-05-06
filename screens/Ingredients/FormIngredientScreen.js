@@ -12,7 +12,7 @@ import {
 import RNPickerSelect from 'react-native-picker-select';
 import { useStoreActions } from 'easy-peasy';
 
-import styles from '../../styles/Ingredients/newStyles';
+import styles from '../../styles/Ingredients/formStyles';
 
 const customPickerStyles = {
   inputWeb: {
@@ -26,7 +26,6 @@ const customPickerStyles = {
     fontSize: 16,
     paddingLeft: 15,
     paddingRight: 15,
-    fontFamily: 'monospace',
     fontWeight: '800',
     fontStyle: 'normal',
   },
@@ -69,9 +68,9 @@ const customPickerStyles = {
 function FormIngredient(props) {
   const {
     isNew,
-    setShowNewIngredient = undefined,
-    setShowEditIngredient = undefined,
-    ingredient = undefined,
+    setShowNewIngredient = null,
+    setShowEditIngredient = null,
+    ingredient = null,
   } = props;
   const createIngredient = useStoreActions((actions) => actions.createIngredient);
   const editIngredient = useStoreActions((actions) => actions.createIngredient);

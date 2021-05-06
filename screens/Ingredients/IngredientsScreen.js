@@ -183,7 +183,7 @@ function Ingredients() {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.modalEdit}
-              onPress={() => showEditIngredient(true)}
+              onPress={() => setShowEditIngredient(true)}
             >
               <Text style={styles.modalEditText}>
                 Editar

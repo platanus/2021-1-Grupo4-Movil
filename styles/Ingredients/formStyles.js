@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import colors from '../appColors';
 
 const styles = StyleSheet.create({
   container: {
@@ -20,7 +21,7 @@ const styles = StyleSheet.create({
   rowTitle: {
     fontSize: 17,
     color: '#111111',
-    fontFamily: 'monospace',
+
     fontWeight: 'normal',
     fontStyle: 'normal',
   },
@@ -37,7 +38,7 @@ const styles = StyleSheet.create({
   inputLabel: {
     fontSize: 14,
     height: '20%',
-    fontFamily: 'monospace',
+
     fontWeight: 'normal',
     fontStyle: 'normal',
     color: '#767676',
@@ -53,7 +54,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     paddingLeft: 15,
     paddingRight: 15,
-    fontFamily: 'monospace',
+
     fontWeight: '800',
     fontStyle: 'normal',
     color: '#111111',
@@ -93,19 +94,18 @@ const styles = StyleSheet.create({
 
   confirm: {
     width: '60%',
-    backgroundColor: '#074EE8',
+    backgroundColor: colors.greenButtons,
     borderRadius: 10,
   },
 
   buttonText: {
-    fontFamily: 'monospace',
     fontWeight: 'normal',
     fontStyle: 'normal',
     fontSize: 16,
   },
 
   cancelText: {
-    color: '#074EE8',
+    color: colors.greenButtons,
   },
 
   confirmText: {
