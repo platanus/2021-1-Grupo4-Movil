@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import colors from '../appColors';
 
 const styles = StyleSheet.create({
   container: {
@@ -20,7 +21,6 @@ const styles = StyleSheet.create({
   rowTitle: {
     fontSize: 17,
     color: '#111111',
-    fontFamily: 'monospace',
     fontWeight: 'normal',
     fontStyle: 'normal',
   },
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 17,
     color: '#111111',
-    fontFamily: 'monospace',
+
     fontWeight: 'normal',
     fontStyle: 'normal',
   },
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   measure: {
     fontSize: 15,
     color: '#767676',
-    fontFamily: 'monospace',
+
     fontWeight: 'normal',
     fontStyle: 'normal',
   },
@@ -83,13 +83,13 @@ const styles = StyleSheet.create({
   price: {
     fontSize: 18,
     color: '#BC31EA',
-    fontFamily: 'monospace',
+
     fontWeight: 'normal',
     fontStyle: 'normal',
   },
 
   addButton: {
-    backgroundColor: '#074eec',
+    backgroundColor: colors.greenButtons,
     width: 45,
     height: 45,
     borderRadius: 50,
@@ -105,6 +105,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     fontWeight: '300',
     color: '#FFFFFF',
+    paddingTop: 3,
+    paddingLeft: 2,
   },
 
   navigation: {
@@ -117,7 +119,7 @@ const styles = StyleSheet.create({
   navigationText: {
     fontSize: 17,
     color: '#111111',
-    fontFamily: 'monospace',
+
     fontWeight: '800',
     fontStyle: 'normal',
   },
@@ -146,7 +148,7 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     fontSize: 15,
     color: '#767676',
-    fontFamily: 'monospace',
+
     fontWeight: 'normal',
     fontStyle: 'normal',
   },
@@ -156,7 +158,7 @@ const styles = StyleSheet.create({
     textAlign: 'right',
     fontSize: 17,
     color: '#111111',
-    fontFamily: 'monospace',
+
     fontWeight: 'normal',
     fontStyle: 'normal',
   },
@@ -177,7 +179,7 @@ const styles = StyleSheet.create({
     height: '30%',
     backgroundColor: '#FFFFFF',
     borderRadius: 10,
-    borderColor: '#074EE8',
+    borderColor: colors.greenButtons,
     borderWidth: 2,
     alignItems: 'center',
     justifyContent: 'center',
@@ -185,8 +187,8 @@ const styles = StyleSheet.create({
   },
 
   modalDeleteText: {
-    color: '#074EE8',
-    fontFamily: 'monospace',
+    color: colors.greenButtons,
+
     fontWeight: 'normal',
     fontStyle: 'normal',
     fontSize: 16,
@@ -195,7 +197,7 @@ const styles = StyleSheet.create({
   modalEdit: {
     width: '40%',
     height: '30%',
-    backgroundColor: '#074EE8',
+    backgroundColor: colors.greenButtons,
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
@@ -203,7 +205,7 @@ const styles = StyleSheet.create({
 
   modalEditText: {
     color: '#FFFFFF',
-    fontFamily: 'monospace',
+
     fontWeight: 'normal',
     fontStyle: 'normal',
     fontSize: 16,
