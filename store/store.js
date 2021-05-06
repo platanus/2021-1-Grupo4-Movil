@@ -74,6 +74,13 @@ const storeThunks = {
         throw err;
       });
   }),
+  editIngredient: thunk(async (actions, payload) => {
+    sessionsApi.editIngredient(payload)
+      .catch((err) => {
+        actions.setGetIngredientsError(err.response.data.message);
+        throw err;
+      });
+  }),
   deleteIngredient: thunk(async (actions, payload) => {
     sessionsApi.deleteIngredient(payload)
       .catch((err) => {

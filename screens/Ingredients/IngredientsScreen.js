@@ -15,7 +15,7 @@ import {
 import { useStoreActions } from 'easy-peasy';
 
 import styles from '../../styles/Ingredients/indexStyles';
-import NewIngredient from './NewIngredientScreen';
+import FormIngredient from './FormIngredientScreen';
 
 function Ingredients() {
   const getIngredients = useStoreActions((actions) => actions.getIngredients);
@@ -26,6 +26,7 @@ function Ingredients() {
   const [showError, setShowError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [showNewIngredient, setShowNewIngredient] = useState(false);
+  const [showEditIngredient, setShowEditIngredient] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [actualIngredient, setActualIngredient] = useState({
     attributes: {
@@ -51,14 +52,10 @@ function Ingredients() {
     const body = { actualIngredient };
     deleteIngredient(body)
       .then(() => {
-        console.log('Exito');
         setModalVisible(false);
         callIngredientsApi();
       })
       .catch((err) => {
-        console.log('Errooor');
-        console.log(err.response.data.message);
-        console.log(err.response.data.detail);
         setShowError(true);
         setErrorMessage(err.response.data.message);
       });
@@ -107,7 +104,20 @@ function Ingredients() {
 
   if (showNewIngredient) {
     return (
-      <NewIngredient setShowNewIngredient={setShowNewIngredient} />
+      <FormIngredient
+        isNew={true}
+        setShowNewIngredient={setShowNewIngredient}
+      />
+    );
+  }
+
+  if (showEditIngredient) {
+    return (
+      <FormIngredient
+        isNew={false}
+        setShowEditIngredient={setShowEditIngredient}
+        ingredient={actualIngredient}
+      />
     );
   }
 
@@ -173,6 +183,7 @@ function Ingredients() {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.modalEdit}
+              onPress={() => showEditIngredient(true)}
             >
               <Text style={styles.modalEditText}>
                 Editar

@@ -8,7 +8,7 @@ function Main() {
   const currentUser = useStoreState((state) => state.currentUser);
   const [loginView, setLoginView] = useState(true);
 
-  if (true) {
+  if (currentUser) {
     return (
       <Ingredients />
     );
