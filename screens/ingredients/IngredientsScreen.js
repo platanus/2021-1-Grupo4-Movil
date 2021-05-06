@@ -1,9 +1,9 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import { View, Text, Button } from 'react-native';
 
 import styles from '../../styles/authStyles';
 
-export default function IngredientsScreen({navigation}) {
+function Ingredients({ navigation }) {
   return (
     <View style={styles.container}>
       <Text>*** Ingredients ***</Text>
@@ -18,3 +18,5 @@ export default function IngredientsScreen({navigation}) {
     </View>
   );
 }
+
+export default Ingredients;

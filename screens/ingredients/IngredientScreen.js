@@ -1,12 +1,9 @@
-import React, {useState, useEffect} from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { View, Text, Button, Modal, Alert, Pressable } from 'react-native';
+import React from 'react';
+import { View, Text, Button } from 'react-native';
 
 import styles from '../../styles/authStyles';
 
-
-export default function Ingredient({navigation}) {
+function Ingredient({ navigation }) {
   return (
     <View style={styles.container}>
       <Text>One Ingredient Screen</Text>
@@ -15,6 +12,8 @@ export default function Ingredient({navigation}) {
         onPress={() => navigation.navigate('EditIngredient')}
       />
     </View>
-    
+
   );
 }
+
+export default Ingredient;

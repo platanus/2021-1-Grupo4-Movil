@@ -1,12 +1,13 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import { View, Text } from 'react-native';
-import styles from "../styles/authStyles";
+import styles from '../styles/authStyles';
 
-
-export default function Profile() {
+function Profile() {
   return (
     <View style={styles.container}>
       <Text>Profile</Text>
     </View>
   );
 }
+
+export default Profile;
