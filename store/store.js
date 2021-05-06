@@ -87,6 +87,13 @@ const storeThunks = {
 
     return ingredients;
   }),
+  editIngredient: thunk(async (actions, payload) => {
+    sessionsApi.editIngredient(payload)
+      .catch((err) => {
+        actions.setGetIngredientsError(err.response.data.message);
+        throw err;
+      });
+  }),
   deleteIngredient: thunk(async (actions, payload) => {
     const url = `${config.endpoints.ingredients.specific}${payload.actualIngredient.id}`;
     await apiUtils.api({

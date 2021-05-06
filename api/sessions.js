@@ -21,6 +21,45 @@ const sessionsApi = {
       data: payload,
     });
   },
+
+  getIngredients: (payload) => {
+    const url = config.endpoints.ingredients.index;
+
+    return apiUtils.api({
+      method: 'get',
+      url,
+      data: payload,
+    });
+  },
+
+  createIngredient: (payload) => {
+    const url = config.endpoints.ingredients.index;
+
+    return apiUtils.api({
+      method: 'post',
+      url,
+      data: payload,
+    });
+  },
+
+  editIngredient: (payload) => {
+    const url = `${config.endpoints.ingredients.specific}${payload.actualIngredient.id}`;
+
+    return apiUtils.api({
+      method: 'put',
+      url,
+      data: payload,
+    });
+  },
+
+  deleteIngredient: (payload) => {
+    const url = `${config.endpoints.ingredients.specific}${payload.actualIngredient.id}`;
+
+    return apiUtils.api({
+      method: 'delete',
+      url,
+    });
+  },
 };
 export default sessionsApi;
 

@@ -1,4 +1,6 @@
+/* eslint-disable max-statements */
 import React, {
+  useEffect,
   useState,
 } from 'react';
 import {
@@ -64,9 +66,15 @@ const customPickerStyles = {
   },
 };
 
-function NewIngredient(props) {
-  const { setShowNewIngredient } = props;
+function FormIngredient(props) {
+  const {
+    isNew,
+    setShowNewIngredient = undefined,
+    setShowEditIngredient = undefined,
+    ingredient = undefined,
+  } = props;
   const createIngredient = useStoreActions((actions) => actions.createIngredient);
+  const editIngredient = useStoreActions((actions) => actions.createIngredient);
 
   const [name, setName] = useState('');
   const [price, setPrice] = useState(0);
@@ -75,7 +83,7 @@ function NewIngredient(props) {
   const [showError, setShowError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  function handleSubmit() {
+  function handleSubmitNew() {
     if (name.length > 0 &&
         price > 0 &&
         quantity > 0 &&
@@ -101,11 +109,47 @@ function NewIngredient(props) {
     }
   }
 
+  function handleSubmitEdit() {
+    if (name.length > 0 &&
+        price > 0 &&
+        quantity > 0 &&
+        measure.length > 0) {
+      const body = {
+        ingredient: {
+          name,
+          sku: ingredient.attributes.sku,
+          price,
+          currency: ingredient.attributes.currency,
+          quantity,
+          measure,
+        },
+        actualIngredient: ingredient,
+      };
+      editIngredient(body)
+        .then(() => {
+          setShowEditIngredient(false);
+        })
+        .catch((err) => {
+          setShowError(true);
+          setErrorMessage(err.response.data.message);
+        });
+    }
+  }
+
+  useEffect(() => {
+    if (!isNew) {
+      setName(ingredient.attributes.name);
+      setPrice(ingredient.attributes.price);
+      setQuantity(ingredient.attributes.quantity);
+      setMeasure(ingredient.attributes.measure);
+    }
+  }, [isNew, ingredient]);
+
   return (
     <View style={styles.container}>
       <View style={[styles.titleRow, styles.title]}>
         <Text style={styles.rowTitle}>
-          Nuevo ingrediente
+          {isNew ? 'Nuevo ingrediente' : 'Editar ingrediente'}
         </Text>
       </View>
       <View style={styles.inputContainer}>
@@ -167,7 +211,7 @@ function NewIngredient(props) {
       <View style={styles.buttonsContainer}>
         <TouchableOpacity
           style={[styles.button, styles.cancel]}
-          onPress={() => setShowNewIngredient(false)}
+          onPress={isNew ? () => setShowNewIngredient(false) : setShowEditIngredient(false)}
         >
           <Text style={[styles.buttonText, styles.cancelText]}>
             Cancelar
@@ -175,10 +219,10 @@ function NewIngredient(props) {
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.button, styles.confirm]}
-          onPress={handleSubmit}
+          onPress={isNew ? handleSubmitNew : handleSubmitEdit}
         >
           <Text style={[styles.buttonText, styles.confirmText]}>
-            Agregar ingrediente
+            {isNew ? 'Agregar ingrediente' : 'Editar ingrediente'}
           </Text>
         </TouchableOpacity>
       </View>
@@ -186,4 +230,4 @@ function NewIngredient(props) {
   );
 }
 
-export default NewIngredient;
+export default FormIngredient;
