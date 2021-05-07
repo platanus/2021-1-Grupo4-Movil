@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import React from 'react';
 import { StoreProvider } from 'easy-peasy';
 import Main from './screens/Main';
