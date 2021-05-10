@@ -5,8 +5,8 @@ const config = {
       logIn: 'api/v1/users/sessions',
     },
     recipes: {
-      index : 'api/v1/recipes',
-      specific: 'api/v1/recipes/'
+      index: 'api/v1/recipes',
+      specific: 'api/v1/recipes/',
     },
   },
 };

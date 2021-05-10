@@ -7,9 +7,9 @@ const storeState = {
   currentUser: null,
   loginError: '',
   signUpError: '',
-  recipes:{
-    getErrors:'',
-  }
+  recipes: {
+    getErrors: '',
+  },
 };
 
 const getters = {
@@ -39,7 +39,7 @@ const storeActions = {
   setGetRecipesError: action((state, payload) => {
     state.recipes.getErrors = payload;
   }),
-  
+
 };
 
 const storeThunks = {
@@ -68,14 +68,14 @@ const storeThunks = {
     })
       .then((res) => res.data.data)
       .catch((err) => {
-        console.log("algun error");
+        console.log('algun error');
         actions.setGetRecipesError(err.response.data.message);
         throw err;
       });
 
     return recipes;
   }),
-  
+
 };
 
 const generateStore = createStore({

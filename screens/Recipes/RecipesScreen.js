@@ -6,7 +6,7 @@ import React, {
 } from 'react';
 import {
   Modal,
-  View, 
+  View,
   Text,
   ScrollView,
   StyleSheet,
@@ -15,72 +15,10 @@ import {
 import { useStoreActions, useStoreState } from 'easy-peasy';
 import { Icon } from 'react-native-elements';
 import colors from '../../styles/appColors';
-// import { styles } from '../../styles/Recipes/index';
+import styles from '../../styles/Recipes/index';
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#FFFFFF',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    flex: 1,
-  },
-  left: {
-    width: '60%',
-    height: '100%',
-    paddingLeft: '5%',
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-  },
-  right: {
-    width: '40%',
-    height: '100%',
-    paddingRight: '5%',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'flex-end',
-  },
-
-  name: {
-    fontSize: 17,
-    color: '#111111',
-    fontFamily: 'monospace',
-    fontWeight: 'normal',
-    fontStyle: 'normal',
-    paddingBottom: '5%',
-  },
-  recipeRow: {
-    width: '100%',
-    height: '20%',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'flex-start',
-  },
-  even: {
-    backgroundColor: '#EEEEEE',
-  },
-  price: {
-    fontSize: 20,
-    color: '#BC31EA',
-    fontFamily: 'monospace',
-    fontWeight: 'normal',
-    fontStyle: 'normal',
-  },
-  subtitle: {
-    fontSize: 15,
-    color: '#767676',
-    fontFamily: 'monospace',
-    fontWeight: 'normal',
-    fontStyle: 'normal',
-  },
-  recipeInfo: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-});
-
-function Recipes() {
+function Recipes(props) {
+  const { navigation } = props;
   const currentUser = useStoreState((state) => state.currentUser);
   const getRecipes = useStoreActions((actions) => actions.getRecipes);
   const [recipes, setRecipes] = useState([]);
@@ -107,7 +45,9 @@ function Recipes() {
   if (recipes.length) {
     return (
       <>
-        <TouchableOpacity style={[styles.recipeRow, styles.even]}>
+        <TouchableOpacity
+          style={[styles.recipeRow, styles.even]}
+          onPress={() => navigation.navigate('Receta', recipes[0].attributes)}>
           <View style={styles.left}>
             <Text style={styles.name} >{recipes[0].attributes.name}</Text>
             <View style={styles.recipeInfo}>
@@ -130,7 +70,7 @@ function Recipes() {
   }
 
   return (
-    <Text>Recetas</Text>
+    <Text>Aún no tienes recetas.</Text>
   );
 }
 
