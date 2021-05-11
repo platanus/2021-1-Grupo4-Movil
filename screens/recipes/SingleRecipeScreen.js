@@ -1,16 +1,21 @@
-import React, {
-} from 'react';
-import {
-  View,
-  Text,
-  ScrollView,
-} from 'react-native';
+import React, {useState} from 'react';
+import { View, Text, ScrollView } from 'react-native';
 import { Icon } from 'react-native-elements';
 import colors from '../../styles/appColors';
 import styles from '../../styles/Recipes/singleRecipe';
 
 function Recipe(props) {
-  const { route } = props;
+  const { navigation, route } = props;
+  const [showMenu, setShowMenu] = useState(false);
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <Icon name='more-vert' size='30' style={{ paddingRight: 8, color: colors.recipeIcon }} onPress={() => alert('This is a button!')}/>
+      ),
+    });
+  }, [navigation]);
+
   return (
     <ScrollView style={styles.mainContainer}>
       <View style={styles.recipeInfoContainer}>

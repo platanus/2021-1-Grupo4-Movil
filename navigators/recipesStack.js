@@ -11,14 +11,7 @@ function RecipesStackScreen() {
   return (
     <MainRecipesStack.Navigator initialRouteName="Recetas" >
       <MainRecipesStack.Screen name="Recetas" component={Recipes} />
-      <MainRecipesStack.Screen name="Receta"
-        options={{
-          headerRight: () => (
-            <Icon name='more-vert'
-              size='30'
-              style={{ paddingRight: 8, color: colors.recipeIcon }}
-              onPress={() => alert('This is a button!')}/>
-          ) }} component={Recipe} />
+      <MainRecipesStack.Screen name="Receta" component={Recipe} />
     </MainRecipesStack.Navigator>
   );
 }
