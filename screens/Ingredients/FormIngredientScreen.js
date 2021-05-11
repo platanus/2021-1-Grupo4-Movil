@@ -1,6 +1,4 @@
-/* eslint-disable max-statements */
 import React, {
-  useEffect,
   useState,
 } from 'react';
 import {
@@ -18,80 +16,58 @@ import customPickerStyles from '../../styles/customPickerStyles';
 function FormIngredient({ navigation, route }) {
   const {
     isNew,
-    ingredient = null,
+    name = '',
+    price = 0,
+    quantity = 0,
+    measure = '',
+    sku = '',
+    currency = 'CLP',
   } = route.params;
 
   const createIngredient = useStoreActions((actions) => actions.createIngredient);
   const editIngredient = useStoreActions((actions) => actions.createIngredient);
 
-  const [name, setName] = useState('');
-  const [price, setPrice] = useState(0);
-  const [quantity, setQuantity] = useState(0);
-  const [measure, setMeasure] = useState('');
-  const [showError, setShowError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [nameState, setNameState] = useState(name);
+  const [priceState, setPriceState] = useState(price);
+  const [quantityState, setQuantityState] = useState(quantity);
+  const [measureState, setMeasureState] = useState(measure);
 
-  function handleSubmitNew() {
-    if (name.length > 0 &&
-        price > 0 &&
-        quantity > 0 &&
-        measure.length > 0) {
+  function handleSubmit() {
+    const ingredient = {
+      name: nameState,
+      sku,
+      price: priceState,
+      currency,
+      quantity: quantityState,
+      measure: measureState,
+    };
+    if (nameState.length > 0 &&
+      priceState > 0 &&
+      quantityState > 0 &&
+      measureState.length > 0) {
       const body = {
-        ingredient: {
-          name,
-          sku: '005',
-          price,
-          currency: 'CLP',
-          quantity,
-          measure,
-        },
+        ingredient,
       };
-      createIngredient(body)
-        .then(() => {
-          navigation.navigate('Ingredients');
-        })
-        .catch((err) => {
-          setShowError(true);
-          setErrorMessage(err.response.data.message);
-        });
+      if (isNew) {
+        createIngredient(body)
+          .then(() => {
+            navigation.navigate('Ingredients');
+          })
+          .catch((err) => {
+          });
+      } else {
+        editIngredient(body)
+          .then(() => {
+            navigation.navigate('Ingredients', {
+              fromEdit: true,
+              ingredientFromEdit: ingredient,
+            });
+          })
+          .catch((err) => {
+          });
+      }
     }
   }
-
-  function handleSubmitEdit() {
-    if (name.length > 0 &&
-        price > 0 &&
-        quantity > 0 &&
-        measure.length > 0) {
-      const body = {
-        ingredient: {
-          name,
-          sku: ingredient.attributes.sku,
-          price,
-          currency: ingredient.attributes.currency,
-          quantity,
-          measure,
-        },
-        actualIngredient: ingredient,
-      };
-      editIngredient(body)
-        .then(() => {
-          navigation.navigate('Ingredients', { fromEdit: true });
-        })
-        .catch((err) => {
-          setShowError(true);
-          setErrorMessage(err.response.data.message);
-        });
-    }
-  }
-
-  useEffect(() => {
-    if (!isNew) {
-      setName(ingredient.attributes.name);
-      setPrice(ingredient.attributes.price);
-      setQuantity(ingredient.attributes.quantity);
-      setMeasure(ingredient.attributes.measure);
-    }
-  }, [isNew, ingredient]);
 
   return (
     <View style={styles.container}>
@@ -103,7 +79,7 @@ function FormIngredient({ navigation, route }) {
           style={styles.input}
           placeholder="Nombre de ingrediente..."
           value={name}
-          onChangeText={(text) => setName(text)}
+          onChangeText={(text) => setNameState(text)}
         />
       </View>
       <View style={styles.inputContainer}>
@@ -115,7 +91,7 @@ function FormIngredient({ navigation, route }) {
           keyboardType="number-pad"
           placeholder="Precio de ingrediente..."
           value={(price > 0) ? price : ''}
-          onChangeText={(text) => setPrice(text)}
+          onChangeText={(text) => setPriceState(text)}
         />
       </View>
       <View style={styles.inputContainer}>
@@ -127,7 +103,7 @@ function FormIngredient({ navigation, route }) {
           placeholder="Cantidad de ingrediente..."
           keyboardType="number-pad"
           value={(quantity > 0) ? quantity : ''}
-          onChangeText={(text) => setQuantity(text)}
+          onChangeText={(text) => setQuantityState(text)}
         />
       </View>
       <View style={styles.inputContainer}>
@@ -142,7 +118,7 @@ function FormIngredient({ navigation, route }) {
             value: '',
           }}
           value={measure}
-          onValueChange={(value) => setMeasure(value)}
+          onValueChange={(value) => setMeasureState(value)}
           items={[
             { label: 'gr', value: 'gr', key: '0' },
             { label: 'kg', value: 'kg', key: '1' },
@@ -164,7 +140,7 @@ function FormIngredient({ navigation, route }) {
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.button, styles.confirm]}
-          onPress={isNew ? handleSubmitNew : handleSubmitEdit}
+          onPress={handleSubmit}
         >
           <Text style={[styles.buttonText, styles.confirmText]}>
             {isNew ? 'Agregar ingrediente' : 'Editar ingrediente'}

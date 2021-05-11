@@ -1,9 +1,6 @@
-/* eslint-disable max-statements */
-/* eslint-disable no-unused-vars */
 import React, {
   useEffect,
   useState,
-  useCallback,
 } from 'react';
 import {
   Modal,
@@ -15,55 +12,40 @@ import {
 import { useStoreActions } from 'easy-peasy';
 
 import styles from '../../styles/Ingredients/indexStyles';
-import FormIngredient from './FormIngredientScreen';
+
+let fromEdit = false;
+let ingredientFromEdit = {
+  attributes: {
+    name: '',
+    price: 0,
+    quantity: 0,
+    measure: '',
+    sku: '',
+    currency: 'CLP',
+  },
+};
 
 function Ingredients({ navigation, route }) {
-  const fromEdit = route.params ? route.params.fromEdit : false;
+  useEffect(() => {
+    if (route.params) {
+      fromEdit = route.params.fromEdit;
+      ingredientFromEdit = route.params.ingredientFromEdit;
+    }
+  }, [route]);
 
   const getIngredients = useStoreActions((actions) => actions.getIngredients);
   const deleteIngredient = useStoreActions((actions) => actions.deleteIngredient);
 
   const [ingredients, setIngredients] = useState([]);
   const [rows, setRows] = useState([]);
-  const [showError, setShowError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-  const [modalVisible, setModalVisible] = useState(false);
-  const [actualIngredient, setActualIngredient] = useState({
-    attributes: {
-      name: '',
-      price: 0,
-      quantity: 0,
-      measure: '',
-    },
-  });
-
-  const callIngredientsApi = useCallback(() => {
-    getIngredients()
-      .then((res) => {
-        setIngredients(res);
-      })
-      .catch((err) => {
-        setShowError(true);
-        setErrorMessage(err.response.data.message);
-      });
-  }, [getIngredients]);
-
-  function deleteModal() {
-    const body = { actualIngredient };
-    deleteIngredient(body)
-      .then(() => {
-        setModalVisible(false);
-        callIngredientsApi();
-      })
-      .catch((err) => {
-        setShowError(true);
-        setErrorMessage(err.response.data.message);
-      });
-  }
+  const [modalVisible, setModalVisible] = useState(fromEdit);
+  const [actualIngredient, setActualIngredient] = useState(ingredientFromEdit);
 
   useEffect(() => {
+    console.log('listening ingredients');
+    console.log(ingredients);
     const auxRows = [];
-    const totalRows = 9;
+    const totalRows = 10;
     const evenNumber = 2;
     for (let i = 0;
       (ingredients.length - totalRows < 0) ? i < totalRows : i < ingredients.length;
@@ -71,7 +53,7 @@ function Ingredients({ navigation, route }) {
       auxRows.push(
         <TouchableOpacity
           style={[styles.ingredientRow, (i % evenNumber === 0) ? styles.even : styles.odd]}
-          key={ingredients[i] ? ingredients[i].id : 100 + i}
+          key={ingredients[i] ? ingredients[i].id : i}
           onPress={() => {
             setModalVisible(true);
             setActualIngredient(ingredients[i]);
@@ -97,12 +79,13 @@ function Ingredients({ navigation, route }) {
   }, [ingredients]);
 
   useEffect(() => {
-    if (fromEdit) {
-      setModalVisible(true);
-    } else {
-      callIngredientsApi();
-    }
-  }, [fromEdit, callIngredientsApi]);
+    getIngredients()
+      .then((res) => {
+        setIngredients(res);
+      })
+      .catch((err) => {
+      });
+  }, [getIngredients]);
 
   return (
     <View style={styles.container}>
@@ -158,7 +141,22 @@ function Ingredients({ navigation, route }) {
           <View style={styles.modalButtonsContainer}>
             <TouchableOpacity
               style={styles.modalDelete}
-              onPress={deleteModal}
+              onPress={() => {
+                const body = { actualIngredient };
+                deleteIngredient(body)
+                  .then(() => {
+                    setModalVisible(false);
+                    console.log('------------------------------------------------------------------------------------');
+                    console.log(ingredients);
+                    ingredients.splice(ingredients.indexOf(actualIngredient), 1);
+                    setIngredients(ingredients);
+                    console.log('----------------------------------------');
+                    console.log(ingredients);
+                    console.log('------------------------------------------------------------------------------------');
+                  })
+                  .catch((err) => {
+                  });
+              }}
             >
               <Text style={styles.modalDeleteText}>
                 Borrar
@@ -168,7 +166,12 @@ function Ingredients({ navigation, route }) {
               style={styles.modalEdit}
               onPress={() => navigation.navigate('FormIngredient', {
                 isNew: false,
-                ingredient: actualIngredient,
+                name: actualIngredient.attributes.name,
+                sku: actualIngredient.attributes.sku,
+                price: actualIngredient.attributes.price,
+                currency: actualIngredient.attributes.currency,
+                quantity: actualIngredient.attributes.quantity,
+                measure: actualIngredient.attributes.measure,
               })}
             >
               <Text style={styles.modalEditText}>
