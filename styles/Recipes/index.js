@@ -28,9 +28,6 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 17,
     color: '#111111',
-    fontFamily: 'monospace',
-    fontWeight: 'normal',
-    fontStyle: 'normal',
     paddingBottom: '5%',
   },
   recipeRow: {
@@ -46,16 +43,10 @@ const styles = StyleSheet.create({
   price: {
     fontSize: 20,
     color: '#BC31EA',
-    fontFamily: 'monospace',
-    fontWeight: 'normal',
-    fontStyle: 'normal',
   },
   subtitle: {
     fontSize: 15,
     color: '#767676',
-    fontFamily: 'monospace',
-    fontWeight: 'normal',
-    fontStyle: 'normal',
   },
   recipeInfo: {
     flexDirection: 'row',
