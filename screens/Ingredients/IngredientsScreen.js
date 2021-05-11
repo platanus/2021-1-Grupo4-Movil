@@ -17,7 +17,9 @@ import { useStoreActions } from 'easy-peasy';
 import styles from '../../styles/Ingredients/indexStyles';
 import FormIngredient from './FormIngredientScreen';
 
-function Ingredients() {
+function Ingredients({ navigation, route }) {
+  const fromEdit = route.params ? route.params.fromEdit : false;
+
   const getIngredients = useStoreActions((actions) => actions.getIngredients);
   const deleteIngredient = useStoreActions((actions) => actions.deleteIngredient);
 
@@ -25,8 +27,6 @@ function Ingredients() {
   const [rows, setRows] = useState([]);
   const [showError, setShowError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const [showNewIngredient, setShowNewIngredient] = useState(false);
-  const [showEditIngredient, setShowEditIngredient] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [actualIngredient, setActualIngredient] = useState({
     attributes: {
@@ -97,29 +97,12 @@ function Ingredients() {
   }, [ingredients]);
 
   useEffect(() => {
-    if (!showNewIngredient) {
+    if (fromEdit) {
+      setModalVisible(true);
+    } else {
       callIngredientsApi();
     }
-  }, [callIngredientsApi, showNewIngredient]);
-
-  if (showNewIngredient) {
-    return (
-      <FormIngredient
-        isNew={true}
-        setShowNewIngredient={setShowNewIngredient}
-      />
-    );
-  }
-
-  if (showEditIngredient) {
-    return (
-      <FormIngredient
-        isNew={false}
-        setShowEditIngredient={setShowEditIngredient}
-        ingredient={actualIngredient}
-      />
-    );
-  }
+  }, [fromEdit, callIngredientsApi]);
 
   return (
     <View style={styles.container}>
@@ -183,7 +166,10 @@ function Ingredients() {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.modalEdit}
-              onPress={() => setShowEditIngredient(true)}
+              onPress={() => navigation.navigate('FormIngredient', {
+                isNew: false,
+                ingredient: actualIngredient,
+              })}
             >
               <Text style={styles.modalEditText}>
                 Editar
@@ -192,24 +178,17 @@ function Ingredients() {
           </View>
         </View>
       </Modal>
-
-      <View style={[styles.titleRow, styles.title]}>
-        <Text style={styles.rowTitle}>
-          Ingredientes
-        </Text>
-      </View>
       <ScrollView style={styles.scrollView}>
         {rows}
       </ScrollView>
       <TouchableOpacity
         style={styles.addButton}
-        onPress={() => setShowNewIngredient(true)}
+        onPress={() => navigation.navigate('FormIngredient', {
+          isNew: true,
+        })}
       >
         <Text style={styles.plus}>+</Text>
       </TouchableOpacity>
-      <View style={styles.navigation}>
-        <Text style={styles.navigationText}>Navegación</Text>
-      </View>
     </View>
   );
 }

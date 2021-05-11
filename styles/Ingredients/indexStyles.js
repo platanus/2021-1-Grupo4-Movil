@@ -10,24 +10,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
-  titleRow: {
-    width: '100%',
-    height: '10%',
-    justifyContent: 'center',
-    backgroundColor: '#BBBBBB',
-    paddingLeft: '5%',
-  },
-
-  rowTitle: {
-    fontSize: 17,
-    color: '#111111',
-    fontWeight: 'normal',
-    fontStyle: 'normal',
-  },
-
   scrollView: {
     width: '100%',
-    height: '82%',
+    height: '100%',
   },
 
   ingredientRow: {
@@ -107,21 +92,6 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     paddingTop: 3,
     paddingLeft: 2,
-  },
-
-  navigation: {
-    width: '100%',
-    height: '8%',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-  navigationText: {
-    fontSize: 17,
-    color: '#111111',
-
-    fontWeight: '800',
-    fontStyle: 'normal',
   },
 
   modalContainer: {

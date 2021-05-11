@@ -9,23 +9,6 @@ const styles = StyleSheet.create({
     height: '100%',
   },
 
-  titleRow: {
-    width: '100%',
-    height: '10%',
-    justifyContent: 'center',
-    backgroundColor: '#BBBBBB',
-    paddingLeft: '5%',
-    marginBottom: 30,
-  },
-
-  rowTitle: {
-    fontSize: 17,
-    color: '#111111',
-
-    fontWeight: 'normal',
-    fontStyle: 'normal',
-  },
-
   inputContainer: {
     width: '80%',
     height: '10%',
