@@ -5,7 +5,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import LogIn from './LogInScreen';
 import SignUp from './SignUpScreen';
 import HomeTabs from '../navigators/bottomNavigation';
-import Recipes from './Recipes/RecipesScreen';
 
 function Main() {
   const currentUser = useStoreState((state) => state.currentUser);

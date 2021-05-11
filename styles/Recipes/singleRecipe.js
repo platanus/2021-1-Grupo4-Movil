@@ -16,12 +16,13 @@ const styles = StyleSheet.create({
   },
   infoText: {
     color: 'black',
-    fontSize: 16,
+    fontSize: 18,
+    marginLeft: 10,
   },
   sectionTitleText: {
-    marginLeft: '7%',
+    marginLeft: '5%',
     color: 'black',
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
   },
   ingredientsContainer: {
@@ -29,24 +30,44 @@ const styles = StyleSheet.create({
   },
   ingredientsList: {
     marginTop: 10,
-    backgroundColor: colors.tableBorder,
-    padding: 10,
+    backgroundColor: colors.ingredientsList,
+    paddingBottom: 20,
+  },
+  ingredientTextBox: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    paddingTop: 20,
+    marginHorizontal: '5%',
   },
   ingredientText: {
-    marginTop: 5,
-    marginBottom: 5,
+    fontSize: 16,
   },
 
   stepBox: {
-    marginTop: 5,
-    marginBottom: 5,
-    marginLeft: 40,
+    flexDirection: 'row',
+    marginTop: 20,
+    paddingHorizontal: 10,
   },
 
   stepText: {
     color: colors.ingredientsTitle,
+    fontSize: 14,
+    textAlign: 'justify',
+    width: '80%',
   },
-
+  stepNumber: {
+    color: colors.ingredientsTitle,
+    fontSize: 18,
+    textAlign: 'center',
+    width: 26,
+    height: 26,
+    borderRadius: 13,
+    backgroundColor: colors.ingredientsList,
+    overflow: 'hidden',
+    marginHorizontal: 10,
+  },
 });
 
 export default styles;

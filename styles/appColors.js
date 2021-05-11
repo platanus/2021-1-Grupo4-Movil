@@ -3,6 +3,7 @@ const colors = {
   white: '#fff',
   red: 'red',
   // front
+  ingredientsList: '#EEEEEE',
   topNavbar: '#0A000A',
   sideNavbar: '#27272A',
   mainTableHeader: '#847974',

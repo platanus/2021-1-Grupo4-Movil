@@ -2,7 +2,6 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import IngredientsStack from './ingredientsStack';
 import RecipesStack from './recipesStack';
-import Recipes from '../screens/Recipes/RecipesScreen';
 import Menus from '../screens/MenusScreen';
 import Profile from '../screens/ProfileScreen';
 

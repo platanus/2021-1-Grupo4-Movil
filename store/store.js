@@ -1,14 +1,14 @@
 import { createStore, action, thunk } from 'easy-peasy'; // agregar computed si se usa getters
 import apiUtils from '../api/api';
-import config from '../config';
 import sessionsApi from '../api/sessions';
+import recipesApi from '../api/recipes';
 
 const storeState = {
   currentUser: null,
   loginError: '',
   signUpError: '',
   recipes: {
-    getErrors: '',
+    errors: '',
   },
 };
 
@@ -37,9 +37,8 @@ const storeActions = {
     }
   }),
   setGetRecipesError: action((state, payload) => {
-    state.recipes.getErrors = payload;
+    state.recipes.errors = payload;
   }),
-
 };
 
 const storeThunks = {
@@ -60,15 +59,9 @@ const storeThunks = {
       });
   }),
   getRecipes: thunk(async (actions, payload) => {
-    const url = config.endpoints.recipes.index;
-    const recipes = await apiUtils.api({
-      method: 'get',
-      url,
-      data: payload,
-    })
+    const recipes = recipesApi.get(payload)
       .then((res) => res.data.data)
       .catch((err) => {
-        console.log('algun error');
         actions.setGetRecipesError(err.response.data.message);
         throw err;
       });

@@ -1,97 +1,56 @@
-/* eslint-disable max-statements */
-/* eslint-disable no-unused-vars */
 import React, {
-  useEffect,
-  useState,
 } from 'react';
 import {
-  Modal,
   View,
   Text,
   ScrollView,
-  StyleSheet,
-  TouchableOpacity,
 } from 'react-native';
-import { useStoreActions, useStoreState } from 'easy-peasy';
 import { Icon } from 'react-native-elements';
 import colors from '../../styles/appColors';
 import styles from '../../styles/Recipes/singleRecipe';
 
 function Recipe(props) {
-  const { navigate, route } = props;
+  const { route } = props;
 
   return (
-    <View style={styles.mainContainer}>
+    <ScrollView style={styles.mainContainer}>
       <View style={styles.recipeInfoContainer}>
         <View style={styles.recipeInfoRow}>
           <Icon name='timer' color={colors.recipeIcon} size='30' />
-          <Text style={styles.infoText}> {route.params.cook_minutes} minuto(s)</Text>
+          <Text style={styles.infoText}>
+            {route.params.cook_minutes} {(route.params.portions === 1 ? 'minuto' : 'minutos')}
+          </Text>
         </View>
         <View style={styles.recipeInfoRow}>
           <Icon name='pie-chart' color={colors.recipeIcon} size='30' />
-          <Text style={styles.infoText}> {route.params.portions} porcion(es)</Text>
+          <Text style={styles.infoText}>
+            {route.params.portions} {(route.params.portions === 1 ? 'porción' : 'porciones')}
+          </Text>
         </View>
         <View style={styles.recipeInfoRow}>
-          <Icon name='monetization-on' color={colors.recipeIcon} size='30' />
-          <Text style={styles.infoText}> XX.XXX pesos</Text>
+          <Icon name='attach-money' color={colors.recipeIcon} size='30' />
+          <Text style={styles.infoText}>XX.XXX pesos</Text>
         </View>
       </View>
       <View style={styles.ingredientsContainer}>
         <Text style={styles.sectionTitleText}>Ingredientes</Text>
         <View style={styles.ingredientsList}>
-          <Text style={styles.ingredientText}>Ingrediente</Text>
-          <Text style={styles.ingredientText}>Ingrediente</Text>
-          <Text style={styles.ingredientText}>Ingrediente</Text>
-          <Text style={styles.ingredientText}>Ingrediente</Text>
-          <Text style={styles.ingredientText}>Ingrediente</Text>
+          <View style={ styles.ingredientTextBox }>
+            <Text style={styles.ingredientText}>Ingrediente</Text>
+            <Text style={styles.ingredientText}> XX un.</Text>
+          </View>
         </View>
       </View>
       <View style={styles.ingredientsContainer}>
         <Text style={styles.sectionTitleText}>Pasos</Text>
         <View style={styles.stepBox}>
-          <Text style={styles.stepText}>Este es el paso 1</Text>
-        </View>
-        <View style={styles.stepBox}>
-          <Text style={styles.stepText}>Este es el paso 1</Text>
-        </View>
-        <View style={styles.stepBox}>
-          <Text style={styles.stepText}>Este es el paso 1</Text>
-        </View>
-        <View style={styles.stepBox}>
-          <Text style={styles.stepText}>Este es el paso 1</Text>
-        </View>
-        <View style={styles.stepBox}>
-          <Text style={styles.stepText}>Este es el paso 1</Text>
-        </View>
-        <View style={styles.stepBox}>
-          <Text style={styles.stepText}>Este es el paso 1</Text>
-        </View>
-        <View style={styles.stepBox}>
-          <Text style={styles.stepText}>Este es el paso 1</Text>
-        </View>
-        <View style={styles.stepBox}>
-          <Text style={styles.stepText}>Este es el paso 1</Text>
-        </View>
-        <View style={styles.stepBox}>
-          <Text style={styles.stepText}>Este es el paso 1</Text>
-        </View>
-        <View style={styles.stepBox}>
-          <Text style={styles.stepText}>Este es el paso 1</Text>
-        </View>
-        <View style={styles.stepBox}>
-          <Text style={styles.stepText}>Este es el paso 1</Text>
-        </View>
-        <View style={styles.stepBox}>
-          <Text style={styles.stepText}>Este es el paso 1</Text>
-        </View>
-        <View style={styles.stepBox}>
-          <Text style={styles.stepText}>Este es el paso 1</Text>
-        </View>
-        <View style={styles.stepBox}>
-          <Text style={styles.stepText}>Este es el paso 1</Text>
+          <Text style={styles.stepNumber} >1</Text>
+          <Text style={styles.stepText}>Lorem ipsum dolor sit amet consectetur adipiscing elit
+          natoque porttitor elementum, praesent nulla convallis vel malesuada maecenas hac a interdum
+           porta senectus, pulvinar tellus aliquet quisque class dui aptent hendrerit molestie.</Text>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 

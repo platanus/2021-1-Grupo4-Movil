@@ -1,25 +1,13 @@
 /* eslint-disable max-statements */
-/* eslint-disable no-unused-vars */
-import React, {
-  useEffect,
-  useState,
-} from 'react';
-import {
-  Modal,
-  View,
-  Text,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
-import { useStoreActions, useStoreState } from 'easy-peasy';
+import React, { useEffect, useState } from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
+import { useStoreActions } from 'easy-peasy';
 import { Icon } from 'react-native-elements';
 import colors from '../../styles/appColors';
 import styles from '../../styles/Recipes/index';
 
 function Recipes(props) {
   const { navigation } = props;
-  const currentUser = useStoreState((state) => state.currentUser);
   const getRecipes = useStoreActions((actions) => actions.getRecipes);
   const [recipes, setRecipes] = useState([]);
   const [showError, setShowError] = useState(false);
@@ -27,7 +15,7 @@ function Recipes(props) {
   const [rows, setRows] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
 
-  function callRecipesApi() {
+  useEffect(() => {
     getRecipes()
       .then((res) => {
         setRecipes(res);
@@ -36,10 +24,6 @@ function Recipes(props) {
         setShowError(true);
         setErrorMessage(err);
       });
-  }
-
-  useEffect(() => {
-    callRecipesApi();
   }, [newRecipe]);
 
   if (recipes.length) {
