@@ -68,6 +68,25 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     marginHorizontal: 10,
   },
+  menuContainer: {
+    // position: 'absolute',
+    // zIndex: 1,
+
+    // backgroundColor: colors.white,
+    // width: '100%',
+  },
+  menuOption: {
+    // zIndex: 1,
+    position: 'relative',
+    display: 'flex',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    paddingVertical: 15,
+    paddingHorizontal: '5%',
+    borderBottomWidth: 0.3,
+    borderColor: colors.tableBorder,
+    // borderRadius: 5,
+  },
 });
 
 export default styles;
