@@ -10,7 +10,7 @@ import {
 import RNPickerSelect from 'react-native-picker-select';
 import { useStoreActions } from 'easy-peasy';
 
-import styles from '../../styles/Ingredients/newStyles';
+import styles from '../../styles/Ingredients/formStyles';
 
 const customPickerStyles = {
   inputWeb: {

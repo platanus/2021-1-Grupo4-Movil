@@ -1,10 +1,10 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import IngredientsScreen from '../screens/ingredients/IngredientsScreen';
-import NewIngredientScreen from '../screens/ingredients/NewIngredientScreen';
-import IngredientScreen from '../screens/ingredients/IngredientScreen';
-import EditIngredientScreen from '../screens/ingredients/EditIngredientScreen';
+import IngredientsScreen from '../screens/Ingredients/IngredientsScreen';
+import NewIngredientScreen from '../screens/Ingredients/NewIngredientScreen';
+import IngredientScreen from '../screens/Ingredients/IngredientScreen';
+import EditIngredientScreen from '../screens/Ingredients/EditIngredientScreen';
 
 const MainIngredientsStack = createStackNavigator();
 

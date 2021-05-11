@@ -5,7 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-import styles from '../../styles/Ingredients/editStyles';
+import styles from '../../styles/Ingredients/formStyles';
 
 function EditIngredient(props) {
   const { setEditIngredient } = props;
