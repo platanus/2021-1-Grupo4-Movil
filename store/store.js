@@ -1,5 +1,4 @@
 import { createStore, action, thunk } from 'easy-peasy';
-import config from '../config';
 import apiUtils from '../api/api';
 import sessionsApi from '../api/sessions';
 
@@ -59,12 +58,7 @@ const storeThunks = {
       });
   }),
   getIngredients: thunk(async (actions, payload) => {
-    const url = config.endpoints.ingredients.index;
-    const ingredients = await apiUtils.api({
-      method: 'get',
-      url,
-      data: payload,
-    })
+    const ingredients = sessionsApi.getIngredients(payload)
       .then((res) => res.data.data)
       .catch((err) => {
         actions.setGetIngredientsError(err.response.data.message);
@@ -74,18 +68,11 @@ const storeThunks = {
     return ingredients;
   }),
   createIngredient: thunk(async (actions, payload) => {
-    const url = config.endpoints.ingredients.index;
-    const ingredients = await apiUtils.api({
-      method: 'post',
-      url,
-      data: payload,
-    })
+    sessionsApi.createIngredient(payload)
       .catch((err) => {
         actions.setGetIngredientsError(err.response.data.message);
         throw err;
       });
-
-    return ingredients;
   }),
   editIngredient: thunk(async (actions, payload) => {
     sessionsApi.editIngredient(payload)
@@ -95,11 +82,7 @@ const storeThunks = {
       });
   }),
   deleteIngredient: thunk(async (actions, payload) => {
-    const url = `${config.endpoints.ingredients.specific}${payload.actualIngredient.id}`;
-    await apiUtils.api({
-      method: 'delete',
-      url,
-    })
+    sessionsApi.deleteIngredient(payload)
       .catch((err) => {
         actions.setGetIngredientsError(err.response.data.message);
         throw err;

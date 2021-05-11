@@ -12,7 +12,6 @@ const styles = StyleSheet.create({
 
   scrollView: {
     flexGrow: 1,
-    backgroundColor: 'green',
   },
 
   ingredientRow: {
