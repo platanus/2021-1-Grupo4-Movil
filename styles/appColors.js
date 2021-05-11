@@ -3,6 +3,7 @@ const colors = {
   white: '#fff',
   red: 'red',
   // front
+  ingredientsList: '#EEEEEE',
   topNavbar: '#0A000A',
   sideNavbar: '#27272A',
   mainTableHeader: '#847974',
@@ -11,6 +12,7 @@ const colors = {
   editIgredientHeader: '#262626',
   ingredientsTitle: '#000000',
   selectedTabYellow: '#DCAB24',
+  recipeIcon: '#074eec',
 };
 
 export default colors;
