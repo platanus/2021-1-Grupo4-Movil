@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { color } from 'react-native-reanimated';
 import colors from '../appColors';
 
 const styles = StyleSheet.create({
@@ -216,7 +217,29 @@ const styles = StyleSheet.create({
   },
   sectionNewStep: {
     bottom: '5%',
-    left: '61%'
+    left: '61%',
+  },
+  submitNewRecipe: {
+    width: '100%',
+    height: 40,
+    margin: 5,
+    bottom: '50%',
+    maxWidth: '100%',
+    marginLeft: 3,
+    marginTop: 10,
+    paddingHorizontal: 10,
+    backgroundColor: colors.blue,
+    padding: 12,
+    borderRadius: 5,
+    borderWidth: 2,
+    borderColor: colors.blue,
+    alignItems: 'center',
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  newRecipeButtonText: {
+    color: colors.white,
+    fontWeight: 'bold',
   },
 });
 

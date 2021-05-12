@@ -53,17 +53,22 @@ function Recipes(props) {
             <Text style = {styles.price}>$XX.XXX</Text>
           </View>
         </TouchableOpacity>
+        <TouchableOpacity>
+          <Icon name="add-circle" color={colors.addIcon} onPress={() => navigation.navigate('Crear receta')}></Icon>
+        </TouchableOpacity>
       </>
     );
   }
 
   return (
-    <TouchableOpacity>
+    <>
       <Text>
         Aún no tienes recetas.
       </Text>
-      <Icon name="add-circle" color={colors.addIcon} onPress={() => navigation.navigate('Crear receta')}></Icon>
-    </TouchableOpacity>
+      <TouchableOpacity>
+        <Icon name="add-circle" color={colors.addIcon} onPress={() => navigation.navigate('Crear receta')}></Icon>
+      </TouchableOpacity>
+    </>
   );
 }
 
