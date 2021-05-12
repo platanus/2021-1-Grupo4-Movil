@@ -73,7 +73,7 @@ const storeThunks = {
   }),
   createRecipe: thunk(async (actions, payload) => {
     sessionsApi.createRecipe(payload)
-      .then((resp) => console.log(resp))
+      .then((resp) => { console.log(resp); })
       .catch((err) => {
         actions.setCreateRecipeError(err.response.data.message);
         throw err;

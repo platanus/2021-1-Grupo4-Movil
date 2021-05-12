@@ -1,7 +1,6 @@
-import { useStore, useStoreActions, useStoreState } from 'easy-peasy';
+import { useStoreActions } from 'easy-peasy';
 import React, { useState } from 'react';
 import { View, Text, ScrollView, TextInput } from 'react-native';
-import { Icon } from 'react-native-elements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import colors from '../../styles/appColors';
 import styles from '../../styles/Recipes/newRecipe';
@@ -14,25 +13,24 @@ function newRecipe(props) {
   const [steps, setSteps] = useState([]);
   const [newStep, setNewStep] = useState('');
   const createRecipe = useStoreActions((actions) => actions.createRecipe);
-  const createRecipeError = useStoreState((state) => state.recipes.createErrors);
 
   function addStep() {
     const newStepsArray = steps.concat(newStep);
     setSteps(newStepsArray);
-    setNewStep("");
-  };
+    setNewStep('');
+  }
 
   async function submitNewRecipe() {
     const body = {
       recipe: {
         name: recipeName,
         portions: parseInt(recipePortions),
-        instructions: "lorem ipsum",
+        instructions: 'lorem ipsum',
         cook_minutes: parseInt(recipeTime),
-      }
-    }
+      },
+    };
     await createRecipe(body);
-    navigation.navigate('Recetas')
+    navigation.navigate('Recetas');
   }
 
   return (
@@ -69,7 +67,7 @@ function newRecipe(props) {
             <Text style={styles.sectionTitleText}>Ingredientes seleccionados</Text>
           </View>
           <View style={styles.recipeInfoRow}>
-            <TouchableOpacity style={styles.ingredientButton} onPress={ () => alert("Buscar ingredientes!") }>
+            <TouchableOpacity style={styles.ingredientButton} onPress={ () => alert('Buscar ingredientes!') }>
               <Text>Buscar ingredientes</Text>
             </TouchableOpacity>
           </View>
@@ -99,12 +97,10 @@ function newRecipe(props) {
       </View>
       <View style={styles.ingredientsContainer}>
         <Text style={styles.sectionTitleText}>Pasos</Text>
-        {steps.map((step, index) => {
-          return (<View style={styles.stepBox} key={index}>
-            <Text style={styles.stepNumber}>{index+1}</Text>
-            <Text style={styles.stepText}>{step}</Text>
-          </View>)
-        })}
+        {steps.map((step, index) => (<View style={styles.stepBox} key={index}>
+          <Text style={styles.stepNumber}>{index + 1}</Text>
+          <Text style={styles.stepText}>{step}</Text>
+        </View>))}
         <TextInput
           style={ styles.newStepText }
           placeholder="Nuevo paso"
