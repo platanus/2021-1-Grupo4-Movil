@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable max-statements */
 
 import React, { useEffect, useState } from 'react';
@@ -25,14 +26,16 @@ function Recipes(props) {
         setShowError(true);
         setErrorMessage(err);
       });
-  }, [newRecipe]);
+  }, [newRecipe, getRecipes]);
 
   if (recipes.length) {
     return (
       <>
         <TouchableOpacity
           style={[styles.recipeRow, styles.even]}
-          onPress={() => navigation.navigate('Receta', recipes[0].attributes)}>
+          onPress={() => {
+            navigation.navigate('Receta', recipes[0]);
+          }}>
           <View style={styles.left}>
             <Text style={styles.name} >{recipes[0].attributes.name}</Text>
             <View style={styles.recipeInfo}>
