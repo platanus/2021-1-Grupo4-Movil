@@ -27,29 +27,42 @@ function Recipes(props) {
       });
   }, [newRecipe]);
 
-  if (recipes.length) {
-    return (
-      <>
+  useEffect(() => {
+    const auxRows = [];
+    for (let i = 0;
+      i < recipes.length; // - totalRows < 0) ? i < totalRows : i < recipes.length;
+      i++) {
+      auxRows.push(
         <TouchableOpacity
-          style={[styles.recipeRow, styles.even]}
-          onPress={() => navigation.navigate('Receta', recipes[0].attributes)}>
+          style={styles.recipeRow}
+          onPress={() => navigation.navigate('Receta', recipes[i].attributes)}
+          key={recipes[i].id}>
           <View style={styles.left}>
-            <Text style={styles.name} >{recipes[0].attributes.name}</Text>
+            <Text style={styles.name} >{(recipes[i]) ? recipes[i].attributes.name : '---'}</Text>
             <View style={styles.recipeInfo}>
               <Icon name='pie-chart' color={colors.recipeIcon} size='23' />
               <Text style = {styles.subtitle}>
-                {recipes[0].attributes.portions} {(recipes[0].attributes.portions === 1 ? 'porción' : 'porciones')}
+                {recipes[i].attributes.portions} {(recipes[i].attributes.portions === 1 ? 'porción' : 'porciones')}
               </Text>
             </View>
             <View style={styles.recipeInfo}>
               <Icon name='timer' color={colors.recipeIcon} size='23' />
-              <Text style = {styles.subtitle}>{recipes[0].attributes.cook_minutes} minutos</Text>
+              <Text style = {styles.subtitle}>{recipes[i].attributes.cook_minutes} minutos</Text>
             </View>
           </View>
           <View style={styles.right}>
             <Text style = {styles.price}>$XX.XXX</Text>
           </View>
-        </TouchableOpacity>
+        </TouchableOpacity>,
+      );
+    }
+    setRows(auxRows);
+  }, [recipes]);
+
+  if (recipes.length) {
+    return (
+      <>
+        {rows}
       </>
     );
   }
@@ -60,3 +73,4 @@ function Recipes(props) {
 }
 
 export default Recipes;
+

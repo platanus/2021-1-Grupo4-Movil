@@ -2,6 +2,7 @@ const colors = {
   blue: '#074eec',
   white: '#fff',
   red: 'red',
+  purple: '#BC31EA',
   // front
   ingredientsList: '#EEEEEE',
   topNavbar: '#0A000A',

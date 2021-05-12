@@ -1,8 +1,9 @@
 import { StyleSheet } from 'react-native';
+import colors from '../appColors';
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: colors.white,
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'flex-start',
@@ -39,20 +40,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'flex-start',
-  },
-  even: {
-    backgroundColor: '#EEEEEE',
+    color: colors.white,
   },
   price: {
     fontSize: 20,
-    color: '#BC31EA',
-    fontFamily: 'monospace',
-    fontWeight: 'normal',
-    fontStyle: 'normal',
+    color: colors.purple,
   },
   subtitle: {
     fontSize: 15,
-    color: '#767676',
+    color: colors.blue,
     fontFamily: 'monospace',
     fontWeight: 'normal',
     fontStyle: 'normal',
