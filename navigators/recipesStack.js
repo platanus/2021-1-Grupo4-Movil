@@ -3,6 +3,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Recipes from '../screens/recipes/RecipesScreen';
 import Recipe from '../screens/recipes/SingleRecipeScreen';
 import editRecipe from '../screens/recipes/editRecipeScreen';
+import newRecipe from '../screens/recipes/newRecipeScreen';
+import colors from '../styles/appColors';
 
 const MainRecipesStack = createStackNavigator();
 
@@ -12,6 +14,7 @@ function RecipesStackScreen() {
       <MainRecipesStack.Screen name="Recetas" component={Recipes} />
       <MainRecipesStack.Screen name="Receta" component={Recipe} />
       <MainRecipesStack.Screen name="Editar Receta" component={editRecipe} />
+      <MainRecipesStack.Screen name="Crear receta" component={newRecipe} />
     </MainRecipesStack.Navigator>
   );
 }
