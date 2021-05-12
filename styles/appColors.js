@@ -13,6 +13,8 @@ const colors = {
   ingredientsTitle: '#000000',
   selectedTabYellow: '#DCAB24',
   recipeIcon: '#074eec',
+  addIcon: '#074EE8',
+  purplePrice: '#BC31EA',
 };
 
 export default colors;
