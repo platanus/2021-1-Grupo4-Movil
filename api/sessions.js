@@ -30,6 +30,15 @@ const sessionsApi = {
       data: payload,
     });
   },
+  createRecipe: (payload) => {
+    const url = config.endpoints.recipes.new;
+
+    return apiUtils.api({
+      method: 'post',
+      url,
+      data: payload,
+    });
+  },
 };
 export default sessionsApi;
 

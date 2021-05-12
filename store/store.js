@@ -8,6 +8,7 @@ const storeState = {
   signUpError: '',
   recipes: {
     getErrors: '',
+    createErrors: '',
   },
 };
 
@@ -38,6 +39,9 @@ const storeActions = {
   setGetRecipesError: action((state, payload) => {
     state.recipes.getErrors = payload;
   }),
+  setCreateRecipeError: action((state, payload) => {
+    state.recipes.createErrors = payload;
+  }),
 };
 
 const storeThunks = {
@@ -66,6 +70,14 @@ const storeThunks = {
       });
 
     return recipes;
+  }),
+  createRecipe: thunk(async (actions, payload) => {
+    sessionsApi.createRecipe(payload)
+      .then((resp) => console.log(resp))
+      .catch((err) => {
+        actions.setCreateRecipeError(err.response.data.message);
+        throw err;
+      });
   }),
 };
 
