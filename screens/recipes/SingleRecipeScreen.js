@@ -2,19 +2,23 @@ import React, { useState } from 'react';
 import { TouchableOpacity, View, Text, ScrollView, Alert } from 'react-native';
 
 import { Icon } from 'react-native-elements';
+import { useStoreActions } from 'easy-peasy';
 import colors from '../../styles/appColors';
 import styles from '../../styles/Recipes/singleRecipe';
+import minutesToHoursText from '../../utils/recipes';
 
 function Recipe(props) {
   const { navigation, route } = props;
+  const deleteRecipe = useStoreActions((actions) => actions.deleteRecipe);
   const [showMenu, setShowMenu] = useState(false);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
+      // eslint-disable-next-line react/display-name
       headerRight: () => (
         <Icon name='more-vert'
           size='30'
-          style={{ paddingRight: 8, color: colors.recipeIcon }}
+          style={styles.moreVert}
           onPress={() => setShowMenu(!showMenu)}/>
       ),
     });
@@ -31,7 +35,7 @@ function Recipe(props) {
         <TouchableOpacity style={styles.menuOption}
           onPress={() => Alert.alert('¿Estás seguro?', 'Esta acción es irreversible',
             [{ text: 'No', onPress: () => { setShowMenu(false); }, style: 'cancel' },
-              { text: 'Si', onPress: () => {} }],
+              { text: 'Si', onPress: () => { deleteRecipe(route.params.id); } }],
           )
           }>
           <Text style={styles.ingredientText}>Eliminar</Text>
@@ -41,7 +45,7 @@ function Recipe(props) {
         <View style={styles.recipeInfoRow}>
           <Icon name='timer' color={colors.recipeIcon} size='30' />
           <Text style={styles.infoText}>
-            {route.params.attributes.cook_minutes} {(route.params.attributes.portions === 1 ? 'minuto' : 'minutos')}
+            {minutesToHoursText(route.params.attributes.cook_minutes)}
           </Text>
         </View>
         <View style={styles.recipeInfoRow}>

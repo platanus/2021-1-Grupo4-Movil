@@ -87,6 +87,10 @@ const styles = StyleSheet.create({
     borderColor: colors.tableBorder,
     // borderRadius: 5,
   },
+  moreVert: {
+    paddingRight: 8,
+    color: colors.recipeIcon,
+  },
 });
 
 export default styles;
