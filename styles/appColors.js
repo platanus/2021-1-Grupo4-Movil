@@ -14,6 +14,7 @@ const colors = {
   ingredientsTitle: '#000000',
   selectedTabYellow: '#DCAB24',
   recipeIcon: '#074eec',
+  darkGray: '#111111',
 };
 
 export default colors;

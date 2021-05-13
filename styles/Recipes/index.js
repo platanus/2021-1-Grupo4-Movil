@@ -28,10 +28,7 @@ const styles = StyleSheet.create({
 
   name: {
     fontSize: 17,
-    color: '#111111',
-    fontFamily: 'monospace',
-    fontWeight: 'normal',
-    fontStyle: 'normal',
+    color: colors.darkGray,
     paddingBottom: '5%',
   },
   recipeRow: {
@@ -49,9 +46,6 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 15,
     color: colors.blue,
-    fontFamily: 'monospace',
-    fontWeight: 'normal',
-    fontStyle: 'normal',
   },
   recipeInfo: {
     flexDirection: 'row',
