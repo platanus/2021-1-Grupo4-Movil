@@ -43,17 +43,17 @@ const sessionsApi = {
   },
 
   editIngredient: (payload) => {
-    const url = `${config.endpoints.ingredients.specific}${payload.actualIngredient.id}`;
+    const url = `${config.endpoints.ingredients.specific}${payload.id}`;
 
     return apiUtils.api({
       method: 'put',
       url,
-      data: payload,
+      data: payload.body,
     });
   },
 
   deleteIngredient: (payload) => {
-    const url = `${config.endpoints.ingredients.specific}${payload.actualIngredient.id}`;
+    const url = `${config.endpoints.ingredients.specific}${payload.id}`;
 
     return apiUtils.api({
       method: 'delete',

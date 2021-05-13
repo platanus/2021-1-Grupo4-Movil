@@ -1,8 +1,9 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import IngredientsScreen from '../screens/Ingredients/IngredientsScreen';
-import FormIngredientScreen from '../screens/Ingredients/FormIngredientScreen';
+import IndexIngredient from '../screens/Ingredients/IndexIngredientScreen';
+import ShowIngredient from '../screens/Ingredients/ShowIngredientScreen';
+import FormIngredient from '../screens/Ingredients/FormIngredientScreen';
 
 const MainIngredientsStack = createStackNavigator();
 
@@ -10,12 +11,16 @@ function IngredientsStackScreen() {
   return (
     <MainIngredientsStack.Navigator initialRouteName="Ingredients" >
       <MainIngredientsStack.Screen
-        name="Ingredients"
-        component={IngredientsScreen}
+        name="Ingredientes"
+        component={IndexIngredient}
       />
       <MainIngredientsStack.Screen
-        name="FormIngredient"
-        component={FormIngredientScreen}
+        name="Show Ingrediente"
+        component={ShowIngredient}
+      />
+      <MainIngredientsStack.Screen
+        name="Form Ingrediente"
+        component={FormIngredient}
       />
     </MainIngredientsStack.Navigator>
   );
