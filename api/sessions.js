@@ -39,6 +39,15 @@ const sessionsApi = {
       data: payload,
     });
   },
+  deleteRecipe: (payload) => {
+    const url = config.endpoints.recipes.specific + payload;
+
+    return apiUtils.api({
+      method: 'delete',
+      url,
+      data: null,
+    });
+  },
 };
 export default sessionsApi;
 
