@@ -35,7 +35,7 @@ function IndexIngredients({ navigation }) {
             style={[styles.ingredientRow, (i % evenNumber === 0) ? styles.even : styles.odd]}
             key={ingredient.id}
             onPress={() => {
-              navigation.navigate('Show Ingrediente', {
+              navigation.navigate('Ingrediente', {
                 ingredient,
                 ingredients,
                 setIngredients,
@@ -60,7 +60,7 @@ function IndexIngredients({ navigation }) {
       </ScrollView>
       <TouchableOpacity
         style={styles.addButton}
-        onPress={() => navigation.navigate('Form Ingrediente', {
+        onPress={() => navigation.navigate('Nuevo Ingrediente', {
           isNew: true,
           ingredients,
           setIngredients,

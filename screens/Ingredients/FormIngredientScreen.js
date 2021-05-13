@@ -70,7 +70,7 @@ function FormIngredient({ navigation, route }) {
             const auxIngredients = ingredients.filter(item => item.id !== ingredient.id);
             auxIngredients.push(ingredient);
             setIngredients(auxIngredients);
-            navigation.navigate('Show Ingrediente', {
+            navigation.navigate('Ingrediente', {
               ingredient,
               ingredients,
               setIngredients,
@@ -145,7 +145,7 @@ function FormIngredient({ navigation, route }) {
           style={[styles.button, styles.cancel]}
           onPress={isNew ?
             () => navigation.navigate('Ingredientes') :
-            () => navigation.navigate('Show Ingrediente')}
+            () => navigation.navigate('Ingrediente')}
         >
           <Text style={[styles.buttonText, styles.cancelText]}>
             Cancelar

@@ -80,7 +80,7 @@ function ShowIngredient({ navigation, route }) {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.modalEdit}
-          onPress={() => navigation.navigate('Form Ingrediente', {
+          onPress={() => navigation.navigate('Editar Ingrediente', {
             isNew: false,
             ingredient,
             ingredients,

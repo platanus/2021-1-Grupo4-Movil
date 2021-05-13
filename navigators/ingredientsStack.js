@@ -15,11 +15,15 @@ function IngredientsStackScreen() {
         component={IndexIngredient}
       />
       <MainIngredientsStack.Screen
-        name="Show Ingrediente"
+        name="Ingrediente"
         component={ShowIngredient}
       />
       <MainIngredientsStack.Screen
-        name="Form Ingrediente"
+        name="Nuevo Ingrediente"
+        component={FormIngredient}
+      />
+      <MainIngredientsStack.Screen
+        name="Editar Ingrediente"
         component={FormIngredient}
       />
     </MainIngredientsStack.Navigator>
