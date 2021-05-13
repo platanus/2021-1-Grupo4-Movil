@@ -11,9 +11,7 @@ const apiUtils = {
     baseURL: HOST,
     timeout: 10000,
     headers: { 'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'X-User-Email': 'test@mobile.com',
-      'X-User-Token': 'Fh6SxANpf8sC7VGa2W2B' },
+      'Content-Type': 'application/json' },
   }),
 };
 export default apiUtils;
