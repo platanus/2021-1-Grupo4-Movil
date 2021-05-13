@@ -16,41 +16,7 @@ function IndexIngredients({ navigation }) {
   const getIngredients = useStoreActions((actions) => actions.getIngredients);
 
   const [ingredients, setIngredients] = useState([]);
-  const [rows, setRows] = useState([]);
-
-  useEffect(() => {
-    const auxRows = [];
-    const totalRows = 10;
-    const evenNumber = 2;
-    for (let i = 0;
-      (ingredients.length - totalRows < 0) ? i < totalRows : i < ingredients.length;
-      i++) {
-      auxRows.push(
-        <TouchableOpacity
-          style={[styles.ingredientRow, (i % evenNumber === 0) ? styles.even : styles.odd]}
-          key={ingredients[i] ? ingredients[i].id : i}
-          onPress={() => {
-            navigation.navigate('Show Ingrediente', { ingredient: ingredients[i] });
-          }}
-        >
-          <View style={styles.left}>
-            <Text style={styles.name}>
-              {(ingredients[i]) ? ingredients[i].attributes.name : '---'}
-            </Text>
-            <Text style={styles.measure}>
-              {(ingredients[i]) ? `${ingredients[i].attributes.quantity} ${ingredients[i].attributes.measure}` : '---'}
-            </Text>
-          </View>
-          <View style={styles.right}>
-            <Text style={styles.price}>
-              {(ingredients[i]) ? `$${ingredients[i].attributes.price}` : '----'}
-            </Text>
-          </View>
-        </TouchableOpacity>,
-      );
-      setRows(auxRows);
-    }
-  }, [ingredients, navigation]);
+  const evenNumber = 2;
 
   useEffect(() => {
     getIngredients()
@@ -64,12 +30,40 @@ function IndexIngredients({ navigation }) {
   return (
     <View style={styles.container}>
       <ScrollView style={styles.scrollView}>
-        {rows}
+        {ingredients.map((ingredient, i) => (
+          <TouchableOpacity
+            style={[styles.ingredientRow, (i % evenNumber === 0) ? styles.even : styles.odd]}
+            key={ingredient.id}
+            onPress={() => {
+              navigation.navigate('Show Ingrediente', {
+                ingredient,
+                ingredients,
+                setIngredients,
+              });
+            }}
+          >
+            <View style={styles.left}>
+              <Text style={styles.name}>
+                {ingredient.attributes.name}
+              </Text>
+              <Text style={styles.measure}>
+                {`${ingredient.attributes.quantity} ${ingredient.attributes.measure}`}
+              </Text>
+            </View>
+            <View style={styles.right}>
+              <Text style={styles.price}>
+                {`$${ingredient.attributes.price}`}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        ))}
       </ScrollView>
       <TouchableOpacity
         style={styles.addButton}
         onPress={() => navigation.navigate('Form Ingrediente', {
           isNew: true,
+          ingredients,
+          setIngredients,
         })}
       >
         <Text style={styles.plus}>+</Text>

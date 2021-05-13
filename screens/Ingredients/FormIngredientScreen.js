@@ -26,6 +26,8 @@ function FormIngredient({ navigation, route }) {
         currency: 'CLP',
       },
     },
+    ingredients,
+    setIngredients,
   } = route.params;
 
   const createIngredient = useStoreActions((actions) => actions.createIngredient);
@@ -55,7 +57,9 @@ function FormIngredient({ navigation, route }) {
       };
       if (isNew) {
         createIngredient(body)
-          .then(() => {
+          .then((res) => {
+            ingredients.push(res);
+            setIngredients(ingredients);
             navigation.navigate('Ingredientes');
           })
           .catch(() => {
@@ -63,8 +67,13 @@ function FormIngredient({ navigation, route }) {
       } else {
         editIngredient({ body, id: ingredient.id })
           .then(() => {
+            const auxIngredients = ingredients.filter(item => item.id !== ingredient.id);
+            auxIngredients.push(ingredient);
+            setIngredients(auxIngredients);
             navigation.navigate('Show Ingrediente', {
               ingredient,
+              ingredients,
+              setIngredients,
             });
           })
           .catch(() => {

@@ -68,11 +68,14 @@ const storeThunks = {
     return ingredients;
   }),
   createIngredient: thunk(async (actions, payload) => {
-    sessionsApi.createIngredient(payload)
+    const ingredient = sessionsApi.createIngredient(payload)
+      .then((res) => res.data.data)
       .catch((err) => {
         actions.setGetIngredientsError(err.response.data.message);
         throw err;
       });
+
+    return ingredient;
   }),
   editIngredient: thunk(async (actions, payload) => {
     sessionsApi.editIngredient(payload)

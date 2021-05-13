@@ -9,7 +9,11 @@ import { useStoreActions } from 'easy-peasy';
 import styles from '../../styles/Ingredients/showStyles';
 
 function ShowIngredient({ navigation, route }) {
-  const { ingredient } = route.params;
+  const {
+    ingredient,
+    ingredients,
+    setIngredients,
+  } = route.params;
 
   const deleteIngredient = useStoreActions((actions) => actions.deleteIngredient);
 
@@ -62,6 +66,8 @@ function ShowIngredient({ navigation, route }) {
             const body = { id: ingredient.id };
             deleteIngredient(body)
               .then(() => {
+                const auxIngredients = ingredients.filter(item => item.id !== ingredient.id);
+                setIngredients(auxIngredients);
                 navigation.navigate('Ingredientes', { ingredientDeleted: ingredient });
               })
               .catch(() => {
@@ -77,6 +83,8 @@ function ShowIngredient({ navigation, route }) {
           onPress={() => navigation.navigate('Form Ingrediente', {
             isNew: false,
             ingredient,
+            ingredients,
+            setIngredients,
           })}
         >
           <Text style={styles.modalEditText}>
