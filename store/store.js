@@ -10,6 +10,7 @@ const storeState = {
     getErrors: '',
     deleteErrors: '',
     createErrors: '',
+    editErrors: '',
   },
 };
 
@@ -45,6 +46,9 @@ const storeActions = {
   }),
   setCreateRecipeError: action((state, payload) => {
     state.recipes.createErrors = payload;
+  }),
+  setCreateEditeError: action((state, payload) => {
+    state.recipes.editErrors = payload;
   }),
 };
 
@@ -88,6 +92,15 @@ const storeThunks = {
       .then((resp) => { console.log(resp); })
       .catch((err) => {
         actions.setCreateRecipeError(err.response.data.message);
+
+        throw err;
+      });
+  }),
+  editRecipe: thunk(async (actions, payload) => {
+    sessionsApi.editRecipe(payload)
+      .then((resp) => resp.data)
+      .catch((err) => {
+        actions.setCreateEditeError(err.response.data.message);
 
         throw err;
       });

@@ -48,6 +48,15 @@ const sessionsApi = {
       data: payload,
     });
   },
+  editRecipe: (payload) => {
+    const url = `${config.endpoints.recipes.specific}${payload.id}`;
+
+    return apiUtils.api({
+      method: 'put',
+      url,
+      data: payload.body,
+    });
+  },
 };
 export default sessionsApi;
 

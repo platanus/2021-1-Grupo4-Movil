@@ -29,7 +29,7 @@ function Recipe(props) {
       {showMenu &&
       <View style={styles.menuContainer}>
         <TouchableOpacity style={styles.menuOption}
-          onPress={() => navigation.navigate('Editar Receta', route.params.attributes)}>
+          onPress={() => navigation.navigate('Editar Receta', route.params)}>
           <Text style={styles.ingredientText}>Editar</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.menuOption}
