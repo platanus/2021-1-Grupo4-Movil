@@ -6,6 +6,9 @@ const storeState = {
   currentUser: null,
   loginError: '',
   signUpError: '',
+  recipes: {
+    getErrors: '',
+  },
 };
 
 const getters = {
@@ -32,6 +35,9 @@ const storeActions = {
         'X-User-Token': user.authentication_token };
     }
   }),
+  setGetRecipesError: action((state, payload) => {
+    state.recipes.getErrors = payload;
+  }),
 };
 
 const storeThunks = {
@@ -50,6 +56,16 @@ const storeThunks = {
       }).catch((error) => {
         actions.setSignUpError(error.response.data.message);
       });
+  }),
+  getRecipes: thunk(async (actions, payload) => {
+    const recipes = sessionsApi.getRecipes(payload)
+      .then((res) => res.data.data)
+      .catch((err) => {
+        actions.setGetRecipesError(err.response.data.message);
+        throw err;
+      });
+
+    return recipes;
   }),
 };
 
