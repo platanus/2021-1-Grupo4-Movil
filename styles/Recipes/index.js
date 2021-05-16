@@ -1,8 +1,9 @@
 import { StyleSheet } from 'react-native';
+import colors from '../appColors';
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: colors.white,
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'flex-start',
@@ -27,7 +28,7 @@ const styles = StyleSheet.create({
 
   name: {
     fontSize: 17,
-    color: '#111111',
+    color: colors.darkGray,
     paddingBottom: '5%',
   },
   recipeRow: {
@@ -36,17 +37,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'flex-start',
-  },
-  even: {
-    backgroundColor: '#EEEEEE',
+    color: colors.white,
   },
   price: {
     fontSize: 20,
-    color: '#BC31EA',
+    color: colors.purple,
   },
   subtitle: {
     fontSize: 15,
-    color: '#767676',
+    color: colors.blue,
   },
   recipeInfo: {
     flexDirection: 'row',

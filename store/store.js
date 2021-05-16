@@ -9,6 +9,7 @@ const storeState = {
   recipes: {
     getErrors: '',
     deleteErrors: '',
+    delete: false,
   },
 };
 
@@ -42,6 +43,9 @@ const storeActions = {
   setDeleteRecipeError: action((state, payload) => {
     state.recipes.deleteErrors = payload;
   }),
+  setDeletedRecipe: action((state, payload) => {
+    state.recipes.delete = payload;
+  }),
 };
 
 const storeThunks = {
@@ -73,7 +77,9 @@ const storeThunks = {
   }),
   deleteRecipe: thunk(async (actions, payload) => {
     sessionsApi.deleteRecipe(payload)
-      .then((res) => res.data)
+      .then(() => {
+        actions.setDeletedRecipe(true);
+      })
       .catch((err) => {
         actions.setDeleteRecipeError(err);
         throw err;
