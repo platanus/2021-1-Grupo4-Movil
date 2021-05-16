@@ -8,20 +8,23 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   recipeInfoRow: {
-    alignItems: 'center',
+    display: 'flex',
+    flexDirection: 'column',
+    flex: 1,
+    // alignItems: 'center',
     padding: 5,
-    width: '63%',
+    width: '100%',
     backgroundColor: colors.white,
   },
   inlineInputs: {
     display: 'flex',
     flexDirection: 'row',
     paddingVertical: 5,
-    width: '80%',
+    width: '100%',
     alignItems: 'flex-start',
   },
   sectionTitleText: {
-    marginLeft: '5%',
+    marginLeft: '3%',
     color: 'black',
     fontSize: 18,
     fontWeight: 'bold',
@@ -69,7 +72,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    position: 'absolute',
     margin: 5,
     width: '70%',
   },
@@ -77,7 +79,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    position: 'absolute',
     margin: 5,
     width: '30%',
   },
@@ -110,6 +111,7 @@ const styles = StyleSheet.create({
   },
   label: {
     alignContent: 'flex-start',
+    alignItems: 'flex-start',
     fontSize: 12,
     borderColor: colors.tableBorder,
   },
@@ -147,9 +149,16 @@ const styles = StyleSheet.create({
   },
   ingredientsContainer: {
     paddingTop: 10,
+    width: '100%',
+    marginTop: '5%',
+  },
+  stepsContainer: {
+    paddingTop: 10,
+    width: '100%',
   },
   ingredientsList: {
-    margin: 10,
+    paddingLeft: -10,
+    flexDirection: 'row',
     backgroundColor: colors.ingredientsList,
     alignItems: 'center',
   },
@@ -204,7 +213,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
   stepButton: {
-    width: '30%',
+    width: '80%',
     height: 40,
     margin: 5,
     maxWidth: '100%',
@@ -221,7 +230,7 @@ const styles = StyleSheet.create({
   },
   sectionNewStep: {
     bottom: '5%',
-    left: '61%',
+    marginLeft: '61%',
   },
   stepMenuOption: {
     // zIndex: 1,

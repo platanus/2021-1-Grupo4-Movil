@@ -57,6 +57,33 @@ const sessionsApi = {
       data: payload.body,
     });
   },
+  createRecipeStep: (payload) => {
+    const url = `${config.endpoints.recipes.specific}${payload.id}/${config.endpoints.recipes.steps}`;
+
+    return apiUtils.api({
+      method: 'post',
+      url,
+      data: payload.body,
+    });
+  },
+  editRecipeStep: (pay) => {
+    const url = `${config.endpoints.recipes.specific}${pay.recipeId}/${config.endpoints.recipes.steps}/${pay.stepId}`;
+
+    return apiUtils.api({
+      method: 'put',
+      url,
+      data: pay.body,
+    });
+  },
+  deleteRecipeStep: (pay) => {
+    const url = `${config.endpoints.recipes.specific}${pay.recipeId}/${config.endpoints.recipes.steps}/${pay.stepId}`;
+
+    return apiUtils.api({
+      method: 'delete',
+      url,
+      data: null,
+    });
+  },
 };
 export default sessionsApi;
 

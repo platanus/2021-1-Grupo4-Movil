@@ -47,7 +47,7 @@ const storeActions = {
   setCreateRecipeError: action((state, payload) => {
     state.recipes.createErrors = payload;
   }),
-  setCreateEditeError: action((state, payload) => {
+  setEditRecipeError: action((state, payload) => {
     state.recipes.editErrors = payload;
   }),
 };
@@ -88,20 +88,48 @@ const storeThunks = {
       });
   }),
   createRecipe: thunk(async (actions, payload) => {
-    sessionsApi.createRecipe(payload)
-      .then((resp) => { console.log(resp); })
+    const recipe = sessionsApi.createRecipe(payload)
+      .then((resp) => resp)
       .catch((err) => {
         actions.setCreateRecipeError(err.response.data.message);
 
         throw err;
       });
+
+    return recipe;
   }),
   editRecipe: thunk(async (actions, payload) => {
     sessionsApi.editRecipe(payload)
       .then((resp) => resp.data)
       .catch((err) => {
-        actions.setCreateEditeError(err.response.data.message);
+        actions.setEditRecipeError(err.response.data.message);
 
+        throw err;
+      });
+  }),
+  createRecipeStep: thunk(async (actions, payload) => {
+    sessionsApi.createRecipeStep(payload)
+      .then((resp) => resp.data.data)
+      .catch((err) => {
+        actions.setEditRecipeError(err.response.data.message);
+
+        throw err;
+      });
+  }),
+  editRecipeStep: thunk(async (actions, payload) => {
+    sessionsApi.editRecipeStep(payload)
+      .then((resp) => resp.data)
+      .catch((err) => {
+        actions.setEditRecipeError(err.response.data.message);
+
+        throw err;
+      });
+  }),
+  deleteRecipeStep: thunk(async (actions, payload) => {
+    sessionsApi.deleteRecipeStep(payload)
+      .then((res) => res.data)
+      .catch((err) => {
+        actions.setEditRecipeError(err);
         throw err;
       });
   }),
