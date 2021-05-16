@@ -2,6 +2,7 @@ const colors = {
   blue: '#074eec',
   white: '#fff',
   red: 'red',
+  purple: '#BC31EA',
   // front
   ingredientsList: '#EEEEEE',
   topNavbar: '#0A000A',
@@ -13,8 +14,7 @@ const colors = {
   ingredientsTitle: '#000000',
   selectedTabYellow: '#DCAB24',
   recipeIcon: '#074eec',
-  addIcon: '#074EE8',
-  purplePrice: '#BC31EA',
+  darkGray: '#111111',
 };
 
 export default colors;
