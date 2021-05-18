@@ -13,16 +13,16 @@ function Recipe(props) {
   const deleteRecipe = useStoreActions((actions) => actions.deleteRecipe);
   const [showMenu, setShowMenu] = useState(false);
 
-
   React.useLayoutEffect(() => {
     navigation.setOptions({
       // eslint-disable-next-line react/display-name
       headerRight: () => (
         <Icon name='more-vert'
-          size='30'
+          size={30}
           style={styles.moreVert}
           onPress={() => setShowMenu(!showMenu)}/>
       ),
+      headerTitle: recipe.attributes.name,
     });
   }, [navigation, showMenu]);
 
@@ -45,19 +45,19 @@ function Recipe(props) {
       </View>}
       <View style={styles.recipeInfoContainer}>
         <View style={styles.recipeInfoRow}>
-          <Icon name='timer' color={colors.recipeIcon} size='30' />
+          <Icon name='timer' color={colors.recipeIcon} size={30} />
           <Text style={styles.infoText}>
             {minutesToHoursText(recipe.attributes.cook_minutes)}
           </Text>
         </View>
         <View style={styles.recipeInfoRow}>
-          <Icon name='pie-chart' color={colors.recipeIcon} size='30' />
+          <Icon name='pie-chart' color={colors.recipeIcon} size={30} />
           <Text style={styles.infoText}>
             {recipe.attributes.portions} {(recipe.attributes.portions === 1 ? 'porción' : 'porciones')}
           </Text>
         </View>
         <View style={styles.recipeInfoRow}>
-          <Icon name='attach-money' color={colors.recipeIcon} size='30' />
+          <Icon name='attach-money' color={colors.recipeIcon} size={30} />
           <Text style={styles.infoText}>XX.XXX pesos</Text>
         </View>
       </View>

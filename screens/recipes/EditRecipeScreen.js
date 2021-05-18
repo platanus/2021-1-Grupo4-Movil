@@ -1,8 +1,8 @@
 import React from 'react';
 import { Text } from 'react-native';
 
-function editRecipe() {
+function EditRecipe() {
   return (<Text>Edit Recipe Screen</Text>);
 }
 
-export default editRecipe;
+export default EditRecipe;

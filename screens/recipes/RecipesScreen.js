@@ -3,7 +3,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Text } from 'react-native';
-import { useStoreActions } from 'easy-peasy';
+import { useStoreActions, useStoreState } from 'easy-peasy';
 import RecipeRow from '../../components/recipeRow';
 
 function Recipes(props) {
@@ -13,6 +13,8 @@ function Recipes(props) {
   const [showError, setShowError] = useState(false);
   const [newRecipe, setNewRecipe] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const deletedRecipe = useStoreState((state) => state.recipes.delete);
+
 
   useEffect(() => {
     getRecipes()
@@ -23,7 +25,7 @@ function Recipes(props) {
         setShowError(true);
         setErrorMessage(err);
       });
-  }, [newRecipe, getRecipes]);
+  }, [newRecipe, getRecipes, deletedRecipe]);
 
   if (recipes.length) {
     return (recipes.map((recipe) => (
