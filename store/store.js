@@ -8,6 +8,8 @@ const storeState = {
   signUpError: '',
   recipes: {
     getErrors: '',
+    deleteErrors: '',
+    delete: false,
   },
 };
 
@@ -38,6 +40,12 @@ const storeActions = {
   setGetRecipesError: action((state, payload) => {
     state.recipes.getErrors = payload;
   }),
+  setDeleteRecipeError: action((state, payload) => {
+    state.recipes.deleteErrors = payload;
+  }),
+  setDeletedRecipe: action((state, payload) => {
+    state.recipes.delete = payload;
+  }),
 };
 
 const storeThunks = {
@@ -66,6 +74,16 @@ const storeThunks = {
       });
 
     return recipes;
+  }),
+  deleteRecipe: thunk(async (actions, payload) => {
+    sessionsApi.deleteRecipe(payload)
+      .then(() => {
+        actions.setDeletedRecipe(true);
+      })
+      .catch((err) => {
+        actions.setDeleteRecipeError(err);
+        throw err;
+      });
   }),
 };
 

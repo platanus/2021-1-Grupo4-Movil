@@ -10,7 +10,7 @@ function RecipeRow(props) {
   return (
     <TouchableOpacity
       style={styles.recipeRow}
-      onPress={() => navigation.navigate('Receta', recipe.attributes)}
+      onPress={() => navigation.navigate('Receta', recipe)}
       key={recipe.id}>
       <View style={styles.left}>
         <Text style={styles.name} >{(recipe) ? recipe.attributes.name : '---'}</Text>
