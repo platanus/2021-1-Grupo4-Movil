@@ -24,7 +24,7 @@ function Recipe(props) {
       ),
       headerTitle: recipe.attributes.name,
     });
-  }, [navigation, showMenu]);
+  }, [navigation, showMenu, recipe.attributes.name]);
 
   return (
     <ScrollView style={styles.mainContainer}>

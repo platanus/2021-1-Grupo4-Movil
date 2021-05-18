@@ -15,7 +15,6 @@ function Recipes(props) {
   const [errorMessage, setErrorMessage] = useState('');
   const deletedRecipe = useStoreState((state) => state.recipes.delete);
 
-
   useEffect(() => {
     getRecipes()
       .then((res) => {
