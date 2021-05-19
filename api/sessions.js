@@ -22,7 +22,7 @@ const sessionsApi = {
   },
   getIngredients: (payload) => {
     const url = config.endpoints.ingredients.index;
-    
+
     return apiUtils.api({
       method: 'get',
       url,
@@ -58,7 +58,7 @@ const sessionsApi = {
   },
   deleteIngredient: (payload) => {
     const url = `${config.endpoints.ingredients.specific}${payload.id}`;
-    
+
     return apiUtils.api({
       method: 'delete',
       url,

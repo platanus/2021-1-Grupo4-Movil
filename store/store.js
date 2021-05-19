@@ -107,7 +107,7 @@ const storeThunks = {
     sessionsApi.deleteIngredient(payload)
       .catch((err) => {
         actions.setGetIngredientsError(err.response.data.message);
-      throw err;
+        throw err;
       });
   }),
   getRecipes: thunk(async (actions, payload) => {
