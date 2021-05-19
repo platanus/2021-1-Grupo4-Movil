@@ -1,11 +1,15 @@
-import { createStore, action, thunk } from 'easy-peasy'; // agregar computed si se usa getters
+import { createStore, action, thunk } from 'easy-peasy';
 import apiUtils from '../api/api';
 import sessionsApi from '../api/sessions';
+import ingredientsApi from '../api/ingredients';
 
 const storeState = {
   currentUser: null,
   loginError: '',
   signUpError: '',
+  ingredients: {
+    getError: '',
+  },
   recipes: {
     getErrors: '',
     deleteErrors: '',
@@ -36,6 +40,9 @@ const storeActions = {
         'Content-Type': 'application/json', 'X-User-Email': user.email,
         'X-User-Token': user.authentication_token };
     }
+  }),
+  setGetIngredientsError: action((state, payload) => {
+    state.ingredients.getErrors = payload;
   }),
   setGetRecipesError: action((state, payload) => {
     state.recipes.getErrors = payload;
@@ -68,6 +75,40 @@ const storeThunks = {
         actions.setUserAndApiHeaders(resp);
       }).catch((error) => {
         actions.setSignUpError(error.response.data.message);
+      });
+  }),
+  getIngredients: thunk(async (actions, payload) => {
+    const ingredients = ingredientsApi.getIngredients(payload)
+      .then((res) => res.data.data)
+      .catch((err) => {
+        actions.setGetIngredientsError(err.response.data.message);
+        throw err;
+      });
+
+    return ingredients;
+  }),
+  createIngredient: thunk(async (actions, payload) => {
+    const ingredient = ingredientsApi.createIngredient(payload)
+      .then((res) => res.data.data)
+      .catch((err) => {
+        actions.setGetIngredientsError(err.response.data.message);
+        throw err;
+      });
+
+    return ingredient;
+  }),
+  editIngredient: thunk(async (actions, payload) => {
+    ingredientsApi.editIngredient(payload)
+      .catch((err) => {
+        actions.setGetIngredientsError(err.response.data.message);
+        throw err;
+      });
+  }),
+  deleteIngredient: thunk(async (actions, payload) => {
+    ingredientsApi.deleteIngredient(payload)
+      .catch((err) => {
+        actions.setGetIngredientsError(err.response.data.message);
+        throw err;
       });
   }),
   getRecipes: thunk(async (actions, payload) => {

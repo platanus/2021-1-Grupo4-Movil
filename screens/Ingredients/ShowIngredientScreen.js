@@ -1,0 +1,101 @@
+import React from 'react';
+import {
+  View,
+  TouchableOpacity,
+  Text,
+} from 'react-native';
+import { useStoreActions } from 'easy-peasy';
+
+import styles from '../../styles/Ingredients/showStyles';
+
+function ShowIngredient({ navigation, route }) {
+  const {
+    ingredient,
+    ingredients,
+    setIngredients,
+  } = route.params;
+
+  const deleteIngredient = useStoreActions((actions) => actions.deleteIngredient);
+
+  function handleSubmitDelete() {
+    const body = { id: ingredient.id };
+    deleteIngredient(body)
+      .then(() => {
+        const auxIngredients = ingredients.filter(item => item.id !== ingredient.id);
+        setIngredients(auxIngredients);
+        navigation.navigate('Ingredientes', { ingredientDeleted: ingredient });
+      })
+      .catch(() => {
+      });
+  }
+
+  return (
+    <View style={styles.modalContainer}>
+      <View style={styles.modalAttributeContainer}>
+        <Text style={styles.modalName}>
+          Nombre
+        </Text>
+        <Text style={styles.modalValue}>
+          {ingredient.attributes.name}
+        </Text>
+      </View>
+      <View style={styles.modalAttributeContainer}>
+        <Text style={styles.modalName}>
+          Precio
+        </Text>
+        <Text style={styles.modalValue}>
+          {ingredient.attributes.price}
+        </Text>
+      </View>
+      <View style={styles.modalAttributeContainer}>
+        <Text style={styles.modalName}>
+          Cantidad
+        </Text>
+        <Text style={styles.modalValue}>
+          {ingredient.attributes.quantity}
+        </Text>
+      </View>
+      <View style={styles.modalAttributeContainer}>
+        <Text style={styles.modalName}>
+          Unidad
+        </Text>
+        <Text style={styles.modalValue}>
+          {ingredient.attributes.measure}
+        </Text>
+      </View>
+      <View style={styles.modalAttributeContainer}>
+        <Text style={styles.modalName}>
+          Precio por unidad
+        </Text>
+        <Text style={styles.modalValue}>
+          {ingredient.attributes.price}
+        </Text>
+      </View>
+      <View style={styles.modalButtonsContainer}>
+        <TouchableOpacity
+          style={styles.modalDelete}
+          onPress={handleSubmitDelete}
+        >
+          <Text style={styles.modalDeleteText}>
+            Borrar
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.modalEdit}
+          onPress={() => navigation.navigate('Editar Ingrediente', {
+            isNew: false,
+            ingredient,
+            ingredients,
+            setIngredients,
+          })}
+        >
+          <Text style={styles.modalEditText}>
+            Editar
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+}
+
+export default ShowIngredient;
