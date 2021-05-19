@@ -18,9 +18,15 @@ function ShowIngredient({ navigation, route }) {
   const deleteIngredient = useStoreActions((actions) => actions.deleteIngredient);
 
   function handleSubmitDelete() {
-    const auxIngredients = ingredients.filter(item => item.id !== ingredient.id);
-    setIngredients(auxIngredients);
-    navigation.navigate('Ingredientes', { ingredientDeleted: ingredient });
+    const body = { id: ingredient.id };
+    deleteIngredient(body)
+      .then(() => {
+        const auxIngredients = ingredients.filter(item => item.id !== ingredient.id);
+        setIngredients(auxIngredients);
+        navigation.navigate('Ingredientes', { ingredientDeleted: ingredient });
+      })
+      .catch(() => {
+      });
   }
 
   return (
@@ -68,15 +74,7 @@ function ShowIngredient({ navigation, route }) {
       <View style={styles.modalButtonsContainer}>
         <TouchableOpacity
           style={styles.modalDelete}
-          onPress={() => {
-            const body = { id: ingredient.id };
-            deleteIngredient(body)
-              .then(() => {
-                handleSubmitDelete();
-              })
-              .catch(() => {
-              });
-          }}
+          onPress={handleSubmitDelete}
         >
           <Text style={styles.modalDeleteText}>
             Borrar
