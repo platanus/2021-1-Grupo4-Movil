@@ -11,7 +11,6 @@ const sessionsApi = {
       data: payload,
     });
   },
-
   signUp: (payload) => {
     const url = config.endpoints.users.createUser;
 
@@ -21,9 +20,17 @@ const sessionsApi = {
       data: payload,
     });
   },
-
   getIngredients: (payload) => {
     const url = config.endpoints.ingredients.index;
+    
+    return apiUtils.api({
+      method: 'get',
+      url,
+      data: payload,
+    });
+  },
+  getRecipes: (payload) => {
+    const url = config.endpoints.recipes.index;
 
     return apiUtils.api({
       method: 'get',
@@ -31,7 +38,6 @@ const sessionsApi = {
       data: payload,
     });
   },
-
   createIngredient: (payload) => {
     const url = config.endpoints.ingredients.index;
 
@@ -41,7 +47,6 @@ const sessionsApi = {
       data: payload,
     });
   },
-
   editIngredient: (payload) => {
     const url = `${config.endpoints.ingredients.specific}${payload.id}`;
 
@@ -51,13 +56,22 @@ const sessionsApi = {
       data: payload.body,
     });
   },
-
   deleteIngredient: (payload) => {
     const url = `${config.endpoints.ingredients.specific}${payload.id}`;
+    
+    return apiUtils.api({
+      method: 'delete',
+      url,
+      data: null,
+    });
+  },
+  deleteRecipe: (payload) => {
+    const url = config.endpoints.recipes.specific + payload;
 
     return apiUtils.api({
       method: 'delete',
       url,
+      data: null,
     });
   },
 };

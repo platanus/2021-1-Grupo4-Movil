@@ -9,6 +9,11 @@ const storeState = {
   ingredients: {
     getError: '',
   },
+  recipes: {
+    getErrors: '',
+    deleteErrors: '',
+    delete: false,
+  },
 };
 
 const getters = {
@@ -37,6 +42,20 @@ const storeActions = {
   }),
   setGetIngredientsError: action((state, payload) => {
     state.ingredients.getErrors = payload;
+  }),
+  setGetRecipesError: action((state, payload) => {
+    state.recipes.getErrors = payload;
+  }),
+  setDeleteRecipeError: action((state, payload) => {
+    state.recipes.deleteErrors = payload;
+  }),
+  setDeletedRecipe: action((state, payload) => {
+    state.recipes.delete = payload;
+  }),
+  setLogOut: action((state) => {
+    state.currentUser = null;
+    apiUtils.api.defaults.headers = { 'Accept': 'application/json',
+      'Content-Type': 'application/json' };
   }),
 };
 
@@ -88,6 +107,26 @@ const storeThunks = {
     sessionsApi.deleteIngredient(payload)
       .catch((err) => {
         actions.setGetIngredientsError(err.response.data.message);
+      throw err;
+      });
+  }),
+  getRecipes: thunk(async (actions, payload) => {
+    const recipes = sessionsApi.getRecipes(payload)
+      .then((res) => res.data.data)
+      .catch((err) => {
+        actions.setGetRecipesError(err.response.data.message);
+        throw err;
+      });
+
+    return recipes;
+  }),
+  deleteRecipe: thunk(async (actions, payload) => {
+    sessionsApi.deleteRecipe(payload)
+      .then(() => {
+        actions.setDeletedRecipe(true);
+      })
+      .catch((err) => {
+        actions.setDeleteRecipeError(err);
         throw err;
       });
   }),
