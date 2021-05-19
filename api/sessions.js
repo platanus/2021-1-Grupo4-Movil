@@ -11,6 +11,7 @@ const sessionsApi = {
       data: payload,
     });
   },
+
   signUp: (payload) => {
     const url = config.endpoints.users.createUser;
 
