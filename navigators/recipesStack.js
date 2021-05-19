@@ -2,7 +2,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import Recipes from '../screens/recipes/RecipesScreen';
 import Recipe from '../screens/recipes/SingleRecipeScreen';
-import newRecipe from '../screens/recipes/newRecipeScreen';
+import newRecipe from '../screens/recipes/NewRecipeScreen';
 import colors from '../styles/appColors';
 import EditRecipe from '../screens/recipes/EditRecipeScreen';
 
