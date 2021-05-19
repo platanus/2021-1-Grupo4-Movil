@@ -46,6 +46,11 @@ const storeActions = {
   setDeletedRecipe: action((state, payload) => {
     state.recipes.delete = payload;
   }),
+  setLogOut: action((state) => {
+    state.currentUser = null;
+    apiUtils.api.defaults.headers = { 'Accept': 'application/json',
+      'Content-Type': 'application/json' };
+  }),
 };
 
 const storeThunks = {
