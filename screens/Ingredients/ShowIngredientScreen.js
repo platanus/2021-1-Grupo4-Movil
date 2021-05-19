@@ -17,6 +17,12 @@ function ShowIngredient({ navigation, route }) {
 
   const deleteIngredient = useStoreActions((actions) => actions.deleteIngredient);
 
+  function handleSubmitDelete() {
+    const auxIngredients = ingredients.filter(item => item.id !== ingredient.id);
+    setIngredients(auxIngredients);
+    navigation.navigate('Ingredientes', { ingredientDeleted: ingredient });
+  }
+
   return (
     <View style={styles.modalContainer}>
       <View style={styles.modalAttributeContainer}>
@@ -66,9 +72,7 @@ function ShowIngredient({ navigation, route }) {
             const body = { id: ingredient.id };
             deleteIngredient(body)
               .then(() => {
-                const auxIngredients = ingredients.filter(item => item.id !== ingredient.id);
-                setIngredients(auxIngredients);
-                navigation.navigate('Ingredientes', { ingredientDeleted: ingredient });
+                handleSubmitDelete();
               })
               .catch(() => {
               });

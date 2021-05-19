@@ -29,7 +29,7 @@ function IndexIngredients({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <ScrollView style={styles.scrollView}>
+      <ScrollView>
         {ingredients.map((ingredient, i) => (
           <TouchableOpacity
             style={[styles.ingredientRow, (i % evenNumber === 0) ? styles.even : styles.odd]}

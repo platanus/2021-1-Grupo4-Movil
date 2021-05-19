@@ -1,6 +1,7 @@
 import { createStore, action, thunk } from 'easy-peasy';
 import apiUtils from '../api/api';
 import sessionsApi from '../api/sessions';
+import ingredientsApi from '../api/ingredients';
 
 const storeState = {
   currentUser: null,
@@ -77,7 +78,7 @@ const storeThunks = {
       });
   }),
   getIngredients: thunk(async (actions, payload) => {
-    const ingredients = sessionsApi.getIngredients(payload)
+    const ingredients = ingredientsApi.getIngredients(payload)
       .then((res) => res.data.data)
       .catch((err) => {
         actions.setGetIngredientsError(err.response.data.message);
@@ -87,7 +88,7 @@ const storeThunks = {
     return ingredients;
   }),
   createIngredient: thunk(async (actions, payload) => {
-    const ingredient = sessionsApi.createIngredient(payload)
+    const ingredient = ingredientsApi.createIngredient(payload)
       .then((res) => res.data.data)
       .catch((err) => {
         actions.setGetIngredientsError(err.response.data.message);
@@ -97,14 +98,14 @@ const storeThunks = {
     return ingredient;
   }),
   editIngredient: thunk(async (actions, payload) => {
-    sessionsApi.editIngredient(payload)
+    ingredientsApi.editIngredient(payload)
       .catch((err) => {
         actions.setGetIngredientsError(err.response.data.message);
         throw err;
       });
   }),
   deleteIngredient: thunk(async (actions, payload) => {
-    sessionsApi.deleteIngredient(payload)
+    ingredientsApi.deleteIngredient(payload)
       .catch((err) => {
         actions.setGetIngredientsError(err.response.data.message);
         throw err;

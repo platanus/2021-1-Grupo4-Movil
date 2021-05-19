@@ -4,19 +4,12 @@ import colors from '../appColors';
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#FFFFFF',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
     flex: 1,
-  },
-
-  scrollView: {
-    flexGrow: 1,
   },
 
   ingredientRow: {
     width: '100%',
-    height: '20%',
+    height: 90,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'flex-start',

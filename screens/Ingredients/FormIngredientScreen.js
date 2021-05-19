@@ -38,7 +38,7 @@ function FormIngredient({ navigation, route }) {
   const [quantity, setQuantity] = useState(ingredient.attributes.quantity);
   const [measure, setMeasure] = useState(ingredient.attributes.measure);
 
-  function handleSubmit() {
+  function handleSubmitNew() {
     const attributes = {
       name,
       sku: ingredient.attributes.sku,
@@ -48,38 +48,58 @@ function FormIngredient({ navigation, route }) {
       measure,
     };
     ingredient.attributes = attributes;
-    if (name.length > 0 &&
-      price > 0 &&
-      quantity > 0 &&
-      measure.length > 0) {
-      const body = {
-        ingredient: ingredient.attributes,
-      };
-      if (isNew) {
-        createIngredient(body)
-          .then((res) => {
-            ingredients.push(res);
-            setIngredients(ingredients);
-            navigation.navigate('Ingredientes');
-          })
-          .catch(() => {
-          });
-      } else {
-        editIngredient({ body, id: ingredient.id })
-          .then(() => {
-            const auxIngredients = ingredients.filter(item => item.id !== ingredient.id);
-            auxIngredients.push(ingredient);
-            setIngredients(auxIngredients);
-            navigation.navigate('Ingrediente', {
-              ingredient,
-              ingredients,
-              setIngredients,
-            });
-          })
-          .catch(() => {
-          });
-      }
+    if (!name.length ||
+      price <= 0 ||
+      quantity <= 0 ||
+      !measure.length) {
+      return;
     }
+    const body = {
+      ingredient: ingredient.attributes,
+    };
+    createIngredient(body)
+      .then((res) => {
+        const auxIngredients = [...ingredients];
+        auxIngredients.push(res);
+        setIngredients(auxIngredients);
+        navigation.navigate('Ingredientes');
+      })
+      .catch(() => {
+      });
+  }
+
+  function handleSubmitEdit() {
+    const attributes = {
+      name,
+      sku: ingredient.attributes.sku,
+      price,
+      currency: ingredient.attributes.currency,
+      quantity,
+      measure,
+    };
+    ingredient.attributes = attributes;
+    if (!name.length ||
+      price <= 0 ||
+      quantity <= 0 ||
+      !measure.length) {
+      return;
+    }
+    const body = {
+      ingredient: ingredient.attributes,
+    };
+    editIngredient({ body, id: ingredient.id })
+      .then(() => {
+        const auxIngredients = ingredients.filter(item => item.id !== ingredient.id);
+        auxIngredients.push(ingredient);
+        setIngredients(auxIngredients);
+        navigation.navigate('Ingrediente', {
+          ingredient,
+          ingredients,
+          setIngredients,
+        });
+      })
+      .catch(() => {
+      });
   }
 
   return (
@@ -133,10 +153,10 @@ function FormIngredient({ navigation, route }) {
           value={measure}
           onValueChange={(value) => setMeasure(value)}
           items={[
-            { label: 'gr', value: 'gr', key: '0' },
-            { label: 'kg', value: 'kg', key: '1' },
-            { label: 'ml', value: 'ml', key: '2' },
-            { label: 'L', value: 'L', key: '3' },
+            { label: 'Kg', value: 'Kg', key: '0' },
+            { label: 'Gr', value: 'Gr', key: '1' },
+            { label: 'L', value: 'L', key: '2' },
+            { label: 'Ml', value: 'Ml', key: '3' },
           ]}
         />
       </View>
@@ -153,7 +173,7 @@ function FormIngredient({ navigation, route }) {
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.button, styles.confirm]}
-          onPress={handleSubmit}
+          onPress={(isNew) ? handleSubmitNew : handleSubmitEdit}
         >
           <Text style={[styles.buttonText, styles.confirmText]}>
             {isNew ? 'Agregar ingrediente' : 'Editar ingrediente'}
