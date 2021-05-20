@@ -2,7 +2,7 @@
 /* eslint-disable max-statements */
 
 import React, { useEffect, useState } from 'react';
-import { Text } from 'react-native';
+import { Text, ScrollView } from 'react-native';
 import { useStoreActions, useStoreState } from 'easy-peasy';
 import RecipeRow from '../../components/recipeRow';
 
@@ -27,9 +27,12 @@ function Recipes(props) {
   }, [newRecipe, getRecipes, deletedRecipe]);
 
   if (recipes.length) {
-    return (recipes.map((recipe) => (
-      <RecipeRow key={recipe.id} recipe={recipe} navigation={navigation}/>
-    )));
+    return (
+      <ScrollView>
+        {recipes.map((recipe) => (
+          <RecipeRow key={recipe.id} recipe={recipe} navigation={navigation}/>
+        ))}
+      </ScrollView>);
   }
 
   return (
