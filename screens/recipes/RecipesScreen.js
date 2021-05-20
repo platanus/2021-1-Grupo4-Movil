@@ -36,7 +36,14 @@ function Recipes(props) {
   }
 
   return (
-    <Text>Aún no tienes recetas.</Text>
+    <>
+      <Text>
+        Aún no tienes recetas.
+      </Text>
+      <TouchableOpacity>
+        <Icon name="add-circle" color={colors.addIcon} onPress={() => navigation.navigate('Crear receta')}></Icon>
+      </TouchableOpacity>
+    </>
   );
 }
 
