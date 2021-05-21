@@ -2,8 +2,10 @@
 /* eslint-disable max-statements */
 
 import React, { useEffect, useState } from 'react';
-import { Text, ScrollView } from 'react-native';
+import { Text, ScrollView, TouchableOpacity } from 'react-native';
 import { useStoreActions, useStoreState } from 'easy-peasy';
+import { Icon } from 'react-native-elements';
+import colors from '../../styles/appColors';
 import RecipeRow from '../../components/recipeRow';
 
 function Recipes(props) {
