@@ -38,7 +38,7 @@ function RecipeStep({ recipeSteps, index, edit, options, setRecipeSteps, setEdit
           <Text style={styles.stepNumber}>{number + 1}</Text>
           <Text style={styles.stepText}>{currentStepText}</Text>
           <Icon name='more-vert'
-            size='30'
+            size={30}
             style={styles.moreVert}
             onPress={(options ? () => setShowMenu(null) : () => setShowMenu(index))}/>
         </View>

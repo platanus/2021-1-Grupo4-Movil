@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
   },
   sectionEditStepButtons: {
     justifyContent: 'space-evenly',
-    left: '15%',
+    left: '10%',
     marginHorizontal: '15%',
     flexDirection: 'row',
     alignItems: 'flex-end',

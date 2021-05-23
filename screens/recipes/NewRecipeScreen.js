@@ -22,32 +22,34 @@ function FormRecipe(props) {
   const editRecipeStep = useStoreActions((actions) => actions.editRecipeStep);
   const deleteRecipeStep = useStoreActions((actions) => actions.deleteRecipeStep);
 
-  function stepAction(recipeStep, recipeId) {
-    if (('new' in recipeStep) && !('delete' in recipeStep)) {
-      return createRecipeStep({
-        id: recipeId,
-        body: recipeStep.attributes,
-      });
-    } else if (('delete' in recipeStep) && !('new' in recipeStep)) {
-      return deleteRecipeStep({
-        recipeId,
-        stepId: recipeStep.id,
-      });
-    } else if (('edit' in recipeStep) && !('delete' in recipeStep) && !('new' in recipeStep)) {
-      return editRecipeStep({
-        recipeId,
-        stepId: recipeStep.id,
-        body: recipeStep.attributes,
-      });
-    }
-
-    return null;
-  }
-
   function stepsActions(recipeId) {
     const promises = [];
+    let k = 0;
     for (let i = 0; i < recipeSteps.length; i++) {
-      promises.push(stepAction(recipeSteps[i], recipeId));
+      if (('new' in recipeSteps[k]) && !('delete' in recipeSteps[k])) {
+        promises.push(createRecipeStep({
+          id: recipeId,
+          body: recipeSteps[k].attributes,
+        }));
+      } else if (('delete' in recipeSteps[k]) && !('new' in recipeSteps[k])) {
+        promises.push(deleteRecipeStep({
+          recipeId,
+          stepId: recipeSteps[k].id,
+        }));
+      } else if (('edit' in recipeSteps[k]) && !('delete' in recipeSteps[k]) && !('new' in recipeSteps[k])) {
+        promises.push(editRecipeStep({
+          recipeId,
+          stepId: recipeSteps[k].id,
+          body: recipeSteps[k].attributes,
+        }));
+      }
+      if ('delete' in recipeSteps[k]) {
+        const newStepsArray = recipeSteps;
+        newStepsArray.splice(k, 1);
+        setRecipeSteps(newStepsArray);
+      } else {
+        k++;
+      }
     }
 
     return promises;
