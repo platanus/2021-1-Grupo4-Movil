@@ -70,6 +70,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 
+  scrapperButton: {
+    backgroundColor: colors.greenButtons,
+    padding: 12,
+    borderRadius: 5,
+    width: '75%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 10 },
+
+  scrapperButtonText: {
+    color: colors.white,
+    fontWeight: 'bold',
+  },
+
   cancel: {
     width: '30%',
     backgroundColor: 'transparent',
