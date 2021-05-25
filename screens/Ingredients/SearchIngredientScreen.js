@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   View,
   ScrollView,
@@ -24,16 +24,13 @@ function SearchIngredient({ navigation }) {
       searchCornerShop(query)
         .then((res) => {
           if (res.length > 0) {
+            setActualProvider(res[0].provider.id);
             setSearchResponse(res);
           }
         })
         .catch(() => {});
     }
   }
-
-  useEffect(() => {
-    console.log('Actualizando Provider', actualProvider);
-  }, [actualProvider]);
 
   return (
     <ScrollView style={styles.scroll}>
@@ -59,21 +56,19 @@ function SearchIngredient({ navigation }) {
               <RNPickerSelect
                 style={customPickerStyles}
                 key={'0'}
-                placeholder={{
-                  label: searchResponse[actualProvider].provider.name,
-                  value: searchResponse[actualProvider].provider.name,
+                placeholder={{}}
+                value={actualProvider.name}
+                onValueChange={(value) => {
+                  setActualProvider(value);
                 }}
-                value={searchResponse[actualProvider].provider.name}
-                onValueChange={(value) => setActualProvider(value)}
                 items={searchResponse.map((element, i) => ({
-                  ...element.provider,
                   key: i,
                   label: element.provider.name,
-                  value: element.provider.id - 1,
+                  value: element.provider.id,
                 }))}
               />
             </View>
-            {searchResponse[actualProvider].products.map((product, i) => (
+            {searchResponse[actualProvider - 1].products.map((product, i) => (
               <Text key={i}>{product.name}</Text>
             ))}
           </View>
