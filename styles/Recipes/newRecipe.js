@@ -8,16 +8,18 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   recipeInfoRow: {
-    alignItems: 'center',
+    display: 'flex',
+    flexDirection: 'column',
+    flex: 1,
     padding: 5,
-    width: '63%',
+    width: '100%',
     backgroundColor: colors.white,
   },
   inlineInputs: {
     display: 'flex',
     flexDirection: 'row',
     paddingVertical: 5,
-    width: '80%',
+    width: '100%',
     alignItems: 'flex-start',
   },
   sectionTitleText: {
@@ -38,7 +40,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   sectionQuantityInput: {
-    bottom: '60%',
     display: 'flex',
     width: '30%',
     height: 40,
@@ -84,7 +85,6 @@ const styles = StyleSheet.create({
   sectionTotalCost: {
     display: 'flex',
     flexDirection: 'row',
-    alignItems: '',
     position: 'relative',
     margin: 5,
     width: '90%',
@@ -93,7 +93,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'flex-end',
-    position: 'relative',
     margin: 5,
     width: '10%',
   },
@@ -129,12 +128,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   container: {
-    pading: 5,
+    padding: 5,
     marginLeft: '5%',
     marginTop: '5%',
     width: '90%',
-    //borderWidth: 3,
-    //borderColor: 'black',
   },
   recipeInfoContainer: {
     marginLeft: '7%',
@@ -147,9 +144,12 @@ const styles = StyleSheet.create({
   },
   ingredientsContainer: {
     paddingTop: 10,
+    width: '100%',
+    marginTop: '5%',
   },
   ingredientsList: {
-    margin: 10,
+    margin: -10,
+    flexDirection: 'row',
     backgroundColor: colors.ingredientsList,
     alignItems: 'center',
   },
@@ -168,13 +168,15 @@ const styles = StyleSheet.create({
   ingredientText: {
     fontSize: 16,
   },
-
+  stepsContainer: {
+    paddingTop: 10,
+    width: '100%',
+  },
   stepBox: {
     flexDirection: 'row',
     marginTop: 20,
     paddingHorizontal: 10,
   },
-
   stepText: {
     color: colors.ingredientsTitle,
     fontSize: 14,
@@ -191,6 +193,61 @@ const styles = StyleSheet.create({
     backgroundColor: colors.ingredientsList,
     overflow: 'hidden',
     marginHorizontal: 10,
+  },
+  moreVert: {
+    paddingRight: 8,
+    color: colors.recipeIcon,
+  },
+  stepMenuOption: {
+    position: 'relative',
+    display: 'flex',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    paddingVertical: 15,
+    paddingHorizontal: '5%',
+    borderBottomWidth: 0.3,
+    borderColor: colors.tableBorder,
+    fontSize: 16,
+  },
+  stepMenuSection: {
+    display: 'flex',
+  },
+  stepEditButton: {
+    width: '100%',
+    height: 40,
+    margin: 5,
+    maxWidth: '100%',
+    marginLeft: 3,
+    paddingHorizontal: 10,
+    backgroundColor: colors.white,
+    padding: 10,
+    borderRadius: 5,
+    borderWidth: 2,
+    borderColor: colors.purplePrice,
+    alignItems: 'center',
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  stepCancelEditButton: {
+    width: '100%',
+    height: 40,
+    margin: 5,
+    maxWidth: '100%',
+    marginLeft: 3,
+    paddingHorizontal: 10,
+    backgroundColor: colors.white,
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  sectionEditStepButtons: {
+    justifyContent: 'space-evenly',
+    left: '10%',
+    marginHorizontal: '15%',
+    flexDirection: 'row',
+    alignItems: 'flex-end',
   },
   newStepText: {
     margin: '7%',
