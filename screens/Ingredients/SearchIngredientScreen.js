@@ -5,6 +5,7 @@ import {
   TextInput,
   Text,
   TouchableOpacity,
+  Image,
 } from 'react-native';
 import { useStoreActions } from 'easy-peasy';
 import RNPickerSelect from 'react-native-picker-select';
@@ -18,6 +19,7 @@ function SearchIngredient({ navigation }) {
   const [query, setQuery] = useState('');
   const [searchResponse, setSearchResponse] = useState([]);
   const [actualProvider, setActualProvider] = useState(0);
+  const evenNumber = 2;
 
   function handleSubmit() {
     if (query.length > 0) {
@@ -64,12 +66,36 @@ function SearchIngredient({ navigation }) {
                 items={searchResponse.map((element, i) => ({
                   key: i,
                   label: element.provider.name,
-                  value: element.provider.id,
+                  value: i,
                 }))}
               />
             </View>
             {searchResponse[actualProvider - 1].products.map((product, i) => (
-              <Text key={i}>{product.name}</Text>
+              <View
+                style={(i % evenNumber === 0) ?
+                  [styles.productContainer, styles.even] : [styles.productContainer, styles.odd]}
+                key={i}
+              >
+                <View style={styles.left}>
+                  <Image
+                    style={styles.image}
+                    source={{
+                      uri: product.img_url,
+                    }}
+                  />
+                  <Text style={styles.productName}>
+                    {product.name}
+                  </Text>
+                </View>
+                <View style={styles.right}>
+                  <Text style={styles.price}>
+                    {`$ ${product.price}`}
+                  </Text>
+                  <Text style={styles.package}>
+                    {product.package}
+                  </Text>
+                </View>
+              </View>
             ))}
           </View>
         )}
