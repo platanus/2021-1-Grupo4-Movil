@@ -9,13 +9,14 @@ import RecipeSteps from './RecipeStepsScreen';
 /* eslint max-statements: [2, 20] */
 function FormRecipe(props) {
   const { navigation, route } = props;
-  const recipe = route ? route.params : null;
+  const recipe = route ? route.params.recipe : null;
 
   const [recipeName, setRecipeName] = useState(recipe ? recipe.attributes.name : '');
   const [recipeTime, setRecipeTime] = useState(recipe ? recipe.attributes.cook_minutes.toString() : '');
   const [recipePortions, setRecipePortions] = useState(recipe ? recipe.attributes.portions.toString() : '');
   const [recipeSteps, setRecipeSteps] = useState(recipe ? recipe.attributes.steps.data : []);
-
+  const [recipeIngredients, setRecipeIngredients] = useState(recipe ?
+    JSON.parse(JSON.stringify(route.params.ingredients)) : []);
   const createRecipe = useStoreActions((actions) => actions.createRecipe);
   const editRecipe = useStoreActions((actions) => actions.editRecipe);
   const createRecipeStep = useStoreActions((actions) => actions.createRecipeStep);
@@ -122,18 +123,27 @@ function FormRecipe(props) {
         </View>
       </View>
       <View style={styles.ingredientsContainer}>
-        <View style={styles.ingredientsList}>
-          <View style={ styles.ingredientTextBox }>
-            <View style={styles.sectionQuantity}>
-              <TextInput style={styles.sectionQuantityInput}/>
-              <Text style={styles.ingredientText}>g.</Text>
-              <Text style={styles.ingredientText}> Ingrediente</Text>
+        { recipeIngredients.map((ingredient) =>
+          <View style={styles.ingredientsList} key={ingredient.id}>
+            <View style={ styles.ingredientTextBox }>
+              <View style={styles.sectionQuantity}>
+                <TextInput
+                  style={styles.sectionQuantityInput}
+                  keyboardType='numeric'
+                  value={ingredient.recipeQuantity.toString()}
+                  // onSubmitEditing={}
+                />
+                <Text style={styles.ingredientText}>{ingredient.measure}. </Text>
+                <Text style={styles.ingredientText}> {ingredient.name}</Text>
+              </View>
+              <View style={styles.sectionPrice}>
+                <Text style={styles.ingredientText}>$ {ingredient.currentPrice}</Text>
+              </View>
             </View>
-            <View style={styles.sectionPrice}>
-              <Text style={styles.ingredientText}>$ XX.XX</Text>
-            </View>
-          </View>
-        </View>
+          </View>,
+        )}
+      </View>
+      <View style={styles.ingredientsContainer}>
         <View style={ styles.ingredientTextBox }>
           <View style={styles.sectionQuantity}>
             <Text>Costo total</Text>
