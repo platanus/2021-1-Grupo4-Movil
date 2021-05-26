@@ -12,11 +12,11 @@ import RNPickerSelect from 'react-native-picker-select';
 import styles from '../../styles/Ingredients/searchStyles';
 import pickers from '../../styles/customPickerStyles';
 
-
 function SearchIngredient({ navigation, route }) {
   const {
     setName,
     setPrice,
+    setQuantity,
   } = route.params;
   const searchCornerShop = useStoreActions((actions) => actions.searchCornerShop);
 
@@ -86,7 +86,11 @@ function SearchIngredient({ navigation, route }) {
                 onPress={() => {
                   setName(product.name);
                   setPrice(product.price);
-                  navigation.navigate('Nuevo Ingrediente')}}
+                  setQuantity(product.package);
+                  navigation.navigate('Nuevo Ingrediente', {
+                    isFromSearch: true,
+                  });
+                }}
                 key={i}
               >
                 <View style={styles.left}>

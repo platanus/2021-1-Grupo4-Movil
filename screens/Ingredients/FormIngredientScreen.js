@@ -16,6 +16,7 @@ import pickers from '../../styles/customPickerStyles';
 function FormIngredient({ navigation, route }) {
   const {
     isNew,
+    isFromSearch = false,
     ingredient = {
       attributes: {
         name: '',
@@ -39,21 +40,23 @@ function FormIngredient({ navigation, route }) {
   const [measure, setMeasure] = useState(ingredient.attributes.measure);
 
   function handleSubmitNew() {
+    if (!name.length ||
+      price <= 0 ||
+      quantity <= 0 ||
+      !measure.length) {
+      if (!isFromSearch) {
+        return;
+      }
+    }
     const attributes = {
       name,
       sku: ingredient.attributes.sku,
       price,
       currency: ingredient.attributes.currency,
-      quantity,
-      measure,
+      quantity: (isFromSearch) ? 1 : quantity,
+      measure: (isFromSearch) ? 'UN' : measure,
     };
     ingredient.attributes = attributes;
-    if (!name.length ||
-      price <= 0 ||
-      quantity <= 0 ||
-      !measure.length) {
-      return;
-    }
     const body = {
       ingredient: ingredient.attributes,
     };
@@ -69,6 +72,12 @@ function FormIngredient({ navigation, route }) {
   }
 
   function handleSubmitEdit() {
+    if (!name.length ||
+      price <= 0 ||
+      quantity <= 0 ||
+      !measure.length) {
+      return;
+    }
     const attributes = {
       name,
       sku: ingredient.attributes.sku,
@@ -78,12 +87,6 @@ function FormIngredient({ navigation, route }) {
       measure,
     };
     ingredient.attributes = attributes;
-    if (!name.length ||
-      price <= 0 ||
-      quantity <= 0 ||
-      !measure.length) {
-      return;
-    }
     const body = {
       ingredient: ingredient.attributes,
     };
@@ -109,6 +112,7 @@ function FormIngredient({ navigation, route }) {
           onPress={() => navigation.navigate('Buscar Ingrediente', {
             setName,
             setPrice,
+            setQuantity,
           })}
           style={styles.scrapperButton}>
           <Text style={styles.scrapperButtonText}>
@@ -125,6 +129,7 @@ function FormIngredient({ navigation, route }) {
           placeholder="Nombre de ingrediente..."
           value={name}
           onChangeText={(text) => setName(text)}
+          editable={!isFromSearch}
         />
       </View>
       <View style={styles.inputContainer}>
@@ -137,6 +142,7 @@ function FormIngredient({ navigation, route }) {
           keyboardType="number-pad"
           value={price.toString()}
           onChangeText={(text) => setPrice(text)}
+          editable={!isFromSearch}
         />
       </View>
       <View style={styles.inputContainer}>
@@ -149,29 +155,32 @@ function FormIngredient({ navigation, route }) {
           keyboardType="number-pad"
           value={quantity.toString()}
           onChangeText={(text) => setQuantity(text)}
+          editable={!isFromSearch}
         />
       </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.inputLabel}>
-          Unidad
-        </Text>
-        <RNPickerSelect
-          style={pickers.customPickerStyles}
-          key={'0'}
-          placeholder={{
-            label: 'Selecciona unidad...',
-            value: '',
-          }}
-          value={measure}
-          onValueChange={(value) => setMeasure(value)}
-          items={[
-            { label: 'Kg', value: 'Kg', key: '0' },
-            { label: 'Gr', value: 'Gr', key: '1' },
-            { label: 'L', value: 'L', key: '2' },
-            { label: 'Ml', value: 'Ml', key: '3' },
-          ]}
-        />
-      </View>
+      {(!isFromSearch) && (
+        <View style={styles.inputContainer}>
+          <Text style={styles.inputLabel}>
+            Unidad
+          </Text>
+          <RNPickerSelect
+            style={pickers.customPickerStyles}
+            key={'0'}
+            placeholder={{
+              label: 'Selecciona unidad...',
+              value: '',
+            }}
+            value={measure}
+            onValueChange={(value) => setMeasure(value)}
+            items={[
+              { label: 'Kg', value: 'Kg', key: '0' },
+              { label: 'Gr', value: 'Gr', key: '1' },
+              { label: 'L', value: 'L', key: '2' },
+              { label: 'Ml', value: 'Ml', key: '3' },
+            ]}
+          />
+        </View>
+      )}
       <View style={styles.buttonsContainer}>
         <TouchableOpacity
           style={[styles.button, styles.cancel]}
