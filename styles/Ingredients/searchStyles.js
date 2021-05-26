@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
   },
 
   searchText: {
-    fontSize: 18,
+    fontSize: 14,
     color: colors.tableBorder,
     width: '75%',
   },

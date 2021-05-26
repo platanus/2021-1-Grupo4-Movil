@@ -163,22 +163,24 @@ function FormIngredient({ navigation, route }) {
           <Text style={styles.inputLabel}>
             Unidad
           </Text>
-          <RNPickerSelect
-            style={pickers.customPickerStyles}
-            key={'0'}
-            placeholder={{
-              label: 'Selecciona unidad...',
-              value: '',
-            }}
-            value={measure}
-            onValueChange={(value) => setMeasure(value)}
-            items={[
-              { label: 'Kg', value: 'Kg', key: '0' },
-              { label: 'Gr', value: 'Gr', key: '1' },
-              { label: 'L', value: 'L', key: '2' },
-              { label: 'Ml', value: 'Ml', key: '3' },
-            ]}
-          />
+          <View style={styles.dropDown}>
+            <RNPickerSelect
+              style={pickers.customPickerStyles}
+              key={'0'}
+              placeholder={{
+                label: 'Selecciona unidad...',
+                value: '',
+              }}
+              value={measure}
+              onValueChange={(value) => setMeasure(value)}
+              items={[
+                { label: 'Kg', value: 'Kg', key: '0' },
+                { label: 'Gr', value: 'Gr', key: '1' },
+                { label: 'L', value: 'L', key: '2' },
+                { label: 'Ml', value: 'Ml', key: '3' },
+              ]}
+            />
+          </View>
         </View>
       )}
       <View style={styles.buttonsContainer}>

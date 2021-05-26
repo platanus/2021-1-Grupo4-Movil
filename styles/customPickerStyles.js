@@ -1,4 +1,4 @@
-import colors from "./appColors";
+import colors from './appColors';
 
 const pickers = {
   customPickerStyles: {
@@ -13,7 +13,7 @@ const pickers = {
       fontSize: 16,
       paddingLeft: 15,
       paddingRight: 15,
-      fontWeight: '800',
+      fontWeight: 'bold',
       fontStyle: 'normal',
     },
     inputIOS: {
@@ -21,6 +21,7 @@ const pickers = {
       paddingTop: 13,
       paddingHorizontal: 10,
       paddingBottom: 12,
+      fontWeight: 'bold',
     },
     inputAndroid: {
       color: '#111111',
@@ -33,6 +34,7 @@ const pickers = {
       borderWidth: 2,
       borderRadius: 5,
       fontSize: 16,
+      fontWeight: 'bold',
     },
     placeholderColor: '#111111',
     underline: { borderTopWidth: 0 },
