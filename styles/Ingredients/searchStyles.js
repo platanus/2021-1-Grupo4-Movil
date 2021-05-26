@@ -36,14 +36,16 @@ const styles = StyleSheet.create({
   },
 
   customPickerBox: {
-    marginTop: 10,
+    marginTop: 20,
     borderWidth: 2,
-    borderColor: colors.tableBorder,
+    borderColor: colors.greenButtons,
+    backgroundColor: colors.greenButtons,
     height: 40,
-    borderRadius: 5,
-    width: '80%',
+    borderTopRightRadius: 7,
+    borderTopLeftRadius: 7,
+    width: '100%',
     flexDirection: 'column',
-    marginBottom: 10,
+    paddingHorizontal: 'auto',
   },
 
   input: {

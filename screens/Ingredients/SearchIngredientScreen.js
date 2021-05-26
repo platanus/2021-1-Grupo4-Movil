@@ -9,9 +9,9 @@ import {
 } from 'react-native';
 import { useStoreActions } from 'easy-peasy';
 import RNPickerSelect from 'react-native-picker-select';
-
 import styles from '../../styles/Ingredients/searchStyles';
-import customPickerStyles from '../../styles/customPickerStyles';
+import pickers from '../../styles/customPickerStyles';
+
 
 function SearchIngredient({ navigation }) {
   const searchCornerShop = useStoreActions((actions) => actions.searchCornerShop);
@@ -51,12 +51,13 @@ function SearchIngredient({ navigation }) {
           Buscar Ingrediente
           </Text>
         </TouchableOpacity>
-        {(searchResponse.length > 0) &&
+      </View>
+      {(searchResponse.length > 0) &&
         (
           <View style={styles.responseContainer}>
             <View style={styles.customPickerBox}>
               <RNPickerSelect
-                style={customPickerStyles}
+                style={pickers.providerPicker}
                 key={'0'}
                 placeholder={{}}
                 value={actualProvider.name}
@@ -70,7 +71,7 @@ function SearchIngredient({ navigation }) {
                 }))}
               />
             </View>
-            {searchResponse[actualProvider - 1].products.map((product, i) => (
+            {searchResponse[actualProvider].products.map((product, i) => (
               <View
                 style={(i % evenNumber === 0) ?
                   [styles.productContainer, styles.even] : [styles.productContainer, styles.odd]}
@@ -84,7 +85,7 @@ function SearchIngredient({ navigation }) {
                     }}
                   />
                   <Text style={styles.productName}>
-                    {product.name}
+                    {product.name} {searchResponse[actualProvider].provider.name}
                   </Text>
                 </View>
                 <View style={styles.right}>
@@ -99,7 +100,6 @@ function SearchIngredient({ navigation }) {
             ))}
           </View>
         )}
-      </View>
     </ScrollView>
   );
 }

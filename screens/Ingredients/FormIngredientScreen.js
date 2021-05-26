@@ -11,7 +11,7 @@ import RNPickerSelect from 'react-native-picker-select';
 import { useStoreActions } from 'easy-peasy';
 
 import styles from '../../styles/Ingredients/formStyles';
-import customPickerStyles from '../../styles/customPickerStyles';
+import pickers from '../../styles/customPickerStyles';
 
 function FormIngredient({ navigation, route }) {
   const {
@@ -153,7 +153,7 @@ function FormIngredient({ navigation, route }) {
           Unidad
         </Text>
         <RNPickerSelect
-          style={customPickerStyles}
+          style={pickers.customPickerStyles}
           key={'0'}
           placeholder={{
             label: 'Selecciona unidad...',
