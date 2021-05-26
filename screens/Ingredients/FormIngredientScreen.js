@@ -106,7 +106,10 @@ function FormIngredient({ navigation, route }) {
     <View style={styles.container}>
       {isNew && (
         <TouchableOpacity
-          onPress={() => navigation.navigate('Buscar Ingrediente')}
+          onPress={() => navigation.navigate('Buscar Ingrediente', {
+            setName,
+            setPrice,
+          })}
           style={styles.scrapperButton}>
           <Text style={styles.scrapperButtonText}>
             Buscar Ingrediente

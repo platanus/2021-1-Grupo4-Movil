@@ -13,7 +13,11 @@ import styles from '../../styles/Ingredients/searchStyles';
 import pickers from '../../styles/customPickerStyles';
 
 
-function SearchIngredient({ navigation }) {
+function SearchIngredient({ navigation, route }) {
+  const {
+    setName,
+    setPrice,
+  } = route.params;
   const searchCornerShop = useStoreActions((actions) => actions.searchCornerShop);
 
   const [query, setQuery] = useState('');
@@ -23,6 +27,7 @@ function SearchIngredient({ navigation }) {
 
   function handleSubmit() {
     if (query.length > 0) {
+      setSearchResponse([]);
       searchCornerShop(query)
         .then((res) => {
           if (res.length > 0) {
@@ -59,7 +64,10 @@ function SearchIngredient({ navigation }) {
               <RNPickerSelect
                 style={pickers.providerPicker}
                 key={'0'}
-                placeholder={{}}
+                placeholder={{
+                  label: 'Escoge tu proveedor...',
+                  value: 0,
+                }}
                 value={actualProvider.name}
                 onValueChange={(value) => {
                   setActualProvider(value);
@@ -72,9 +80,13 @@ function SearchIngredient({ navigation }) {
               />
             </View>
             {searchResponse[actualProvider].products.map((product, i) => (
-              <View
+              <TouchableOpacity
                 style={(i % evenNumber === 0) ?
                   [styles.productContainer, styles.even] : [styles.productContainer, styles.odd]}
+                onPress={() => {
+                  setName(product.name);
+                  setPrice(product.price);
+                  navigation.navigate('Nuevo Ingrediente')}}
                 key={i}
               >
                 <View style={styles.left}>
@@ -85,7 +97,7 @@ function SearchIngredient({ navigation }) {
                     }}
                   />
                   <Text style={styles.productName}>
-                    {product.name} {searchResponse[actualProvider].provider.name}
+                    {product.name}
                   </Text>
                 </View>
                 <View style={styles.right}>
@@ -96,7 +108,7 @@ function SearchIngredient({ navigation }) {
                     {product.package}
                   </Text>
                 </View>
-              </View>
+              </TouchableOpacity>
             ))}
           </View>
         )}

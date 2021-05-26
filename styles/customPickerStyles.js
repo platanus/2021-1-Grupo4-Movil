@@ -1,3 +1,5 @@
+import colors from "./appColors";
+
 const pickers = {
   customPickerStyles: {
     inputWeb: {
@@ -63,8 +65,7 @@ const pickers = {
       color: 'white',
       fontWeight: 'bold',
     },
-    placeholderColor: 'white' 
-  },
+    placeholderColor: colors.white },
 };
 
 export default pickers;
