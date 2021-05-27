@@ -10,7 +10,7 @@ const storeState = {
   signUpError: '',
   ingredients: {
     getError: '',
-    currentSelected: [],
+    currentSelected: ['ismoiks', 'sisis'],
   },
   recipes: {
     getErrors: '',
@@ -48,7 +48,7 @@ const storeActions = {
     state.ingredients.getErrors = payload;
   }),
   setSelectedIngredient: action((state, payload) => {
-    state.ingredients.currentSelected.push(payload);
+    state.ingredients.currentSelected = payload;
   }),
   setGetRecipesError: action((state, payload) => {
     state.recipes.getErrors = payload;

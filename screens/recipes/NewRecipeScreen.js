@@ -58,7 +58,7 @@ function FormRecipe(props) {
   }
 
   function searchIngredients() {
-    navigation.navigate("Buscar ingredientes", true);
+    navigation.navigate("Buscar ingredientes", recipe);
   }
 
   function handleSubmit() {

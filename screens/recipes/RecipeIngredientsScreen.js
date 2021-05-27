@@ -10,9 +10,9 @@ function RecipeIngredients(props) {
     const { navigation, route } = props;
     const isNewRecipe = route.params;
     const getAllIngredients = useStoreActions((actions) => actions.getIngredients);
-    const currentSelected = useStoreState((state) => state.ingredients.currentSelected);
+    const currentSelected = useStoreState((state) => !isNewRecipe ? [] : state.ingredients.currentSelected);
     const [selecteds, setSelecteds] = useState(currentSelected);
-    //const setSelectedIngredient = useStoreActions((actions) => actions.setSelectedIngredient);
+    const setSelectedIngredient = useStoreActions((actions) => actions.setSelectedIngredient);
     const [ingredients, setIngredients] = useState([]);
 
     useEffect(() => {
@@ -23,10 +23,24 @@ function RecipeIngredients(props) {
       }, []);
 
     function addIngredientChecked(ing) {
-        const newSelectedArray = [...selecteds, ing];
-        setSelecteds(newSelectedArray);
+        if (selecteds.includes(ing)) {
+            const newSelectedArray = selecteds;
+            const index = selecteds.indexOf(ing);
+            if (index > -1) {
+                newSelectedArray.splice(index, 1)
+            }
+            setSelecteds(newSelectedArray);
+        } else {
+            const newSelectedArray = [...selecteds, ing];
+            setSelecteds(newSelectedArray);
+        }   
     }
 
+    function saveSelectedIngredients() {
+        setSelectedIngredient(selecteds);
+        const backRoute = isNewRecipe == null ? 'Crear receta' : 'Editar Receta';
+        navigation.navigate(backRoute)
+    }
 
     return (
         <>
@@ -60,6 +74,11 @@ function RecipeIngredients(props) {
                 )
               )
             }
+            <TouchableOpacity onPress={saveSelectedIngredients}>
+                <Text>
+                    Guardar cambios
+                </Text>
+            </TouchableOpacity>
           </View>
         </>
     )
