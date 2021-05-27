@@ -5,11 +5,12 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import colors from '../../styles/appColors';
 import styles from '../../styles/Recipes/newRecipe';
 import RecipeSteps from './RecipeStepsScreen';
+import RecipeIngredients from './RecipeIngredientsScreen';
 
 /* eslint max-statements: [2, 20] */
 function FormRecipe(props) {
   const { navigation, route } = props;
-  const recipe = route ? route.params.recipe : null;
+  const recipe = (route.params && route.params.recipe) ? route.params.recipe : null;
 
   const [recipeName, setRecipeName] = useState(recipe ? recipe.attributes.name : '');
   const [recipeTime, setRecipeTime] = useState(recipe ? recipe.attributes.cook_minutes.toString() : '');
@@ -56,6 +57,10 @@ function FormRecipe(props) {
     return promises;
   }
 
+  function searchIngredients() {
+    navigation.navigate("Buscar ingredientes", true);
+  }
+
   function handleSubmit() {
     const body = {
       name: recipeName,
@@ -81,6 +86,8 @@ function FormRecipe(props) {
         .catch(() => {});
     }
   }
+
+
 
   return (
     <ScrollView style={styles.mainContainer}>
@@ -116,7 +123,7 @@ function FormRecipe(props) {
             <Text style={styles.sectionTitleText}>Ingredientes seleccionados</Text>
           </View>
           <View style={styles.recipeInfoRow}>
-            <TouchableOpacity style={styles.ingredientButton} onPress={ () => Alert.alert('Buscar ingredientes!') }>
+            <TouchableOpacity style={styles.ingredientButton} onPress={searchIngredients}>
               <Text>Buscar ingredientes</Text>
             </TouchableOpacity>
           </View>

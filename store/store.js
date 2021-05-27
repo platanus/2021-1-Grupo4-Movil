@@ -10,6 +10,7 @@ const storeState = {
   signUpError: '',
   ingredients: {
     getError: '',
+    currentSelected: [],
   },
   recipes: {
     getErrors: '',
@@ -45,6 +46,9 @@ const storeActions = {
   }),
   setGetIngredientsError: action((state, payload) => {
     state.ingredients.getErrors = payload;
+  }),
+  setSelectedIngredient: action((state, payload) => {
+    state.ingredients.currentSelected.push(payload);
   }),
   setGetRecipesError: action((state, payload) => {
     state.recipes.getErrors = payload;

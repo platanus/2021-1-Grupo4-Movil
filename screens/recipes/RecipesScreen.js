@@ -30,11 +30,17 @@ function Recipes(props) {
 
   if (recipes.length) {
     return (
-      <ScrollView>
-        {recipes.map((recipe) => (
-          <RecipeRow key={recipe.id} recipe={recipe} navigation={navigation}/>
-        ))}
-      </ScrollView>);
+      <>
+        <ScrollView>
+          {recipes.map((recipe) => (
+            <RecipeRow key={recipe.id} recipe={recipe} navigation={navigation}/>
+          ))}
+        </ScrollView>
+        <TouchableOpacity>
+          <Icon name="add-circle" color={colors.addIcon} onPress={() => navigation.navigate('Crear receta')}></Icon>
+        </TouchableOpacity>
+      </>
+    );
   }
 
   return (
