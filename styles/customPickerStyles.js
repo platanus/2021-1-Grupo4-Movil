@@ -24,7 +24,7 @@ const pickers = {
       fontWeight: 'bold',
     },
     inputAndroid: {
-      color: '#111111',
+      color: 'yellow',
       paddingTop: 13,
       paddingHorizontal: 10,
       paddingBottom: 12,
@@ -64,10 +64,14 @@ const pickers = {
     },
     inputAndroid: {
       textAlign: 'center',
-      color: 'white',
+      color: colors.white,
       fontWeight: 'bold',
+      paddingTop: 20,
+      paddingBottom: 13,
+      marginHorizontal: 10,
     },
-    placeholderColor: colors.white },
+    placeholderColor: colors.white,
+  },
 };
 
 export default pickers;

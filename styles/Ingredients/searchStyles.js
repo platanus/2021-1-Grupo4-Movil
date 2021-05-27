@@ -37,13 +37,16 @@ const styles = StyleSheet.create({
 
   customPickerBox: {
     marginTop: 20,
+    marginBottom: 10,
     borderWidth: 2,
     borderColor: colors.greenButtons,
     backgroundColor: colors.greenButtons,
     height: 40,
     borderTopRightRadius: 7,
     borderTopLeftRadius: 7,
-    width: '100%',
+    borderBottomRightRadius: 7,
+    borderBottomLeftRadius: 7,
+    width: '80%',
     flexDirection: 'column',
     paddingHorizontal: 'auto',
   },
