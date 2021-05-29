@@ -34,10 +34,10 @@ function Recipe(props) {
       id: ingredient.id,
       name: ingredient.attributes.ingredient.name,
       price: ingredient.attributes.ingredient.price,
-      currentPrice: ingredient.attributes.ingredient.price * ingredient.attributes.ingredient_quantity,
+      currentPrice: ingredient.attributes.ingredient.price * ingredient.attributes.ingredient_quantity /
+        ingredient.attributes.ingredient.quantity,
       unitQuantity: ingredient.attributes.ingredient.quantity,
       recipeQuantity: ingredient.attributes.ingredient_quantity,
-      currentQuantity: ingredient.attributes.ingredient.quantity * ingredient.attributes.ingredient_quantity,
       measure: ingredient.attributes.ingredient.measure,
     };
   }
@@ -58,7 +58,7 @@ function Recipe(props) {
       {showMenu &&
       <View style={styles.menuContainer}>
         <TouchableOpacity style={styles.menuOption}
-          onPress={() => navigation.navigate('Editar Receta', { recipe, ingredients })}>
+          onPress={() => navigation.navigate('Editar Receta', { recipe, ingredients, recipePrice })}>
           <Text style={styles.ingredientText}>Editar</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.menuOption}
@@ -96,7 +96,7 @@ function Recipe(props) {
             <View style={ styles.ingredientTextBox }>
               <Text style={styles.ingredientText}>{ingredient.name}</Text>
               <Text style={styles.ingredientText}>
-                $ {ingredient.currentPrice} / {ingredient.currentQuantity} {ingredient.measure}.
+                $ {ingredient.currentPrice} / {ingredient.recipeQuantity} {ingredient.measure}.
               </Text>
             </View>
             <Text>{}</Text>

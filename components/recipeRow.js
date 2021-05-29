@@ -7,6 +7,16 @@ import styles from '../styles/Recipes/index';
 function RecipeRow(props) {
   const { recipe, navigation } = props;
 
+  function calculatePrice() {
+    let sum = 0;
+    for (let k = 0; k < recipe.attributes.recipe_ingredients.data.length; k++) {
+      const ingredient = recipe.attributes.recipe_ingredients.data[k].attributes;
+      sum += ingredient.ingredient.price * ingredient.ingredient_quantity / ingredient.ingredient.quantity;
+    }
+
+    return sum;
+  }
+
   return (
     <TouchableOpacity
       style={styles.recipeRow}
@@ -26,7 +36,7 @@ function RecipeRow(props) {
         </View>
       </View>
       <View style={styles.right}>
-        <Text style = {styles.price}>$XX.XXX</Text>
+        <Text style = {styles.price}>${calculatePrice()}</Text>
       </View>
     </TouchableOpacity>
   );
