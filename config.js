@@ -17,6 +17,10 @@ const config = {
       new: `${API_VERSION}/recipes`,
       steps: 'recipe_steps',
     },
+    providers: {
+      index: '/api/v1/providers',
+      specific: '/api/v1/providers/',
+    },
   },
 };
 
