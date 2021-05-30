@@ -28,7 +28,7 @@ function ProvidersStackScreen() {
               <Text style={styles.text}>
                 Proveedores
               </Text>
-              <TouchableOpacity onPress={() => navigation.navigate('Nuevo Ingrediente')}>
+              <TouchableOpacity onPress={() => navigation.navigate('Nuevo Proveedor')}>
                 <Icon name='add'
                   size={30}
                   color={colors.black}
