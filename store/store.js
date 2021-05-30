@@ -3,6 +3,7 @@ import apiUtils from '../api/api';
 import sessionsApi from '../api/sessions';
 import ingredientsApi from '../api/ingredients';
 import recipesApi from '../api/recipes';
+import providersApi from '../api/providers';
 
 const storeState = {
   currentUser: null,
@@ -17,6 +18,7 @@ const storeState = {
     deleteErrors: '',
     delete: false,
   },
+  providersError: '',
 };
 
 const getters = {
@@ -57,6 +59,9 @@ const storeActions = {
   }),
   setDeletedRecipe: action((state, payload) => {
     state.recipes.delete = payload;
+  }),
+  setProvidersError: action((state, payload) => {
+    state.providersError = payload;
   }),
   setLogOut: action((state) => {
     state.currentUser = null;
@@ -186,6 +191,16 @@ const storeThunks = {
       });
 
     return resp;
+  }),
+  getProviders: thunk(async (actions, payload) => {
+    const providers = providersApi.getProviders(payload)
+      .then((res) => res.data.data)
+      .catch((err) => {
+        actions.setProvidersError(err.response.data.message);
+        throw err;
+      });
+
+    return providers;
   }),
 };
 
