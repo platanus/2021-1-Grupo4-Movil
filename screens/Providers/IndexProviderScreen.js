@@ -20,6 +20,20 @@ function IndexProviders({ navigation }) {
   const [providers, setProviders] = useState([]);
   const evenNumber = 2;
 
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      // eslint-disable-next-line react/display-name
+      headerRight: () => (
+        <Icon name='add'
+          size={30}
+          style={styles.navIcon}
+          onPress={() => navigation.navigate('Nuevo Proveedor')}
+        />
+      ),
+      headerTitle: 'Proveedores',
+    });
+  }, [navigation]);
+
   useEffect(() => {
     getProviders()
       .then((res) => {
