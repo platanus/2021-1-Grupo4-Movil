@@ -18,7 +18,6 @@ function IndexProviders({ navigation }) {
   const getProviders = useStoreActions((actions) => actions.getProviders);
 
   const [providers, setProviders] = useState([]);
-  const evenNumber = 2;
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -48,7 +47,8 @@ function IndexProviders({ navigation }) {
       <ScrollView>
         {providers.map((provider, i) => (
           <TouchableOpacity
-            style={[styles.providerRow, (i % evenNumber === 0) ? styles.even : styles.odd]}
+            // eslint-disable-next-line no-magic-numbers
+            style={[styles.providerRow, (i % 2 === 0) ? styles.even : styles.odd]}
             key={provider.id}
             onPress={() => {
               navigation.navigate('Proveedor', {
