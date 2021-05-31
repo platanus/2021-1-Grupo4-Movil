@@ -8,9 +8,7 @@ const storeState = {
   currentUser: null,
   loginError: '',
   signUpError: '',
-  ingredients: {
-    getError: '',
-  },
+  ingredientsError: '',
   recipes: {
     getErrors: '',
     createErrors: '',
@@ -43,8 +41,8 @@ const storeActions = {
         'X-User-Token': user.authentication_token };
     }
   }),
-  setGetIngredientsError: action((state, payload) => {
-    state.ingredients.getErrors = payload;
+  setIngredientsError: action((state, payload) => {
+    state.ingredientsError = payload;
   }),
   setGetRecipesError: action((state, payload) => {
     state.recipes.getErrors = payload;
@@ -86,7 +84,7 @@ const storeThunks = {
     const ingredients = ingredientsApi.getIngredients(payload)
       .then((res) => res.data.data)
       .catch((err) => {
-        actions.setGetIngredientsError(err.response.data.message);
+        actions.setIngredientsError(err.response.data.message);
         throw err;
       });
 
@@ -96,7 +94,7 @@ const storeThunks = {
     const ingredient = ingredientsApi.createIngredient(payload)
       .then((res) => res.data.data)
       .catch((err) => {
-        actions.setGetIngredientsError(err.response.data.message);
+        actions.setIngredientsError(err.response.data.message);
         throw err;
       });
 
@@ -105,16 +103,25 @@ const storeThunks = {
   editIngredient: thunk(async (actions, payload) => {
     ingredientsApi.editIngredient(payload)
       .catch((err) => {
-        actions.setGetIngredientsError(err.response.data.message);
+        actions.setIngredientsError(err.response.data.message);
         throw err;
       });
   }),
   deleteIngredient: thunk(async (actions, payload) => {
     ingredientsApi.deleteIngredient(payload)
       .catch((err) => {
-        actions.setGetIngredientsError(err.response.data.message);
+        actions.setIngredientsError(err.response.data.message);
         throw err;
       });
+  }),
+  searchCornerShop: thunk(async (actions, payload) => {
+    const ingredients = ingredientsApi.searchCornerShop(payload)
+      .then((res) => res.data.data)
+      .catch((err) => {
+        actions.setIngredientsError(err.response.data.message);
+      });
+
+    return ingredients;
   }),
   getRecipes: thunk(async (actions, payload) => {
     const recipes = recipesApi.getRecipes(payload)

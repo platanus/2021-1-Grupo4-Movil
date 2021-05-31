@@ -38,5 +38,16 @@ const ingredientsApi = {
       data: null,
     });
   },
+  searchCornerShop: (payload) => {
+    const url = config.endpoints.ingredients.searchCornerShop;
+
+    return apiUtils.api({
+      method: 'get',
+      url,
+      params: {
+        query: payload,
+      },
+    });
+  },
 };
 export default ingredientsApi;

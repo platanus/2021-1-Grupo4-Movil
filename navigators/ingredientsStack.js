@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import IndexIngredient from '../screens/Ingredients/IndexIngredientScreen';
 import ShowIngredient from '../screens/Ingredients/ShowIngredientScreen';
 import FormIngredient from '../screens/Ingredients/FormIngredientScreen';
+import SearchIngredient from '../screens/Ingredients/SearchIngredientScreen';
 
 const MainIngredientsStack = createStackNavigator();
 
@@ -25,6 +26,10 @@ function IngredientsStackScreen() {
       <MainIngredientsStack.Screen
         name="Editar Ingrediente"
         component={FormIngredient}
+      />
+      <MainIngredientsStack.Screen
+        name="Buscar Ingrediente"
+        component={SearchIngredient}
       />
     </MainIngredientsStack.Navigator>
   );
