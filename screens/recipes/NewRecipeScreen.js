@@ -1,20 +1,18 @@
-import { useStoreActions } from 'easy-peasy';
+import { useStoreActions, useStoreState } from 'easy-peasy';
 import React, { useState } from 'react';
 import { View, Text, ScrollView, TextInput, Alert } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import colors from '../../styles/appColors';
 import styles from '../../styles/Recipes/newRecipe';
 import RecipeSteps from './RecipeStepsScreen';
-<<<<<<< HEAD
 import RecipeIngredients from './RecipeIngredientsScreen';
-=======
-import IngredientRow from '../../components/recipeEditIngredientRow';
->>>>>>> d17fef76123ca93dc90c7ce740dafa462ea5d145
 
 /* eslint max-statements: [2, 20] */
 function FormRecipe(props) {
   const { navigation, route } = props;
   const recipe = (route.params && route.params.recipe) ? route.params.recipe : null;
+
+  const selectedIngredients = useStoreState((state) => state.ingredients.currentSelected);
 
   const [recipeName, setRecipeName] = useState(recipe ? recipe.attributes.name : '');
   const [recipeTime, setRecipeTime] = useState(recipe ? recipe.attributes.cook_minutes.toString() : '');
@@ -54,6 +52,8 @@ function FormRecipe(props) {
 
     return promises;
   }
+
+  console.log(selectedIngredients)
 
   function searchIngredients() {
     navigation.navigate("Buscar ingredientes", recipe);

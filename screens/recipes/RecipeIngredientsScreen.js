@@ -1,45 +1,57 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { useStoreActions, useStoreState } from 'easy-peasy';
-import { View, Text, CheckBox, ActionSheetIOS } from 'react-native';
+import { View, Text, ActionSheetIOS } from 'react-native';
+import { CheckBox } from 'react-native-elements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Icon } from 'react-native-elements';
 import colors from '../../styles/appColors';
 import styles from '../../styles/Ingredients/indexStyles';
 
+const findIngredient = (elem, array) => {
+
+}
+
 function RecipeIngredients(props) {
     const { navigation, route } = props;
+    const actualSelection = useStoreState((state) => state.ingredients.currentSelected);
     const isNewRecipe = route.params;
     const getAllIngredients = useStoreActions((actions) => actions.getIngredients);
-    const currentSelected = useStoreState((state) => !isNewRecipe ? [] : state.ingredients.currentSelected);
-    const [selecteds, setSelecteds] = useState(currentSelected);
-    const setSelectedIngredient = useStoreActions((actions) => actions.setSelectedIngredient);
-    const [ingredients, setIngredients] = useState([]);
+    const setIngredientsForRecipe = useStoreActions((actions) => actions.setSelectedIngredient);
+    const [selecteds, setSelecteds] = useState([]);
+    const [ingredients, setIngredients] = useState([])
 
     useEffect(() => {
         getAllIngredients()
           .then((resp) => {
             setIngredients(resp);
-          });
-      }, []);
+            const idsAll = resp.map((i) => i.id.toString())
+            const idsActual = actualSelection.map((i) => i.id.toString())
+            const beforeSelecteds = [] 
+            idsActual.forEach((id) => {
+              beforeSelecteds.push(idsAll.indexOf(id))
+            })
+            setSelecteds(beforeSelecteds)
+          })
+          }, [])
 
-    function addIngredientChecked(ing) {
-        if (selecteds.includes(ing)) {
-            const newSelectedArray = selecteds;
-            const index = selecteds.indexOf(ing);
-            if (index > -1) {
-                newSelectedArray.splice(index, 1)
-            }
-            setSelecteds(newSelectedArray);
-        } else {
-            const newSelectedArray = [...selecteds, ing];
-            setSelecteds(newSelectedArray);
-        }   
+    function addIngredientChecked(i) {
+      if (!selecteds.includes(i)) {
+        setSelecteds(selecteds.concat(i))
+      } else {
+        const index = selecteds.indexOf(i)
+        selecteds.splice(index, 1)
+        setSelecteds([].concat(selecteds))
+      }
     }
 
     function saveSelectedIngredients() {
-        setSelectedIngredient(selecteds);
-        const backRoute = isNewRecipe == null ? 'Crear receta' : 'Editar Receta';
-        navigation.navigate(backRoute)
+      const submitIngredients = []
+      selecteds.forEach((index) => {
+        submitIngredients.push(ingredients[index])
+      })
+        setIngredientsForRecipe(submitIngredients);
+        const backRoute = isNewRecipe === null ? 'Crear receta' : 'Editar Receta';
+        navigation.navigate(backRoute);
     }
 
     return (
@@ -57,8 +69,8 @@ function RecipeIngredients(props) {
                         alignItems: 'flex-start',
                         padding: '4px', width: '20%' }} key={i}>
                         <CheckBox
-                          value={selecteds.map((selec) => selec.id).includes(ing.id)}
-                          onValueChange={() => addIngredientChecked(ing)}
+                          checked={selecteds.includes(i)}
+                          onPress={() => addIngredientChecked(i)}
                           style={{ flexDirection: 'row', marginRight: '10px' }}
                         />
                         <Text style={styles.name}>

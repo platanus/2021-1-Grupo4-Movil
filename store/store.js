@@ -10,7 +10,7 @@ const storeState = {
   signUpError: '',
   ingredients: {
     getError: '',
-    currentSelected: ['ismoiks', 'sisis'],
+    currentSelected: [],
   },
   recipes: {
     getErrors: '',
