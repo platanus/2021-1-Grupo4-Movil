@@ -23,7 +23,6 @@ function SearchIngredient({ navigation, route }) {
   const [query, setQuery] = useState('');
   const [searchResponse, setSearchResponse] = useState([]);
   const [actualProvider, setActualProvider] = useState(0);
-  const evenNumber = 2;
 
   function handleSubmit() {
     if (query.length > 0) {
@@ -81,7 +80,8 @@ function SearchIngredient({ navigation, route }) {
             </View>
             {searchResponse[actualProvider].products.map((product, i) => (
               <TouchableOpacity
-                style={(i % evenNumber === 0) ?
+                // eslint-disable-next-line no-magic-numbers
+                style={(i % 2 === 0) ?
                   [styles.productContainer, styles.even] : [styles.productContainer, styles.odd]}
                 onPress={() => {
                   setName(product.name);
