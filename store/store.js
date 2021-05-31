@@ -209,6 +209,17 @@ const storeThunks = {
 
     return providers;
   }),
+  createProvider: thunk(async (actions, payload) => {
+    const provider = providersApi.createProvider(payload)
+      .then((res) => res.data.data)
+      .catch((err) => {
+        actions.setProvidersError(err.response.data.message);
+        throw err;
+      });
+    console.log(provider);
+
+    return provider;
+  }),
 };
 
 const generateStore = createStore({
