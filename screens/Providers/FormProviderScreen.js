@@ -1,5 +1,4 @@
 import React, {
-  useEffect,
   useState,
 } from 'react';
 import {
@@ -11,13 +10,59 @@ import {
 import { useStoreActions } from 'easy-peasy';
 import styles from '../../styles/Providers/formStyles';
 
-function FormProvider({ navigation }) {
+function FormProvider({ navigation, route }) {
+  const {
+    provider = {
+      attributes: {
+        name: '',
+        email: '',
+        phone: '',
+        country: 'Chile',
+        webpage_url: '',
+        delivery_days: 0,
+        minimum_purchase: 0,
+      },
+    },
+    providers,
+    setProviders,
+  } = route.params;
   const [name, setName] = useState('');
-  const [mail, setMail] = useState('');
-  const [phone, setPhone] = useState('+569');
-  const [webPage, setWebPage] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('+56');
+  const [webPageUrl, setWebPage] = useState('');
   const [time, setTime] = useState(0);
   const [minPurchase, setMinPurchase] = useState(0);
+
+  const createProvider = useStoreActions((actions) => actions.createProvider);
+
+  function handleSubmitNew() {
+    if (!name.length ||
+      time <= 0 ||
+      minPurchase < 0 ||
+      !email.length) {
+      return;
+    }
+    const body = {
+      provider: {
+        name,
+        email,
+        phone,
+        country: provider.attributes.country,
+        webpage_url: webPageUrl,
+        delivery_days: time,
+        minimum_purchase: minPurchase,
+      },
+    };
+    createProvider(body)
+      .then((res) => {
+        const auxProviders = [...providers];
+        auxProviders.push(res);
+        setProviders(auxProviders);
+        navigation.navigate('Proveedores');
+      })
+      .catch(() => {
+      });
+  }
 
   return (
     <View style={styles.container}>
@@ -39,8 +84,8 @@ function FormProvider({ navigation }) {
         <TextInput
           style={styles.input}
           placeholder="Correo electrónico..."
-          value={mail}
-          onChangeText={(text) => setMail(text)}
+          value={email}
+          onChangeText={(text) => setEmail(text)}
         />
       </View>
       <View style={styles.inputContainer}>
@@ -62,7 +107,7 @@ function FormProvider({ navigation }) {
         <TextInput
           style={styles.input}
           placeholder="Página Web..."
-          value={webPage}
+          value={webPageUrl}
           onChangeText={(text) => setWebPage(text)}
         />
       </View>
@@ -103,7 +148,7 @@ function FormProvider({ navigation }) {
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.button, styles.confirm]}
-          // onPress={(isNew) ? handleSubmitNew : handleSubmitEdit}
+          onPress={() => handleSubmitNew()}
         >
           <Text style={[styles.buttonText, styles.confirmText]}>
                 Agregar proveedor

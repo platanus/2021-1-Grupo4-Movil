@@ -11,5 +11,14 @@ const providersApi = {
       data: payload,
     });
   },
+  createProvider: (payload) => {
+    const url = config.endpoints.providers.index;
+
+    return apiUtils.api({
+      method: 'post',
+      url,
+      data: payload,
+    });
+  },
 };
 export default providersApi;
