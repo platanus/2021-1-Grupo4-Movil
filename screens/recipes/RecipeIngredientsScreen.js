@@ -1,15 +1,12 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { useStoreActions, useStoreState } from 'easy-peasy';
-import { View, Text, ActionSheetIOS } from 'react-native';
-import { CheckBox } from 'react-native-elements';
+import { View, Text, CheckBox, ActionSheetIOS } from 'react-native';
+//import { CheckBox } from 'react-native-elements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Icon } from 'react-native-elements';
 import colors from '../../styles/appColors';
 import styles from '../../styles/Ingredients/indexStyles';
 
-const findIngredient = (elem, array) => {
-
-}
 
 function RecipeIngredients(props) {
     const { navigation, route } = props;
@@ -69,8 +66,8 @@ function RecipeIngredients(props) {
                         alignItems: 'flex-start',
                         padding: '4px', width: '20%' }} key={i}>
                         <CheckBox
-                          checked={selecteds.includes(i)}
-                          onPress={() => addIngredientChecked(i)}
+                          value={selecteds.includes(i)}
+                          onValueChange={() => addIngredientChecked(i)}
                           style={{ flexDirection: 'row', marginRight: '10px' }}
                         />
                         <Text style={styles.name}>
