@@ -63,6 +63,11 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'center',
   },
+
+  navIcon: {
+    paddingRight: 8,
+    color: colors.black,
+  },
 });
 
 export default styles;
