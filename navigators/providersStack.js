@@ -8,6 +8,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import IndexProvider from '../screens/Providers/IndexProviderScreen';
+import FormProvider from '../screens/Providers/FormProviderScreen';
 import colors from '../styles/appColors';
 import styles from '../styles/Headers/indexProviderStyles';
 
@@ -37,6 +38,10 @@ function ProvidersStackScreen() {
             </View>
           ),
         })}
+      />
+      <MainProvidersStack.Screen
+        name="Nuevo Proveedor"
+        component={FormProvider}
       />
     </MainProvidersStack.Navigator>
   );
