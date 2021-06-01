@@ -216,7 +216,6 @@ const storeThunks = {
         actions.setProvidersError(err.response.data.message);
         throw err;
       });
-    console.log(provider);
 
     return provider;
   }),
