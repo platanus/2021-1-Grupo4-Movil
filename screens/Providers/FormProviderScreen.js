@@ -1,3 +1,6 @@
+/* eslint-disable camelcase */
+// se usan vars sin camelcase porque están así en la api
+
 import React, {
   useState,
 } from 'react';
@@ -26,12 +29,12 @@ function FormProvider({ navigation, route }) {
     providers,
     setProviders,
   } = route.params;
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('+56');
-  const [webPageUrl, setWebPage] = useState('');
-  const [time, setTime] = useState(0);
-  const [minPurchase, setMinPurchase] = useState(0);
+  const [name, setName] = useState(provider.attributes.name);
+  const [email, setEmail] = useState(provider.attributes.email);
+  const [phone, setPhone] = useState(provider.attributes.phone);
+  const [webPageUrl, setWebPage] = useState(provider.attributes.webpage_url);
+  const [time, setTime] = useState(provider.attributes.delivery_days);
+  const [minPurchase, setMinPurchase] = useState(provider.attributes.minimum_purchase);
 
   const createProvider = useStoreActions((actions) => actions.createProvider);
 
@@ -84,6 +87,7 @@ function FormProvider({ navigation, route }) {
         <TextInput
           style={styles.input}
           placeholder="Correo electrónico..."
+          autoCapitalize="none"
           value={email}
           onChangeText={(text) => setEmail(text)}
         />
@@ -107,6 +111,7 @@ function FormProvider({ navigation, route }) {
         <TextInput
           style={styles.input}
           placeholder="Página Web..."
+          autoCapitalize="none"
           value={webPageUrl}
           onChangeText={(text) => setWebPage(text)}
         />

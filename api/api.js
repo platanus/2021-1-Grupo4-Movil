@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { HOST } from '@env';
 
-console.log(HOST);
 const apiUtils = {
   statusCodes: {
     ok: 200,
