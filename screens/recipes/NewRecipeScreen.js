@@ -53,8 +53,6 @@ function FormRecipe(props) {
     return promises;
   }
 
-  console.log(selectedIngredients)
-
   function searchIngredients() {
     navigation.navigate("Buscar ingredientes", recipe);
   }
@@ -108,15 +106,14 @@ function FormRecipe(props) {
   }
 
 
-
   return (
     <ScrollView style={styles.mainContainer}>
       <View style={styles.container}>
         <Text style={styles.sectionTitleText}>Datos básicos</Text>
         <View style={styles.recipeInfoRow}>
-          <Text style={styles.label}>Nombre</Text>
+          <Text style={styles.label}>Nombre del ingrediente</Text>
           <TextInput
-            style={styles.sectionNameInput}
+            style={styles.searcherInput}
             value={recipeName}
             onChangeText={setRecipeName}/>
         </View>

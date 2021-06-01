@@ -1,11 +1,8 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { useStoreActions, useStoreState } from 'easy-peasy';
-import { View, Text, CheckBox, ActionSheetIOS } from 'react-native';
-//import { CheckBox } from 'react-native-elements';
+import { View, Text, CheckBox, TextInput, ActionSheetIOS } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Icon } from 'react-native-elements';
-import colors from '../../styles/appColors';
-import styles from '../../styles/Ingredients/indexStyles';
+import styles from '../../styles/Recipes/ingredientRecipe';
 
 
 function RecipeIngredients(props) {
@@ -16,6 +13,7 @@ function RecipeIngredients(props) {
     const setIngredientsForRecipe = useStoreActions((actions) => actions.setSelectedIngredient);
     const [selecteds, setSelecteds] = useState([]);
     const [ingredients, setIngredients] = useState([])
+    const [currentSearch, setCurrentSearch] = useState('')
 
     useEffect(() => {
         getAllIngredients()
@@ -31,6 +29,22 @@ function RecipeIngredients(props) {
           })
           }, [])
 
+    function getIngredientsFromSearch() {
+      if (currentSearch.length === 0) {
+        return ingredients
+      } else {
+        const filter = []
+        ingredients.forEach((ing) => {
+          const ingredientLowerCase = ing.attributes.name.toLowerCase()
+          const currentSearchLowerCase = currentSearch.toLowerCase()
+          if (ingredientLowerCase.includes(currentSearchLowerCase)) {
+            filter.push(ing)
+          }
+        })
+        return filter
+      }
+    }
+
     function addIngredientChecked(i) {
       if (!selecteds.includes(i)) {
         setSelecteds(selecteds.concat(i))
@@ -45,51 +59,51 @@ function RecipeIngredients(props) {
       const submitIngredients = []
       selecteds.forEach((index) => {
         submitIngredients.push(ingredients[index])
-      })
+      });
         setIngredientsForRecipe(submitIngredients);
         const backRoute = isNewRecipe === null ? 'Crear receta' : 'Editar Receta';
         navigation.navigate(backRoute);
     }
 
+    const shownIngredients = getIngredientsFromSearch()
+
     return (
-        <>
-          <View style={{ margin: 10 }}>
-            {
-                ingredients.map((ing, i) => (
-                  <View key={i} style={ {
-                      display: 'flex',
-                      flexDirection: 'row',
-                      alignItems: 'center', margin: 10 } }>
-                    <View style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        alignItems: 'flex-start',
-                        padding: '4px', width: '20%' }} key={i}>
-                        <CheckBox
-                          value={selecteds.includes(i)}
-                          onValueChange={() => addIngredientChecked(i)}
-                          style={{ flexDirection: 'row', marginRight: '10px' }}
-                        />
-                        <Text style={styles.name}>
-                        {ing.attributes.name}
-                        </Text>
-                    </View>
-                    <View style={{ display: 'flex', flexDirection: 'row', left: '60%' }}>
-                        <Text style={styles.price}>
-                        {`$${ing.attributes.price / ing.attributes.quantity}/${ing.attributes.measure}`}
-                        </Text>
-                    </View>
-                  </View>
-                )
-              )
-            }
-            <TouchableOpacity onPress={saveSelectedIngredients}>
-                <Text>
-                    Guardar cambios
-                </Text>
-            </TouchableOpacity>
+        <View style={styles.container}>
+          <View style={styles.recipeSearcherRow}>
+            <Text style={styles.label}>Nombre del ingrediente</Text>
+            <TextInput
+              style={styles.searcherInput}
+              value={currentSearch}
+              onChangeText={setCurrentSearch}/>
           </View>
-        </>
+          {
+              shownIngredients.map((ing, i) => (
+                <View key={i} style={styles.ingredientRow}>
+                  <View style={styles.ingredientData} key={i}>
+                      <CheckBox
+                        value={selecteds.includes(i)}
+                        onValueChange={() => addIngredientChecked(i)}
+                        style={styles.checkbox}
+                      />
+                      <Text style={styles.name}>
+                      {ing.attributes.name}
+                      </Text>
+                  </View>
+                  <View style={styles.ingredientPrice}>
+                      <Text style={styles.price}>
+                      {`$${ing.attributes.price / ing.attributes.quantity} / ${ing.attributes.measure}`}
+                      </Text>
+                  </View>
+                </View>
+              )
+            )
+          }
+          <TouchableOpacity style={styles.submitIngredients} onPress={saveSelectedIngredients}>
+              <Text style={styles.saveButton}>
+                  Guardar cambios
+              </Text>
+          </TouchableOpacity>
+        </View>
     )
 }
 
