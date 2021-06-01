@@ -18,8 +18,8 @@ const config = {
       steps: 'recipe_steps',
     },
     providers: {
-      index: '/api/v1/providers',
-      specific: '/api/v1/providers/',
+      index: `${API_VERSION}/providers`,
+      specific: `${API_VERSION}/providers/`,
     },
   },
 };
