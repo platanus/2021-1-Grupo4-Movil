@@ -30,5 +30,14 @@ const providersApi = {
       data: null,
     });
   },
+  editProvider: (payload) => {
+    const url = `${config.endpoints.providers.specific}${payload.id}`;
+
+    return apiUtils.api({
+      method: 'put',
+      url,
+      data: decamelizeKeys(payload.body),
+    });
+  },
 };
 export default providersApi;

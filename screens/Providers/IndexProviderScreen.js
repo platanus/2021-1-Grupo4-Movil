@@ -27,6 +27,7 @@ function IndexProviders({ navigation }) {
           size={30}
           style={styles.navIcon}
           onPress={() => navigation.navigate('Nuevo Proveedor', {
+            isNew: true,
             providers,
             setProviders,
           })}
@@ -54,7 +55,8 @@ function IndexProviders({ navigation }) {
             style={[styles.providerRow, (i % 2 === 0) ? styles.even : styles.odd]}
             key={provider.id}
             onPress={() => {
-              navigation.navigate('Proveedor', {
+              navigation.navigate('Editar Proveedor', {
+                isNew: false,
                 provider,
                 providers,
                 setProviders,

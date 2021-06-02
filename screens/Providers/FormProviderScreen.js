@@ -10,8 +10,10 @@ import {
 import { useStoreActions } from 'easy-peasy';
 import styles from '../../styles/Providers/formStyles';
 
+// eslint-disable-next-line max-statements
 function FormProvider({ navigation, route }) {
   const {
+    isNew,
     provider = {
       attributes: {
         name: '',
@@ -34,34 +36,50 @@ function FormProvider({ navigation, route }) {
   const [minPurchase, setMinPurchase] = useState(provider.attributes.minimumPurchase);
 
   const createProvider = useStoreActions((actions) => actions.createProvider);
+  const editProvider = useStoreActions((actions) => actions.editProvider);
 
-  function handleSubmitNew() {
+  function handleSubmit(create) {
     if (!name.length ||
       time <= 0 ||
       minPurchase < 0 ||
       !email.length) {
       return;
     }
-    const body = {
-      provider: {
-        name,
-        email,
-        phone,
-        country: provider.attributes.country,
-        webpageUrl,
-        deliveryDays: time,
-        minimumPurchase: minPurchase,
-      },
+
+    const attributes = {
+      name,
+      email,
+      phone,
+      country: provider.attributes.country,
+      webpage_url: webPageUrl,
+      delivery_days: time,
+      minimum_purchase: minPurchase,
     };
-    createProvider(body)
-      .then((res) => {
-        const auxProviders = [...providers];
-        auxProviders.push(res);
-        setProviders(auxProviders);
-        navigation.navigate('Proveedores');
-      })
-      .catch(() => {
-      });
+    provider.attributes = attributes;
+    const body = {
+      provider: provider.attributes,
+    };
+    if (create) {
+      createProvider(body)
+        .then((res) => {
+          const auxProviders = [...providers];
+          auxProviders.push(res);
+          setProviders(auxProviders);
+          navigation.navigate('Proveedores');
+        })
+        .catch(() => {
+        });
+    } else {
+      editProvider({ body, id: provider.id })
+        .then(() => {
+          const auxProviders = providers.filter(item => item.id !== provider.id);
+          auxProviders.push(provider);
+          setProviders(auxProviders);
+          navigation.navigate('Proveedores');
+        })
+        .catch(() => {
+        });
+    }
   }
 
   return (
@@ -121,7 +139,7 @@ function FormProvider({ navigation, route }) {
           style={styles.input}
           placeholder="Tiempo de entrega..."
           keyboardType="number-pad"
-          value={time.toString()}
+          value={time ? time.toString() : 0}
           onChangeText={(text) => setTime(text)}
         />
       </View>
@@ -133,7 +151,7 @@ function FormProvider({ navigation, route }) {
           style={styles.input}
           placeholder="Mínimo de compra..."
           keyboardType="number-pad"
-          value={minPurchase.toString()}
+          value={minPurchase ? minPurchase.toString() : 0}
           onChangeText={(text) => setMinPurchase(text)}
         />
       </View>
@@ -150,10 +168,10 @@ function FormProvider({ navigation, route }) {
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.button, styles.confirm]}
-          onPress={() => handleSubmitNew()}
+          onPress={() => handleSubmit(isNew)}
         >
           <Text style={[styles.buttonText, styles.confirmText]}>
-                Agregar proveedor
+            {isNew ? 'Agregar proveedor' : 'Editar proveedor' }
           </Text>
         </TouchableOpacity>
       </View>

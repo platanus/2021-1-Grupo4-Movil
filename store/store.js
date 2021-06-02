@@ -222,6 +222,13 @@ const storeThunks = {
         throw err;
       });
   }),
+  editProvider: thunk(async (actions, payload) => {
+    providersApi.editProvider(payload)
+      .catch((err) => {
+        actions.setProvidersError(err.response.data.message);
+        throw err;
+      });
+  }),
 };
 
 const generateStore = createStore({
