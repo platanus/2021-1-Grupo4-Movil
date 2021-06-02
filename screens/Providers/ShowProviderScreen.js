@@ -8,6 +8,8 @@ import { useStoreActions } from 'easy-peasy';
 
 import styles from '../../styles/Providers/showStyles';
 
+import formatNumber from '../../helpers/formatNumber';
+
 function ShowProvider({ navigation, route }) {
   const {
     provider,
@@ -68,12 +70,12 @@ function ShowProvider({ navigation, route }) {
           Mínimo de compra
         </Text>
         <Text style={styles.modalValue}>
-          {provider.attributes.minimum_purchase}
+          {formatNumber(provider.attributes.minimum_purchase, '$ ', '')}
         </Text>
       </View>
       <View style={styles.modalAttributeContainer}>
         <Text style={styles.modalName}>
-          Tiempo de despacho
+          Tiempo de despacho (días)
         </Text>
         <Text style={styles.modalValue}>
           {provider.attributes.delivery_days}
