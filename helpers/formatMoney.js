@@ -1,4 +1,4 @@
-function formatNumber(number, symbol = '', code = '') {
+function formatMoney(number, symbol = '', code = '') {
   if (isNaN(number)) return '';
   if (symbol !== '') {
     return `${symbol}${(number).toFixed(0).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, '$1.')}`;
@@ -10,4 +10,4 @@ function formatNumber(number, symbol = '', code = '') {
   return `${(number).toFixed(0).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, '$1.')}`;
 }
 
-export default formatNumber;
+export default formatMoney;
