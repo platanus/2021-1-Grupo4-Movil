@@ -78,7 +78,9 @@ function ShowProvider({ navigation, route }) {
           Tiempo de despacho
         </Text>
         <Text style={styles.modalValue}>
-          {`${provider.attributes.delivery_days} días hábiles`}
+          {(provider.attributes.delivery_days) ?
+            `${provider.attributes.delivery_days} días hábiles` :
+            ''}
         </Text>
       </View>
       <View style={styles.modalButtonsContainer}>

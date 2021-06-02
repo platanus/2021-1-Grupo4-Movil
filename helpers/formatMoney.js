@@ -1,5 +1,5 @@
 function formatMoney(number, symbol = '', code = '') {
-  if (isNaN(number)) return '';
+  if (isNaN(number) || !number) return '';
   if (symbol !== '') {
     return `${symbol}${(number).toFixed(0).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, '$1.')}`;
   }
