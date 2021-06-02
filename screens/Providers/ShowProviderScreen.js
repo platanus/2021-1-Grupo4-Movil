@@ -75,10 +75,10 @@ function ShowProvider({ navigation, route }) {
       </View>
       <View style={styles.modalAttributeContainer}>
         <Text style={styles.modalName}>
-          Tiempo de despacho (días)
+          Tiempo de despacho
         </Text>
         <Text style={styles.modalValue}>
-          {provider.attributes.delivery_days}
+          {`${provider.attributes.delivery_days} días hábiles`}
         </Text>
       </View>
       <View style={styles.modalButtonsContainer}>

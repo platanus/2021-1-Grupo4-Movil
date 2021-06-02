@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
   },
 
   modalName: {
-    width: '55%',
+    width: '50%',
     textAlign: 'left',
     fontSize: 15,
     color: '#767676',
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   },
 
   modalValue: {
-    width: '45%',
+    width: '50%',
     textAlign: 'right',
     fontSize: 17,
     color: '#111111',
