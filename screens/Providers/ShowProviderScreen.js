@@ -8,7 +8,7 @@ import { useStoreActions } from 'easy-peasy';
 
 import styles from '../../styles/Providers/showStyles';
 
-import formatMoney from '../../helpers/formatMoney';
+import formatMoney from '../../utils/formatMoney';
 
 function ShowProvider({ navigation, route }) {
   const {
