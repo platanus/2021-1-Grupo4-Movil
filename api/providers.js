@@ -11,5 +11,14 @@ const providersApi = {
       data: payload,
     });
   },
+  deleteProvider: (payload) => {
+    const url = `${config.endpoints.providers.specific}${payload.id}`;
+
+    return apiUtils.api({
+      method: 'delete',
+      url,
+      data: null,
+    });
+  },
 };
 export default providersApi;
