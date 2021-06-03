@@ -3,10 +3,10 @@ import { View, Text, TextInput } from 'react-native';
 import styles from '../styles/Recipes/newRecipe';
 
 function IngredientRow(props) {
-  const { ingredient, totalPrice, setTotalPrice } = props;
+  const { ingredient, totalPrice, setTotalPrice, changeIngredientDataQuantity } = props;
   const [currentQuantity, setCurrentQuantity] = useState(ingredient.recipeQuantity.toString());
-  const [currentPrice, setCurrentPrice] = useState(ingredient.currentPrice);
-  const priceFactor = ingredient.price / ingredient.unitQuantity;
+  const priceFactor = ingredient.price / ingredient.quantity;
+  const [currentPrice, setCurrentPrice] = useState(priceFactor * ingredient.recipeQuantity);
 
   function changeQuantity() {
     if (currentQuantity === '') {
@@ -14,9 +14,11 @@ function IngredientRow(props) {
     }
     const lastPrice = currentPrice;
     const newPrice = Number(currentQuantity.replace(',', '.')) * priceFactor;
+    ingredient.recipeQuantity = newPrice;
     setCurrentPrice(newPrice);
     setTotalPrice(totalPrice - lastPrice + newPrice);
-    ingredient.newQuantity = Number(currentQuantity.replace(',', '.'));
+    ingredient.recipeQuantity = Number(currentQuantity.replace(',', '.'));
+    changeIngredientDataQuantity(ingredient.id, Number(currentQuantity.replace(',', '.')));
   }
 
   return (
@@ -34,7 +36,7 @@ function IngredientRow(props) {
           <Text style={styles.ingredientText}> {ingredient.name}</Text>
         </View>
         <View style={styles.sectionPrice}>
-          <Text style={styles.ingredientText}>$ {currentPrice}</Text>
+          <Text style={styles.ingredientText}>$ {Math.round(currentPrice)}</Text>
         </View>
       </View>
     </View>

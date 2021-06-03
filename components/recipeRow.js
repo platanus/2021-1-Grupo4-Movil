@@ -36,7 +36,7 @@ function RecipeRow(props) {
         </View>
       </View>
       <View style={styles.right}>
-        <Text style = {styles.price}>${calculatePrice()}</Text>
+        <Text style = {styles.price}>${Math.round(calculatePrice())}</Text>
       </View>
     </TouchableOpacity>
   );

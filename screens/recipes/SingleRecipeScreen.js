@@ -85,7 +85,7 @@ function Recipe(props) {
         </View>
         <View style={styles.recipeInfoRow}>
           <Icon name='attach-money' color={colors.recipeIcon} size={30} />
-          <Text style={styles.infoText}> {recipePrice} pesos</Text>
+          <Text style={styles.infoText}> {Math.round(recipePrice)} pesos</Text>
         </View>
       </View>
       <View style={styles.ingredientsContainer}>
@@ -96,7 +96,7 @@ function Recipe(props) {
             <View style={ styles.ingredientTextBox }>
               <Text style={styles.ingredientText}>{ingredient.name}</Text>
               <Text style={styles.ingredientText}>
-                $ {ingredient.currentPrice} / {ingredient.recipeQuantity} {ingredient.measure}.
+                $ {Math.round(ingredient.currentPrice)} / {ingredient.recipeQuantity} {ingredient.measure}.
               </Text>
             </View>
             <Text>{}</Text>

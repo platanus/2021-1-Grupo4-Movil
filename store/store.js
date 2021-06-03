@@ -11,6 +11,7 @@ const storeState = {
   ingredients: {
     getError: '',
     currentSelected: [],
+    currentDeleted: [],
   },
   recipes: {
     getErrors: '',
@@ -49,6 +50,9 @@ const storeActions = {
   }),
   setSelectedIngredient: action((state, payload) => {
     state.ingredients.currentSelected = payload;
+  }),
+  setDeletedIngredient: action((state, payload) => {
+    state.ingredients.currentDeleted = payload;
   }),
   setGetRecipesError: action((state, payload) => {
     state.recipes.getErrors = payload;
