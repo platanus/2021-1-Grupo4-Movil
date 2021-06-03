@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import { useStoreActions } from 'easy-peasy';
 
-import styles from '../../styles/Providers/showStyles';
+import styles from '../../styles/showStyles';
 
 import formatMoney from '../../utils/formatMoney';
 
@@ -32,68 +32,68 @@ function ShowProvider({ navigation, route }) {
   }
 
   return (
-    <View style={styles.modalContainer}>
-      <View style={styles.modalAttributeContainer}>
-        <Text style={styles.modalName}>
+    <View style={styles.container}>
+      <View style={styles.attributeContainer}>
+        <Text style={styles.name}>
           Nombre
         </Text>
-        <Text style={styles.modalValue}>
+        <Text style={styles.value}>
           {provider.attributes.name}
         </Text>
       </View>
-      <View style={styles.modalAttributeContainer}>
-        <Text style={styles.modalName}>
+      <View style={styles.attributeContainer}>
+        <Text style={styles.name}>
           Teléfono
         </Text>
-        <Text style={styles.modalValue}>
+        <Text style={styles.value}>
           {provider.attributes.phone}
         </Text>
       </View>
-      <View style={styles.modalAttributeContainer}>
-        <Text style={styles.modalName}>
+      <View style={styles.attributeContainer}>
+        <Text style={styles.name}>
           Correo
         </Text>
-        <Text style={styles.modalValue}>
+        <Text style={styles.value}>
           {provider.attributes.email}
         </Text>
       </View>
-      <View style={styles.modalAttributeContainer}>
-        <Text style={styles.modalName}>
+      <View style={styles.attributeContainer}>
+        <Text style={styles.name}>
           Página web
         </Text>
-        <Text style={styles.modalValue}>
+        <Text style={styles.value}>
           {provider.attributes.webpage_url}
         </Text>
       </View>
-      <View style={styles.modalAttributeContainer}>
-        <Text style={styles.modalName}>
+      <View style={styles.attributeContainer}>
+        <Text style={styles.name}>
           Mínimo de compra
         </Text>
-        <Text style={styles.modalValue}>
+        <Text style={styles.value}>
           {formatMoney(provider.attributes.minimum_purchase, '$ ', '')}
         </Text>
       </View>
-      <View style={styles.modalAttributeContainer}>
-        <Text style={styles.modalName}>
+      <View style={styles.attributeContainer}>
+        <Text style={styles.name}>
           Tiempo de despacho
         </Text>
-        <Text style={styles.modalValue}>
+        <Text style={styles.value}>
           {(provider.attributes.delivery_days) ?
             `${provider.attributes.delivery_days} días hábiles` :
             ''}
         </Text>
       </View>
-      <View style={styles.modalButtonsContainer}>
+      <View style={styles.buttonsContainer}>
         <TouchableOpacity
-          style={styles.modalDelete}
+          style={styles.delete}
           onPress={handleSubmitDelete}
         >
-          <Text style={styles.modalDeleteText}>
+          <Text style={styles.deleteText}>
             Borrar
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.modalEdit}
+          style={styles.edit}
           onPress={() => navigation.navigate('Editar Proveedor', {
             isNew: false,
             provider,
@@ -101,7 +101,7 @@ function ShowProvider({ navigation, route }) {
             setProviders,
           })}
         >
-          <Text style={styles.modalEditText}>
+          <Text style={styles.editText}>
             Editar
           </Text>
         </TouchableOpacity>

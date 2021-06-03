@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import { useStoreActions } from 'easy-peasy';
 
-import styles from '../../styles/Ingredients/showStyles';
+import styles from '../../styles/showStyles';
 
 function ShowIngredient({ navigation, route }) {
   const {
@@ -30,58 +30,58 @@ function ShowIngredient({ navigation, route }) {
   }
 
   return (
-    <View style={styles.modalContainer}>
-      <View style={styles.modalAttributeContainer}>
-        <Text style={styles.modalName}>
+    <View style={styles.container}>
+      <View style={styles.attributeContainer}>
+        <Text style={styles.name}>
           Nombre
         </Text>
-        <Text style={styles.modalValue}>
+        <Text style={styles.value}>
           {ingredient.attributes.name}
         </Text>
       </View>
-      <View style={styles.modalAttributeContainer}>
-        <Text style={styles.modalName}>
+      <View style={styles.attributeContainer}>
+        <Text style={styles.name}>
           Precio
         </Text>
-        <Text style={styles.modalValue}>
+        <Text style={styles.value}>
           {ingredient.attributes.price}
         </Text>
       </View>
-      <View style={styles.modalAttributeContainer}>
-        <Text style={styles.modalName}>
+      <View style={styles.attributeContainer}>
+        <Text style={styles.name}>
           Cantidad
         </Text>
-        <Text style={styles.modalValue}>
+        <Text style={styles.value}>
           {ingredient.attributes.quantity}
         </Text>
       </View>
-      <View style={styles.modalAttributeContainer}>
-        <Text style={styles.modalName}>
+      <View style={styles.attributeContainer}>
+        <Text style={styles.name}>
           Unidad
         </Text>
-        <Text style={styles.modalValue}>
+        <Text style={styles.value}>
           {ingredient.attributes.measure}
         </Text>
       </View>
-      <View style={styles.modalAttributeContainer}>
-        <Text style={styles.modalName}>
+      <View style={styles.attributeContainer}>
+        <Text style={styles.name}>
           Precio por unidad
         </Text>
-        <Text style={styles.modalValue}>
+        <Text style={styles.value}>
           {ingredient.attributes.price}
         </Text>
       </View>
-      <View style={styles.modalButtonsContainer}>
+      <View style={styles.buttonsContainer}>
         <TouchableOpacity
-          style={styles.modalDelete}
+          style={styles.delete}
           onPress={handleSubmitDelete}
         >
-          <Text style={styles.modalDeleteText}>
+          <Text style={styles.deleteText}>
             Borrar
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.modalEdit}
+          style={styles.edit}
           onPress={() => navigation.navigate('Editar Ingrediente', {
             isNew: false,
             ingredient,
@@ -89,7 +89,7 @@ function ShowIngredient({ navigation, route }) {
             setIngredients,
           })}
         >
-          <Text style={styles.modalEditText}>
+          <Text style={styles.editText}>
             Editar
           </Text>
         </TouchableOpacity>

@@ -209,6 +209,12 @@ const storeThunks = {
 
     return providers;
   }),
+  createProvider: thunk(async (actions, payload) => {
+    const provider = providersApi.createProvider(payload)
+      .then((res) => res.data.data);
+
+    return provider;
+  }),
   deleteProvider: thunk(async (actions, payload) => {
     providersApi.deleteProvider(payload)
       .catch((err) => {
