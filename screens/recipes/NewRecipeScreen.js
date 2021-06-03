@@ -71,9 +71,9 @@ function FormRecipe(props) {
       selectedIngredients.forEach((ingredient) => {
         const index = ingredientsData.findIndex((data) => data.ingredientId.toString() === ingredient.id.toString());
         if (index >= 0) {
+          ingredientsData[index].isDeleted = false;
           auxIngredients.push({
             ...ingredientsData[index],
-            isDeleted: true,
           });
         } else {
           const newIngredient = {
