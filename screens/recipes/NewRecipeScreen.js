@@ -12,6 +12,7 @@ import IngredientRow from '../../components/recipeEditIngredientRow';
 function FormRecipe(props) {
   const { navigation, route } = props;
   const recipe = (route.params && route.params.recipe) ? route.params.recipe : null;
+  const setLoadRecipe = useStoreActions((actions) => actions.setLoadRecipe);
 
   const [recipeName, setRecipeName] = useState(recipe ? recipe.attributes.name : '');
   const [recipeTime, setRecipeTime] = useState(recipe ? recipe.attributes.cook_minutes.toString() : '');
@@ -178,24 +179,25 @@ function FormRecipe(props) {
       editRecipe({ body, id: recipe.id })
         .then(() => Promise.all(stepsActions(recipe.id)))
         .then(() => {
+          setLoadRecipe(true);
           navigation.navigate('Recetas', { recipe });
-          recipe.attributes.name = recipeName;
-          recipe.attributes.portions = Number(recipePortions);
-          // eslint-disable-next-line
-          recipe.attributes.cook_minutes = Number(recipeTime);
-          let index = 0;
-          for (let k = 0; k < recipeSteps.length; k++) {
-            if (('new' in recipeSteps[k]) && !('delete' in recipeSteps[k])) {
-              recipe.attributes.steps.data.push(JSON.parse(JSON.stringify(recipeSteps[k])));
-              index++;
-            } else if (('delete' in recipeSteps[k]) && !('new' in recipeSteps[k])) {
-              recipe.attributes.steps.data.splice(index, 1);
-            } else if (('edit' in recipeSteps[k]) && !('delete' in recipeSteps[k]) && !('new' in recipeSteps[k])) {
-              recipe.attributes.steps.data[index++] = JSON.parse(JSON.stringify(recipeSteps[k]));
-            } else if (!('delete' in recipeSteps[k])) {
-              index++;
-            }
-          }
+          // recipe.attributes.name = recipeName;
+          // recipe.attributes.portions = Number(recipePortions);
+          // // eslint-disable-next-line
+          // recipe.attributes.cook_minutes = Number(recipeTime);
+          // let index = 0;
+          // for (let k = 0; k < recipeSteps.length; k++) {
+          //   if (('new' in recipeSteps[k]) && !('delete' in recipeSteps[k])) {
+          //     recipe.attributes.steps.data.push(JSON.parse(JSON.stringify(recipeSteps[k])));
+          //     index++;
+          //   } else if (('delete' in recipeSteps[k]) && !('new' in recipeSteps[k])) {
+          //     recipe.attributes.steps.data.splice(index, 1);
+          //   } else if (('edit' in recipeSteps[k]) && !('delete' in recipeSteps[k]) && !('new' in recipeSteps[k])) {
+          //     recipe.attributes.steps.data[index++] = JSON.parse(JSON.stringify(recipeSteps[k]));
+          //   } else if (!('delete' in recipeSteps[k])) {
+          //     index++;
+          //   }
+          // }
         })
         .catch(() => {
         });
@@ -208,6 +210,7 @@ function FormRecipe(props) {
         })
         .then((resp) => {
           // Falta agregar esta receta al index
+          setLoadRecipe(true);
           navigation.navigate('Recetas', { recipe });
         })
         .catch(() => {});

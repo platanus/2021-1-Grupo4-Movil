@@ -17,6 +17,9 @@ function Recipes(props) {
   const [errorMessage, setErrorMessage] = useState('');
   const deletedRecipe = useStoreState((state) => state.recipes.delete);
 
+  const loadRecipe = useStoreState((state) => state.recipes.load);
+  const setLoadRecipe = useStoreActions((actions) => actions.setLoadRecipe);
+
   useEffect(() => {
     getRecipes()
       .then((res) => {
@@ -26,7 +29,21 @@ function Recipes(props) {
         setShowError(true);
         setErrorMessage(err);
       });
-  }, [newRecipe, getRecipes, deletedRecipe]);
+  }, [newRecipe, getRecipes, deletedRecipe, loadRecipe]);
+
+  useEffect(() => {
+    if (loadRecipe) {
+      getRecipes()
+        .then((res) => {
+          setRecipes(res);
+        })
+        .catch((err) => {
+          setShowError(true);
+          setErrorMessage(err);
+        });
+      setLoadRecipe(false);
+    }
+  }, [loadRecipe]);
 
   if (recipes.length) {
     return (

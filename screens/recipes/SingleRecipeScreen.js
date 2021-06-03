@@ -15,6 +15,7 @@ function Recipe(props) {
   const deleteRecipe = useStoreActions((actions) => actions.deleteRecipe);
   const [showMenu, setShowMenu] = useState(false);
   const [recipePrice, setRecipePrice] = useState(0);
+  const setLoadRecipe = useStoreActions((actions) => actions.setLoadRecipe);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -64,7 +65,11 @@ function Recipe(props) {
         <TouchableOpacity style={styles.menuOption}
           onPress={() => Alert.alert('¿Estás seguro?', 'Esta acción es irreversible',
             [{ text: 'No', onPress: () => { setShowMenu(false); }, style: 'cancel' },
-              { text: 'Si', onPress: () => { deleteRecipe(recipe.id); } }],
+              { text: 'Si', onPress: () => {
+                deleteRecipe(recipe.id);
+                setLoadRecipe(true);
+                navigation.navigate('Recetas', { recipe });
+              } }],
           )
           }>
           <Text style={styles.ingredientText}>Eliminar</Text>

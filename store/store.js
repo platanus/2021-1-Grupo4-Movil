@@ -18,6 +18,7 @@ const storeState = {
     createErrors: '',
     deleteErrors: '',
     delete: false,
+    load: false,
   },
 };
 
@@ -70,6 +71,9 @@ const storeActions = {
     state.currentUser = null;
     apiUtils.api.defaults.headers = { 'Accept': 'application/json',
       'Content-Type': 'application/json' };
+  }),
+  setLoadRecipe: action((state, payload) => {
+    state.recipes.load = payload;
   }),
 };
 

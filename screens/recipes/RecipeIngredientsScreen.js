@@ -77,43 +77,47 @@ function RecipeIngredients(props) {
   const shownIngredients = getIngredientsFromSearch();
 
   return (
-    <View style={styles.container}>
-      <View style={styles.recipeSearcherRow}>
-        <Text style={styles.label}>Nombre del ingrediente</Text>
-        <TextInput
-          style={styles.searcherInput}
-          value={currentSearch}
-          onChangeText={setCurrentSearch}/>
+    <>
+      <View style={styles.container}>
+        <View style={styles.recipeSearcherRow}>
+          <Text style={styles.label}>Nombre del ingrediente</Text>
+          <TextInput
+            style={styles.searcherInput}
+            value={currentSearch}
+            onChangeText={setCurrentSearch}/>
+        </View>
       </View>
-      <ScrollView >
-        {
-          shownIngredients.map((ing, i) => (
-            <View key={i} style={styles.ingredientRow}>
-              <View style={styles.ingredientData} key={i}>
-                <CheckBox
-                  checked={selecteds.includes(i)}
-                  onPress={() => addIngredientChecked(i)}
-                  style={styles.checkbox}
-                />
-                <Text style={styles.name}>
-                  {ing.attributes.name}
-                </Text>
+      <View style={styles.container}>
+        <ScrollView >
+          {
+            shownIngredients.map((ing, i) => (
+              <View key={i} style={styles.ingredientRow}>
+                <View style={styles.ingredientData} key={i}>
+                  <CheckBox
+                    checked={selecteds.includes(i)}
+                    onPress={() => addIngredientChecked(i)}
+                    style={styles.checkbox}
+                  />
+                  <Text style={styles.name}>
+                    {ing.attributes.name}
+                  </Text>
+                </View>
+                <View style={styles.ingredientPrice}>
+                  <Text style={styles.price}>
+                    {`$${ing.attributes.price / ing.attributes.quantity} / ${ing.attributes.measure}`}
+                  </Text>
+                </View>
               </View>
-              <View style={styles.ingredientPrice}>
-                <Text style={styles.price}>
-                  {`$${ing.attributes.price / ing.attributes.quantity} / ${ing.attributes.measure}`}
-                </Text>
-              </View>
-            </View>
-          ),
-          )}
-      </ScrollView>
-      <TouchableOpacity style={styles.submitIngredients} onPress={saveSelectedIngredients}>
-        <Text style={styles.saveButton}>
-          Guardar cambios
-        </Text>
-      </TouchableOpacity>
-    </View>
+            ),
+            )}
+        </ScrollView>
+        <TouchableOpacity style={styles.submitIngredients} onPress={saveSelectedIngredients}>
+          <Text style={styles.saveButton}>
+            Guardar cambios
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </>
   );
 }
 
