@@ -1,8 +1,8 @@
 import { StyleSheet } from 'react-native';
-import colors from '../appColors';
+import colors from './appColors';
 
 const styles = StyleSheet.create({
-  modalContainer: {
+  container: {
     backgroundColor: '#FFFFFF',
     flexDirection: 'column',
     alignItems: 'center',
@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
-  modalAttributeContainer: {
+  attributeContainer: {
     width: '80%',
     height: '10%',
     borderBottomColor: '#AAAAAA',
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 
-  modalName: {
+  name: {
     width: '50%',
     textAlign: 'left',
     fontSize: 15,
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
   },
 
-  modalValue: {
+  value: {
     width: '50%',
     textAlign: 'right',
     fontSize: 17,
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
   },
 
-  modalButtonsContainer: {
+  buttonsContainer: {
     width: '100%',
     height: '15%',
     position: 'absolute',
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 
-  modalDelete: {
+  delete: {
     width: '40%',
     height: '30%',
     backgroundColor: '#FFFFFF',
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
 
-  modalDeleteText: {
+  deleteText: {
     color: colors.greenButtons,
 
     fontWeight: 'normal',
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 
-  modalEdit: {
+  edit: {
     width: '40%',
     height: '30%',
     backgroundColor: colors.greenButtons,
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 
-  modalEditText: {
+  editText: {
     color: '#FFFFFF',
 
     fontWeight: 'normal',
