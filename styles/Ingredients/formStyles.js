@@ -11,43 +11,40 @@ const styles = StyleSheet.create({
   },
 
   inputContainer: {
-    width: '80%',
+    width: '75%',
     height: '10%',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'flex-start',
-    marginBottom: 20,
+    marginTop: 30,
   },
 
   inputLabel: {
     fontSize: 14,
-    height: '20%',
-
     fontWeight: 'normal',
     fontStyle: 'normal',
-    color: '#767676',
+    color: colors.tableBorder,
     marginBottom: 5,
   },
 
   input: {
     width: '100%',
-    height: '60%',
-    borderColor: '#AAAAAA',
+    height: '85%',
+    borderColor: colors.tableBorder,
     borderWidth: 2,
     borderRadius: 5,
-    fontSize: 16,
+    fontSize: 14,
     paddingLeft: 15,
     paddingRight: 15,
-
-    fontWeight: '800',
+    fontWeight: 'bold',
     fontStyle: 'normal',
     color: '#111111',
   },
 
   dropDown: {
     width: '100%',
-    height: '60%',
-    borderColor: '#AAAAAA',
+    height: '85%',
+    borderColor: colors.tableBorder,
     borderWidth: 2,
     borderRadius: 5,
     fontSize: 16,
@@ -55,7 +52,7 @@ const styles = StyleSheet.create({
 
   buttonsContainer: {
     width: '100%',
-    height: '15%',
+    height: '20%',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -70,6 +67,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 
+  scrapperButton: {
+    backgroundColor: colors.greenButtons,
+    padding: 12,
+    borderRadius: 5,
+    height: '8%',
+    width: '75%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 10 },
+
+  scrapperButtonText: {
+    color: colors.white,
+    fontWeight: 'bold',
+  },
+
   cancel: {
     width: '30%',
     backgroundColor: 'transparent',
@@ -77,9 +89,9 @@ const styles = StyleSheet.create({
   },
 
   confirm: {
-    width: '60%',
+    width: '55%',
     backgroundColor: colors.greenButtons,
-    borderRadius: 10,
+    borderRadius: 5,
   },
 
   buttonText: {
@@ -93,7 +105,7 @@ const styles = StyleSheet.create({
   },
 
   confirmText: {
-    color: '#FFFFFF',
+    color: colors.white,
   },
 });
 
