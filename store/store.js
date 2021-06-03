@@ -209,6 +209,13 @@ const storeThunks = {
 
     return providers;
   }),
+  deleteProvider: thunk(async (actions, payload) => {
+    providersApi.deleteProvider(payload)
+      .catch((err) => {
+        actions.setProvidersError(err.response.data.message);
+        throw err;
+      });
+  }),
 };
 
 const generateStore = createStore({
