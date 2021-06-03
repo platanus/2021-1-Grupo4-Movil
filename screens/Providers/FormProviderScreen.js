@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { useStoreActions } from 'easy-peasy';
 import styles from '../../styles/Providers/formStyles';
+import formatPhone from '../../utils/formatPhone';
 
 // eslint-disable-next-line max-statements
 function FormProvider({ navigation, route }) {
@@ -18,7 +19,7 @@ function FormProvider({ navigation, route }) {
       attributes: {
         name: '',
         email: '',
-        phone: '',
+        phone: '+56 ',
         country: 'Chile',
         webpageUrl: '',
         deliveryDays: 0,
@@ -115,8 +116,9 @@ function FormProvider({ navigation, route }) {
           style={styles.input}
           placeholder="Teléfono de contacto..."
           keyboardType="number-pad"
+          returnKeyType='done'
           value={phone}
-          onChangeText={(text) => setPhone(text)}
+          onChangeText={(text) => setPhone(formatPhone(text))}
         />
       </View>
       <View style={styles.inputContainer}>
@@ -139,6 +141,7 @@ function FormProvider({ navigation, route }) {
           style={styles.input}
           placeholder="Tiempo de entrega..."
           keyboardType="number-pad"
+          returnKeyType='done'
           value={time ? time.toString() : 0}
           onChangeText={(text) => setTime(text)}
         />
@@ -151,6 +154,7 @@ function FormProvider({ navigation, route }) {
           style={styles.input}
           placeholder="Mínimo de compra..."
           keyboardType="number-pad"
+          returnKeyType='done'
           value={minPurchase ? minPurchase.toString() : 0}
           onChangeText={(text) => setMinPurchase(text)}
         />
