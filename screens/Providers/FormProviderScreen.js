@@ -1,6 +1,3 @@
-/* eslint-disable camelcase */
-// se usan vars sin camelcase porque están así en la api
-
 import React, {
   useState,
 } from 'react';
@@ -21,9 +18,9 @@ function FormProvider({ navigation, route }) {
         email: '',
         phone: '',
         country: 'Chile',
-        webpage_url: '',
-        delivery_days: 0,
-        minimum_purchase: 0,
+        webpageUrl: '',
+        deliveryDays: 0,
+        minimumPurchase: 0,
       },
     },
     providers,
@@ -32,9 +29,9 @@ function FormProvider({ navigation, route }) {
   const [name, setName] = useState(provider.attributes.name);
   const [email, setEmail] = useState(provider.attributes.email);
   const [phone, setPhone] = useState(provider.attributes.phone);
-  const [webPageUrl, setWebPage] = useState(provider.attributes.webpage_url);
-  const [time, setTime] = useState(provider.attributes.delivery_days);
-  const [minPurchase, setMinPurchase] = useState(provider.attributes.minimum_purchase);
+  const [webpageUrl, setWebpageUrl] = useState(provider.attributes.webpageUrl);
+  const [time, setTime] = useState(provider.attributes.deliveryDays);
+  const [minPurchase, setMinPurchase] = useState(provider.attributes.minimumPurchase);
 
   const createProvider = useStoreActions((actions) => actions.createProvider);
 
@@ -51,9 +48,9 @@ function FormProvider({ navigation, route }) {
         email,
         phone,
         country: provider.attributes.country,
-        webpage_url: webPageUrl,
-        delivery_days: time,
-        minimum_purchase: minPurchase,
+        webpageUrl,
+        deliveryDays: time,
+        minimumPurchase: minPurchase,
       },
     };
     createProvider(body)
@@ -112,8 +109,8 @@ function FormProvider({ navigation, route }) {
           style={styles.input}
           placeholder="Página Web..."
           autoCapitalize="none"
-          value={webPageUrl}
-          onChangeText={(text) => setWebPage(text)}
+          value={webpageUrl}
+          onChangeText={(text) => setWebpageUrl(text)}
         />
       </View>
       <View style={styles.inputContainer}>

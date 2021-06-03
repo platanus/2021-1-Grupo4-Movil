@@ -1,3 +1,4 @@
+import { decamelizeKeys } from 'humps';
 import config from '../config';
 import apiUtils from './api';
 
@@ -12,12 +13,12 @@ const providersApi = {
     });
   },
   createProvider: (payload) => {
-    const url = config.endpoints.providers.index;
+    const url = config.endpoints.providers.new;
 
     return apiUtils.api({
       method: 'post',
       url,
-      data: payload,
+      data: decamelizeKeys(payload),
     });
   },
   deleteProvider: (payload) => {
