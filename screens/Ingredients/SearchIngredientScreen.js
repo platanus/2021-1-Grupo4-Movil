@@ -30,7 +30,7 @@ function SearchIngredient({ navigation, route }) {
       searchCornerShop(query)
         .then((res) => {
           if (res.length > 0) {
-            setActualProvider(res[0].provider.id);
+            setActualProvider(0);
             setSearchResponse(res);
           }
         })
