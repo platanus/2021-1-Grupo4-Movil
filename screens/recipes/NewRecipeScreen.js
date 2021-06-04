@@ -5,7 +5,6 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import colors from '../../styles/appColors';
 import styles from '../../styles/Recipes/newRecipe';
 import RecipeSteps from './RecipeStepsScreen';
-// import RecipeIngredients from './RecipeIngredientsScreen';
 import IngredientRow from '../../components/recipeEditIngredientRow';
 import calculateRecipePrice from '../../utils/calculateRecipePrice';
 
@@ -49,7 +48,7 @@ function FormRecipe(props) {
         });
         auxRecipeIngredients.push({
           ...ingredient.attributes.ingredient,
-          ingredientId: ingredient.attributes.ingredient.id,
+          id: ingredient.attributes.ingredient.id,
           recipeIngredientId: ingredient.id,
           recipeQuantity: ingredient.attributes.ingredient_quantity,
           isNew: false,
@@ -69,19 +68,20 @@ function FormRecipe(props) {
   useEffect(() => {
     if (!isStarting) {
       const auxIngredients = [];
-      const auxData = [];
+      let price = 0;
       selectedIngredients.forEach((ingredient) => {
-        const index = ingredientsData.findIndex((data) => data.ingredientId.toString() === ingredient.id.toString());
+        const index = ingredientsData.findIndex((data) => data.id.toString() === ingredient.id.toString());
         if (index >= 0) {
           ingredientsData[index].isDeleted = false;
+          price += ingredientsData[index].recipeQuantity * ingredientsData[index].price /
+            ingredientsData[index].quantity;
           auxIngredients.push({
             ...ingredientsData[index],
           });
         } else {
           const newIngredient = {
             ...ingredient.attributes,
-            id: ingredient.attributes.name,
-            ingredientId: ingredient.id,
+            id: ingredient.id,
             recipeIngredientId: null,
             recipeQuantity: 0,
             isNew: true,
@@ -89,13 +89,13 @@ function FormRecipe(props) {
             isDeleted: false,
           };
           auxIngredients.push(newIngredient);
-          auxData.push(newIngredient);
+          ingredientsData.push(newIngredient);
         }
       });
+      setRecipePrice(price);
       setRecipeIngredients(auxIngredients);
-      setIngredientsData(ingredientsData.concat(auxData));
       deletedIngredients.forEach((ingredientId) => {
-        const index = ingredientsData.findIndex((data) => data.ingredientId.toString() === ingredientId.toString());
+        const index = ingredientsData.findIndex((data) => data.id.toString() === ingredientId.toString());
         if (index >= 0) {
           ingredientsData[index].isDeleted = true;
         }
@@ -105,11 +105,20 @@ function FormRecipe(props) {
   }, [selectedIngredients]);
 
   function changeIngredientDataQuantity(ingredientId, newQuantity) {
-    const index = ingredientsData.findIndex((data) => data.ingredientId.toString() === ingredientId.toString());
+    const index = ingredientsData.findIndex((data) => data.id.toString() === ingredientId.toString());
     if (index >= 0) {
       ingredientsData[index].recipeQuantity = newQuantity;
       ingredientsData[index].isEdited = true;
     }
+  }
+
+  function deleteIngredient(ingredientId) {
+    setDeletedIngredients([ingredientId]);
+    const recipesIndex = recipeIngredients.findIndex((ingredient) =>
+      ingredient.id.toString() === ingredientId.toString());
+    const auxIngredients = recipeIngredients;
+    auxIngredients.splice(recipesIndex, 1);
+    setIngredientsAction(auxIngredients);
   }
 
   function stepsActions(recipeId) {
@@ -141,9 +150,9 @@ function FormRecipe(props) {
     const ingredientsList = [];
     ingredientsData.forEach((ingredient) => {
       if (ingredient.isNew) {
-        if (ingredient.action !== 'delete') {
+        if (!ingredient.isDeleted) {
           ingredientsList.push({
-            'ingredient_id': ingredient.ingredientId,
+            'ingredient_id': ingredient.id,
             'ingredient_quantity': ingredient.recipeQuantity,
           });
         }
@@ -152,7 +161,7 @@ function FormRecipe(props) {
       } else if (ingredient.isEdited) {
         ingredientsList.push({
           id: ingredient.recipeIngredientId,
-          'ingredient_id': ingredient.ingredientId,
+          'ingredient_id': ingredient.id,
           'ingredient_quantity': ingredient.recipeQuantity,
           _destroy: false,
         });
@@ -246,6 +255,7 @@ function FormRecipe(props) {
             totalPrice={recipePrice}
             setTotalPrice={setRecipePrice}
             changeIngredientDataQuantity={changeIngredientDataQuantity}
+            deleteIngredient={deleteIngredient}
           />,
         )}
       </View>

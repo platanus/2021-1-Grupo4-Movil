@@ -77,7 +77,7 @@ function RecipeIngredients(props) {
   const shownIngredients = getIngredientsFromSearch();
 
   return (
-    <>
+    <View style={styles.mainContainer}>
       <View style={styles.container}>
         <View style={styles.recipeSearcherRow}>
           <Text style={styles.label}>Nombre del ingrediente</Text>
@@ -87,8 +87,8 @@ function RecipeIngredients(props) {
             onChangeText={setCurrentSearch}/>
         </View>
       </View>
-      <View style={styles.container}>
-        <ScrollView >
+      <View style={styles.ingredientsContainer}>
+        <ScrollView>
           {
             shownIngredients.map((ing, i) => (
               <View key={i} style={styles.ingredientRow}>
@@ -104,20 +104,20 @@ function RecipeIngredients(props) {
                 </View>
                 <View style={styles.ingredientPrice}>
                   <Text style={styles.price}>
-                    {`$${ing.attributes.price / ing.attributes.quantity} / ${ing.attributes.measure}`}
+                    {`$${Math.round(ing.attributes.price / ing.attributes.quantity)} / ${ing.attributes.measure}`}
                   </Text>
                 </View>
               </View>
             ),
             )}
         </ScrollView>
-        <TouchableOpacity style={styles.submitIngredients} onPress={saveSelectedIngredients}>
-          <Text style={styles.saveButton}>
-            Guardar cambios
-          </Text>
-        </TouchableOpacity>
       </View>
-    </>
+      <TouchableOpacity style={styles.submitIngredients} onPress={saveSelectedIngredients}>
+        <Text style={styles.saveButton}>
+          Guardar cambios
+        </Text>
+      </TouchableOpacity>
+    </View>
   );
 }
 

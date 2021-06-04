@@ -2,7 +2,10 @@ import { StyleSheet } from 'react-native';
 import colors from '../appColors';
 
 const styles = StyleSheet.create({
-
+  mainContainer: {
+    backgroundColor: colors.white,
+    height: '100%',
+  },
   container: {
     backgroundColor: colors.white,
     display: 'flex',
@@ -11,7 +14,7 @@ const styles = StyleSheet.create({
   ingredientsContainer: {
     backgroundColor: colors.white,
     display: 'flex',
-    flex: 1,
+    height: '80%',
   },
   recipeSearcherRow: {
     display: 'flex',
