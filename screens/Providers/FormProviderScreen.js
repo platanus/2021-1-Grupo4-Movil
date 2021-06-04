@@ -29,6 +29,7 @@ function FormProvider({ navigation, route }) {
     providers,
     setProviders,
   } = route.params;
+
   const [name, setName] = useState(provider.attributes.name);
   const [email, setEmail] = useState(provider.attributes.email);
   const [phone, setPhone] = useState(provider.attributes.phone);
@@ -52,9 +53,9 @@ function FormProvider({ navigation, route }) {
       email,
       phone,
       country: provider.attributes.country,
-      webpage_url: webPageUrl,
-      delivery_days: time,
-      minimum_purchase: minPurchase,
+      webpageUrl,
+      deliveryDays: time,
+      minimumPurchase: minPurchase,
     };
     provider.attributes = attributes;
     const body = {
@@ -76,7 +77,11 @@ function FormProvider({ navigation, route }) {
           const auxProviders = providers.filter(item => item.id !== provider.id);
           auxProviders.push(provider);
           setProviders(auxProviders);
-          navigation.navigate('Proveedores');
+          navigation.navigate('Proveedor', {
+            provider,
+            providers,
+            setProviders,
+          });
         })
         .catch(() => {
         });

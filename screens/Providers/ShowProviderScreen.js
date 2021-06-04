@@ -62,7 +62,7 @@ function ShowProvider({ navigation, route }) {
           Página web
         </Text>
         <Text style={styles.value}>
-          {provider.attributes.webpage_url}
+          {provider.attributes.webpageUrl}
         </Text>
       </View>
       <View style={styles.attributeContainer}>
@@ -70,7 +70,7 @@ function ShowProvider({ navigation, route }) {
           Mínimo de compra
         </Text>
         <Text style={styles.value}>
-          {formatMoney(provider.attributes.minimum_purchase, '$ ', '')}
+          {formatMoney(provider.attributes.minimumPurchase, '$ ', '')}
         </Text>
       </View>
       <View style={styles.attributeContainer}>
@@ -78,8 +78,8 @@ function ShowProvider({ navigation, route }) {
           Tiempo de despacho
         </Text>
         <Text style={styles.value}>
-          {(provider.attributes.delivery_days) ?
-            `${provider.attributes.delivery_days} días hábiles` :
+          {(provider.attributes.deliveryDays) ?
+            `${provider.attributes.deliveryDays} días hábiles` :
             ''}
         </Text>
       </View>
@@ -94,12 +94,14 @@ function ShowProvider({ navigation, route }) {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.edit}
-          onPress={() => navigation.navigate('Editar Proveedor', {
-            isNew: false,
-            provider,
-            providers,
-            setProviders,
-          })}
+          onPress={() => {
+            navigation.navigate('Editar Proveedor', {
+              isNew: false,
+              provider,
+              providers,
+              setProviders,
+            });
+          }}
         >
           <Text style={styles.editText}>
             Editar
