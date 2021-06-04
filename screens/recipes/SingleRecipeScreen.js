@@ -44,11 +44,11 @@ function Recipe(props) {
   }
 
   useEffect(() => {
-    const currentIngredients = [];
-    recipe.attributes.recipe_ingredients.data.forEach((ingredient) => {
-      currentIngredients.push(ingredientInfo(ingredient));
-    });
-    setIngredients(currentIngredients);
+    setIngredients(
+      recipe.attributes.recipe_ingredients.data.map(
+        (ingredient) => ingredientInfo(ingredient),
+      ),
+    );
   }, [recipe.attributes.recipe_ingredients]);
 
   return (
