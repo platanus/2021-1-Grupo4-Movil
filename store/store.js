@@ -16,6 +16,9 @@ const storeState = {
     createErrors: '',
     deleteErrors: '',
     delete: false,
+    load: true,
+    currentSelectedIngredients: [],
+    currentDeletedIngredients: [],
   },
 };
 
@@ -46,6 +49,12 @@ const storeActions = {
   setGetIngredientsError: action((state, payload) => {
     state.ingredients.getErrors = payload;
   }),
+  setSelectedRecipeIngredients: action((state, payload) => {
+    state.recipes.currentSelectedIngredients = payload;
+  }),
+  setDeletedRecipeIngredients: action((state, payload) => {
+    state.recipes.currentDeletedIngredients = payload;
+  }),
   setGetRecipesError: action((state, payload) => {
     state.recipes.getErrors = payload;
   }),
@@ -62,6 +71,9 @@ const storeActions = {
     state.currentUser = null;
     apiUtils.api.defaults.headers = { 'Accept': 'application/json',
       'Content-Type': 'application/json' };
+  }),
+  setLoadRecipes: action((state, payload) => {
+    state.recipes.load = payload;
   }),
 };
 
