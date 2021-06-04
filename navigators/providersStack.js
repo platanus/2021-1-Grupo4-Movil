@@ -21,6 +21,10 @@ function ProvidersStackScreen() {
         name="Proveedor"
         component={ShowProvider}
       />
+      <MainProvidersStack.Screen
+        name="Editar Proveedor"
+        component={FormProvider}
+      />
     </MainProvidersStack.Navigator>
   );
 }
