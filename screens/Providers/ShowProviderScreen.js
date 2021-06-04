@@ -8,22 +8,24 @@ import { useStoreActions } from 'easy-peasy';
 
 import styles from '../../styles/showStyles';
 
-function ShowIngredient({ navigation, route }) {
+import formatMoney from '../../utils/formatMoney';
+
+function ShowProvider({ navigation, route }) {
   const {
-    ingredient,
-    ingredients,
-    setIngredients,
+    provider,
+    providers,
+    setProviders,
   } = route.params;
 
-  const deleteIngredient = useStoreActions((actions) => actions.deleteIngredient);
+  const deleteProvider = useStoreActions((actions) => actions.deleteProvider);
 
   function handleSubmitDelete() {
-    const body = { id: ingredient.id };
-    deleteIngredient(body)
+    const body = { id: provider.id };
+    deleteProvider(body)
       .then(() => {
-        const auxIngredients = ingredients.filter(item => item.id !== ingredient.id);
-        setIngredients(auxIngredients);
-        navigation.navigate('Ingredientes', { ingredientDeleted: ingredient });
+        const auxProviders = providers.filter(item => item.id !== provider.id);
+        setProviders(auxProviders);
+        navigation.navigate('Proveedores', { providerDeleted: provider });
       })
       .catch(() => {
       });
@@ -36,39 +38,49 @@ function ShowIngredient({ navigation, route }) {
           Nombre
         </Text>
         <Text style={styles.value}>
-          {ingredient.attributes.name}
+          {provider.attributes.name}
         </Text>
       </View>
       <View style={styles.attributeContainer}>
         <Text style={styles.name}>
-          Precio
+          Teléfono
         </Text>
         <Text style={styles.value}>
-          {ingredient.attributes.price}
+          {provider.attributes.phone}
         </Text>
       </View>
       <View style={styles.attributeContainer}>
         <Text style={styles.name}>
-          Cantidad
+          Correo
         </Text>
         <Text style={styles.value}>
-          {ingredient.attributes.quantity}
+          {provider.attributes.email}
         </Text>
       </View>
       <View style={styles.attributeContainer}>
         <Text style={styles.name}>
-          Unidad
+          Página web
         </Text>
         <Text style={styles.value}>
-          {ingredient.attributes.measure}
+          {provider.attributes.webpageUrl}
         </Text>
       </View>
       <View style={styles.attributeContainer}>
         <Text style={styles.name}>
-          Precio por unidad
+          Mínimo de compra
         </Text>
         <Text style={styles.value}>
-          {ingredient.attributes.price}
+          {formatMoney(provider.attributes.minimumPurchase, '$ ', '')}
+        </Text>
+      </View>
+      <View style={styles.attributeContainer}>
+        <Text style={styles.name}>
+          Tiempo de despacho
+        </Text>
+        <Text style={styles.value}>
+          {(provider.attributes.deliveryDays) ?
+            `${provider.attributes.deliveryDays} días hábiles` :
+            ''}
         </Text>
       </View>
       <View style={styles.buttonsContainer}>
@@ -82,12 +94,14 @@ function ShowIngredient({ navigation, route }) {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.edit}
-          onPress={() => navigation.navigate('Editar Ingrediente', {
-            isNew: false,
-            ingredient,
-            ingredients,
-            setIngredients,
-          })}
+          onPress={() => {
+            navigation.navigate('Editar Proveedor', {
+              isNew: false,
+              provider,
+              providers,
+              setProviders,
+            });
+          }}
         >
           <Text style={styles.editText}>
             Editar
@@ -98,4 +112,4 @@ function ShowIngredient({ navigation, route }) {
   );
 }
 
-export default ShowIngredient;
+export default ShowProvider;

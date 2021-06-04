@@ -29,8 +29,10 @@ function Recipes(props) {
         .catch((err) => {
           setShowError(true);
           setErrorMessage(err);
+        })
+        .finally(() => {
+          setLoadRecipes(false);
         });
-      setLoadRecipes(false);
     }
   }, [loadRecipes]);
 

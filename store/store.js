@@ -3,14 +3,13 @@ import apiUtils from '../api/api';
 import sessionsApi from '../api/sessions';
 import ingredientsApi from '../api/ingredients';
 import recipesApi from '../api/recipes';
+import providersApi from '../api/providers';
 
 const storeState = {
   currentUser: null,
   loginError: '',
   signUpError: '',
-  ingredients: {
-    getError: '',
-  },
+  ingredientsError: '',
   recipes: {
     getErrors: '',
     createErrors: '',
@@ -20,6 +19,7 @@ const storeState = {
     currentSelectedIngredients: [],
     currentDeletedIngredients: [],
   },
+  providersError: '',
 };
 
 const getters = {
@@ -46,8 +46,8 @@ const storeActions = {
         'X-User-Token': user.authentication_token };
     }
   }),
-  setGetIngredientsError: action((state, payload) => {
-    state.ingredients.getErrors = payload;
+  setIngredientsError: action((state, payload) => {
+    state.ingredientsError = payload;
   }),
   setSelectedRecipeIngredients: action((state, payload) => {
     state.recipes.currentSelectedIngredients = payload;
@@ -66,6 +66,9 @@ const storeActions = {
   }),
   setDeletedRecipe: action((state, payload) => {
     state.recipes.delete = payload;
+  }),
+  setProvidersError: action((state, payload) => {
+    state.providersError = payload;
   }),
   setLogOut: action((state) => {
     state.currentUser = null;
@@ -98,7 +101,7 @@ const storeThunks = {
     const ingredients = ingredientsApi.getIngredients(payload)
       .then((res) => res.data.data)
       .catch((err) => {
-        actions.setGetIngredientsError(err.response.data.message);
+        actions.setIngredientsError(err.response.data.message);
         throw err;
       });
 
@@ -108,7 +111,7 @@ const storeThunks = {
     const ingredient = ingredientsApi.createIngredient(payload)
       .then((res) => res.data.data)
       .catch((err) => {
-        actions.setGetIngredientsError(err.response.data.message);
+        actions.setIngredientsError(err.response.data.message);
         throw err;
       });
 
@@ -117,16 +120,25 @@ const storeThunks = {
   editIngredient: thunk(async (actions, payload) => {
     ingredientsApi.editIngredient(payload)
       .catch((err) => {
-        actions.setGetIngredientsError(err.response.data.message);
+        actions.setIngredientsError(err.response.data.message);
         throw err;
       });
   }),
   deleteIngredient: thunk(async (actions, payload) => {
     ingredientsApi.deleteIngredient(payload)
       .catch((err) => {
-        actions.setGetIngredientsError(err.response.data.message);
+        actions.setIngredientsError(err.response.data.message);
         throw err;
       });
+  }),
+  searchCornerShop: thunk(async (actions, payload) => {
+    const ingredients = ingredientsApi.searchCornerShop(payload)
+      .then((res) => res.data.data)
+      .catch((err) => {
+        actions.setIngredientsError(err.response.data.message);
+      });
+
+    return ingredients;
   }),
   getRecipes: thunk(async (actions, payload) => {
     const recipes = recipesApi.getRecipes(payload)
@@ -198,6 +210,36 @@ const storeThunks = {
       });
 
     return resp;
+  }),
+  getProviders: thunk(async (actions, payload) => {
+    const providers = providersApi.getProviders(payload)
+      .then((res) => res.data.data)
+      .catch((err) => {
+        actions.setProvidersError(err.response.data.message);
+        throw err;
+      });
+
+    return providers;
+  }),
+  createProvider: thunk(async (actions, payload) => {
+    const provider = providersApi.createProvider(payload)
+      .then((res) => res.data.data);
+
+    return provider;
+  }),
+  deleteProvider: thunk(async (actions, payload) => {
+    providersApi.deleteProvider(payload)
+      .catch((err) => {
+        actions.setProvidersError(err.response.data.message);
+        throw err;
+      });
+  }),
+  editProvider: thunk(async (actions, payload) => {
+    providersApi.editProvider(payload)
+      .catch((err) => {
+        actions.setProvidersError(err.response.data.message);
+        throw err;
+      });
   }),
 };
 

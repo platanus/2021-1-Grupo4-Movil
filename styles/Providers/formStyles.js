@@ -7,7 +7,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     height: '100%',
-    paddingTop: 15,
   },
 
   inputContainer: {
@@ -16,7 +15,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'flex-start',
-    marginTop: 30,
+    marginTop: 22,
   },
 
   inputLabel: {
@@ -24,7 +23,7 @@ const styles = StyleSheet.create({
     fontWeight: 'normal',
     fontStyle: 'normal',
     color: colors.tableBorder,
-    marginBottom: 5,
+    marginBottom: 3,
   },
 
   input: {
@@ -52,7 +51,7 @@ const styles = StyleSheet.create({
 
   buttonsContainer: {
     width: '100%',
-    height: '20%',
+    height: '15%',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -62,7 +61,7 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    height: '30%',
+    height: '40%',
     alignItems: 'center',
     justifyContent: 'center',
   },
