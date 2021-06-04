@@ -1,60 +1,60 @@
-import { useStoreActions } from 'easy-peasy';
-import React, { useState } from 'react';
-import { View, Text, ScrollView, TextInput, Alert } from 'react-native';
+import { useStoreActions, useStoreState } from 'easy-peasy';
+import React, { useState, useEffect } from 'react';
+import { View, Text, ScrollView, TextInput } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import colors from '../../styles/appColors';
 import styles from '../../styles/Recipes/newRecipe';
 import RecipeSteps from './RecipeStepsScreen';
+// import RecipeIngredients from './RecipeIngredientsScreen';
+import IngredientRow from '../../components/recipeEditIngredientRow';
 import calculateRecipePrice from '../../utils/calculateRecipePrice';
 
-/* eslint max-statements: [2, 20] */
+/* eslint max-statements: [2, 30] */
 function FormRecipe(props) {
   const { navigation, route } = props;
-  const recipe = route ? route.params : null;
+  const recipe = (route.params && route.params.recipe) ? route.params.recipe : null;
+  const setLoadRecipes = useStoreActions((actions) => actions.setLoadRecipes);
 
   const [recipeName, setRecipeName] = useState(recipe ? recipe.attributes.name : '');
   const [recipeTime, setRecipeTime] = useState(recipe ? recipe.attributes.cook_minutes.toString() : '');
   const [recipePortions, setRecipePortions] = useState(recipe ? recipe.attributes.portions.toString() : '');
-  const [recipeSteps, setRecipeSteps] = useState(recipe ? recipe.attributes.steps.data : []);
-  const [recipePrice, setRecipePrice] = useState(recipe ? calculateRecipePrice(recipe) : 0);
+  const [recipeSteps, setRecipeSteps] = useState(
+    recipe ? JSON.parse(JSON.stringify(recipe.attributes.steps.data)) : []);
 
+  const [recipePrice, setRecipePrice] = useState(recipe ? calculateRecipePrice(recipe) : 0);
   const createRecipe = useStoreActions((actions) => actions.createRecipe);
   const editRecipe = useStoreActions((actions) => actions.editRecipe);
+  const [recipeIngredients, setRecipeIngredients] = useState([]);
   const createRecipeStep = useStoreActions((actions) => actions.createRecipeStep);
   const editRecipeStep = useStoreActions((actions) => actions.editRecipeStep);
   const deleteRecipeStep = useStoreActions((actions) => actions.deleteRecipeStep);
 
   function stepsActions(recipeId) {
     const promises = [];
-    let k = 0;
     for (let i = 0; i < recipeSteps.length; i++) {
-      if (('new' in recipeSteps[k]) && !('delete' in recipeSteps[k])) {
+      if (('new' in recipeSteps[i]) && !('delete' in recipeSteps[i])) {
         promises.push(createRecipeStep({
           id: recipeId,
-          body: recipeSteps[k].attributes,
+          body: recipeSteps[i].attributes,
         }));
-      } else if (('delete' in recipeSteps[k]) && !('new' in recipeSteps[k])) {
+      } else if (('delete' in recipeSteps[i]) && !('new' in recipeSteps[i])) {
         promises.push(deleteRecipeStep({
           recipeId,
-          stepId: recipeSteps[k].id,
+          stepId: recipeSteps[i].id,
         }));
-      } else if (('edit' in recipeSteps[k]) && !('delete' in recipeSteps[k]) && !('new' in recipeSteps[k])) {
+      } else if (('edit' in recipeSteps[i]) && !('delete' in recipeSteps[i]) && !('new' in recipeSteps[i])) {
         promises.push(editRecipeStep({
           recipeId,
-          stepId: recipeSteps[k].id,
-          body: recipeSteps[k].attributes,
+          stepId: recipeSteps[i].id,
+          body: recipeSteps[i].attributes,
         }));
-      }
-      if ('delete' in recipeSteps[k]) {
-        const newStepsArray = recipeSteps;
-        newStepsArray.splice(k, 1);
-        setRecipeSteps(newStepsArray);
-      } else {
-        k++;
       }
     }
 
     return promises;
+  }
+  function searchIngredients() {
+    navigation.navigate('Buscar ingredientes', recipe);
   }
 
   function handleSubmit() {
@@ -69,6 +69,7 @@ function FormRecipe(props) {
       editRecipe({ body, id: recipe.id })
         .then(() => Promise.all(stepsActions(recipe.id)))
         .then(() => {
+          setLoadRecipes(true);
           navigation.navigate('Recetas', { recipe });
         })
         .catch(() => {
@@ -77,6 +78,7 @@ function FormRecipe(props) {
       createRecipe(body)
         .then((resp) => Promise.all(stepsActions(resp.data.data.id)))
         .then(() => {
+          setLoadRecipes(true);
           navigation.navigate('Recetas', { recipe });
         })
         .catch(() => {});
@@ -87,12 +89,14 @@ function FormRecipe(props) {
     <ScrollView style={styles.mainContainer}>
       <View style={styles.container}>
         <Text style={styles.sectionTitleText}>Datos básicos</Text>
-        <View style={styles.recipeInfoRow}>
-          <Text style={styles.label}>Nombre</Text>
-          <TextInput
-            style={styles.sectionNameInput}
-            value={recipeName}
-            onChangeText={setRecipeName}/>
+        <View style={styles.inlineInputs}>
+          <View style={styles.recipeInfoRow}>
+            <Text style={styles.label}>Nombre</Text>
+            <TextInput
+              style={styles.sectionTextInput}
+              value={recipeName}
+              onChangeText={setRecipeName}/>
+          </View>
         </View>
         <View style={styles.inlineInputs}>
           <View style={styles.recipeInfoRow}>
@@ -117,31 +121,31 @@ function FormRecipe(props) {
             <Text style={styles.sectionTitleText}>Ingredientes seleccionados</Text>
           </View>
           <View style={styles.recipeInfoRow}>
-            <TouchableOpacity style={styles.ingredientButton} onPress={ () => Alert.alert('Buscar ingredientes!') }>
+            <TouchableOpacity style={styles.ingredientButton} onPress={searchIngredients}>
               <Text>Buscar ingredientes</Text>
             </TouchableOpacity>
           </View>
         </View>
       </View>
       <View style={styles.ingredientsContainer}>
-        <View style={styles.ingredientsList}>
-          <View style={ styles.ingredientTextBox }>
-            <View style={styles.sectionQuantity}>
-              <TextInput style={styles.sectionQuantityInput}/>
-              <Text style={styles.ingredientText}>g.</Text>
-              <Text style={styles.ingredientText}> Ingrediente</Text>
-            </View>
-            <View style={styles.sectionPrice}>
-              <Text style={styles.ingredientText}>$ XX.XX</Text>
-            </View>
-          </View>
-        </View>
+        { recipeIngredients.map((ingredient) =>
+          <IngredientRow
+            ingredient={ingredient}
+            key={ingredient.id}
+            totalPrice={recipePrice}
+            setTotalPrice={setRecipePrice}
+          />,
+        )}
+      </View>
+      <View style={styles.ingredientsContainer}>
         <View style={ styles.ingredientTextBox }>
           <View style={styles.sectionQuantity}>
-            <Text>Costo total</Text>
+            <Text>Costo total{'\n'}Costo Unitario</Text>
           </View>
           <View style={styles.sectionPrice}>
-            <Text style={ { ...styles.ingredientText, color: colors.purplePrice } }>${Math.round(recipePrice)}</Text>
+            <Text style={ { ...styles.ingredientText, color: colors.purplePrice } }>
+              ${Math.round(recipePrice)} {'\n'}${Math.round(recipePrice / Number(recipePortions))} c/u
+            </Text>
           </View>
         </View>
       </View>
