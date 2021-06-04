@@ -17,7 +17,11 @@ function Recipes(props) {
   const [errorMessage, setErrorMessage] = useState('');
   const deletedRecipe = useStoreState((state) => state.recipes.delete);
 
+  const loadRecipes = useStoreState((state) => state.recipes.load);
+  const setLoadRecipes = useStoreActions((actions) => actions.setLoadRecipes);
+
   useEffect(() => {
+    if (loadRecipes) {
     getRecipes()
       .then((res) => {
         setRecipes(res);
@@ -25,16 +29,26 @@ function Recipes(props) {
       .catch((err) => {
         setShowError(true);
         setErrorMessage(err);
-      });
-  }, [newRecipe, getRecipes, deletedRecipe]);
+      })
+      .finally(() => {
+        setLoadRecipes(false);
+      })
+    }
+  }, [loadRecipes]);
 
   if (recipes.length) {
     return (
-      <ScrollView>
-        {recipes.map((recipe) => (
-          <RecipeRow key={recipe.id} recipe={recipe} navigation={navigation}/>
-        ))}
-      </ScrollView>);
+      <>
+        <ScrollView>
+          {recipes.map((recipe) => (
+            <RecipeRow key={recipe.id} recipe={recipe} navigation={navigation}/>
+          ))}
+        </ScrollView>
+        <TouchableOpacity>
+          <Icon name="add-circle" color={colors.addIcon} onPress={() => navigation.navigate('Crear receta')}></Icon>
+        </TouchableOpacity>
+      </>
+    );
   }
 
   return (

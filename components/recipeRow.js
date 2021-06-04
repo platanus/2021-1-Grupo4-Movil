@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { Icon } from 'react-native-elements';
 import colors from '../styles/appColors';
 import styles from '../styles/Recipes/index';
+import calculateRecipePrice from '../utils/calculateRecipePrice';
 
 function RecipeRow(props) {
   const { recipe, navigation } = props;
@@ -26,7 +27,7 @@ function RecipeRow(props) {
         </View>
       </View>
       <View style={styles.right}>
-        <Text style = {styles.price}>$XX.XXX</Text>
+        <Text style = {styles.price}>${Math.round(calculateRecipePrice(recipe))}</Text>
       </View>
     </TouchableOpacity>
   );
