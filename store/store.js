@@ -3,6 +3,7 @@ import apiUtils from '../api/api';
 import sessionsApi from '../api/sessions';
 import ingredientsApi from '../api/ingredients';
 import recipesApi from '../api/recipes';
+import menusApi from '../api/menus';
 
 const storeState = {
   currentUser: null,
@@ -15,6 +16,7 @@ const storeState = {
     deleteErrors: '',
     delete: false,
   },
+  menusError: '',
 };
 
 const getters = {
@@ -55,6 +57,9 @@ const storeActions = {
   }),
   setDeletedRecipe: action((state, payload) => {
     state.recipes.delete = payload;
+  }),
+  setmenusError: action((state, payload) => {
+    state.menusError = payload;
   }),
   setLogOut: action((state) => {
     state.currentUser = null;
@@ -193,6 +198,16 @@ const storeThunks = {
       });
 
     return resp;
+  }),
+  getMenus: thunk(async (actions, payload) => {
+    const menus = menusApi.getMenus(payload)
+      .then((res) => res.data.data)
+      .catch((err) => {
+        actions.setMenusError(err.response.data.message);
+        throw err;
+      });
+
+    return menus;
   }),
 };
 

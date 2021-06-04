@@ -3,6 +3,11 @@ const colors = {
   white: '#fff',
   red: 'red',
   purple: '#BC31EA',
+  // Colors for UX
+  grayName: '#847974',
+  grayIcon: '#B4ADAA',
+  yellow: '#DCAB24',
+
   // front
   ingredientsList: '#EEEEEE',
   topNavbar: '#0A000A',

@@ -17,6 +17,9 @@ const config = {
       new: `${API_VERSION}/recipes`,
       steps: 'recipe_steps',
     },
+    menus: {
+      index: `${API_VERSION}/menus`,
+    },
   },
 };
 

@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 import IngredientsStack from './ingredientsStack';
 import RecipesStack from './recipesStack';
-import Menus from '../screens/MenusScreen';
+import MenusStack from './menusStack';
 import Profile from '../screens/ProfileScreen';
 import colors from '../styles/appColors';
 
@@ -22,7 +22,7 @@ function HomeTabs() {
           size={30}
           color={colors.blue}/>) }} />
 
-      <Tab.Screen name="Menús" component={Menus} options={{ tabBarIcon: () => (
+      <Tab.Screen name="Menus" component={MenusStack} options={{ tabBarIcon: () => (
         <Icon name='menu'
           size={30}
           color={colors.blue}/>) }} />
