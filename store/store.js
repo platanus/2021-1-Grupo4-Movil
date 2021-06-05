@@ -3,6 +3,7 @@ import apiUtils from '../api/api';
 import sessionsApi from '../api/sessions';
 import ingredientsApi from '../api/ingredients';
 import recipesApi from '../api/recipes';
+import menusApi from '../api/menus';
 import providersApi from '../api/providers';
 
 const storeState = {
@@ -19,6 +20,7 @@ const storeState = {
     currentSelectedIngredients: [],
     currentDeletedIngredients: [],
   },
+  menusError: '',
   providersError: '',
 };
 
@@ -66,6 +68,9 @@ const storeActions = {
   }),
   setDeletedRecipe: action((state, payload) => {
     state.recipes.delete = payload;
+  }),
+  setmenusError: action((state, payload) => {
+    state.menusError = payload;
   }),
   setProvidersError: action((state, payload) => {
     state.providersError = payload;
@@ -210,6 +215,16 @@ const storeThunks = {
       });
 
     return resp;
+  }),
+  getMenus: thunk(async (actions, payload) => {
+    const menus = menusApi.getMenus(payload)
+      .then((res) => res.data.data)
+      .catch((err) => {
+        actions.setMenusError(err.response.data.message);
+        throw err;
+      });
+
+    return menus;
   }),
   getProviders: thunk(async (actions, payload) => {
     const providers = providersApi.getProviders(payload)

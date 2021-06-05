@@ -5,6 +5,7 @@ export default function formatPhone(value) {
   if (phone.match(/^(\d{1,4})(\d{4})$/)) {
     phone = phone.replace(/^(\d{1,4})(\d{4})$/, '$1 $2');
   } else {
+    // eslint-disable-next-line no-magic-numbers
     phone = phone.substr(0, 9).replace(/^(\d{1})(\d{4})(\d{4})$/, '$1 $2 $3');
   }
 
