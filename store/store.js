@@ -4,6 +4,7 @@ import sessionsApi from '../api/sessions';
 import ingredientsApi from '../api/ingredients';
 import recipesApi from '../api/recipes';
 import menusApi from '../api/menus';
+import providersApi from '../api/providers';
 
 const storeState = {
   currentUser: null,
@@ -15,8 +16,12 @@ const storeState = {
     createErrors: '',
     deleteErrors: '',
     delete: false,
+    load: true,
+    currentSelectedIngredients: [],
+    currentDeletedIngredients: [],
   },
   menusError: '',
+  providersError: '',
 };
 
 const getters = {
@@ -46,6 +51,12 @@ const storeActions = {
   setIngredientsError: action((state, payload) => {
     state.ingredientsError = payload;
   }),
+  setSelectedRecipeIngredients: action((state, payload) => {
+    state.recipes.currentSelectedIngredients = payload;
+  }),
+  setDeletedRecipeIngredients: action((state, payload) => {
+    state.recipes.currentDeletedIngredients = payload;
+  }),
   setGetRecipesError: action((state, payload) => {
     state.recipes.getErrors = payload;
   }),
@@ -61,10 +72,16 @@ const storeActions = {
   setmenusError: action((state, payload) => {
     state.menusError = payload;
   }),
+  setProvidersError: action((state, payload) => {
+    state.providersError = payload;
+  }),
   setLogOut: action((state) => {
     state.currentUser = null;
     apiUtils.api.defaults.headers = { 'Accept': 'application/json',
       'Content-Type': 'application/json' };
+  }),
+  setLoadRecipes: action((state, payload) => {
+    state.recipes.load = payload;
   }),
 };
 
@@ -208,6 +225,36 @@ const storeThunks = {
       });
 
     return menus;
+  }),
+  getProviders: thunk(async (actions, payload) => {
+    const providers = providersApi.getProviders(payload)
+      .then((res) => res.data.data)
+      .catch((err) => {
+        actions.setProvidersError(err.response.data.message);
+        throw err;
+      });
+
+    return providers;
+  }),
+  createProvider: thunk(async (actions, payload) => {
+    const provider = providersApi.createProvider(payload)
+      .then((res) => res.data.data);
+
+    return provider;
+  }),
+  deleteProvider: thunk(async (actions, payload) => {
+    providersApi.deleteProvider(payload)
+      .catch((err) => {
+        actions.setProvidersError(err.response.data.message);
+        throw err;
+      });
+  }),
+  editProvider: thunk(async (actions, payload) => {
+    providersApi.editProvider(payload)
+      .catch((err) => {
+        actions.setProvidersError(err.response.data.message);
+        throw err;
+      });
   }),
 };
 

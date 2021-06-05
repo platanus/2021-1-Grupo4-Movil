@@ -7,7 +7,8 @@ const colors = {
   grayName: '#847974',
   grayIcon: '#B4ADAA',
   yellow: '#DCAB24',
-
+  gray: '#7D7D7D',
+  black: '#000000',
   // front
   ingredientsList: '#EEEEEE',
   topNavbar: '#0A000A',
@@ -20,6 +21,7 @@ const colors = {
   selectedTabYellow: '#DCAB24',
   recipeIcon: '#074eec',
   darkGray: '#111111',
+  headerBackground: '#BBBBBB',
 };
 
 export default colors;

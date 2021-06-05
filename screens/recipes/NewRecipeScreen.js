@@ -5,6 +5,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import colors from '../../styles/appColors';
 import styles from '../../styles/Recipes/newRecipe';
 import RecipeSteps from './RecipeStepsScreen';
+import calculateRecipePrice from '../../utils/calculateRecipePrice';
 
 /* eslint max-statements: [2, 20] */
 function FormRecipe(props) {
@@ -15,6 +16,7 @@ function FormRecipe(props) {
   const [recipeTime, setRecipeTime] = useState(recipe ? recipe.attributes.cook_minutes.toString() : '');
   const [recipePortions, setRecipePortions] = useState(recipe ? recipe.attributes.portions.toString() : '');
   const [recipeSteps, setRecipeSteps] = useState(recipe ? recipe.attributes.steps.data : []);
+  const [recipePrice, setRecipePrice] = useState(recipe ? calculateRecipePrice(recipe) : 0);
 
   const createRecipe = useStoreActions((actions) => actions.createRecipe);
   const editRecipe = useStoreActions((actions) => actions.editRecipe);
@@ -139,7 +141,7 @@ function FormRecipe(props) {
             <Text>Costo total</Text>
           </View>
           <View style={styles.sectionPrice}>
-            <Text style={ { ...styles.ingredientText, color: colors.purplePrice } }>$XX.XX</Text>
+            <Text style={ { ...styles.ingredientText, color: colors.purplePrice } }>${Math.round(recipePrice)}</Text>
           </View>
         </View>
       </View>
