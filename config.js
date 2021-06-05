@@ -19,7 +19,7 @@ const config = {
     },
     menus: {
       index: `${API_VERSION}/menus`,
-     },
+    },
     providers: {
       index: `${API_VERSION}/providers`,
       specific: `${API_VERSION}/providers/`,

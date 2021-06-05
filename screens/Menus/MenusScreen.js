@@ -1,10 +1,6 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable max-statements */
-
 import React, { useEffect, useState } from 'react';
 import { useStoreActions } from 'easy-peasy';
-import { View, Text, ScrollView } from 'react-native';
-import styles from '../../styles/authStyles';
+import { Text, ScrollView } from 'react-native';
 import MenuRow from '../../components/menuRow';
 
 function Menus(props) {
@@ -30,7 +26,11 @@ function Menus(props) {
     return (
       <ScrollView>
         {menus.map((menu) => (
-          <MenuRow key={menu.id} menu={menu} navigation={navigation}/>
+          <MenuRow
+            key={menu.id}
+            menu={menu}
+            navigation={navigation}
+          />
         ))}
       </ScrollView>);
   }
