@@ -5,7 +5,6 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import IngredientsStack from './ingredientsStack';
 import RecipesStack from './recipesStack';
 import MenusStack from './menusStack';
-import Menus from '../screens/MenusScreen';
 import ProvidersStack from './providersStack';
 import Profile from '../screens/ProfileScreen';
 import colors from '../styles/appColors';

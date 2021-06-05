@@ -1,8 +1,8 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import Menus from '../screens/Menu/MenusScreen';
-import Menu from '../screens/Menu/MenuScreen';
+import Menus from '../screens/Menus/MenusScreen';
+import Menu from '../screens/Menus/MenuScreen';
 
 const MainMenusStack = createStackNavigator();
 

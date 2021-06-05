@@ -9,19 +9,24 @@ import MenuRow from '../../components/menuRow';
 
 function Menus(props) {
   const { navigation } = props;
+
   const getMenus = useStoreActions((actions) => actions.getMenus);
+
+  const [mounted, setMounted] = useState(false);
   const [menus, setMenus] = useState([]);
 
   useEffect(() => {
     getMenus()
       .then((res) => {
         setMenus(res);
+        setMounted(true);
       })
       .catch(() => {
       });
-  }, [getMenus]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  if (menus.length) {
+  if (menus.length && mounted) {
     return (
       <ScrollView>
         {menus.map((menu) => (
@@ -30,7 +35,7 @@ function Menus(props) {
       </ScrollView>);
   }
 
-  return (
+  return (mounted) && (
     <Text>
       Aun no tienes menus
     </Text>
