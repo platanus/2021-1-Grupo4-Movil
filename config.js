@@ -19,6 +19,8 @@ const config = {
     },
     menus: {
       index: `${API_VERSION}/menus`,
+      new: `${API_VERSION}/menus`,
+      specific: `${API_VERSION}/menus/`,
     },
     providers: {
       index: `${API_VERSION}/providers`,
