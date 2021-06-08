@@ -13,31 +13,36 @@ const Tab = createBottomTabNavigator();
 
 function HomeTabs() {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator tabBarOptions={{ activeBackgroundColor: colors.figmaYellow500,
+      inactiveBackgroundColor: colors.figmaBlack,
+      activeTintColor: colors.figmaWhite,
+      inactiveTintColor: colors.figmaWhite,
+      labelPosition: 'below-icon' }}>
+
       <Tab.Screen name="Ingredientes" component={IngredientsStack} options={{ tabBarIcon: () => (
         <Icon name='nutrition-outline'
           size={30}
-          color={colors.blue}/>) }} />
+          color={colors.figmaWhite}/>) }} />
 
       <Tab.Screen name="Recetas" component={RecipesStack} options={{ tabBarIcon: () => (
         <Icon name='book-outline'
           size={30}
-          color={colors.blue}/>) }} />
+          color={colors.figmaWhite}/>) }} />
 
       <Tab.Screen name="Menus" component={MenusStack} options={{ tabBarIcon: () => (
         <Icon name='menu'
           size={30}
-          color={colors.blue}/>) }} />
+          color={colors.figmaWhite}/>) }} />
 
       <Tab.Screen name="Proveedores" component={ProvidersStack} options={{ tabBarIcon: () => (
         <Icon name='fast-food-outline'
           size={30}
-          color={colors.blue}/>) }} />
+          color={colors.figmaWhite}/>) }} />
 
       <Tab.Screen name="Perfil" component={Profile} options={{ tabBarIcon: () => (
         <Icon name='person-outline'
           size={30}
-          color={colors.blue}/>) }} />
+          color={colors.figmaWhite}/>) }} />
 
     </Tab.Navigator>
   );

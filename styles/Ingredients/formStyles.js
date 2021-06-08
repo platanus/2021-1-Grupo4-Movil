@@ -3,15 +3,16 @@ import colors from '../appColors';
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: colors.figmaWhite,
     alignItems: 'center',
-    width: '100%',
     height: '100%',
+    width: '100%',
     paddingTop: 15,
+    paddingHorizontal: '5%',
   },
 
   inputContainer: {
-    width: '75%',
+    width: '100%',
     height: '10%',
     flexDirection: 'column',
     justifyContent: 'center',
@@ -23,14 +24,14 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'normal',
     fontStyle: 'normal',
-    color: colors.tableBorder,
+    color: colors.figmaBlack,
     marginBottom: 5,
   },
 
   input: {
     width: '100%',
-    height: '85%',
-    borderColor: colors.tableBorder,
+    height: '90%',
+    borderColor: colors.figmaGray600,
     borderWidth: 2,
     borderRadius: 5,
     fontSize: 14,
@@ -38,59 +39,76 @@ const styles = StyleSheet.create({
     paddingRight: 15,
     fontWeight: 'bold',
     fontStyle: 'normal',
-    color: '#111111',
+    color: colors.figmaBlack,
   },
 
   dropDown: {
     width: '100%',
-    height: '85%',
-    borderColor: colors.tableBorder,
+    height: '90%',
+    borderColor: colors.figmaGray600,
     borderWidth: 2,
     borderRadius: 5,
+    paddingRight: 10,
+    justifyContent: 'center',
+  },
+
+  dropDownText: {
+    width: '100%',
+    height: '100%',
     fontSize: 16,
+  },
+
+  arrowIcon: {
+    position: 'absolute',
+    top: '45%',
+    left: '87%',
   },
 
   buttonsContainer: {
     width: '100%',
-    height: '20%',
+    height: '15%',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     position: 'absolute',
     bottom: 0,
     left: 0,
+    marginHorizontal: '5%',
+    paddingVertical: '5%',
   },
 
   button: {
-    height: '30%',
+    height: '100%',
     alignItems: 'center',
     justifyContent: 'center',
   },
 
   scrapperButton: {
-    backgroundColor: colors.greenButtons,
+    backgroundColor: colors.figmaGreen500,
     padding: 12,
     borderRadius: 5,
     height: '8%',
-    width: '75%',
+    width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-    marginVertical: 10 },
+    marginTop: 10 },
 
   scrapperButtonText: {
-    color: colors.white,
-    fontWeight: 'bold',
+    color: colors.figmaWhite,
+    fontSize: 16,
   },
 
   cancel: {
-    width: '30%',
+    width: '48%',
     backgroundColor: 'transparent',
-    marginRight: 10,
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: colors.figmaGray600,
   },
 
   confirm: {
-    width: '55%',
-    backgroundColor: colors.greenButtons,
+    width: '48%',
+    backgroundColor: colors.figmaGreen500,
     borderRadius: 5,
   },
 
@@ -101,11 +119,11 @@ const styles = StyleSheet.create({
   },
 
   cancelText: {
-    color: colors.greenButtons,
+    color: colors.figmaGray600,
   },
 
   confirmText: {
-    color: colors.white,
+    color: colors.figmaWhite,
   },
 });
 

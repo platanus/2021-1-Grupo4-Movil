@@ -3,7 +3,7 @@ import colors from '../appColors';
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: colors.figmaWhite,
     flex: 1,
   },
 
@@ -13,18 +13,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'flex-start',
+    borderBottomColor: colors.figmaGray400,
+    borderBottomWidth: 1,
   },
 
   even: {
-    backgroundColor: '#EEEEEE',
+    backgroundColor: colors.figmaWhite,
   },
 
   odd: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: colors.figmaWhite,
   },
 
   left: {
-    width: '60%',
+    width: '65%',
     height: '100%',
     paddingLeft: '5%',
     flexDirection: 'column',
@@ -33,23 +35,23 @@ const styles = StyleSheet.create({
   },
 
   name: {
-    fontSize: 17,
-    color: '#111111',
+    fontSize: 20,
+    color: colors.figmaGray600,
 
     fontWeight: 'normal',
     fontStyle: 'normal',
   },
 
   measure: {
-    fontSize: 15,
-    color: '#767676',
+    fontSize: 12,
+    color: colors.figmaGray400,
 
     fontWeight: 'normal',
     fontStyle: 'normal',
   },
 
   right: {
-    width: '40%',
+    width: '35%',
     height: '100%',
     paddingRight: '5%',
     flexDirection: 'column',
@@ -58,15 +60,15 @@ const styles = StyleSheet.create({
   },
 
   price: {
-    fontSize: 18,
-    color: '#BC31EA',
+    fontSize: 24,
+    color: colors.figmaYellow500,
 
     fontWeight: 'normal',
     fontStyle: 'normal',
   },
 
   addButton: {
-    backgroundColor: colors.greenButtons,
+    backgroundColor: colors.figmaGreen500,
     width: 45,
     height: 45,
     borderRadius: 50,

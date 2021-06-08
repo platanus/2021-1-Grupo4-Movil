@@ -8,10 +8,12 @@ import {
   View,
 } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
+import Icon from 'react-native-vector-icons/Ionicons';
 import { useStoreActions } from 'easy-peasy';
 
 import styles from '../../styles/Ingredients/formStyles';
 import pickers from '../../styles/customPickerStyles';
+import colors from '../../styles/appColors';
 
 function FormIngredient({ navigation, route }) {
   const {
@@ -116,7 +118,7 @@ function FormIngredient({ navigation, route }) {
           })}
           style={styles.scrapperButton}>
           <Text style={styles.scrapperButtonText}>
-            Buscar Ingrediente
+            Buscar ingrediente
           </Text>
         </TouchableOpacity>
       )}
@@ -140,6 +142,7 @@ function FormIngredient({ navigation, route }) {
           style={styles.input}
           placeholder="Precio de ingrediente..."
           keyboardType="number-pad"
+          returnKeyType='done'
           value={price.toString()}
           onChangeText={(text) => setPrice(text)}
           editable={!isFromSearch}
@@ -153,6 +156,7 @@ function FormIngredient({ navigation, route }) {
           style={styles.input}
           placeholder="Cantidad de ingrediente..."
           keyboardType="number-pad"
+          returnKeyType='done'
           value={quantity.toString()}
           onChangeText={(text) => setQuantity(text)}
           editable={!isFromSearch}
@@ -180,7 +184,13 @@ function FormIngredient({ navigation, route }) {
                 { label: 'Ml', value: 'Ml', key: '3' },
               ]}
             />
+
           </View>
+          <Icon name='chevron-down'
+            size={30}
+            color={colors.figmaGray600}
+            style={styles.arrowIcon}
+          />
         </View>
       )}
       <View style={styles.buttonsContainer}>
@@ -191,7 +201,7 @@ function FormIngredient({ navigation, route }) {
             () => navigation.navigate('Ingrediente')}
         >
           <Text style={[styles.buttonText, styles.cancelText]}>
-            Cancelar
+            {(isNew) ? 'Volver' : 'Cancelar'}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -199,7 +209,7 @@ function FormIngredient({ navigation, route }) {
           onPress={(isNew) ? handleSubmitNew : handleSubmitEdit}
         >
           <Text style={[styles.buttonText, styles.confirmText]}>
-            {isNew ? 'Agregar ingrediente' : 'Editar ingrediente'}
+            {isNew ? 'Crear ingrediente' : 'Editar ingrediente'}
           </Text>
         </TouchableOpacity>
       </View>

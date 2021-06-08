@@ -1,4 +1,13 @@
 const colors = {
+  // figma colors
+  figmaBlack: '#0A000A',
+  figmaYellow500: '#DCAB24',
+  figmaGray600: '#847974',
+  figmaGray400: '#B4ADAA',
+  figmaWhite: '#FCFBFB',
+  figmaGreen500: '#2B8E65',
+  figmaRed500: '#D62839',
+
   blue: '#074eec',
   white: '#fff',
   red: 'red',

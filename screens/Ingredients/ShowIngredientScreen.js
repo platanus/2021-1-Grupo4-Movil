@@ -5,7 +5,7 @@ import {
   Text,
 } from 'react-native';
 import { useStoreActions } from 'easy-peasy';
-
+import formatMoney from '../../utils/formatMoney';
 import styles from '../../styles/showStyles';
 
 function ShowIngredient({ navigation, route }) {
@@ -44,7 +44,7 @@ function ShowIngredient({ navigation, route }) {
           Precio
         </Text>
         <Text style={styles.value}>
-          {ingredient.attributes.price}
+          {formatMoney(ingredient.attributes.price, '$')}
         </Text>
       </View>
       <View style={styles.attributeContainer}>
@@ -68,18 +68,12 @@ function ShowIngredient({ navigation, route }) {
           Precio por unidad
         </Text>
         <Text style={styles.value}>
-          {ingredient.attributes.price}
+          {`${formatMoney(
+            ingredient.attributes.price / ingredient.attributes.quantity, '$')
+          } / ${ingredient.attributes.measure}`}
         </Text>
       </View>
       <View style={styles.buttonsContainer}>
-        <TouchableOpacity
-          style={styles.delete}
-          onPress={handleSubmitDelete}
-        >
-          <Text style={styles.deleteText}>
-            Borrar
-          </Text>
-        </TouchableOpacity>
         <TouchableOpacity
           style={styles.edit}
           onPress={() => navigation.navigate('Editar Ingrediente', {
@@ -91,6 +85,14 @@ function ShowIngredient({ navigation, route }) {
         >
           <Text style={styles.editText}>
             Editar
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.delete}
+          onPress={handleSubmitDelete}
+        >
+          <Text style={styles.deleteText}>
+            Borrar
           </Text>
         </TouchableOpacity>
       </View>

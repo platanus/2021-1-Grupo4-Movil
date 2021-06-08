@@ -19,14 +19,14 @@ const pickers = {
     inputIOS: {
       color: '#111111',
       paddingTop: 13,
-      paddingHorizontal: 10,
+      paddingLeft: 15,
       paddingBottom: 12,
       fontWeight: 'bold',
     },
     inputAndroid: {
       color: 'yellow',
       paddingTop: 13,
-      paddingHorizontal: 10,
+      paddingLeft: 15,
       paddingBottom: 12,
       width: '100%',
       height: '60%',
@@ -57,18 +57,19 @@ const pickers = {
     inputIOS: {
       color: 'white',
       textAlign: 'center',
-      fontWeight: 'bold',
       paddingTop: 13,
       paddingHorizontal: 10,
       paddingBottom: 12,
+      fontSize: 16,
+
     },
     inputAndroid: {
       textAlign: 'center',
       color: colors.white,
-      fontWeight: 'bold',
       paddingTop: 20,
       paddingBottom: 13,
       marginHorizontal: 10,
+      fontSize: 16,
     },
     placeholderColor: colors.white,
   },
