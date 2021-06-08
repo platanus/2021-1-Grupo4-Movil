@@ -20,6 +20,9 @@ const storeState = {
     currentSelectedIngredients: [],
     currentDeletedIngredients: [],
   },
+  menus: {
+    selectedRecipes: [],
+  },
   menusError: '',
   providersError: '',
 };
@@ -71,6 +74,9 @@ const storeActions = {
   }),
   setmenusError: action((state, payload) => {
     state.menusError = payload;
+  }),
+  setMenuSelectedRecipes: action((state, payload) => {
+    state.menus.selectedRecipes = payload;
   }),
   setProvidersError: action((state, payload) => {
     state.providersError = payload;
