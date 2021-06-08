@@ -3,33 +3,30 @@ import colors from '../appColors';
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.figmaWhite,
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'flex-start',
     flex: 1,
   },
   left: {
-    width: '60%',
+    width: '65%',
     height: '100%',
-    paddingLeft: '5%',
     flexDirection: 'column',
     alignItems: 'flex-start',
     justifyContent: 'center',
   },
   right: {
-    width: '40%',
+    width: '35%',
     height: '100%',
-    paddingRight: '5%',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'flex-end',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
   },
 
   name: {
-    fontSize: 17,
-    color: colors.darkGray,
-    paddingBottom: '5%',
+    fontSize: 20,
+    color: colors.figmaGray600,
   },
   recipeRow: {
     flex: 1.5,
@@ -40,19 +37,25 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'flex-start',
-    color: colors.white,
+    backgroundColor: colors.figmaWhite,
+    borderBottomColor: colors.figmaGray600,
+    borderBottomWidth: 1,
+    paddingLeft: '5%',
+    paddingRight: '3%',
   },
   price: {
-    fontSize: 20,
-    color: colors.purple,
+    fontSize: 24,
+    color: colors.figmaYellow500,
   },
   subtitle: {
-    fontSize: 15,
-    color: colors.blue,
+    fontSize: 14,
+    color: colors.figmaGray400,
+    paddingLeft: 5,
   },
   recipeInfo: {
     flexDirection: 'row',
     justifyContent: 'center',
+    marginTop: 5,
   },
 });
 

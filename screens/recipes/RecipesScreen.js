@@ -34,20 +34,28 @@ function Recipes(props) {
           setLoadRecipes(false);
         });
     }
-  }, [loadRecipes]);
+  }, [loadRecipes, getRecipes, setLoadRecipes]);
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+    // eslint-disable-next-line react/display-name
+      headerRight: () => (
+        <Icon name='add'
+          size={30}
+          color={colors.figmaWhite}
+          style={{ paddingRight: 10 }}
+          onPress={() => navigation.navigate('Crear receta')}/>
+      ),
+    });
+  }, [navigation]);
 
   if (recipes.length) {
     return (
-      <>
-        <ScrollView>
-          {recipes.map((recipe) => (
-            <RecipeRow key={recipe.id} recipe={recipe} navigation={navigation}/>
-          ))}
-        </ScrollView>
-        <TouchableOpacity>
-          <Icon name="add-circle" color={colors.addIcon} onPress={() => navigation.navigate('Crear receta')}></Icon>
-        </TouchableOpacity>
-      </>
+      <ScrollView>
+        {recipes.map((recipe) => (
+          <RecipeRow key={recipe.id} recipe={recipe} navigation={navigation}/>
+        ))}
+      </ScrollView>
     );
   }
 
@@ -56,9 +64,6 @@ function Recipes(props) {
       <Text>
         Aún no tienes recetas.
       </Text>
-      <TouchableOpacity>
-        <Icon name="add-circle" color={colors.addIcon} onPress={() => navigation.navigate('Crear receta')}></Icon>
-      </TouchableOpacity>
     </>
   );
 }
