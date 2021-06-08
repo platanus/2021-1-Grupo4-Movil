@@ -3,6 +3,7 @@ import {
   View,
   TouchableOpacity,
   Text,
+  Alert,
 } from 'react-native';
 import { useStoreActions } from 'easy-peasy';
 import formatMoney from '../../utils/formatMoney';
@@ -89,7 +90,14 @@ function ShowIngredient({ navigation, route }) {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.delete}
-          onPress={handleSubmitDelete}
+          // onPress={handleSubmitDelete}
+          onPress={() => Alert.alert('¿Estás seguro?', 'Esta acción es irreversible',
+            [{ text: 'Cancelar', onPress: () => {}, style: 'default' },
+              { text: 'Borrar', onPress: () => {
+                handleSubmitDelete();
+                navigation.navigate('Ingredientes');
+              }, style: 'destructive' }],
+          )}
         >
           <Text style={styles.deleteText}>
             Borrar

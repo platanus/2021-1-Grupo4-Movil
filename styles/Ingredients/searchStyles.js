@@ -3,7 +3,7 @@ import colors from '../appColors';
 
 const styles = StyleSheet.create({
   scroll: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.figmaWhite,
     width: '100%',
     height: '100%',
     position: 'relative',
@@ -41,8 +41,8 @@ const styles = StyleSheet.create({
   customPickerBox: {
     marginTop: 30,
     borderWidth: 2,
-    borderColor: colors.greenButtons,
-    backgroundColor: colors.greenButtons,
+    borderColor: colors.figmaGreen500,
+    backgroundColor: colors.figmaGreen500,
     height: 45,
     borderTopRightRadius: 7,
     borderTopLeftRadius: 7,
@@ -69,12 +69,12 @@ const styles = StyleSheet.create({
   },
 
   scrapperButtonText: {
-    color: colors.white,
+    color: colors.figmaWhite,
     fontSize: 16,
   },
 
   scrapperButton: {
-    backgroundColor: colors.greenButtons,
+    backgroundColor: colors.figmaGreen500,
     padding: 12,
     borderRadius: 5,
     width: '100%',
@@ -97,11 +97,11 @@ const styles = StyleSheet.create({
   },
 
   even: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.figmaWhite,
   },
 
   odd: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.figmaWhite,
   },
 
   left: {
