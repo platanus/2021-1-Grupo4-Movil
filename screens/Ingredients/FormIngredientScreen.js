@@ -53,8 +53,11 @@ function FormIngredient({ navigation, route }) {
       sku: ingredient.attributes.sku,
       price,
       currency: ingredient.attributes.currency,
-      quantity: (isFromSearch) ? 1 : quantity,
-      measure: (isFromSearch) ? 'UN' : measure,
+      // eslint-disable-next-line camelcase
+      ingredient_measures_attribute: [{
+        quantity: (isFromSearch) ? 1 : quantity,
+        measure: (isFromSearch) ? 'UN' : measure,
+      }],
     };
     ingredient.attributes = attributes;
     const body = {
