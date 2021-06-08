@@ -11,38 +11,48 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   recipeInfoContainer: {
-    marginLeft: '7%',
+    marginLeft: '5%',
     marginTop: 10,
   },
   infoText: {
     color: 'black',
     fontSize: 18,
-    marginLeft: 10,
+    marginLeft: 5,
   },
   sectionTitleText: {
     marginLeft: '5%',
+    marginBottom: 10,
     color: 'black',
     fontSize: 18,
     fontWeight: 'bold',
   },
   ingredientsContainer: {
-    paddingTop: 10,
+    paddingTop: 25,
   },
   ingredientsList: {
-    marginTop: 10,
-    backgroundColor: colors.ingredientsList,
-    paddingBottom: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.figmaGray400,
+    marginHorizontal: '5%',
+    justifyContent: 'center',
+    paddingVertical: 15,
   },
   ingredientTextBox: {
-    display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    paddingTop: 20,
-    marginHorizontal: '5%',
+    alignItems: 'center',
   },
-  ingredientText: {
+  ingredientTextLeft: {
     fontSize: 16,
+    color: colors.figmaGray600,
+    width: '60%',
+    textAlign: 'left',
+  },
+
+  ingredientTextRight: {
+    fontSize: 18,
+    color: colors.figmaYellow500,
+    width: '40%',
+    textAlign: 'right',
+
   },
 
   stepBox: {
@@ -52,21 +62,22 @@ const styles = StyleSheet.create({
   },
 
   stepText: {
-    color: colors.ingredientsTitle,
+    color: colors.figmaBlack,
     fontSize: 14,
     textAlign: 'justify',
     width: '80%',
   },
   stepNumber: {
-    color: colors.ingredientsTitle,
+    color: colors.figmaWhite,
     fontSize: 18,
     textAlign: 'center',
     width: 26,
     height: 26,
     borderRadius: 13,
-    backgroundColor: colors.ingredientsList,
+    backgroundColor: colors.figmaYellow500,
     overflow: 'hidden',
-    marginHorizontal: 10,
+    marginLeft: '3%',
+    marginRight: '5%',
   },
   menuContainer: {
     // position: 'absolute',
@@ -89,7 +100,6 @@ const styles = StyleSheet.create({
   },
   moreVert: {
     paddingRight: 8,
-    color: colors.recipeIcon,
   },
 });
 
