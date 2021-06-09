@@ -26,14 +26,14 @@ function IndexProviders({ navigation }) {
         <Icon name='add'
           size={30}
           style={styles.navIcon}
-          onPress={() => navigation.navigate('Nuevo Menu', {
+          onPress={() => navigation.navigate('Nuevo Proveedor', {
             isNew: true,
             providers,
             setProviders,
           })}
         />
       ),
-      headerTitle: 'Menus',
+      headerTitle: 'Proveedores',
     });
   }, [navigation, providers]);
 
