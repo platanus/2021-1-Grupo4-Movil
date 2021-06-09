@@ -1,15 +1,20 @@
 import { View, Text, TextInput } from 'react-native';
 import React, { useState } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { CheckBox } from 'react-native-elements';
+import { CheckBox, Icon } from 'react-native-elements';
 import styles from '../styles/Menus/form';
 import colors from '../styles/appColors';
 
-function SelectRecipeRow({ recipe }) {
-  const [quantity, setQuantity] = useState(1);
+function SelectRecipeRow({ select, recipe, remove, changePrice }) {
+  const [quantity, setQuantity] = useState(recipe.quantity);
   const [quantityText, setQuantityText] = useState(recipe.quantityText);
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(recipe.selected);
   const [price, setPrice] = useState(recipe.price * recipe.quantity);
+
+  function changeQty() {
+    setQuantity(Number(quantityText));
+    if (!select) changePrice(false);
+  }
 
   function addRecipeQty(diff) {
     const newQuantity = quantity + diff;
@@ -18,6 +23,8 @@ function SelectRecipeRow({ recipe }) {
       setQuantityText(newQuantity.toString());
       setPrice(newQuantity * recipe.price);
       recipe.quantity = newQuantity;
+      recipe.quantityText = newQuantity.toString();
+      if (!select) changePrice(false);
     }
   }
 
@@ -30,13 +37,14 @@ function SelectRecipeRow({ recipe }) {
   return (
     <View style={styles.recipeRow}>
       <View style={styles.recipeCheckAndQtyRow}>
-        <CheckBox
-          checked={checked}
-          onPress={pressCheckBox}
-          checkedColor={colors.yellow}
-          checkedIcon='check-square'
-          uncheckedColor={colors.yellow}
-        />
+        { select ?
+          <CheckBox
+            checked={checked}
+            onPress={pressCheckBox}
+            checkedColor={colors.yellow}
+            checkedIcon='check-square'
+            uncheckedColor={colors.yellow}/> : null
+        }
         <View style={styles.nameandQtyColumn}>
           <Text style={styles.recipeNameText}>{recipe.name}</Text>
           <View style={styles.recipeMoreAndLessRow}>
@@ -49,7 +57,7 @@ function SelectRecipeRow({ recipe }) {
               style={styles.moreAndLessNumberArea}
               value={quantityText}
               onChangeText={setQuantityText}
-              onEndEditing={() => setQuantity(Number(quantityText))}
+              onEndEditing={changeQty}
             />
             <TouchableOpacity
               style={styles.recipeMoreAndLessButton}
@@ -61,6 +69,7 @@ function SelectRecipeRow({ recipe }) {
       </View>
       <View style={styles.priceAndRemoveRow}>
         <Text style={styles.recipePriceText}>${Math.round(price)}</Text>
+        {select ? null : <Icon name='close' onPress={() => remove(recipe.id)} size={18} color={colors.grayIcon}/>}
       </View>
     </View>
   );
