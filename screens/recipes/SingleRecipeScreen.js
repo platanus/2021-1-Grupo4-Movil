@@ -1,9 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import {
-  View,
-  Text,
-  ScrollView,
-} from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { TouchableOpacity, View, Text, ScrollView, Alert } from 'react-native';
 
 import { Icon } from 'react-native-elements';
 import { useStoreActions } from 'easy-peasy';
@@ -23,6 +19,8 @@ function Recipe(props) {
   const [showMenu, setShowMenu] = useState(false);
   const setLoadRecipes = useStoreActions((actions) => actions.setLoadRecipes);
 
+  const scrollRef = useRef();
+
   React.useLayoutEffect(() => {
     navigation.setOptions({
       // eslint-disable-next-line react/display-name
@@ -31,7 +29,13 @@ function Recipe(props) {
           size={30}
           style={styles.moreVert}
           color={colors.figmaWhite}
-          onPress={() => setShowMenu(!showMenu)}/>
+          onPress={() => {
+            setShowMenu(!showMenu);
+            scrollRef.current.scrollTo({
+              y: 0,
+              animated: true,
+            });
+          }}/>
       ),
       headerTitle: recipe.attributes.name,
     });
@@ -59,6 +63,7 @@ function Recipe(props) {
   }, [recipe.attributes.recipe_ingredients]);
 
   return (
+<<<<<<< HEAD
     <ScrollView style={styles.mainContainer}>
       {showMenu && (
         <ShowMenuOptions
@@ -72,6 +77,28 @@ function Recipe(props) {
           setLoadRecipes={setLoadRecipes}
         />
       )}
+=======
+    <ScrollView style={styles.mainContainer} ref={scrollRef}>
+      {showMenu &&
+      <View>
+        <TouchableOpacity style={[styles.menuOption, styles.edit]}
+          onPress={() => navigation.navigate('Editar Receta', recipe)}>
+          <Text style={styles.edit}>Editar</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={[styles.menuOption, styles.delete]}
+          onPress={() => Alert.alert('¿Estás seguro?', 'Esta acción es irreversible',
+            [{ text: 'Cancelar', onPress: () => { setShowMenu(false); }, style: 'default' },
+              { text: 'Borrar', onPress: () => {
+                deleteRecipe(recipe.id);
+                setLoadRecipes(true);
+                navigation.navigate('Recetas', { recipe });
+              }, style: 'destructive' }],
+          )
+          }>
+          <Text style={styles.delete}>Borrar</Text>
+        </TouchableOpacity>
+      </View>}
+>>>>>>> refactor(RecipeForm): update UI design in create and edit form and show menu
       <View style={styles.recipeInfoContainer}>
         <View style={styles.recipeInfoRow}>
           <Icon name='pie-chart' color={colors.figmaGray600} size={25} />

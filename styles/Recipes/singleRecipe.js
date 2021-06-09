@@ -21,13 +21,14 @@ const styles = StyleSheet.create({
   },
   sectionTitleText: {
     marginLeft: '5%',
-    marginBottom: 10,
+    marginBottom: 15,
     color: 'black',
     fontSize: 18,
     fontWeight: 'bold',
   },
   ingredientsContainer: {
-    paddingTop: 25,
+    paddingTop: 20,
+    paddingBottom: 15,
   },
   ingredientsList: {
     borderBottomWidth: 1,
@@ -79,25 +80,30 @@ const styles = StyleSheet.create({
     marginLeft: '3%',
     marginRight: '5%',
   },
-  menuContainer: {
-    // position: 'absolute',
-    // zIndex: 1,
 
-    // backgroundColor: colors.white,
-    // width: '100%',
-  },
   menuOption: {
-    // zIndex: 1,
-    position: 'relative',
     display: 'flex',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 15,
-    paddingHorizontal: '5%',
-    borderBottomWidth: 0.3,
-    borderColor: colors.tableBorder,
-    // borderRadius: 5,
+    paddingVertical: 9,
+    width: '90%',
+    borderWidth: 1,
+    marginLeft: '5%',
+    marginTop: 10,
+    borderRadius: 5,
+
   },
+
+  edit: {
+    color: colors.figmaGray600,
+    borderColor: colors.figmaGray600,
+  },
+
+  delete: {
+    color: colors.figmaRed500,
+    borderColor: colors.figmaRed500,
+  },
+
   moreVert: {
     paddingRight: 8,
   },
