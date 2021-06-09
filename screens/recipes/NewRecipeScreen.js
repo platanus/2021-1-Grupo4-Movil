@@ -1,60 +1,172 @@
-import { useStoreActions } from 'easy-peasy';
-import React, { useState } from 'react';
-import { View, Text, ScrollView, TextInput, Alert } from 'react-native';
+import { useStoreActions, useStoreState } from 'easy-peasy';
+import React, { useState, useEffect } from 'react';
+import { View, Text, ScrollView, TextInput } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import colors from '../../styles/appColors';
 import styles from '../../styles/Recipes/newRecipe';
 import RecipeSteps from './RecipeStepsScreen';
+// import RecipeIngredients from './RecipeIngredientsScreen';
+import IngredientRow from '../../components/recipeEditIngredientRow';
 import calculateRecipePrice from '../../utils/calculateRecipePrice';
 
-/* eslint max-statements: [2, 20] */
+/* eslint max-statements: [2, 30] */
 function FormRecipe(props) {
   const { navigation, route } = props;
-  const recipe = route ? route.params : null;
+  const recipe = (route.params && route.params.recipe) ? route.params.recipe : null;
+  const setLoadRecipes = useStoreActions((actions) => actions.setLoadRecipes);
 
   const [recipeName, setRecipeName] = useState(recipe ? recipe.attributes.name : '');
   const [recipeTime, setRecipeTime] = useState(recipe ? recipe.attributes.cook_minutes.toString() : '');
   const [recipePortions, setRecipePortions] = useState(recipe ? recipe.attributes.portions.toString() : '');
-  const [recipeSteps, setRecipeSteps] = useState(recipe ? recipe.attributes.steps.data : []);
-  const [recipePrice, setRecipePrice] = useState(recipe ? calculateRecipePrice(recipe) : 0);
+  const [recipeSteps, setRecipeSteps] = useState(
+    recipe ? JSON.parse(JSON.stringify(recipe.attributes.steps.data)) : []);
 
+  const [recipePrice, setRecipePrice] = useState(recipe ? calculateRecipePrice(recipe) : 0);
   const createRecipe = useStoreActions((actions) => actions.createRecipe);
   const editRecipe = useStoreActions((actions) => actions.editRecipe);
+
+  const selectedIngredients = useStoreState((state) => state.recipes.currentSelectedIngredients);
+  const setIngredientsAction = useStoreActions((actions) => actions.setSelectedRecipeIngredients);
+  const deletedIngredients = useStoreState((state) => state.recipes.currentDeletedIngredients);
+  const setDeletedIngredients = useStoreActions((actions) => actions.setDeletedRecipeIngredients);
+  const [recipeIngredients, setRecipeIngredients] = useState([]);
+  const [ingredientsData, setIngredientsData] = useState([]);
+
   const createRecipeStep = useStoreActions((actions) => actions.createRecipeStep);
   const editRecipeStep = useStoreActions((actions) => actions.editRecipeStep);
   const deleteRecipeStep = useStoreActions((actions) => actions.deleteRecipeStep);
 
+  const [isStarting, setIsStarting] = useState(true);
+
+  useEffect(() => {
+    if (recipe) {
+      const auxIngredients = [];
+      const auxRecipeIngredients = [];
+      route.params.recipe.attributes.recipe_ingredients.data.forEach((ingredient) => {
+        auxIngredients.push({
+          id: ingredient.attributes.ingredient.id,
+          attributes: ingredient.attributes.ingredient,
+        });
+        auxRecipeIngredients.push({
+          ...ingredient.attributes.ingredient,
+          ingredientId: ingredient.attributes.ingredient.id,
+          recipeIngredientId: ingredient.id,
+          recipeQuantity: ingredient.attributes.ingredient_quantity,
+          isNew: false,
+          isDeleted: false,
+          isEdited: false,
+        });
+      });
+      setRecipeIngredients(auxRecipeIngredients);
+      setIngredientsData(auxRecipeIngredients);
+      setIngredientsAction(auxIngredients);
+    } else {
+      setIngredientsAction([]);
+    }
+    setIsStarting(false);
+  }, []);
+
+  useEffect(() => {
+    if (!isStarting) {
+      const auxIngredients = [];
+      const auxData = [];
+      selectedIngredients.forEach((ingredient) => {
+        const index = ingredientsData.findIndex((data) => data.ingredientId.toString() === ingredient.id.toString());
+        if (index >= 0) {
+          ingredientsData[index].isDeleted = false;
+          auxIngredients.push({
+            ...ingredientsData[index],
+          });
+        } else {
+          const newIngredient = {
+            ...ingredient.attributes,
+            id: ingredient.attributes.name,
+            ingredientId: ingredient.id,
+            recipeIngredientId: null,
+            recipeQuantity: 0,
+            isNew: true,
+            isEdited: false,
+            isDeleted: false,
+          };
+          auxIngredients.push(newIngredient);
+          auxData.push(newIngredient);
+        }
+      });
+      setRecipeIngredients(auxIngredients);
+      setIngredientsData(ingredientsData.concat(auxData));
+      deletedIngredients.forEach((ingredientId) => {
+        const index = ingredientsData.findIndex((data) => data.ingredientId.toString() === ingredientId.toString());
+        if (index >= 0) {
+          ingredientsData[index].isDeleted = true;
+        }
+      });
+      setDeletedIngredients([]);
+    }
+  }, [selectedIngredients]);
+
+  function changeIngredientDataQuantity(ingredientId, newQuantity) {
+    const index = ingredientsData.findIndex((data) => data.ingredientId.toString() === ingredientId.toString());
+    if (index >= 0) {
+      ingredientsData[index].recipeQuantity = newQuantity;
+      ingredientsData[index].isEdited = true;
+    }
+  }
+
   function stepsActions(recipeId) {
     const promises = [];
-    let k = 0;
-    for (let i = 0; i < recipeSteps.length; i++) {
-      if (('new' in recipeSteps[k]) && !('delete' in recipeSteps[k])) {
+    recipeSteps.forEach((step) => {
+      const newInStep = 'new' in step;
+      const deleteInStep = 'delete' in step;
+      const editInStep = 'edit' in step;
+      if (newInStep && !deleteInStep) {
         promises.push(createRecipeStep({
           id: recipeId,
-          body: recipeSteps[k].attributes,
+          body: step.attributes,
         }));
-      } else if (('delete' in recipeSteps[k]) && !('new' in recipeSteps[k])) {
+      } else if (deleteInStep && !newInStep) {
         promises.push(deleteRecipeStep({
           recipeId,
-          stepId: recipeSteps[k].id,
+          stepId: step.id,
         }));
-      } else if (('edit' in recipeSteps[k]) && !('delete' in recipeSteps[k]) && !('new' in recipeSteps[k])) {
+      } else if (editInStep && !deleteInStep && !newInStep) {
         promises.push(editRecipeStep({
           recipeId,
-          stepId: recipeSteps[k].id,
-          body: recipeSteps[k].attributes,
+          stepId: step.id,
+          body: step.attributes,
         }));
       }
-      if ('delete' in recipeSteps[k]) {
-        const newStepsArray = recipeSteps;
-        newStepsArray.splice(k, 1);
-        setRecipeSteps(newStepsArray);
-      } else {
-        k++;
-      }
-    }
+    });
 
     return promises;
+  }
+
+  function ingredientsQuery() {
+    const ingredientsList = [];
+    ingredientsData.forEach((ingredient) => {
+      if (ingredient.isNew) {
+        if (ingredient.action !== 'delete') {
+          ingredientsList.push({
+            'ingredient_id': ingredient.ingredientId,
+            'ingredient_quantity': ingredient.recipeQuantity,
+          });
+        }
+      } else if (ingredient.isDeleted) {
+        ingredientsList.push({ id: ingredient.recipeIngredientId, _destroy: true });
+      } else if (ingredient.isEdited) {
+        ingredientsList.push({
+          id: ingredient.recipeIngredientId,
+          'ingredient_id': ingredient.ingredientId,
+          'ingredient_quantity': ingredient.recipeQuantity,
+          _destroy: false,
+        });
+      }
+    });
+
+    return ingredientsList;
+  }
+
+  function searchIngredients() {
+    navigation.navigate('Buscar ingredientes', recipe);
   }
 
   function handleSubmit() {
@@ -63,12 +175,15 @@ function FormRecipe(props) {
       portions: parseInt(recipePortions, 10),
       // eslint-disable-next-line
       cook_minutes: parseInt(recipeTime, 10),
+      // eslint-disable-next-line
+      recipe_ingredients_attributes: ingredientsQuery(),
     };
 
     if (recipe) {
       editRecipe({ body, id: recipe.id })
         .then(() => Promise.all(stepsActions(recipe.id)))
         .then(() => {
+          setLoadRecipes(true);
           navigation.navigate('Recetas', { recipe });
         })
         .catch(() => {
@@ -77,6 +192,7 @@ function FormRecipe(props) {
       createRecipe(body)
         .then((resp) => Promise.all(stepsActions(resp.data.data.id)))
         .then(() => {
+          setLoadRecipes(true);
           navigation.navigate('Recetas', { recipe });
         })
         .catch(() => {});
@@ -87,17 +203,20 @@ function FormRecipe(props) {
     <ScrollView style={styles.mainContainer}>
       <View style={styles.container}>
         <Text style={styles.sectionTitleText}>Datos básicos</Text>
-        <View style={styles.recipeInfoRow}>
-          <Text style={styles.label}>Nombre</Text>
-          <TextInput
-            style={styles.sectionNameInput}
-            value={recipeName}
-            onChangeText={setRecipeName}/>
+        <View style={styles.inlineInputs}>
+          <View style={styles.recipeInfoRow}>
+            <Text style={styles.label}>Nombre</Text>
+            <TextInput
+              style={styles.sectionTextInput}
+              value={recipeName}
+              onChangeText={setRecipeName}/>
+          </View>
         </View>
         <View style={styles.inlineInputs}>
           <View style={styles.recipeInfoRow}>
             <Text style={styles.label}>Porciones</Text>
             <TextInput
+              keyboardType="number-pad"
               style={styles.sectionTextInput}
               value={recipePortions}
               onChangeText={setRecipePortions}/>
@@ -105,6 +224,7 @@ function FormRecipe(props) {
           <View style={styles.recipeInfoRow}>
             <Text style={styles.label}>Tiempo de preparación</Text>
             <TextInput
+              keyboardType="number-pad"
               style={styles.sectionTextInput}
               value={recipeTime}
               onChangeText={setRecipeTime}/>
@@ -117,31 +237,32 @@ function FormRecipe(props) {
             <Text style={styles.sectionTitleText}>Ingredientes seleccionados</Text>
           </View>
           <View style={styles.recipeInfoRow}>
-            <TouchableOpacity style={styles.ingredientButton} onPress={ () => Alert.alert('Buscar ingredientes!') }>
+            <TouchableOpacity style={styles.ingredientButton} onPress={searchIngredients}>
               <Text>Buscar ingredientes</Text>
             </TouchableOpacity>
           </View>
         </View>
       </View>
       <View style={styles.ingredientsContainer}>
-        <View style={styles.ingredientsList}>
-          <View style={ styles.ingredientTextBox }>
-            <View style={styles.sectionQuantity}>
-              <TextInput style={styles.sectionQuantityInput}/>
-              <Text style={styles.ingredientText}>g.</Text>
-              <Text style={styles.ingredientText}> Ingrediente</Text>
-            </View>
-            <View style={styles.sectionPrice}>
-              <Text style={styles.ingredientText}>$ XX.XX</Text>
-            </View>
-          </View>
-        </View>
+        { recipeIngredients.map((ingredient) =>
+          <IngredientRow
+            ingredient={ingredient}
+            key={ingredient.id}
+            totalPrice={recipePrice}
+            setTotalPrice={setRecipePrice}
+            changeIngredientDataQuantity={changeIngredientDataQuantity}
+          />,
+        )}
+      </View>
+      <View style={styles.ingredientsContainer}>
         <View style={ styles.ingredientTextBox }>
           <View style={styles.sectionQuantity}>
-            <Text>Costo total</Text>
+            <Text>Costo total{'\n'}Costo Unitario</Text>
           </View>
           <View style={styles.sectionPrice}>
-            <Text style={ { ...styles.ingredientText, color: colors.purplePrice } }>${Math.round(recipePrice)}</Text>
+            <Text style={ { ...styles.ingredientText, color: colors.purplePrice } }>
+              ${Math.round(recipePrice)} {'\n'}${Math.round(recipePrice / Number(recipePortions))} c/u
+            </Text>
           </View>
         </View>
       </View>
