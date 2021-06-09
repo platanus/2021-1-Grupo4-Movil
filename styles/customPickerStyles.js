@@ -55,7 +55,7 @@ const pickers = {
   },
   providerPicker: {
     inputIOS: {
-      color: colors.figmaWhite,
+      color: colors.kitchengramWhite,
       textAlign: 'center',
       paddingTop: 13,
       paddingHorizontal: 10,
@@ -65,7 +65,7 @@ const pickers = {
     },
     inputAndroid: {
       textAlign: 'center',
-      color: colors.figmaWhite,
+      color: colors.kitchengramWhite,
       paddingTop: 20,
       paddingBottom: 13,
       marginHorizontal: 10,

@@ -81,7 +81,7 @@ function SearchIngredient({ navigation, route }) {
               />
               <Icon name='chevron-down'
                 size={25}
-                color={colors.figmaWhite}
+                color={colors.kitchengramWhite}
                 style={styles.arrowIcon}
               />
             </View>

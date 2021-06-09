@@ -188,7 +188,7 @@ function FormIngredient({ navigation, route }) {
           </View>
           <Icon name='chevron-down'
             size={30}
-            color={colors.figmaGray600}
+            color={colors.kitchengramGray600}
             style={styles.arrowIcon}
           />
         </View>

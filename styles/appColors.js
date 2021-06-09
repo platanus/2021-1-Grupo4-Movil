@@ -1,5 +1,5 @@
 const colors = {
-  // figma colors
+  // kitchengram colors
   kitchengramBlack: '#0A000A',
   kitchengramYellow500: '#DCAB24',
   kitchengramGray600: '#847974',

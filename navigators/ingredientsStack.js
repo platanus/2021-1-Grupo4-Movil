@@ -15,17 +15,17 @@ function IngredientsStackScreen() {
       <MainIngredientsStack.Screen
         name="Ingredientes"
         component={IndexIngredient}
-        options={{ headerTintColor: colors.figmaWhite,
+        options={{ headerTintColor: colors.kitchengramWhite,
           headerTitleAlign: 'left',
-          headerStyle: { backgroundColor: colors.figmaBlack,
+          headerStyle: { backgroundColor: colors.kitchengramBlack,
           } }}
       />
       <MainIngredientsStack.Screen
         name="Ingrediente"
         component={ShowIngredient}
-        options={{ headerTintColor: colors.figmaWhite,
+        options={{ headerTintColor: colors.kitchengramWhite,
           headerTitleAlign: 'center',
-          headerStyle: { backgroundColor: colors.figmaBlack,
+          headerStyle: { backgroundColor: colors.kitchengramBlack,
           },
           headerBackTitleVisible: false,
         }}
@@ -33,10 +33,10 @@ function IngredientsStackScreen() {
       <MainIngredientsStack.Screen
         name="Nuevo Ingrediente"
         component={FormIngredient}
-        options={{ headerTintColor: colors.figmaWhite,
+        options={{ headerTintColor: colors.kitchengramWhite,
           headerTitleAlign: 'center',
           headerTitle: 'Crear ingrediente',
-          headerStyle: { backgroundColor: colors.figmaBlack,
+          headerStyle: { backgroundColor: colors.kitchengramBlack,
           },
           headerBackTitleVisible: false,
         }}
@@ -44,18 +44,18 @@ function IngredientsStackScreen() {
       <MainIngredientsStack.Screen
         name="Editar Ingrediente"
         component={FormIngredient}
-        options={{ headerTintColor: colors.figmaWhite,
+        options={{ headerTintColor: colors.kitchengramWhite,
           headerTitleAlign: 'center',
-          headerStyle: { backgroundColor: colors.figmaBlack,
+          headerStyle: { backgroundColor: colors.kitchengramBlack,
           },
           headerBackTitleVisible: false }}
       />
       <MainIngredientsStack.Screen
         name="Buscar Ingrediente"
         component={SearchIngredient}
-        options={{ headerTintColor: colors.figmaWhite,
+        options={{ headerTintColor: colors.kitchengramWhite,
           headerTitleAlign: 'center',
-          headerStyle: { backgroundColor: colors.figmaBlack,
+          headerStyle: { backgroundColor: colors.kitchengramBlack,
           },
           headerBackTitleVisible: false }}
       />
