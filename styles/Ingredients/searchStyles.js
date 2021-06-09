@@ -3,7 +3,7 @@ import colors from '../appColors';
 
 const styles = StyleSheet.create({
   scroll: {
-    backgroundColor: colors.figmaWhite,
+    backgroundColor: colors.kitchengramWhite,
     width: '100%',
     height: '100%',
     position: 'relative',
@@ -11,14 +11,14 @@ const styles = StyleSheet.create({
 
   searchText: {
     fontSize: 14,
-    color: colors.figmaBlack,
+    color: colors.kitchengramBlack,
     width: '100%',
     marginBottom: 5,
   },
 
   container: {
     flex: 1,
-    backgroundColor: colors.figmaWhite,
+    backgroundColor: colors.kitchengramWhite,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -41,8 +41,8 @@ const styles = StyleSheet.create({
   customPickerBox: {
     marginTop: 30,
     borderWidth: 2,
-    borderColor: colors.figmaGreen500,
-    backgroundColor: colors.figmaGreen500,
+    borderColor: colors.kitchengramGreen500,
+    backgroundColor: colors.kitchengramGreen500,
     height: 45,
     borderTopRightRadius: 7,
     borderTopLeftRadius: 7,
@@ -62,19 +62,19 @@ const styles = StyleSheet.create({
     height: '45%',
     marginTop: 5,
     borderWidth: 2,
-    borderColor: colors.figmaGray600,
+    borderColor: colors.kitchengramGray600,
     borderRadius: 5,
     paddingHorizontal: 10,
 
   },
 
   scrapperButtonText: {
-    color: colors.figmaWhite,
+    color: colors.kitchengramWhite,
     fontSize: 16,
   },
 
   scrapperButton: {
-    backgroundColor: colors.figmaGreen500,
+    backgroundColor: colors.kitchengramGreen500,
     padding: 12,
     borderRadius: 5,
     width: '100%',
@@ -91,17 +91,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     position: 'relative',
-    borderBottomColor: colors.figmaGray400,
+    borderBottomColor: colors.kitchengramGray400,
     borderBottomWidth: 1,
     paddingLeft: '7%',
   },
 
   even: {
-    backgroundColor: colors.figmaWhite,
+    backgroundColor: colors.kitchengramWhite,
   },
 
   odd: {
-    backgroundColor: colors.figmaWhite,
+    backgroundColor: colors.kitchengramWhite,
   },
 
   left: {
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
   productName: {
     width: '72%',
     fontSize: 16,
-    color: colors.figmaGray600,
+    color: colors.kitchengramGray600,
     fontWeight: 'normal',
     fontStyle: 'normal',
     paddingLeft: 5,
@@ -141,14 +141,14 @@ const styles = StyleSheet.create({
 
   price: {
     fontSize: 20,
-    color: colors.figmaYellow500,
+    color: colors.kitchengramYellow500,
     fontWeight: 'normal',
     fontStyle: 'normal',
   },
 
   measure: {
     fontSize: 12,
-    color: colors.figmaGray400,
+    color: colors.kitchengramGray400,
     fontWeight: 'normal',
     fontStyle: 'normal',
     textAlign: 'right',

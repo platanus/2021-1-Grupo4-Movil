@@ -90,7 +90,6 @@ function ShowIngredient({ navigation, route }) {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.delete}
-          // onPress={handleSubmitDelete}
           onPress={() => Alert.alert('¿Estás seguro?', 'Esta acción es irreversible',
             [{ text: 'Cancelar', onPress: () => {}, style: 'default' },
               { text: 'Borrar', onPress: () => {

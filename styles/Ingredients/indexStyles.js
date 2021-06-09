@@ -3,7 +3,7 @@ import colors from '../appColors';
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.figmaWhite,
+    backgroundColor: colors.kitchengramWhite,
     flex: 1,
   },
 
@@ -13,16 +13,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'flex-start',
-    borderBottomColor: colors.figmaGray400,
+    borderBottomColor: colors.kitchengramGray400,
     borderBottomWidth: 1,
   },
 
   even: {
-    backgroundColor: colors.figmaWhite,
+    backgroundColor: colors.kitchengramWhite,
   },
 
   odd: {
-    backgroundColor: colors.figmaWhite,
+    backgroundColor: colors.kitchengramWhite,
   },
 
   left: {
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
 
   name: {
     fontSize: 20,
-    color: colors.figmaGray600,
+    color: colors.kitchengramGray600,
 
     fontWeight: 'normal',
     fontStyle: 'normal',
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
 
   measure: {
     fontSize: 12,
-    color: colors.figmaGray400,
+    color: colors.kitchengramGray400,
 
     fontWeight: 'normal',
     fontStyle: 'normal',
@@ -61,14 +61,14 @@ const styles = StyleSheet.create({
 
   price: {
     fontSize: 24,
-    color: colors.figmaYellow500,
+    color: colors.kitchengramYellow500,
 
     fontWeight: 'normal',
     fontStyle: 'normal',
   },
 
   addButton: {
-    backgroundColor: colors.figmaGreen500,
+    backgroundColor: colors.kitchengramGreen500,
     width: 45,
     height: 45,
     borderRadius: 50,

@@ -3,7 +3,7 @@ import colors from '../appColors';
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.figmaWhite,
+    backgroundColor: colors.kitchengramWhite,
     alignItems: 'center',
     height: '100%',
     width: '100%',
@@ -24,14 +24,14 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'normal',
     fontStyle: 'normal',
-    color: colors.figmaBlack,
+    color: colors.kitchengramBlack,
     marginBottom: 5,
   },
 
   input: {
     width: '100%',
     height: '90%',
-    borderColor: colors.figmaGray600,
+    borderColor: colors.kitchengramGray600,
     borderWidth: 2,
     borderRadius: 5,
     fontSize: 14,
@@ -39,13 +39,13 @@ const styles = StyleSheet.create({
     paddingRight: 15,
     fontWeight: 'bold',
     fontStyle: 'normal',
-    color: colors.figmaBlack,
+    color: colors.kitchengramBlack,
   },
 
   dropDown: {
     width: '100%',
     height: '90%',
-    borderColor: colors.figmaGray600,
+    borderColor: colors.kitchengramGray600,
     borderWidth: 2,
     borderRadius: 5,
     paddingRight: 10,
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
   },
 
   scrapperButton: {
-    backgroundColor: colors.figmaGreen500,
+    backgroundColor: colors.kitchengramGreen500,
     padding: 12,
     borderRadius: 5,
     height: '8%',
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     marginTop: 10 },
 
   scrapperButtonText: {
-    color: colors.figmaWhite,
+    color: colors.kitchengramWhite,
     fontSize: 16,
   },
 
@@ -103,12 +103,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     borderWidth: 1,
     borderRadius: 5,
-    borderColor: colors.figmaGray600,
+    borderColor: colors.kitchengramGray600,
   },
 
   confirm: {
     width: '48%',
-    backgroundColor: colors.figmaGreen500,
+    backgroundColor: colors.kitchengramGreen500,
     borderRadius: 5,
   },
 
@@ -119,11 +119,11 @@ const styles = StyleSheet.create({
   },
 
   cancelText: {
-    color: colors.figmaGray600,
+    color: colors.kitchengramGray600,
   },
 
   confirmText: {
-    color: colors.figmaWhite,
+    color: colors.kitchengramWhite,
   },
 });
 

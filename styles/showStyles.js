@@ -3,7 +3,7 @@ import colors from './appColors';
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.figmaWhite,
+    backgroundColor: colors.kitchengramWhite,
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'flex-start',
@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
 
   attributeContainer: {
     height: '12%',
-    borderBottomColor: colors.figmaGray400,
+    borderBottomColor: colors.kitchengramGray400,
     borderBottomWidth: 1,
     flexDirection: 'row',
     alignItems: 'center',
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     width: '40%',
     textAlign: 'left',
     fontSize: 14,
-    color: colors.figmaGray600,
+    color: colors.kitchengramGray600,
     fontWeight: 'normal',
     fontStyle: 'normal',
   },
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     width: '60%',
     textAlign: 'right',
     fontSize: 20,
-    color: colors.figmaGray600,
+    color: colors.kitchengramGray600,
     fontWeight: 'normal',
     fontStyle: 'normal',
   },
@@ -55,14 +55,14 @@ const styles = StyleSheet.create({
   delete: {
     width: '48%',
     height: '100%',
-    backgroundColor: colors.figmaRed500,
+    backgroundColor: colors.kitchengramRed500,
     borderRadius: 5,
     alignItems: 'center',
     justifyContent: 'center',
   },
 
   deleteText: {
-    color: colors.figmaWhite,
+    color: colors.kitchengramWhite,
     fontWeight: 'normal',
     fontStyle: 'normal',
     fontSize: 16,
@@ -76,11 +76,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     borderWidth: 1,
     borderRadius: 5,
-    borderColor: colors.figmaGray600,
+    borderColor: colors.kitchengramGray600,
   },
 
   editText: {
-    color: colors.figmaGray600,
+    color: colors.kitchengramGray600,
 
     fontWeight: 'normal',
     fontStyle: 'normal',
