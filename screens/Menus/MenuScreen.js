@@ -1,4 +1,7 @@
-import React, { useEffect, useLayoutEffect } from 'react';
+import React, {
+  useLayoutEffect,
+  useState,
+} from 'react';
 import {
   View,
   Text,
@@ -8,6 +11,7 @@ import { Icon } from 'react-native-elements';
 
 import colors from '../../styles/appColors';
 import styles from '../../styles/Menus/showStyles';
+import calculateRecipePrice from '../../utils/calculateRecipePrice';
 import formatMoney from '../../utils/formatMoney';
 
 function Menu(props) {
@@ -16,15 +20,19 @@ function Menu(props) {
     route,
   } = props;
 
-  const { menu } = route.params;
+  const { menu, menuPrice } = route.params;
 
-  useEffect(() => {
-    console.log('Inside menu', menu);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const [showMenuOptions, setShowMenuOptions] = useState(false);
 
   useLayoutEffect(() => {
     navigation.setOptions({
+      // eslint-disable-next-line react/display-name
+      headerRight: () => (
+        <Icon name='more-vert'
+          size={30}
+          style={styles.navIcon}
+          onPress={() => setShowMenuOptions(!showMenuOptions)}/>
+      ),
       headerTitle: menu.attributes.name,
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -50,7 +58,7 @@ function Menu(props) {
             size={23}
           />
           <Text style={styles.value}>
-            {formatMoney(10500, '', '')}
+            {formatMoney(menuPrice, '', '')}
           </Text>
         </View>
         <Text style={styles.title}>
@@ -72,7 +80,7 @@ function Menu(props) {
               </View>
               <View style={styles.right}>
                 <Text style={styles.price}>
-                  {formatMoney(10500, '$ ', '')}
+                  {formatMoney(calculateRecipePrice(recipe.attributes.recipe, true), '$ ', '')}
                 </Text>
               </View>
             </View>

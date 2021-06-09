@@ -54,6 +54,10 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.grayName,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
+  navIcon: {
+    paddingRight: 8,
+    color: colors.black,
+  },
 });
 
 export default styles;

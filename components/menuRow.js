@@ -1,17 +1,36 @@
-import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
 import { Icon } from 'react-native-elements';
 import colors from '../styles/appColors';
-import styles from '../styles/Menus/index';
+import styles from '../styles/Menus/indexStyles';
+import calculateRecipePrice from '../utils/calculateRecipePrice';
 import formatMoney from '../utils/formatMoney';
 
 function MenuRow(props) {
   const { menu, navigation } = props;
 
+  const [menuPrice, setMenuPrice] = useState(0);
+
+  useEffect(() => {
+    let price = 0;
+    menu.attributes.menu_recipes.data.forEach((recipe) => {
+      price += calculateRecipePrice(recipe.attributes.recipe, true);
+    });
+    setMenuPrice(price);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <TouchableOpacity
       style={styles.menuRow}
-      onPress={() => navigation.navigate('Menu', { menu })}
+      onPress={() => navigation.navigate('Menu', {
+        menu,
+        menuPrice,
+      })}
       key={menu.id}
     >
       <View style={styles.left}>
@@ -41,7 +60,7 @@ function MenuRow(props) {
       </View>
       <View style={styles.right}>
         <Text style={styles.price}>
-          {formatMoney(10500, '$ ', '')}
+          {formatMoney(menuPrice, '$ ', '')}
         </Text>
       </View>
     </TouchableOpacity>
