@@ -8,11 +8,15 @@ import {
   ScrollView,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
+import { useStoreActions } from 'easy-peasy';
 
 import colors from '../../styles/appColors';
 import styles from '../../styles/Menus/showStyles';
+
 import calculateRecipePrice from '../../utils/calculateRecipePrice';
 import formatMoney from '../../utils/formatMoney';
+
+import ShowMenuOptions from '../../components/ShowMenuOptions';
 
 function Menu(props) {
   const {
@@ -20,7 +24,14 @@ function Menu(props) {
     route,
   } = props;
 
-  const { menu, menuPrice } = route.params;
+  const deleteMenu = useStoreActions((actions) => actions.deleteMenu);
+
+  const {
+    menu,
+    menuPrice,
+    menus,
+    setMenus,
+  } = route.params;
 
   const [showMenuOptions, setShowMenuOptions] = useState(false);
 
@@ -40,6 +51,18 @@ function Menu(props) {
 
   return (
     <View style={styles.container}>
+      {showMenuOptions && (
+        <ShowMenuOptions
+          navigation={navigation}
+          menuVisible={setShowMenuOptions}
+          element={menu}
+          elementsArray={menus}
+          setElementsArray={setMenus}
+          editNavigation={'Editar Menu'}
+          indexNavigation={'Menus'}
+          deleteApi={deleteMenu}
+        />
+      )}
       <ScrollView>
         <View style={styles.infoContainer}>
           <Icon

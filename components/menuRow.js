@@ -11,7 +11,12 @@ import calculateRecipePrice from '../utils/calculateRecipePrice';
 import formatMoney from '../utils/formatMoney';
 
 function MenuRow(props) {
-  const { menu, navigation } = props;
+  const {
+    navigation,
+    menu,
+    menus,
+    setMenus,
+  } = props;
 
   const [menuPrice, setMenuPrice] = useState(0);
 
@@ -29,6 +34,8 @@ function MenuRow(props) {
       style={styles.menuRow}
       onPress={() => navigation.navigate('Menu', {
         menu,
+        menus,
+        setMenus,
         menuPrice,
       })}
       key={menu.id}

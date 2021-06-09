@@ -226,6 +226,13 @@ const storeThunks = {
 
     return menus;
   }),
+  deleteMenu: thunk(async (actions, payload) => {
+    menusApi.deleteMenu(payload)
+      .catch((err) => {
+        actions.setMenusError(err);
+        throw err;
+      });
+  }),
   getProviders: thunk(async (actions, payload) => {
     const providers = providersApi.getProviders(payload)
       .then((res) => res.data.data)

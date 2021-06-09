@@ -53,8 +53,10 @@ function Menus(props) {
         {menus.map((menu) => (
           <MenuRow
             key={menu.id}
-            menu={menu}
             navigation={navigation}
+            menu={menu}
+            menus={menus}
+            setMenus={setMenus}
           />
         ))}
       </ScrollView>);
