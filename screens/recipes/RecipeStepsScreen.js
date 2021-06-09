@@ -44,11 +44,11 @@ function RecipeStep({ recipeSteps, index, edit, options, setRecipeSteps, setEdit
         </View>
         { options ?
           <>
-            <TouchableOpacity style={styles.stepMenuOption}
+            <TouchableOpacity key={index} style={styles.stepMenuOption}
               onPress={openEditView}>
               <Text>Editar</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.stepMenuOption}
+            <TouchableOpacity key={index} style={styles.stepMenuOption}
               onPress={deleteStep}>
               <Text>Eliminar</Text>
             </TouchableOpacity>
@@ -58,7 +58,7 @@ function RecipeStep({ recipeSteps, index, edit, options, setRecipeSteps, setEdit
   }
 
   return (
-    <>
+    <View key={index}>
       <TextInput
         style={ styles.newStepText }
         value={currentStepText}
@@ -72,7 +72,7 @@ function RecipeStep({ recipeSteps, index, edit, options, setRecipeSteps, setEdit
           <Text>Editar</Text>
         </TouchableOpacity>
       </View>
-    </>
+    </View>
   );
 }
 
@@ -151,6 +151,7 @@ function RecipeSteps({ recipeSteps, setRecipeSteps, addDeleteStepId }) {
                 addDeleteStepId={addDeleteStepId}
               />
               <TouchableOpacity
+                key={index}
                 disabled={index === 0}
                 onPress={ () => swapStep(step, (stepIndex) => stepIndex - 1) }
                 >
@@ -159,8 +160,9 @@ function RecipeSteps({ recipeSteps, setRecipeSteps, addDeleteStepId }) {
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
+                key={index}
                 disabled={index === (recipeSteps.length - 1)}
-                onPress={ () => swapStep(step, (stepIndex) => stepIndex  1) }
+                onPress={ () => swapStep(step, (stepIndex) => stepIndex + 1) }
                 >
                 <Text>
                   Bajar paso
