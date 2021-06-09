@@ -98,6 +98,7 @@ function FormRecipe(props) {
           <View style={styles.recipeInfoRow}>
             <Text style={styles.label}>Porciones</Text>
             <TextInput
+              keyboardType="number-pad"
               style={styles.sectionTextInput}
               value={recipePortions}
               onChangeText={setRecipePortions}/>
@@ -105,6 +106,7 @@ function FormRecipe(props) {
           <View style={styles.recipeInfoRow}>
             <Text style={styles.label}>Tiempo de preparación</Text>
             <TextInput
+              keyboardType="number-pad"
               style={styles.sectionTextInput}
               value={recipeTime}
               onChangeText={setRecipeTime}/>
@@ -127,7 +129,10 @@ function FormRecipe(props) {
         <View style={styles.ingredientsList}>
           <View style={ styles.ingredientTextBox }>
             <View style={styles.sectionQuantity}>
-              <TextInput style={styles.sectionQuantityInput}/>
+              <TextInput
+                keyboardType="number-pad"
+                style={styles.sectionQuantityInput}
+              />
               <Text style={styles.ingredientText}>g.</Text>
               <Text style={styles.ingredientText}> Ingrediente</Text>
             </View>
