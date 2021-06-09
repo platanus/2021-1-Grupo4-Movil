@@ -25,7 +25,8 @@ function RecipeIngredients(props) {
         const currentIds = actualSelection.map((i) => i.id.toString());
         setSelecteds(
           currentIds.map(id => allIds.indexOf(id))
-        );
+        )
+      })
   }, []);
 
   function getIngredientsFromSearch() {

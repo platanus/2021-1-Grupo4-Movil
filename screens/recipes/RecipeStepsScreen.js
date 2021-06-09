@@ -115,23 +115,59 @@ function RecipeSteps({ recipeSteps, setRecipeSteps, addDeleteStepId }) {
   const [stepsCount, setStepsCount] = useState(0);
   let i = 0;
 
+  const swapStep = (currentStep, adder) => {
+    console.log()
+    console.log(recipeSteps)
+    const stepIndex = recipeSteps.indexOf(currentStep)
+    const stepsInNewOrder = recipeSteps.filter((step) => step != currentStep)
+    stepsInNewOrder.splice(adder(stepIndex), 0, currentStep) 
+    stepsInNewOrder.forEach((stepObject, index) => {
+      stepObject.id = index
+      }
+    )
+    console.log(stepsInNewOrder)
+    console.log()
+    console.log()
+    setRecipeSteps(stepsInNewOrder)
+  }
+
   return (
     <View style={styles.stepsContainer}>
       <Text style={styles.sectionTitleText}>Pasos</Text>
       {
         recipeSteps.map((step, index) => (
           ('delete' in step) ? null :
-            <RecipeStep key={index}
-              index={index}
-              number={i++}
-              edit={(editStepIndex === index)}
-              options={((editStepIndex === null) && (showMenuIndex === index))}
-              recipeSteps={recipeSteps}
-              setRecipeSteps={setRecipeSteps}
-              setEditStepIndex={setEditStepIndex}
-              setShowMenu={setShowMenuIndex}
-              addDeleteStepId={addDeleteStepId}
-            />))
+            (
+            <>
+              <RecipeStep key={index}
+                index={index}
+                number={i++}
+                edit={(editStepIndex === index)}
+                options={((editStepIndex === null) && (showMenuIndex === index))}
+                recipeSteps={recipeSteps}
+                setRecipeSteps={setRecipeSteps}
+                setEditStepIndex={setEditStepIndex}
+                setShowMenu={setShowMenuIndex}
+                addDeleteStepId={addDeleteStepId}
+              />
+              <TouchableOpacity
+                disabled={index === 0}
+                onPress={ () => swapStep(step, (stepIndex) => stepIndex - 1) }
+                >
+                <Text>
+                  Subir paso
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                disabled={index === (recipeSteps.length - 1)}
+                onPress={ () => swapStep(step, (stepIndex) => stepIndex  1) }
+                >
+                <Text>
+                  Bajar paso
+                </Text>
+              </TouchableOpacity>
+            </>
+            )))
       }
       <NewStep
         recipeSteps={recipeSteps}
