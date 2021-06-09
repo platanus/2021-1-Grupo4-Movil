@@ -54,7 +54,7 @@ function FormIngredient({ navigation, route }) {
       price,
       currency: ingredient.attributes.currency,
       // eslint-disable-next-line camelcase
-      ingredient_measures_attribute: [{
+      ingredient_measures_attributes: [{
         quantity: (isFromSearch) ? 1 : quantity,
         measure: (isFromSearch) ? 'UN' : measure,
       }],
