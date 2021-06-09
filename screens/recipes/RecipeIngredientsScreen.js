@@ -21,14 +21,11 @@ function RecipeIngredients(props) {
     getAllIngredients()
       .then((resp) => {
         setIngredients(resp);
-        const idsAll = resp.map((i) => i.id.toString());
-        const idsActual = actualSelection.map((i) => i.id.toString());
-        const beforeSelecteds = [];
-        idsActual.forEach((id) => {
-          beforeSelecteds.push(idsAll.indexOf(id));
-        });
-        setSelecteds(beforeSelecteds);
-      });
+        const allIds = resp.map((ingred) => ingred.id.toString());
+        const currentIds = actualSelection.map((i) => i.id.toString());
+        setSelecteds(
+          currentIds.map(id => allIds.indexOf(id))
+        );
   }, []);
 
   function getIngredientsFromSearch() {
@@ -59,17 +56,21 @@ function RecipeIngredients(props) {
 
   function saveSelectedIngredients() {
     const deleteIngredientsIds = [];
-    for (let i = 0; i < ingredients.length; i++) {
-      if (!selecteds.includes(i) &&
-        actualSelection.findIndex((actual) => actual.id.toString() === ingredients[i].id.toString()) >= 0
-      ) deleteIngredientsIds.push(ingredients[i].id);
-    }
-    setDeletedIngredient(deleteIngredientsIds);
-    const submitIngredients = [];
-    selecteds.forEach((index) => {
-      submitIngredients.push(ingredients[index]);
-    });
-    setIngredientsForRecipe(submitIngredients);
+    ingredients.forEach((ingred, i) => {
+      const includedCondition = selecteds.includes(i)
+      const indexFoundAndEqualCondition = actualSelection.findIndex(
+        (actual) => actual.id.toString() === ingred.id.toString()
+        ) >= 0
+      if (!includedCondition && indexFoundAndEqualCondition) {
+        deleteIngredientsIds.push(ingred.id);
+      }
+    })
+    setDeletedIngredient(deleteIngredientsIds)
+    setIngredientsForRecipe(
+      selecteds.map((i) => {
+        ingredients[i]
+      })
+    )
     const backRoute = isNewRecipe === null ? 'Crear receta' : 'Editar Receta';
     navigation.navigate(backRoute);
   }

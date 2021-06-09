@@ -114,25 +114,28 @@ function FormRecipe(props) {
 
   function stepsActions(recipeId) {
     const promises = [];
-    for (let i = 0; i < recipeSteps.length; i++) {
-      if (('new' in recipeSteps[i]) && !('delete' in recipeSteps[i])) {
+    recipeSteps.forEach((step) => {
+      const newInStep = 'new' in step;
+      const deleteInStep = 'delete' in step;
+      const editInStep = 'edit' in step;
+      if (newInStep && !deleteInStep) {
         promises.push(createRecipeStep({
           id: recipeId,
-          body: recipeSteps[i].attributes,
+          body: step.attributes,
         }));
-      } else if (('delete' in recipeSteps[i]) && !('new' in recipeSteps[i])) {
+      } else if (deleteInStep && !newInStep) {
         promises.push(deleteRecipeStep({
           recipeId,
-          stepId: recipeSteps[i].id,
+          stepId: step.id,
         }));
-      } else if (('edit' in recipeSteps[i]) && !('delete' in recipeSteps[i]) && !('new' in recipeSteps[i])) {
+      } else if (editInStep && !deleteInStep && !newInStep) {
         promises.push(editRecipeStep({
           recipeId,
-          stepId: recipeSteps[i].id,
-          body: recipeSteps[i].attributes,
+          stepId: step.id,
+          body: step.attributes,
         }));
       }
-    }
+    });
 
     return promises;
   }
@@ -241,23 +244,6 @@ function FormRecipe(props) {
         </View>
       </View>
       <View style={styles.ingredientsContainer}>
-<<<<<<< HEAD
-        <View style={styles.ingredientsList}>
-          <View style={ styles.ingredientTextBox }>
-            <View style={styles.sectionQuantity}>
-              <TextInput
-                keyboardType="number-pad"
-                style={styles.sectionQuantityInput}
-              />
-              <Text style={styles.ingredientText}>g.</Text>
-              <Text style={styles.ingredientText}> Ingrediente</Text>
-            </View>
-            <View style={styles.sectionPrice}>
-              <Text style={styles.ingredientText}>$ XX.XX</Text>
-            </View>
-          </View>
-        </View>
-=======
         { recipeIngredients.map((ingredient) =>
           <IngredientRow
             ingredient={ingredient}
@@ -269,7 +255,6 @@ function FormRecipe(props) {
         )}
       </View>
       <View style={styles.ingredientsContainer}>
->>>>>>> 68078b8b80f38aaa6b84c98adce830fbd4c1cd03
         <View style={ styles.ingredientTextBox }>
           <View style={styles.sectionQuantity}>
             <Text>Costo total{'\n'}Costo Unitario</Text>
