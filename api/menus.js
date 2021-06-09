@@ -12,7 +12,7 @@ const menusApi = {
     });
   },
   createMenu: (payload) => {
-    const url = config.endpoints.recipes.new;
+    const url = config.endpoints.menus.new;
 
     return apiUtils.api({
       method: 'post',
