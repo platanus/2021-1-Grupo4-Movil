@@ -31,7 +31,6 @@ function Recipes(props) {
           setErrorMessage(err);
         });
       setLoadRecipes(false);
-      setLoadRecipes(false);
     }
   }, [loadRecipes]);
 

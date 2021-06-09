@@ -24,10 +24,93 @@ function FormRecipe(props) {
   const [recipePrice, setRecipePrice] = useState(recipe ? calculateRecipePrice(recipe) : 0);
   const createRecipe = useStoreActions((actions) => actions.createRecipe);
   const editRecipe = useStoreActions((actions) => actions.editRecipe);
+
+  const selectedIngredients = useStoreState((state) => state.recipes.currentSelectedIngredients);
+  const setIngredientsAction = useStoreActions((actions) => actions.setSelectedRecipeIngredients);
+  const deletedIngredients = useStoreState((state) => state.recipes.currentDeletedIngredients);
+  const setDeletedIngredients = useStoreActions((actions) => actions.setDeletedRecipeIngredients);
   const [recipeIngredients, setRecipeIngredients] = useState([]);
+  const [ingredientsData, setIngredientsData] = useState([]);
+
   const createRecipeStep = useStoreActions((actions) => actions.createRecipeStep);
   const editRecipeStep = useStoreActions((actions) => actions.editRecipeStep);
   const deleteRecipeStep = useStoreActions((actions) => actions.deleteRecipeStep);
+
+  const [isStarting, setIsStarting] = useState(true);
+
+  useEffect(() => {
+    if (recipe) {
+      const auxIngredients = [];
+      const auxRecipeIngredients = [];
+      route.params.recipe.attributes.recipe_ingredients.data.forEach((ingredient) => {
+        auxIngredients.push({
+          id: ingredient.attributes.ingredient.id,
+          attributes: ingredient.attributes.ingredient,
+        });
+        auxRecipeIngredients.push({
+          ...ingredient.attributes.ingredient,
+          ingredientId: ingredient.attributes.ingredient.id,
+          recipeIngredientId: ingredient.id,
+          recipeQuantity: ingredient.attributes.ingredient_quantity,
+          isNew: false,
+          isDeleted: false,
+          isEdited: false,
+        });
+      });
+      setRecipeIngredients(auxRecipeIngredients);
+      setIngredientsData(auxRecipeIngredients);
+      setIngredientsAction(auxIngredients);
+    } else {
+      setIngredientsAction([]);
+    }
+    setIsStarting(false);
+  }, []);
+
+  useEffect(() => {
+    if (!isStarting) {
+      const auxIngredients = [];
+      const auxData = [];
+      selectedIngredients.forEach((ingredient) => {
+        const index = ingredientsData.findIndex((data) => data.ingredientId.toString() === ingredient.id.toString());
+        if (index >= 0) {
+          ingredientsData[index].isDeleted = false;
+          auxIngredients.push({
+            ...ingredientsData[index],
+          });
+        } else {
+          const newIngredient = {
+            ...ingredient.attributes,
+            id: ingredient.attributes.name,
+            ingredientId: ingredient.id,
+            recipeIngredientId: null,
+            recipeQuantity: 0,
+            isNew: true,
+            isEdited: false,
+            isDeleted: false,
+          };
+          auxIngredients.push(newIngredient);
+          auxData.push(newIngredient);
+        }
+      });
+      setRecipeIngredients(auxIngredients);
+      setIngredientsData(ingredientsData.concat(auxData));
+      deletedIngredients.forEach((ingredientId) => {
+        const index = ingredientsData.findIndex((data) => data.ingredientId.toString() === ingredientId.toString());
+        if (index >= 0) {
+          ingredientsData[index].isDeleted = true;
+        }
+      });
+      setDeletedIngredients([]);
+    }
+  }, [selectedIngredients]);
+
+  function changeIngredientDataQuantity(ingredientId, newQuantity) {
+    const index = ingredientsData.findIndex((data) => data.ingredientId.toString() === ingredientId.toString());
+    if (index >= 0) {
+      ingredientsData[index].recipeQuantity = newQuantity;
+      ingredientsData[index].isEdited = true;
+    }
+  }
 
   function stepsActions(recipeId) {
     const promises = [];
@@ -53,6 +136,32 @@ function FormRecipe(props) {
 
     return promises;
   }
+
+  function ingredientsQuery() {
+    const ingredientsList = [];
+    ingredientsData.forEach((ingredient) => {
+      if (ingredient.isNew) {
+        if (ingredient.action !== 'delete') {
+          ingredientsList.push({
+            'ingredient_id': ingredient.ingredientId,
+            'ingredient_quantity': ingredient.recipeQuantity,
+          });
+        }
+      } else if (ingredient.isDeleted) {
+        ingredientsList.push({ id: ingredient.recipeIngredientId, _destroy: true });
+      } else if (ingredient.isEdited) {
+        ingredientsList.push({
+          id: ingredient.recipeIngredientId,
+          'ingredient_id': ingredient.ingredientId,
+          'ingredient_quantity': ingredient.recipeQuantity,
+          _destroy: false,
+        });
+      }
+    });
+
+    return ingredientsList;
+  }
+
   function searchIngredients() {
     navigation.navigate('Buscar ingredientes', recipe);
   }
@@ -63,6 +172,8 @@ function FormRecipe(props) {
       portions: parseInt(recipePortions, 10),
       // eslint-disable-next-line
       cook_minutes: parseInt(recipeTime, 10),
+      // eslint-disable-next-line
+      recipe_ingredients_attributes: ingredientsQuery(),
     };
 
     if (recipe) {
@@ -134,6 +245,7 @@ function FormRecipe(props) {
             key={ingredient.id}
             totalPrice={recipePrice}
             setTotalPrice={setRecipePrice}
+            changeIngredientDataQuantity={changeIngredientDataQuantity}
           />,
         )}
       </View>
