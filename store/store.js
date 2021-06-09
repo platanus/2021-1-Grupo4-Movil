@@ -232,6 +232,26 @@ const storeThunks = {
 
     return menus;
   }),
+  createMenu: thunk(async (actions, payload) => {
+    const menu = menusApi.createMenu(payload)
+      .then((resp) => resp.data)
+      .catch((err) => {
+        actions.setMenusError(err.response.data.message);
+        throw err;
+      });
+
+    return menu;
+  }),
+  editMenu: thunk(async (actions, payload) => {
+    const menu = menusApi.editMenu(payload)
+      .then((resp) => resp.data)
+      .catch((err) => {
+        actions.setMenusError(err.response.data.message);
+        throw err;
+      });
+
+    return menu;
+  }),
   getProviders: thunk(async (actions, payload) => {
     const providers = providersApi.getProviders(payload)
       .then((res) => res.data.data)

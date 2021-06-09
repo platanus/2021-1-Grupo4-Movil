@@ -1,3 +1,4 @@
+import { decamelizeKeys } from 'humps';
 import config from '../config';
 import apiUtils from './api';
 
@@ -12,12 +13,12 @@ const menusApi = {
     });
   },
   createMenu: (payload) => {
-    const url = config.endpoints.recipes.new;
+    const url = config.endpoints.menus.new;
 
     return apiUtils.api({
       method: 'post',
       url,
-      data: payload,
+      data: decamelizeKeys(payload),
     });
   },
   editMenu: (payload) => {
@@ -26,7 +27,7 @@ const menusApi = {
     return apiUtils.api({
       method: 'put',
       url,
-      data: payload.body,
+      data: decamelizeKeys(payload.body),
     });
   },
 };
