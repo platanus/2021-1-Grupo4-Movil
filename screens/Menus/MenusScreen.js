@@ -32,7 +32,8 @@ function Menus(props) {
     navigation.setOptions({
       // eslint-disable-next-line react/display-name
       headerRight: () => (
-        <Icon name='add'
+        <Icon
+          name='add'
           size={30}
           style={styles.navIcon}
           onPress={() => navigation.navigate('Nuevo Menu', {
