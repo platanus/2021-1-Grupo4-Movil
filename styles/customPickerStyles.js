@@ -3,40 +3,27 @@ import colors from './appColors';
 const pickers = {
   customPickerStyles: {
     inputWeb: {
-      color: '#AAAAAA',
+      color: colors.kitchengramBlack,
       paddingTop: 13,
-      paddingHorizontal: 10,
-      paddingBottom: 12,
-      borderColor: '#AAAAAA',
-      borderWidth: 2,
-      borderRadius: 5,
-      fontSize: 16,
       paddingLeft: 15,
-      paddingRight: 15,
+      paddingBottom: 12,
       fontWeight: 'bold',
-      fontStyle: 'normal',
     },
     inputIOS: {
-      color: '#111111',
+      color: colors.kitchengramBlack,
       paddingTop: 13,
       paddingLeft: 15,
       paddingBottom: 12,
       fontWeight: 'bold',
     },
     inputAndroid: {
-      color: 'yellow',
+      color: colors.kitchengramBlack,
       paddingTop: 13,
       paddingLeft: 15,
       paddingBottom: 12,
-      width: '100%',
-      height: '60%',
-      borderColor: '#AAAAAA',
-      borderWidth: 2,
-      borderRadius: 5,
-      fontSize: 16,
       fontWeight: 'bold',
     },
-    placeholderColor: '#111111',
+    placeholderColor: 'colors.kitchengramBlack',
     underline: { borderTopWidth: 0 },
     icon: {
       position: 'absolute',
@@ -55,7 +42,7 @@ const pickers = {
   },
   providerPicker: {
     inputIOS: {
-      color: colors.kitchengramWhite,
+      color: colors.kitchengramGreen500,
       textAlign: 'center',
       paddingTop: 13,
       paddingHorizontal: 10,
@@ -65,13 +52,13 @@ const pickers = {
     },
     inputAndroid: {
       textAlign: 'center',
-      color: colors.kitchengramWhite,
+      color: colors.kitchengramGreen500,
       paddingTop: 20,
       paddingBottom: 13,
       marginHorizontal: 10,
       fontSize: 16,
     },
-    placeholderColor: colors.white,
+    placeholderColor: colors.kitchengramGreen500,
   },
 };
 

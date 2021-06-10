@@ -42,13 +42,12 @@ const styles = StyleSheet.create({
     marginTop: 30,
     borderWidth: 2,
     borderColor: colors.kitchengramGreen500,
-    backgroundColor: colors.kitchengramGreen500,
     height: 45,
-    borderTopRightRadius: 7,
-    borderTopLeftRadius: 7,
-    width: '100%',
+    borderRadius: 5,
+    width: '90%',
+    marginHorizontal: '5%',
+    marginBottom: 15,
     flexDirection: 'column',
-    paddingHorizontal: 'auto',
   },
 
   arrowIcon: {

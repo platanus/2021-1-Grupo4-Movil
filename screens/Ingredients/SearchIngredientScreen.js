@@ -66,7 +66,7 @@ function SearchIngredient({ navigation, route }) {
                 style={pickers.providerPicker}
                 key={'0'}
                 placeholder={{
-                  label: 'Escoge tu proveedor...',
+                  label: 'Selecciona proveedor...',
                   value: 0,
                 }}
                 value={actualProvider.name}
@@ -81,7 +81,7 @@ function SearchIngredient({ navigation, route }) {
               />
               <Icon name='chevron-down'
                 size={25}
-                color={colors.kitchengramWhite}
+                color={colors.kitchengramGreen500}
                 style={styles.arrowIcon}
               />
             </View>

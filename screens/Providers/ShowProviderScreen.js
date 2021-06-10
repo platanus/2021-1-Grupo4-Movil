@@ -85,14 +85,6 @@ function ShowProvider({ navigation, route }) {
       </View>
       <View style={styles.buttonsContainer}>
         <TouchableOpacity
-          style={styles.delete}
-          onPress={handleSubmitDelete}
-        >
-          <Text style={styles.deleteText}>
-            Borrar
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
           style={styles.edit}
           onPress={() => {
             navigation.navigate('Editar Proveedor', {
@@ -105,6 +97,14 @@ function ShowProvider({ navigation, route }) {
         >
           <Text style={styles.editText}>
             Editar
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.delete}
+          onPress={handleSubmitDelete}
+        >
+          <Text style={styles.deleteText}>
+            Borrar
           </Text>
         </TouchableOpacity>
       </View>
