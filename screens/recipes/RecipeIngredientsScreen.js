@@ -67,10 +67,7 @@ function RecipeIngredients(props) {
       }
     })
     setDeletedIngredient(deleteIngredientsIds);
-    let ingredientsForRecipe = [];
-    selecteds.forEach((i) => {
-      ingredientsForRecipe.push(ingredients[i]);
-    });
+    let ingredientsForRecipe = ingredients.filter((_ingredient, index) => selecteds.includes(index));
     setIngredientsForRecipe(ingredientsForRecipe)
     const backRoute = isNewRecipe === null ? 'Crear receta' : 'Editar Receta';
     navigation.navigate(backRoute);
