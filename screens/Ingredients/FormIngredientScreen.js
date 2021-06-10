@@ -56,7 +56,7 @@ function FormIngredient({ navigation, route }) {
       // eslint-disable-next-line camelcase
       ingredient_measures_attributes: [{
         quantity: (isFromSearch) ? 1 : quantity,
-        measure: (isFromSearch) ? 'UN' : measure,
+        name: (isFromSearch) ? 'UN' : measure,
       }],
     };
     ingredient.attributes = attributes;
