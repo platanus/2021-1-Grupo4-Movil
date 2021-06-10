@@ -9,8 +9,10 @@ import {
 } from 'react-native';
 import { useStoreActions } from 'easy-peasy';
 import RNPickerSelect from 'react-native-picker-select';
+import Icon from 'react-native-vector-icons/Ionicons';
 import styles from '../../styles/Ingredients/searchStyles';
 import pickers from '../../styles/customPickerStyles';
+import colors from '../../styles/appColors';
 
 function SearchIngredient({ navigation, route }) {
   const {
@@ -52,7 +54,7 @@ function SearchIngredient({ navigation, route }) {
           onPress={() => handleSubmit()}
           style={styles.scrapperButton}>
           <Text style={styles.scrapperButtonText}>
-          Buscar Ingrediente
+          Buscar ingrediente
           </Text>
         </TouchableOpacity>
       </View>
@@ -64,7 +66,7 @@ function SearchIngredient({ navigation, route }) {
                 style={pickers.providerPicker}
                 key={'0'}
                 placeholder={{
-                  label: 'Escoge tu proveedor...',
+                  label: 'Selecciona proveedor...',
                   value: 0,
                 }}
                 value={actualProvider.name}
@@ -76,6 +78,11 @@ function SearchIngredient({ navigation, route }) {
                   label: element.provider.name,
                   value: i,
                 }))}
+              />
+              <Icon name='chevron-down'
+                size={25}
+                color={colors.kitchengramGreen500}
+                style={styles.arrowIcon}
               />
             </View>
             {searchResponse[actualProvider].products.map((product, i) => (
@@ -108,7 +115,7 @@ function SearchIngredient({ navigation, route }) {
                   <Text style={styles.price}>
                     {`$ ${product.price}`}
                   </Text>
-                  <Text style={styles.package}>
+                  <Text style={styles.measure}>
                     {product.package}
                   </Text>
                 </View>

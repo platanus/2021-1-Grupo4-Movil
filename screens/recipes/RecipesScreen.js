@@ -22,17 +22,17 @@ function Recipes(props) {
 
   useEffect(() => {
     if (loadRecipes) {
-    getRecipes()
-      .then((res) => {
-        setRecipes(res);
-      })
-      .catch((err) => {
-        setShowError(true);
-        setErrorMessage(err);
-      })
-      .finally(() => {
-        setLoadRecipes(false);
-      })
+      getRecipes()
+        .then((res) => {
+          setRecipes(res);
+        })
+        .catch((err) => {
+          setShowError(true);
+          setErrorMessage(err);
+        })
+        .finally(() => {
+          setLoadRecipes(false);
+        });
     }
   }, [loadRecipes]);
 

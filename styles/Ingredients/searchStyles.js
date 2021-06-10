@@ -3,7 +3,7 @@ import colors from '../appColors';
 
 const styles = StyleSheet.create({
   scroll: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.kitchengramWhite,
     width: '100%',
     height: '100%',
     position: 'relative',
@@ -11,19 +11,23 @@ const styles = StyleSheet.create({
 
   searchText: {
     fontSize: 14,
-    color: colors.tableBorder,
-    width: '75%',
+    color: colors.kitchengramBlack,
+    width: '100%',
+    marginBottom: 5,
   },
 
   container: {
     flex: 1,
-    backgroundColor: colors.white,
+    backgroundColor: colors.kitchengramWhite,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'flex-start',
     paddingTop: '5%',
     position: 'relative',
+    paddingHorizontal: '5%',
+    marginBottom: '5%',
+
   },
 
   responseContainer: {
@@ -32,46 +36,47 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    position: 'relative',
   },
 
   customPickerBox: {
-    marginTop: 20,
-    marginBottom: 10,
+    marginTop: 30,
     borderWidth: 2,
-    borderColor: colors.greenButtons,
-    backgroundColor: colors.greenButtons,
-    height: 40,
-    borderTopRightRadius: 7,
-    borderTopLeftRadius: 7,
-    borderBottomRightRadius: 7,
-    borderBottomLeftRadius: 7,
-    width: '80%',
+    borderColor: colors.kitchengramGreen500,
+    height: 45,
+    borderRadius: 5,
+    width: '90%',
+    marginHorizontal: '5%',
+    marginBottom: 15,
     flexDirection: 'column',
-    paddingHorizontal: 'auto',
+  },
+
+  arrowIcon: {
+    position: 'absolute',
+    top: '18%',
+    left: '90%',
   },
 
   input: {
-    width: '75%',
-    height: 40,
+    width: '100%',
+    height: '45%',
     marginTop: 5,
     borderWidth: 2,
-    borderColor: colors.tableBorder,
+    borderColor: colors.kitchengramGray600,
     borderRadius: 5,
     paddingHorizontal: 10,
 
   },
 
   scrapperButtonText: {
-    color: colors.white,
-    fontWeight: 'bold',
+    color: colors.kitchengramWhite,
+    fontSize: 16,
   },
 
   scrapperButton: {
-    backgroundColor: colors.greenButtons,
+    backgroundColor: colors.kitchengramGreen500,
     padding: 12,
     borderRadius: 5,
-    width: '76%',
+    width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 10,
@@ -83,16 +88,19 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     position: 'relative',
+    borderBottomColor: colors.kitchengramGray400,
+    borderBottomWidth: 1,
+    paddingLeft: '7%',
   },
 
   even: {
-    backgroundColor: '#EEEEEE',
+    backgroundColor: colors.kitchengramWhite,
   },
 
   odd: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.kitchengramWhite,
   },
 
   left: {
@@ -112,15 +120,16 @@ const styles = StyleSheet.create({
   },
 
   productName: {
-    width: '70%',
-    fontSize: 17,
-    color: '#111111',
+    width: '72%',
+    fontSize: 16,
+    color: colors.kitchengramGray600,
     fontWeight: 'normal',
     fontStyle: 'normal',
+    paddingLeft: 5,
   },
 
   right: {
-    width: '20%',
+    width: '25%',
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
@@ -130,17 +139,18 @@ const styles = StyleSheet.create({
   },
 
   price: {
-    fontSize: 18,
-    color: '#BC31EA',
+    fontSize: 20,
+    color: colors.kitchengramYellow500,
     fontWeight: 'normal',
     fontStyle: 'normal',
   },
 
   measure: {
-    fontSize: 15,
-    color: '#767676',
+    fontSize: 12,
+    color: colors.kitchengramGray400,
     fontWeight: 'normal',
     fontStyle: 'normal',
+    textAlign: 'right',
   },
 });
 

@@ -9,8 +9,10 @@ import {
   ScrollView,
 } from 'react-native';
 import { useStoreActions } from 'easy-peasy';
-
+import Icon from 'react-native-vector-icons/Ionicons';
 import styles from '../../styles/Ingredients/indexStyles';
+import colors from '../../styles/appColors';
+import formatMoney from '../../utils/formatMoney';
 
 function IndexIngredients({ navigation }) {
   const getIngredients = useStoreActions((actions) => actions.getIngredients);
@@ -26,6 +28,23 @@ function IndexIngredients({ navigation }) {
       .catch(() => {
       });
   }, [getIngredients]);
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+    // eslint-disable-next-line react/display-name
+      headerRight: () => (
+        <Icon name='add'
+          size={30}
+          color={colors.kitchengramWhite}
+          style={{ paddingRight: 10 }}
+          onPress={() => navigation.navigate('Nuevo Ingrediente', {
+            isNew: true,
+            ingredients,
+            setIngredients,
+          })}/>
+      ),
+    });
+  }, [navigation, ingredients]);
 
   return (
     <View style={styles.container}>
@@ -52,22 +71,17 @@ function IndexIngredients({ navigation }) {
             </View>
             <View style={styles.right}>
               <Text style={styles.price}>
-                {`$${ingredient.attributes.price}`}
+                {formatMoney(ingredient.attributes.price, '$')}
+              </Text>
+              <Text style={styles.measure}>
+                {`${formatMoney(
+                  ingredient.attributes.price / ingredient.attributes.quantity, '$')
+                } / ${ingredient.attributes.measure}`}
               </Text>
             </View>
           </TouchableOpacity>
         ))}
       </ScrollView>
-      <TouchableOpacity
-        style={styles.addButton}
-        onPress={() => navigation.navigate('Nuevo Ingrediente', {
-          isNew: true,
-          ingredients,
-          setIngredients,
-        })}
-      >
-        <Text style={styles.plus}>+</Text>
-      </TouchableOpacity>
     </View>
   );
 }

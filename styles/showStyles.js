@@ -3,40 +3,38 @@ import colors from './appColors';
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: colors.kitchengramWhite,
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'flex-start',
     paddingTop: 15,
     flex: 1,
+    paddingHorizontal: '5%',
   },
 
   attributeContainer: {
-    width: '80%',
-    height: '10%',
-    borderBottomColor: '#AAAAAA',
-    borderBottomWidth: 2,
+    height: '12%',
+    borderBottomColor: colors.kitchengramGray400,
+    borderBottomWidth: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
   },
 
   name: {
-    width: '50%',
+    width: '40%',
     textAlign: 'left',
-    fontSize: 15,
-    color: '#767676',
-
+    fontSize: 14,
+    color: colors.kitchengramGray600,
     fontWeight: 'normal',
     fontStyle: 'normal',
   },
 
   value: {
-    width: '50%',
+    width: '60%',
     textAlign: 'right',
-    fontSize: 17,
-    color: '#111111',
-
+    fontSize: 20,
+    color: colors.kitchengramGray600,
     fontWeight: 'normal',
     fontStyle: 'normal',
   },
@@ -44,45 +42,45 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     width: '100%',
     height: '15%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     position: 'absolute',
     bottom: 0,
     left: 0,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    marginHorizontal: '5%',
+    paddingVertical: '5%',
   },
 
   delete: {
-    width: '40%',
-    height: '30%',
-    backgroundColor: '#FFFFFF',
-    borderRadius: 10,
-    borderColor: colors.greenButtons,
-    borderWidth: 2,
+    width: '48%',
+    height: '100%',
+    backgroundColor: colors.kitchengramRed500,
+    borderRadius: 5,
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 10,
   },
 
   deleteText: {
-    color: colors.greenButtons,
-
+    color: colors.kitchengramWhite,
     fontWeight: 'normal',
     fontStyle: 'normal',
     fontSize: 16,
   },
 
   edit: {
-    width: '40%',
-    height: '30%',
-    backgroundColor: colors.greenButtons,
-    borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
+    width: '48%',
+    height: '100%',
+    backgroundColor: 'transparent',
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: colors.kitchengramGray600,
   },
 
   editText: {
-    color: '#FFFFFF',
+    color: colors.kitchengramGray600,
 
     fontWeight: 'normal',
     fontStyle: 'normal',

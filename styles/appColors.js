@@ -1,4 +1,13 @@
 const colors = {
+  // kitchengram colors
+  kitchengramBlack: '#0A000A',
+  kitchengramYellow500: '#DCAB24',
+  kitchengramGray600: '#847974',
+  kitchengramGray400: '#B4ADAA',
+  kitchengramWhite: '#FCFBFB',
+  kitchengramGreen500: '#2B8E65',
+  kitchengramRed500: '#D62839',
+
   blue: '#074eec',
   white: '#fff',
   red: 'red',
