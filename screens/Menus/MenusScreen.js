@@ -35,7 +35,7 @@ function Menus(props) {
         <Icon name='add'
           size={30}
           style={styles.navIcon}
-          onPress={() => navigation.navigate('Nuevo Proveedor', {
+          onPress={() => navigation.navigate('Nuevo Menu', {
             isNew: true,
             menus,
             setMenus,
