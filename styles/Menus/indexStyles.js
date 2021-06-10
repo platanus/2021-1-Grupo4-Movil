@@ -12,6 +12,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'flex-start',
     color: colors.white,
+    borderBottomColor: colors.grayName,
+    borderBottomWidth: 0.2,
   },
   left: {
     width: '60%',
@@ -45,11 +47,16 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 15,
     color: colors.grayIcon,
+    marginLeft: 10,
   },
   separator: {
     marginVertical: 8,
     borderBottomColor: colors.grayName,
     borderBottomWidth: StyleSheet.hairlineWidth,
+  },
+  navIcon: {
+    paddingRight: 8,
+    color: colors.black,
   },
 });
 

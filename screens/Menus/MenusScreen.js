@@ -1,7 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, {
+  useEffect,
+  useState,
+  useLayoutEffect,
+} from 'react';
 import { useStoreActions } from 'easy-peasy';
 import { Text, ScrollView } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 import MenuRow from '../../components/menuRow';
+import styles from '../../styles/Menus/indexStyles';
 
 function Menus(props) {
   const { navigation } = props;
@@ -22,14 +28,36 @@ function Menus(props) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      // eslint-disable-next-line react/display-name
+      headerRight: () => (
+        <Icon
+          name='add'
+          size={30}
+          style={styles.navIcon}
+          onPress={() => navigation.navigate('Nuevo Menu', {
+            isNew: true,
+            menus,
+            setMenus,
+          })}
+        />
+      ),
+      headerTitle: 'Menús',
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   if (menus.length && mounted) {
     return (
       <ScrollView>
         {menus.map((menu) => (
           <MenuRow
             key={menu.id}
-            menu={menu}
             navigation={navigation}
+            menu={menu}
+            menus={menus}
+            setMenus={setMenus}
           />
         ))}
       </ScrollView>);

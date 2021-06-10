@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { TouchableOpacity, View, Text, ScrollView, Alert } from 'react-native';
+import {
+  View,
+  Text,
+  ScrollView,
+} from 'react-native';
 
 import { Icon } from 'react-native-elements';
 import { useStoreActions } from 'easy-peasy';
@@ -7,6 +11,7 @@ import colors from '../../styles/appColors';
 import styles from '../../styles/Recipes/singleRecipe';
 import minutesToHoursText from '../../utils/recipes';
 import calculateRecipePrice from '../../utils/calculateRecipePrice';
+import ShowMenuOptions from '../../components/ShowMenuOptions';
 
 /* eslint max-statements: [2, 20] */
 function Recipe(props) {
@@ -53,25 +58,18 @@ function Recipe(props) {
 
   return (
     <ScrollView style={styles.mainContainer}>
-      {showMenu &&
-      <View style={styles.menuContainer}>
-        <TouchableOpacity style={styles.menuOption}
-          onPress={() => navigation.navigate('Editar Receta', { recipe })}>
-          <Text style={styles.ingredientText}>Editar</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.menuOption}
-          onPress={() => Alert.alert('¿Estás seguro?', 'Esta acción es irreversible',
-            [{ text: 'No', onPress: () => { setShowMenu(false); }, style: 'cancel' },
-              { text: 'Si', onPress: () => {
-                deleteRecipe(recipe.id);
-                setLoadRecipes(true);
-                navigation.navigate('Recetas', { recipe });
-              } }],
-          )
-          }>
-          <Text style={styles.ingredientText}>Eliminar</Text>
-        </TouchableOpacity>
-      </View>}
+      {showMenu && (
+        <ShowMenuOptions
+          navigation={navigation}
+          menuVisible={setShowMenu}
+          element={recipe}
+          editNavigation={'Editar Receta'}
+          indexNavigation={'Recetas'}
+          deleteApi={deleteRecipe}
+          isRecipe
+          setLoadRecipes={setLoadRecipes}
+        />
+      )}
       <View style={styles.recipeInfoContainer}>
         <View style={styles.recipeInfoRow}>
           <Icon name='timer' color={colors.recipeIcon} size={30} />

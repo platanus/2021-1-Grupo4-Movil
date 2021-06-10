@@ -1,8 +1,23 @@
-function calculateRecipePrice(recipe) {
+function calculateRecipePrice(recipe, fromMenu = false) {
   let sum = 0;
-  for (let k = 0; k < recipe.attributes.recipe_ingredients.data.length; k++) {
-    const ingredient = recipe.attributes.recipe_ingredients.data[k].attributes;
-    sum += ingredient.ingredient.price * ingredient.ingredient_quantity / ingredient.ingredient.quantity;
+  if (fromMenu) {
+    sum = recipe.recipe_ingredients.data.reduce((result, currentValue) => {
+      const currentIngredient = currentValue.attributes;
+
+      return (
+        result +
+      currentIngredient.ingredient.price * currentIngredient.ingredient_quantity / currentIngredient.ingredient.quantity
+      );
+    }, 0);
+  } else {
+    sum = recipe.attributes.recipe_ingredients.data.reduce((result, currentValue) => {
+      const currentIngredient = currentValue.attributes;
+
+      return (
+        result +
+      currentIngredient.ingredient.price * currentIngredient.ingredient_quantity / currentIngredient.ingredient.quantity
+      );
+    }, 0);
   }
 
   return sum;
