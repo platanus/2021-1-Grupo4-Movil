@@ -3,7 +3,7 @@ import colors from '../appColors';
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.figmaWhite,
+    backgroundColor: colors.kitchengramWhite,
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'flex-start',
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
 
   name: {
     fontSize: 20,
-    color: colors.figmaGray600,
+    color: colors.kitchengramGray600,
   },
   recipeRow: {
     flex: 1.5,
@@ -37,19 +37,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'flex-start',
-    backgroundColor: colors.figmaWhite,
-    borderBottomColor: colors.figmaGray600,
+    backgroundColor: colors.kitchengramWhite,
+    borderBottomColor: colors.kitchengramGray600,
     borderBottomWidth: 1,
     paddingLeft: '5%',
     paddingRight: '3%',
   },
   price: {
     fontSize: 24,
-    color: colors.figmaYellow500,
+    color: colors.kitchengramYellow500,
   },
   subtitle: {
     fontSize: 14,
-    color: colors.figmaGray400,
+    color: colors.kitchengramGray400,
     paddingLeft: 5,
   },
   recipeInfo: {

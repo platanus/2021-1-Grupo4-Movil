@@ -12,35 +12,35 @@ function RecipesStackScreen() {
   return (
     <MainRecipesStack.Navigator initialRouteName="Recetas" >
       <MainRecipesStack.Screen name="Recetas" component={Recipes}
-        options={{ headerTintColor: colors.figmaWhite,
+        options={{ headerTintColor: colors.kitchengramWhite,
           headerTitleAlign: 'left',
-          headerStyle: { backgroundColor: colors.figmaBlack,
+          headerStyle: { backgroundColor: colors.kitchengramBlack,
           } }} />
       <MainRecipesStack.Screen name="Receta" component={Recipe}
-        options={{ headerTintColor: colors.figmaWhite,
+        options={{ headerTintColor: colors.kitchengramWhite,
           headerTitleAlign: 'center',
-          headerStyle: { backgroundColor: colors.figmaBlack,
+          headerStyle: { backgroundColor: colors.kitchengramBlack,
           },
           headerBackTitleVisible: false,
         }} />
       <MainRecipesStack.Screen name="Crear receta" component={RecipeForm}
-        options={{ headerTintColor: colors.figmaWhite,
+        options={{ headerTintColor: colors.kitchengramWhite,
           headerTitleAlign: 'center',
-          headerStyle: { backgroundColor: colors.figmaBlack,
+          headerStyle: { backgroundColor: colors.kitchengramBlack,
           },
           headerBackTitleVisible: false,
         }} />
       <MainRecipesStack.Screen name="Editar Receta" component={RecipeForm}
-        options={{ headerTintColor: colors.figmaWhite,
+        options={{ headerTintColor: colors.kitchengramWhite,
           headerTitleAlign: 'center',
-          headerStyle: { backgroundColor: colors.figmaBlack,
+          headerStyle: { backgroundColor: colors.kitchengramBlack,
           },
           headerBackTitleVisible: false,
         }}/>
       <MainRecipesStack.Screen name="Buscar ingredientes" component={RecipeIngredients}
-        options={{ headerTintColor: colors.figmaWhite,
+        options={{ headerTintColor: colors.kitchengramWhite,
           headerTitleAlign: 'center',
-          headerStyle: { backgroundColor: colors.figmaBlack,
+          headerStyle: { backgroundColor: colors.kitchengramBlack,
           },
           headerBackTitleVisible: false,
         }} />

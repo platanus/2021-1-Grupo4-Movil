@@ -40,7 +40,7 @@ function RecipeStep({ recipeSteps, index, edit, options, setRecipeSteps, setEdit
           <Text style={styles.stepText}>{currentStepText}</Text>
           <Icon name='more-vert'
             size={22}
-            color={colors.figmaGray600}
+            color={colors.kitchengramGray600}
             onPress={(options ? () => setShowMenu(null) : () => setShowMenu(index))}/>
         </View>
         { options ?

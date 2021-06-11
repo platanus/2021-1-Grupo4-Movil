@@ -218,6 +218,7 @@ function FormRecipe(props) {
             <Text style={styles.label}>Porciones</Text>
             <TextInput
               keyboardType="number-pad"
+              returnKeyType='done'
               style={styles.sectionTextInput}
               value={recipePortions}
               onChangeText={setRecipePortions}/>
@@ -226,6 +227,7 @@ function FormRecipe(props) {
             <Text style={styles.label}>Tiempo (minutos)</Text>
             <TextInput
               keyboardType="number-pad"
+              returnKeyType='done'
               style={styles.sectionTextInput}
               value={recipeTime}
               onChangeText={setRecipeTime}/>
@@ -273,7 +275,7 @@ function FormRecipe(props) {
             </View>
             <View style={styles.sectionPrice}>
               <Text style={styles.ingredientPriceText}>$ XX.XXX</Text>
-              <Icon name='close' color={colors.figmaGray600} size={18}/>
+              <Icon name='close' color={colors.kitchengramGray600} size={18}/>
             </View>
           </View>
         </View>

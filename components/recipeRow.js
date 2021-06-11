@@ -17,19 +17,19 @@ function RecipeRow(props) {
       <View style={styles.left}>
         <Text style={styles.name} >{(recipe) ? recipe.attributes.name : '---'}</Text>
         <View style={styles.recipeInfo}>
-          <Icon name='pie-chart' color={colors.figmaGray400} size={18} />
+          <Icon name='pie-chart' color={colors.kitchengramGray400} size={18} />
           <Text style = {styles.subtitle}>
             {recipe.attributes.portions} {(recipe.attributes.portions === 1 ? 'porción' : 'porciones')}
           </Text>
         </View>
         <View style={styles.recipeInfo}>
-          <Icon name='timer' color={colors.figmaGray400} size={18} />
+          <Icon name='timer' color={colors.kitchengramGray400} size={18} />
           <Text style = {styles.subtitle}>{recipe.attributes.cook_minutes} minutos</Text>
         </View>
       </View>
       <View style={styles.right}>
         <Text style = {styles.price}>{formatMoney(Math.round(calculateRecipePrice(recipe)), '$')}</Text>
-        <Icon name='chevron-right' color={colors.figmaGray400} size={20} />
+        <Icon name='chevron-right' color={colors.kitchengramGray400} size={20} />
       </View>
     </TouchableOpacity>
   );

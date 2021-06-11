@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 50,
     borderWidth: 2,
-    borderColor: colors.figmaGray600,
+    borderColor: colors.kitchengramGray600,
     maxWidth: '100%',
     borderRadius: 5,
     paddingHorizontal: 10,
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     margin: 5,
     borderWidth: 2,
     backgroundColor: colors.white,
-    borderColor: colors.figmaGray600,
+    borderColor: colors.kitchengramGray600,
     maxWidth: '100%',
     marginLeft: 3,
     borderRadius: 5,
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     margin: 5,
     borderWidth: 2,
     backgroundColor: colors.white,
-    borderColor: colors.figmaGray600,
+    borderColor: colors.kitchengramGray600,
     maxWidth: '100%',
     marginLeft: 3,
     paddingHorizontal: 10,
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 50,
     borderWidth: 2,
-    borderColor: colors.figmaGray600,
+    borderColor: colors.kitchengramGray600,
     maxWidth: '100%',
     borderRadius: 5,
     paddingHorizontal: 10,
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
   label: {
     alignContent: 'flex-start',
     fontSize: 14,
-    borderColor: colors.figmaGray600,
+    borderColor: colors.kitchengramGray600,
     marginBottom: 5,
   },
   ingredientButton: {
@@ -120,17 +120,17 @@ const styles = StyleSheet.create({
     height: 40,
     margin: 5,
     maxWidth: '100%',
-    backgroundColor: colors.figmaWhite,
+    backgroundColor: colors.kitchengramWhite,
     paddingHorizontal: 10,
     borderRadius: 5,
     borderWidth: 2,
-    borderColor: colors.figmaYellow500,
+    borderColor: colors.kitchengramYellow500,
     alignItems: 'center',
     justifyContent: 'center',
   },
 
   ingredientButtonText: {
-    color: colors.figmaYellow500,
+    color: colors.kitchengramYellow500,
     fontSize: 16,
 
   },
@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
   },
   ingredientsList: {
     borderBottomWidth: 1,
-    borderBottomColor: colors.figmaGray400,
+    borderBottomColor: colors.kitchengramGray400,
     justifyContent: 'center',
     paddingVertical: 10,
   },
@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
 
   ingredientPriceText: {
     fontSize: 18,
-    color: colors.figmaYellow500,
+    color: colors.kitchengramYellow500,
     width: '75%',
     marginRight: 2,
   },
@@ -186,13 +186,13 @@ const styles = StyleSheet.create({
 
   totalCostPrice: {
     fontSize: 24,
-    color: colors.figmaYellow500,
+    color: colors.kitchengramYellow500,
     fontWeight: 'bold',
     paddingTop: 15,
   },
- 
+
   containerWithBorder: {
-    borderBottomColor: colors.figmaGray400,
+    borderBottomColor: colors.kitchengramGray400,
     borderBottomWidth: 1,
   },
   stepsContainer: {
@@ -211,13 +211,13 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   stepNumber: {
-    color: colors.figmaWhite,
+    color: colors.kitchengramWhite,
     fontSize: 18,
     textAlign: 'center',
     width: 26,
     height: 26,
     borderRadius: 13,
-    backgroundColor: colors.figmaYellow500,
+    backgroundColor: colors.kitchengramYellow500,
     overflow: 'hidden',
     marginHorizontal: 10,
   },
@@ -236,13 +236,13 @@ const styles = StyleSheet.create({
   },
 
   stepEdit: {
-    color: colors.figmaGray600,
-    borderColor: colors.figmaGray600,
+    color: colors.kitchengramGray600,
+    borderColor: colors.kitchengramGray600,
   },
 
   stepDelete: {
-    color: colors.figmaRed500,
-    borderColor: colors.figmaRed500,
+    color: colors.kitchengramRed500,
+    borderColor: colors.kitchengramRed500,
     marginBottom: 10,
   },
 
@@ -255,11 +255,11 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     maxWidth: '100%',
     paddingHorizontal: 20,
-    backgroundColor: colors.figmaWhite,
+    backgroundColor: colors.kitchengramWhite,
     paddingVertical: 10,
     borderRadius: 5,
     borderWidth: 2,
-    borderColor: colors.figmaGreen500,
+    borderColor: colors.kitchengramGreen500,
     alignItems: 'center',
     display: 'flex',
     justifyContent: 'center',
@@ -279,12 +279,12 @@ const styles = StyleSheet.create({
   },
 
   cancelButtonText: {
-    color: colors.figmaRed500,
+    color: colors.kitchengramRed500,
     fontSize: 16,
 
   },
   editButtonText: {
-    color: colors.figmaGreen500,
+    color: colors.kitchengramGreen500,
     fontSize: 16,
   },
   sectionEditStepButtons: {
@@ -294,7 +294,7 @@ const styles = StyleSheet.create({
   newStepText: {
     marginTop: '5%',
     height: 60,
-    borderColor: colors.figmaGray600,
+    borderColor: colors.kitchengramGray600,
     borderRadius: 5,
     borderWidth: 2,
     paddingHorizontal: 10,
@@ -305,10 +305,10 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     maxWidth: '100%',
     paddingHorizontal: 10,
-    backgroundColor: colors.figmaWhite,
+    backgroundColor: colors.kitchengramWhite,
     borderRadius: 5,
     borderWidth: 2,
-    borderColor: colors.figmaYellow500,
+    borderColor: colors.kitchengramYellow500,
     alignItems: 'center',
     display: 'flex',
     justifyContent: 'center',
@@ -326,7 +326,7 @@ const styles = StyleSheet.create({
     marginLeft: 3,
     marginTop: 10,
     paddingHorizontal: 10,
-    backgroundColor: colors.figmaGreen500,
+    backgroundColor: colors.kitchengramGreen500,
     borderRadius: 5,
     alignItems: 'center',
     display: 'flex',

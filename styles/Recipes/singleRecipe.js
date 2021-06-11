@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   },
   ingredientsList: {
     borderBottomWidth: 1,
-    borderBottomColor: colors.figmaGray400,
+    borderBottomColor: colors.kitchengramGray400,
     marginHorizontal: '5%',
     justifyContent: 'center',
     paddingVertical: 15,
@@ -43,14 +43,14 @@ const styles = StyleSheet.create({
   },
   ingredientTextLeft: {
     fontSize: 16,
-    color: colors.figmaGray600,
+    color: colors.kitchengramGray600,
     width: '60%',
     textAlign: 'left',
   },
 
   ingredientTextRight: {
     fontSize: 18,
-    color: colors.figmaYellow500,
+    color: colors.kitchengramYellow500,
     width: '40%',
     textAlign: 'right',
 
@@ -63,19 +63,19 @@ const styles = StyleSheet.create({
   },
 
   stepText: {
-    color: colors.figmaBlack,
+    color: colors.kitchengramBlack,
     fontSize: 14,
     textAlign: 'justify',
     width: '80%',
   },
   stepNumber: {
-    color: colors.figmaWhite,
+    color: colors.kitchengramWhite,
     fontSize: 18,
     textAlign: 'center',
     width: 26,
     height: 26,
     borderRadius: 13,
-    backgroundColor: colors.figmaYellow500,
+    backgroundColor: colors.kitchengramYellow500,
     overflow: 'hidden',
     marginLeft: '3%',
     marginRight: '5%',
@@ -95,13 +95,13 @@ const styles = StyleSheet.create({
   },
 
   edit: {
-    color: colors.figmaGray600,
-    borderColor: colors.figmaGray600,
+    color: colors.kitchengramGray600,
+    borderColor: colors.kitchengramGray600,
   },
 
   delete: {
-    color: colors.figmaRed500,
-    borderColor: colors.figmaRed500,
+    color: colors.kitchengramRed500,
+    borderColor: colors.kitchengramRed500,
   },
 
   moreVert: {

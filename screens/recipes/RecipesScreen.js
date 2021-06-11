@@ -42,7 +42,7 @@ function Recipes(props) {
       headerRight: () => (
         <Icon name='add'
           size={30}
-          color={colors.figmaWhite}
+          color={colors.kitchengramWhite}
           style={{ paddingRight: 10 }}
           onPress={() => navigation.navigate('Crear receta')}/>
       ),
