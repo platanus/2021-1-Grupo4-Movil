@@ -52,7 +52,7 @@ function FormIngredient({ navigation, route }) {
     const error = validations.find((validation) => (validation.error))
     if ( error ) alert(error.message); return false;
 
-    return true;
+    return true;}
 
   function handleSubmitNew() {
 
