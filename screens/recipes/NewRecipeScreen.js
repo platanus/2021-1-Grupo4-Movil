@@ -2,7 +2,6 @@ import { useStoreActions, useStoreState } from 'easy-peasy';
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, TextInput } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Icon } from 'react-native-elements';
 import styles from '../../styles/Recipes/newRecipe';
 import RecipeSteps from './RecipeStepsScreen';
 import IngredientRow from '../../components/recipeEditIngredientRow';
@@ -258,33 +257,24 @@ function FormRecipe(props) {
         )}
       </View>
       <View style={styles.ingredientsContainer}>
-        <View style={ styles.ingredientTextBox }>
+      <View style={ styles.totalCostTextBox }>
           <View style={styles.sectionQuantity}>
-            <Text>Costo total{'\n'}Costo Unitario</Text>
+            <Text style={styles.totalCostText}>Costo por porción</Text>
           </View>
           <View style={styles.sectionPrice}>
-            <Text style={ { ...styles.ingredientText, color: colors.purplePrice } }>
-              ${Math.round(recipePrice)} {'\n'}${Math.round(recipePrice / Number(recipePortions))} c/u
+            <Text style={styles.totalCostPrice}>
+              {formatMoney(Math.round(recipePrice / Number(recipePortions)), '$')}
             </Text>
-            {/* <View style={styles.ingredientsList}>
-          <View style={ styles.ingredientTextBox }>
-            <View style={styles.sectionQuantity}>
-              <TextInput style={styles.sectionQuantityInput}/>
-              <Text style={styles.ingredientText}>g.</Text>
-              <Text style={styles.ingredientText}> Ingrediente</Text>
-            </View>
-            <View style={styles.sectionPrice}>
-              <Text style={styles.ingredientPriceText}>$ XX.XXX</Text>
-              <Icon name='close' color={colors.kitchengramGray600} size={18}/>
-            </View>
           </View>
         </View>
-        <View style={ styles.ingredientTextBox }>
+        <View style={ styles.totalCostTextBox }>
           <View style={styles.sectionQuantity}>
             <Text style={styles.totalCostText}>Costo total</Text>
           </View>
           <View style={styles.sectionPrice}>
-            <Text style={styles.totalCostPrice}>{formatMoney(Math.round(recipePrice), '$')}</Text> */}
+            <Text style={styles.totalCostPrice}>
+              {formatMoney(Math.round(recipePrice), '$')}
+            </Text>
           </View>
         </View>
       </View>

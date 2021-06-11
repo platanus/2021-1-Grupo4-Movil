@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { TouchableOpacity, View, Text, ScrollView, Alert } from 'react-native';
+import { View, Text, ScrollView} from 'react-native';
 
 import { Icon } from 'react-native-elements';
 import { useStoreActions } from 'easy-peasy';
@@ -31,7 +31,7 @@ function Recipe(props) {
           color={colors.kitchengramWhite}
           onPress={() => {
             setShowMenu(!showMenu);
-            scrollRef.current?.scrollTo({
+            scrollRef.current.scrollTo({
               y: 0,
               animated: true,
             });

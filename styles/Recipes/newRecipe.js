@@ -4,7 +4,7 @@ import colors from '../appColors';
 const styles = StyleSheet.create({
 
   mainContainer: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.kitchengramWhite,
     paddingHorizontal: '5%',
   },
   recipeInfoRow: {
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     height: 40,
     margin: 5,
     borderWidth: 2,
-    backgroundColor: colors.white,
+    backgroundColor: colors.kitchengramWhite,
     borderColor: colors.kitchengramGray600,
     maxWidth: '100%',
     marginLeft: 3,
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     height: 40,
     margin: 5,
     borderWidth: 2,
-    backgroundColor: colors.white,
+    backgroundColor: colors.kitchengramWhite,
     borderColor: colors.kitchengramGray600,
     maxWidth: '100%',
     marginLeft: 3,
@@ -73,9 +73,8 @@ const styles = StyleSheet.create({
   sectionQuantity: {
     display: 'flex',
     flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    position: 'relative',
-    margin: 5,
     width: '65%',
   },
   sectionPrice: {
@@ -83,7 +82,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     position: 'relative',
-    margin: 5,
     width: '35%',
   },
   sectionTotalCost: {
@@ -118,7 +116,7 @@ const styles = StyleSheet.create({
   ingredientButton: {
     width: '100%',
     height: 40,
-    margin: 5,
+    marginVertical: 5,
     maxWidth: '100%',
     backgroundColor: colors.kitchengramWhite,
     paddingHorizontal: 10,
@@ -163,10 +161,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   totalCostTextBox: {
-    display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 16,
   },
   ingredientText: {
     fontSize: 16,
@@ -182,6 +178,7 @@ const styles = StyleSheet.create({
   totalCostText: {
     fontSize: 18,
     paddingTop: 10,
+    paddingLeft: 15,
   },
 
   totalCostPrice: {
@@ -204,7 +201,7 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
   stepText: {
-    color: colors.ingredientsTitle,
+    color: colors.kitchengramBlack,
     fontSize: 14,
     textAlign: 'justify',
     width: '78%',
@@ -270,7 +267,7 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     maxWidth: '100%',
     paddingHorizontal: 10,
-    backgroundColor: colors.white,
+    backgroundColor: colors.kitchengramWhite,
     padding: 10,
     borderRadius: 5,
     alignItems: 'center',
@@ -333,7 +330,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   newRecipeButtonText: {
-    color: colors.white,
+    color: colors.kitchengramWhite,
     fontSize: 16,
   },
 });

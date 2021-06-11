@@ -30,10 +30,8 @@ const styles = StyleSheet.create({
   },
   recipeRow: {
     flex: 1.5,
-    width: '100%',
-    height: '20%',
-    paddingTop: '5%',
-    paddingBottom: '5%',
+    paddingTop: 20,
+    paddingBottom: 18,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'flex-start',

@@ -3,7 +3,7 @@ import colors from '../appColors';
 
 const styles = StyleSheet.create({
   mainContainer: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.kitchengramWhite,
   },
   recipeInfoRow: {
     flexDirection: 'row',
