@@ -5,6 +5,7 @@ import Recipe from '../screens/recipes/SingleRecipeScreen';
 import RecipeForm from '../screens/recipes/NewRecipeScreen';
 import RecipeIngredients from '../screens/recipes/RecipeIngredientsScreen';
 import colors from '../styles/appColors';
+import defaultOptions from '../styles/Headers/defaultOptions';
 
 const MainRecipesStack = createStackNavigator();
 
@@ -17,33 +18,13 @@ function RecipesStackScreen() {
           headerStyle: { backgroundColor: colors.kitchengramBlack,
           } }} />
       <MainRecipesStack.Screen name="Receta" component={Recipe}
-        options={{ headerTintColor: colors.kitchengramWhite,
-          headerTitleAlign: 'center',
-          headerStyle: { backgroundColor: colors.kitchengramBlack,
-          },
-          headerBackTitleVisible: false,
-        }} />
+        options={defaultOptions} />
       <MainRecipesStack.Screen name="Crear receta" component={RecipeForm}
-        options={{ headerTintColor: colors.kitchengramWhite,
-          headerTitleAlign: 'center',
-          headerStyle: { backgroundColor: colors.kitchengramBlack,
-          },
-          headerBackTitleVisible: false,
-        }} />
+        options={defaultOptions} />
       <MainRecipesStack.Screen name="Editar Receta" component={RecipeForm}
-        options={{ headerTintColor: colors.kitchengramWhite,
-          headerTitleAlign: 'center',
-          headerStyle: { backgroundColor: colors.kitchengramBlack,
-          },
-          headerBackTitleVisible: false,
-        }}/>
+        options={defaultOptions}/>
       <MainRecipesStack.Screen name="Buscar ingredientes" component={RecipeIngredients}
-        options={{ headerTintColor: colors.kitchengramWhite,
-          headerTitleAlign: 'center',
-          headerStyle: { backgroundColor: colors.kitchengramBlack,
-          },
-          headerBackTitleVisible: false,
-        }} />
+        options={defaultOptions} />
     </MainRecipesStack.Navigator>
   );
 }

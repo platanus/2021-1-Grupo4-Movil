@@ -6,6 +6,7 @@ import ShowIngredient from '../screens/Ingredients/ShowIngredientScreen';
 import FormIngredient from '../screens/Ingredients/FormIngredientScreen';
 import SearchIngredient from '../screens/Ingredients/SearchIngredientScreen';
 import colors from '../styles/appColors';
+import defaultOptions from '../styles/Headers/defaultOptions';
 
 const MainIngredientsStack = createStackNavigator();
 
@@ -23,41 +24,22 @@ function IngredientsStackScreen() {
       <MainIngredientsStack.Screen
         name="Ingrediente"
         component={ShowIngredient}
-        options={{ headerTintColor: colors.kitchengramWhite,
-          headerTitleAlign: 'center',
-          headerStyle: { backgroundColor: colors.kitchengramBlack,
-          },
-          headerBackTitleVisible: false,
-        }}
+        options={defaultOptions}
       />
       <MainIngredientsStack.Screen
         name="Nuevo Ingrediente"
         component={FormIngredient}
-        options={{ headerTintColor: colors.kitchengramWhite,
-          headerTitleAlign: 'center',
-          headerTitle: 'Crear ingrediente',
-          headerStyle: { backgroundColor: colors.kitchengramBlack,
-          },
-          headerBackTitleVisible: false,
-        }}
+        options={defaultOptions}
       />
       <MainIngredientsStack.Screen
         name="Editar Ingrediente"
         component={FormIngredient}
-        options={{ headerTintColor: colors.kitchengramWhite,
-          headerTitleAlign: 'center',
-          headerStyle: { backgroundColor: colors.kitchengramBlack,
-          },
-          headerBackTitleVisible: false }}
+        options={defaultOptions}
       />
       <MainIngredientsStack.Screen
         name="Buscar Ingrediente"
         component={SearchIngredient}
-        options={{ headerTintColor: colors.kitchengramWhite,
-          headerTitleAlign: 'center',
-          headerStyle: { backgroundColor: colors.kitchengramBlack,
-          },
-          headerBackTitleVisible: false }}
+        options={defaultOptions}
       />
     </MainIngredientsStack.Navigator>
   );
