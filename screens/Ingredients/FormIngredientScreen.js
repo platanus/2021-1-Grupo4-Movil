@@ -43,14 +43,15 @@ function FormIngredient({ navigation, route }) {
 
   function checkValidValues() {
 
-    const validations =  [
+    const validations = [
     { error: !name.length, message: "Debes asignar un nombre al ingrediente" },
     { error: price <= 0, message: "Debes ingresar un precio válido" },
     { error: quantity <= 0, message: "Debes ingresar una cantidad válida" },
     { error:  !measure.length, message: "Debes ingresar una medida al ingrediente" },
     ];
     const error = validations.find((validation) => (validation.error))
-    if ( error ) alert(error.message); return false;
+    if ( error ) { alert(error.message); return false };
+    //if ( error ) alert(error.message); return false ;
 
     return true;}
 
