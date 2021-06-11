@@ -73,7 +73,6 @@ const styles = StyleSheet.create({
   sectionQuantity: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
     width: '65%',
   },
