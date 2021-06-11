@@ -11,6 +11,7 @@ const storeState = {
   loginError: '',
   signUpError: '',
   ingredientsError: '',
+  loginView: true,
   recipes: {
     getErrors: '',
     createErrors: '',
@@ -38,6 +39,9 @@ const storeActions = {
   }),
   setSignUpError: action((state, payload) => {
     state.signUpError = payload;
+  }),
+  setLoginView: action((state, payload) => {
+    state.loginView = payload;
   }),
   setUserAndApiHeaders: action((state, payload) => {
     if (payload.status === apiUtils.statusCodes.ok || payload.status === apiUtils.statusCodes.created) {
@@ -77,6 +81,7 @@ const storeActions = {
   }),
   setLogOut: action((state) => {
     state.currentUser = null;
+    state.loginView = true;
     apiUtils.api.defaults.headers = { 'Accept': 'application/json',
       'Content-Type': 'application/json' };
   }),
@@ -90,6 +95,8 @@ const storeThunks = {
     sessionsApi.login(payload)
       .then((resp) => {
         actions.setUserAndApiHeaders(resp);
+        actions.setLoginError('');
+        actions.setLoginView(true);
       }).catch((error) => {
         actions.setLoginError(error.response.data.message);
       });
@@ -98,6 +105,7 @@ const storeThunks = {
     sessionsApi.signUp(payload)
       .then((resp) => {
         actions.setUserAndApiHeaders(resp);
+        actions.setSignUpError('');
       }).catch((error) => {
         actions.setSignUpError(error.response.data.message);
       });

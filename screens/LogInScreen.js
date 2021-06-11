@@ -4,8 +4,10 @@ import { Text, View, TextInput, TouchableOpacity } from 'react-native';
 import { useStoreState, useStoreActions } from 'easy-peasy';
 import styles from '../styles/authStyles';
 
-function LogIn(props) {
-  const { setLoginView } = props;
+function LogIn() {
+  //const { setLoginView } = props;
+  const setLoginView = useStoreActions((actions) => actions.setLoginView);
+  const setLoginError = useStoreActions((actions) => actions.setLoginError);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -23,6 +25,11 @@ function LogIn(props) {
       user: { email, password },
       logIn: true };
     login(body);
+  }
+
+  function goToSignUp() {
+    setLoginView(false);
+    setLoginError(false);
   }
 
   return (
@@ -53,7 +60,7 @@ function LogIn(props) {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => setLoginView(false)}>
+          onPress={goToSignUp}>
           <Text style={styles.haveAccountText}>
             ¿No tienes una cuenta? Regístrate!
           </Text>

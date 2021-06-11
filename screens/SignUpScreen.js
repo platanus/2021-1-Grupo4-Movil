@@ -4,8 +4,10 @@ import { Text, View, TextInput, TouchableOpacity } from 'react-native';
 import { useStoreActions, useStoreState } from 'easy-peasy';
 import styles from '../styles/authStyles';
 
-function SignUp(props) {
-  const { setLoginView } = props;
+function SignUp() {
+  //const { setLoginView } = props;
+  const setLoginView = useStoreActions((actions) => actions.setLoginView);
+  const setSignUpError = useStoreActions((actions) => actions.setSignUpError);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [password2, setPassword2] = useState('');
@@ -28,6 +30,11 @@ function SignUp(props) {
     } else {
       setErrorMessage('Las contraseñas no coinciden');
     }
+  }
+
+  function goToLogin() {
+    setLoginView(true);
+    setSignUpError(false);
   }
 
   return (
@@ -60,7 +67,7 @@ function SignUp(props) {
           <Text style={styles.buttonText}>Registrarse</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => setLoginView(true)}>
+          onPress={goToLogin}>
           <Text style={styles.haveAccountText}>
             ¿Ya tienes una cuenta? Inicia Sesión!
           </Text>
