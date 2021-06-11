@@ -92,6 +92,7 @@ function FormIngredient({ navigation, route }) {
     const body = {
       ingredient: ingredient.attributes,
     };
+    console.log(body)
     editIngredient({ body, id: ingredient.id })
       .then(() => {
         const auxIngredients = ingredients.filter(item => item.id !== ingredient.id);
