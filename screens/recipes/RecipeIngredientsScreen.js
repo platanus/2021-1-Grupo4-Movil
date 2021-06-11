@@ -4,6 +4,7 @@ import { View, Text, TextInput, ScrollView } from 'react-native'; // ActionSheet
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { CheckBox } from 'react-native-elements';
 import styles from '../../styles/Recipes/ingredientRecipe';
+import { Slider } from 'react-native';
 
 /* eslint max-statements: [2, 20] */
 function RecipeIngredients(props) {
@@ -58,20 +59,16 @@ function RecipeIngredients(props) {
   function saveSelectedIngredients() {
     const deleteIngredientsIds = [];
     ingredients.forEach((ingred, i) => {
-      const includedCondition = selecteds.includes(i)
+      const includedCondition = selecteds.includes(i);
       const indexFoundAndEqualCondition = actualSelection.findIndex(
-        (actual) => actual.id.toString() === ingred.id.toString()
-        ) >= 0
+        (actual) => actual.id.toString() === ingred.id.toString()) >= 0;
       if (!includedCondition && indexFoundAndEqualCondition) {
         deleteIngredientsIds.push(ingred.id);
       }
     })
-    setDeletedIngredient(deleteIngredientsIds)
-    setIngredientsForRecipe(
-      selecteds.map((i) => {
-        ingredients[i]
-      })
-    )
+    setDeletedIngredient(deleteIngredientsIds);
+    let ingredientsForRecipe = ingredients.filter((_ingredient, index) => selecteds.includes(index));
+    setIngredientsForRecipe(ingredientsForRecipe)
     const backRoute = isNewRecipe === null ? 'Crear receta' : 'Editar Receta';
     navigation.navigate(backRoute);
   }
