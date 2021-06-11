@@ -1,5 +1,7 @@
+/* eslint-disable max-statements */
 import React, {
   useState,
+  useEffect
 } from 'react';
 import {
   Text,
@@ -23,8 +25,8 @@ function FormIngredient({ navigation, route }) {
       attributes: {
         name: '',
         price: 0,
-        quantity: 0,
-        measure: '',
+        quantity: 1,
+        measure: 'Unidad',
         sku: '',
         currency: 'CLP',
         providerName: null,
@@ -36,12 +38,30 @@ function FormIngredient({ navigation, route }) {
 
   const createIngredient = useStoreActions((actions) => actions.createIngredient);
   const editIngredient = useStoreActions((actions) => actions.editIngredient);
+  const getProviders = useStoreActions((actions) => actions.getProviders);
 
   const [name, setName] = useState(ingredient.attributes.name);
   const [price, setPrice] = useState(ingredient.attributes.price);
   const [quantity, setQuantity] = useState(ingredient.attributes.quantity);
   const [measure, setMeasure] = useState(ingredient.attributes.measure);
   const [providerName, setProviderName] = useState(ingredient.attributes.providerName);
+  const [providersNames, setProvidersNames] = useState([]);
+
+  useEffect(() => {
+    getProviders()
+      .then((res) => {
+        setProvidersNames(res.map((provider, idx) => (
+          {
+            label: provider.attributes.name,
+            value: provider.attributes.name,
+            key: idx,
+          }
+        )));
+      })
+      .catch(() => {
+      });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   function handleSubmitNew() {
     if (!name.length ||
@@ -57,8 +77,11 @@ function FormIngredient({ navigation, route }) {
       sku: ingredient.attributes.sku,
       price,
       currency: ingredient.attributes.currency,
-      quantity: (isFromSearch) ? 1 : quantity,
-      measure: (isFromSearch) ? 'UN' : measure,
+      quantity,
+      measure,
+      // eslint-disable-next-line
+      provider_name: providerName,
+      // eslint-disable-next-line
     };
     ingredient.attributes = attributes;
     const body = {
@@ -89,6 +112,9 @@ function FormIngredient({ navigation, route }) {
       currency: ingredient.attributes.currency,
       quantity,
       measure,
+      // eslint-disable-next-line
+      provider_name: providerName,
+      // eslint-disable-next-line
     };
     ingredient.attributes = attributes;
     const body = {
@@ -141,12 +167,24 @@ function FormIngredient({ navigation, route }) {
         <Text style={styles.inputLabel}>
           Proveedor
         </Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Proveedor"
-          value={providerName}
-          onChangeText={(text) => setProviderName(text)}
-          editable={!isFromSearch}
+        <View style={styles.dropDown}>
+          <RNPickerSelect
+            style={pickers.customPickerStyles}
+            key={'0'}
+            placeholder={{
+              label: 'Selecciona proveedor...',
+              value: null,
+            }}
+            value={providerName}
+            onValueChange={(value) => setProviderName(value)}
+            items={providersNames}
+          />
+
+        </View>
+        <Icon name='chevron-down'
+          size={30}
+          color={colors.kitchengramGray600}
+          style={styles.arrowIcon}
         />
       </View>
       <View style={styles.inputContainer}>
