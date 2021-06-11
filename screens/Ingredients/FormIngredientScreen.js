@@ -42,6 +42,7 @@ function FormIngredient({ navigation, route }) {
   const [measure, setMeasure] = useState(ingredient.attributes.measure);
 
   function checkValidValues() {
+    /*
     const blankName = !name.length;
     const negativePrice = price <= 0;
     const negativeQuantity = quantity <= 0;
@@ -61,6 +62,17 @@ function FormIngredient({ navigation, route }) {
     }
     return true
   }
+  */
+     const validations =  [
+    { error: !name.length, message: "Debes asignar un nombre al ingrediente" },
+    { error: price <= 0, message: "Debes ingresar un precio válido" },
+    { error: quantity <= 0, message: "Debes ingresar una cantidad válida" },
+    { error:  !measure.length, message: "Debes ingresar una medida al ingrediente" },
+    ];
+    const error = validations.find((validation) => (validation.error))
+    if ( error ) alert(error.message); return false;
+
+    return true;
 
   function handleSubmitNew() {
 
