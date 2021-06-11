@@ -79,7 +79,7 @@ function IndexProviders({ navigation }) {
             <View style={styles.right}>
               <Icon name='chevron-down'
                 size={20}
-                color={colors.black}
+                color={colors.kitchengramGray600}
               />
             </View>
           </TouchableOpacity>

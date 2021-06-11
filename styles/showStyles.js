@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
   },
 
   name: {
-    width: '40%',
+    width: '35%',
     textAlign: 'left',
     fontSize: 14,
     color: colors.kitchengramGray600,
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   },
 
   value: {
-    width: '60%',
+    width: '65%',
     textAlign: 'right',
     fontSize: 20,
     color: colors.kitchengramGray600,
