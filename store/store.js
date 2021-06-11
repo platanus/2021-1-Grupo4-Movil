@@ -81,7 +81,6 @@ const storeActions = {
   }),
   setLogOut: action((state) => {
     state.currentUser = null;
-    state.loginView = true;
     apiUtils.api.defaults.headers = { 'Accept': 'application/json',
       'Content-Type': 'application/json' };
   }),
@@ -106,6 +105,7 @@ const storeThunks = {
       .then((resp) => {
         actions.setUserAndApiHeaders(resp);
         actions.setSignUpError('');
+        actions.setLoginView(true);
       }).catch((error) => {
         actions.setSignUpError(error.response.data.message);
       });
