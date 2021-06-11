@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput } from 'react-native';
 import styles from '../styles/Recipes/newRecipe';
-import formatMoney from '../utils/formatMoney';
 
 function IngredientRow(props) {
   const { ingredient, totalPrice, setTotalPrice, changeIngredientDataQuantity } = props;

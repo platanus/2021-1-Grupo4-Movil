@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, ScrollView} from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 
 import { Icon } from 'react-native-elements';
 import { useStoreActions } from 'easy-peasy';

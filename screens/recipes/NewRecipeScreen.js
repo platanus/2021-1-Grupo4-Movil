@@ -7,7 +7,6 @@ import RecipeSteps from './RecipeStepsScreen';
 import IngredientRow from '../../components/recipeEditIngredientRow';
 import calculateRecipePrice from '../../utils/calculateRecipePrice';
 import formatMoney from '../../utils/formatMoney';
-import colors from '../../styles/appColors';
 
 /* eslint max-statements: [2, 30] */
 function FormRecipe(props) {
@@ -257,7 +256,7 @@ function FormRecipe(props) {
         )}
       </View>
       <View style={styles.ingredientsContainer}>
-      <View style={ styles.totalCostTextBox }>
+        <View style={ styles.totalCostTextBox }>
           <View style={styles.sectionQuantity}>
             <Text style={styles.totalCostText}>Costo por porción</Text>
           </View>
