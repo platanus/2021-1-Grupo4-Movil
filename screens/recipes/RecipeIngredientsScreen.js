@@ -25,9 +25,9 @@ function RecipeIngredients(props) {
         const allIds = resp.map((ingred) => ingred.id.toString());
         const currentIds = actualSelection.map((i) => i.id.toString());
         setSelecteds(
-          currentIds.map(id => allIds.indexOf(id))
-        )
-      })
+          currentIds.map(id => allIds.indexOf(id)),
+        );
+      });
   }, []);
 
   function getIngredientsFromSearch() {
@@ -65,10 +65,10 @@ function RecipeIngredients(props) {
       if (!includedCondition && indexFoundAndEqualCondition) {
         deleteIngredientsIds.push(ingred.id);
       }
-    })
+    });
     setDeletedIngredient(deleteIngredientsIds);
-    let ingredientsForRecipe = ingredients.filter((_ingredient, index) => selecteds.includes(index));
-    setIngredientsForRecipe(ingredientsForRecipe)
+    const ingredientsForRecipe = ingredients.filter((_ingredient, index) => selecteds.includes(index));
+    setIngredientsForRecipe(ingredientsForRecipe);
     const backRoute = isNewRecipe === null ? 'Crear receta' : 'Editar Receta';
     navigation.navigate(backRoute);
   }
