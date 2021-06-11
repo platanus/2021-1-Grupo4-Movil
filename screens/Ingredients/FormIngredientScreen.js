@@ -27,6 +27,7 @@ function FormIngredient({ navigation, route }) {
         measure: '',
         sku: '',
         currency: 'CLP',
+        providerName: null,
       },
     },
     ingredients,
@@ -40,6 +41,7 @@ function FormIngredient({ navigation, route }) {
   const [price, setPrice] = useState(ingredient.attributes.price);
   const [quantity, setQuantity] = useState(ingredient.attributes.quantity);
   const [measure, setMeasure] = useState(ingredient.attributes.measure);
+  const [providerName, setProviderName] = useState(ingredient.attributes.providerName);
 
   function handleSubmitNew() {
     if (!name.length ||
@@ -115,6 +117,7 @@ function FormIngredient({ navigation, route }) {
             setName,
             setPrice,
             setQuantity,
+            setProviderName,
           })}
           style={styles.scrapperButton}>
           <Text style={styles.scrapperButtonText}>
@@ -131,6 +134,18 @@ function FormIngredient({ navigation, route }) {
           placeholder="Nombre de ingrediente..."
           value={name}
           onChangeText={(text) => setName(text)}
+          editable={!isFromSearch}
+        />
+      </View>
+      <View style={styles.inputContainer}>
+        <Text style={styles.inputLabel}>
+          Proveedor
+        </Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Proveedor"
+          value={providerName}
+          onChangeText={(text) => setProviderName(text)}
           editable={!isFromSearch}
         />
       </View>
