@@ -41,15 +41,31 @@ function FormIngredient({ navigation, route }) {
   const [quantity, setQuantity] = useState(ingredient.attributes.quantity);
   const [measure, setMeasure] = useState(ingredient.attributes.measure);
 
-  function handleSubmitNew() {
-    if (!name.length ||
-      price <= 0 ||
-      quantity <= 0 ||
-      !measure.length) {
-      if (!isFromSearch) {
-        return;
-      }
+  function checkValidValues() {
+    const blankName = !name.length;
+    const negativePrice = price <= 0;
+    const negativeQuantity = quantity <= 0;
+    const blankMeasure = !measure.length;
+    if (blankName) {
+      alert("Debes asignar un nombre al ingrediente");
+      return false
+    } else if (negativePrice) {
+      alert("Debes ingresar un precio válido");
+      return false
+    } else if (negativeQuantity) {
+      alert("Debes ingresar una cantidad válida");
+      return false
+    } else if (blankMeasure) {
+      alert("Debes ingresar una medida al ingrediente");
+      return false
     }
+    return true
+  }
+
+  function handleSubmitNew() {
+
+    if (!checkValidValues()) return;
+
     const attributes = {
       name,
       sku: ingredient.attributes.sku,
@@ -74,12 +90,9 @@ function FormIngredient({ navigation, route }) {
   }
 
   function handleSubmitEdit() {
-    if (!name.length ||
-      price <= 0 ||
-      quantity <= 0 ||
-      !measure.length) {
-      return;
-    }
+
+    if (!checkValidValues()) return;
+
     const attributes = {
       name,
       sku: ingredient.attributes.sku,
@@ -92,7 +105,6 @@ function FormIngredient({ navigation, route }) {
     const body = {
       ingredient: ingredient.attributes,
     };
-    console.log(body)
     editIngredient({ body, id: ingredient.id })
       .then(() => {
         const auxIngredients = ingredients.filter(item => item.id !== ingredient.id);
