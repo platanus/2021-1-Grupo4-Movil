@@ -25,7 +25,7 @@ function RecipesMenu({ navigation }) {
       price: calculateRecipePrice(recipe),
       selected: false,
       quantity: 1,
-      quantityText: '1', // va??
+      quantityText: '1',
       isNew: true,
     };
   }
