@@ -25,7 +25,7 @@ function RecipesMenu({ navigation }) {
       price: calculateRecipePrice(recipe),
       selected: false,
       quantity: 1,
-      quantityText: '1',
+      quantityText: '1', // va??
       isNew: true,
     };
   }
@@ -38,9 +38,18 @@ function RecipesMenu({ navigation }) {
       });
   }, []);
 
+  function handleRecipeChange(id, newRecipeAttributes) {
+    const toChangeRecipeIndex = recipes.findIndex((recipe) => recipe.id === id);
+    if (toChangeRecipeIndex === -1) return;
+    setRecipes([
+      ...recipes.slice(0, toChangeRecipeIndex),
+      { ...recipes[toChangeRecipeIndex], ...newRecipeAttributes },
+      ...recipes.slice(toChangeRecipeIndex + 1),
+    ]);
+  }
+
   function saveChanges() {
-    const data = recipes.filter((recipe) => !recipe.isNew || recipe.selected);
-    setSelectedRecipesData(JSON.parse(JSON.stringify(data)));
+    setSelectedRecipesData(recipes.filter((recipe) => !recipe.isNew || recipe.selected));
     navigation.goBack();
   }
 
@@ -53,7 +62,12 @@ function RecipesMenu({ navigation }) {
       <ScrollView>
         <View>
           {recipes.map((recipe) => (
-            <RecipeRow recipe={recipe} select={true} key={recipe.id}/>
+            <RecipeRow
+              key={recipe.id}
+              recipe={recipe}
+              select={true}
+              handleRecipeChange={(newAttributes) => handleRecipeChange(recipe.id, newAttributes)}
+            />
           ))}
         </View>
       </ScrollView>
