@@ -13,6 +13,7 @@ function RecipesMenu({ navigation }) {
   const selectedRecipes = useStoreState((state) => state.menus.selectedRecipes);
 
   const [recipes, setRecipes] = useState([]);
+  const [recipesToShow, setRecipesToShow] = useState([]);
   const [searchText, setSearchText] = useState('');
 
   function recipeInitialData(recipe) {
@@ -38,6 +39,12 @@ function RecipesMenu({ navigation }) {
       });
   }, []);
 
+  useEffect(() => {
+    if (searchText) {
+      setRecipesToShow(recipes.filter((recipe) => recipe.name.toLowerCase().includes(searchText.toLowerCase())));
+    } else setRecipesToShow(recipes);
+  }, [searchText, recipes]);
+
   function handleRecipeChange(id, newRecipeAttributes) {
     const toChangeRecipeIndex = recipes.findIndex((recipe) => recipe.id === id);
     if (toChangeRecipeIndex === -1) return;
@@ -61,7 +68,7 @@ function RecipesMenu({ navigation }) {
       </View>
       <ScrollView>
         <View>
-          {recipes.map((recipe) => (
+          {recipesToShow.map((recipe) => (
             <RecipeRow
               key={recipe.id}
               recipe={recipe}
