@@ -170,6 +170,7 @@ const styles = StyleSheet.create({
     color: colors.yellow,
     fontSize: 20,
     fontWeight: 'bold',
+    paddingHorizontal: 10,
   },
 });
 
