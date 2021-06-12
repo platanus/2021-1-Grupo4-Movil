@@ -14,9 +14,11 @@ function FormRecipe(props) {
   const recipe = (route.params && route.params.recipe) ? route.params.recipe : null;
   const setLoadRecipes = useStoreActions((actions) => actions.setLoadRecipes);
 
-  const [recipeName, setRecipeName] = useState(recipe ? recipe.attributes.name : '');
-  const [recipeTime, setRecipeTime] = useState(recipe ? recipe.attributes.cook_minutes.toString() : '');
-  const [recipePortions, setRecipePortions] = useState(recipe ? recipe.attributes.portions.toString() : '');
+  const [recipeName, setRecipeName] = useState(recipe && recipe.attributes.name ? recipe.attributes.name : '');
+  const [recipeTime, setRecipeTime] = useState(recipe && recipe.attributes.cook_minutes ?
+    recipe.attributes.cook_minutes.toString() : '');
+  const [recipePortions, setRecipePortions] = useState(recipe && recipe.attributes.portions ?
+    recipe.attributes.portions.toString() : '');
   const [recipeSteps, setRecipeSteps] = useState(
     recipe ? JSON.parse(JSON.stringify(recipe.attributes.steps.data)) : []);
 
@@ -30,10 +32,6 @@ function FormRecipe(props) {
   const setDeletedIngredients = useStoreActions((actions) => actions.setDeletedRecipeIngredients);
   const [recipeIngredients, setRecipeIngredients] = useState([]);
   const [ingredientsData, setIngredientsData] = useState([]);
-
-  const createRecipeStep = useStoreActions((actions) => actions.createRecipeStep);
-  const editRecipeStep = useStoreActions((actions) => actions.editRecipeStep);
-  const deleteRecipeStep = useStoreActions((actions) => actions.deleteRecipeStep);
 
   const [isStarting, setIsStarting] = useState(true);
 
@@ -121,32 +119,22 @@ function FormRecipe(props) {
     setIngredientsAction(auxIngredients);
   }
 
-  function stepsActions(recipeId) {
-    const promises = [];
+  function stepsActions() {
+    const stepsToModify = [];
     recipeSteps.forEach((step) => {
       const newInStep = 'new' in step;
       const deleteInStep = 'delete' in step;
       const editInStep = 'edit' in step;
       if (newInStep && !deleteInStep) {
-        promises.push(createRecipeStep({
-          id: recipeId,
-          body: step.attributes,
-        }));
+        stepsToModify.push({ description: step.attributes.description });
       } else if (deleteInStep && !newInStep) {
-        promises.push(deleteRecipeStep({
-          recipeId,
-          stepId: step.id,
-        }));
+        stepsToModify.push({ id: step.id, _destroy: true });
       } else if (editInStep && !deleteInStep && !newInStep) {
-        promises.push(editRecipeStep({
-          recipeId,
-          stepId: step.id,
-          body: step.attributes,
-        }));
+        stepsToModify.push({ id: step.id, description: step.attributes.description, _destroy: false });
       }
     });
 
-    return promises;
+    return stepsToModify;
   }
 
   function ingredientsQuery() {
@@ -184,11 +172,11 @@ function FormRecipe(props) {
       portions: parseInt(recipePortions, 10),
       cookMinutes: parseInt(recipeTime, 10),
       recipeIngredientsAttributes: ingredientsQuery(),
+      stepsAttributes: stepsActions(),
     };
 
     if (recipe) {
       editRecipe({ body, id: recipe.id })
-        .then(() => Promise.all(stepsActions(recipe.id)))
         .then(() => {
           setLoadRecipes(true);
           navigation.navigate('Recetas', { recipe });
@@ -197,7 +185,6 @@ function FormRecipe(props) {
         });
     } else {
       createRecipe(body)
-        .then((resp) => Promise.all(stepsActions(resp.data.data.id)))
         .then(() => {
           setLoadRecipes(true);
           navigation.navigate('Recetas', { recipe });
