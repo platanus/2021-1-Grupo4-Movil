@@ -40,13 +40,34 @@ function FormProvider({ navigation, route }) {
   const createProvider = useStoreActions((actions) => actions.createProvider);
   const editProvider = useStoreActions((actions) => actions.editProvider);
 
+  function checkValidInputs() {
+
+    const validations = [
+      { error: !name.length, message: "Debes asignar un nombre al proveedor" },
+      { error: !email.length, message: "Debes ingresar un email válido." },
+      { error: time <= 0, message: "Debes ingresar un tiempo válido" },
+      { error: minPurchase <= 0, message: "Debes ingresar un mínimo de compra válido" },
+    ];
+    const error = validations.find((validation) => (validation.error));
+    if (error) {
+      alert(error.message);
+      return false
+    }
+
+    return true;
+  }
+
+
   function handleSubmit(create) {
+    /*
     if (!name.length ||
       time <= 0 ||
       minPurchase < 0 ||
       !email.length) {
       return;
     }
+    */
+   if (!checkValidInputs()) return;
 
     const attributes = {
       name,
