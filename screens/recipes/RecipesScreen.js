@@ -7,6 +7,7 @@ import { useStoreActions, useStoreState } from 'easy-peasy';
 import { Icon } from 'react-native-elements';
 import colors from '../../styles/appColors';
 import RecipeRow from '../../components/recipeRow';
+import styles from '../../styles/Recipes';
 
 function Recipes(props) {
   const { navigation } = props;
@@ -34,31 +35,36 @@ function Recipes(props) {
           setLoadRecipes(false);
         });
     }
-  }, [loadRecipes]);
+  }, [loadRecipes, getRecipes, setLoadRecipes]);
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+    // eslint-disable-next-line react/display-name
+      headerRight: () => (
+        <Icon name='add'
+          size={30}
+          color={colors.kitchengramWhite}
+          style={{ paddingRight: 10 }}
+          onPress={() => navigation.navigate('Crear receta')}/>
+      ),
+    });
+  }, [navigation]);
 
   if (recipes.length) {
     return (
-      <>
-        <ScrollView>
-          {recipes.map((recipe) => (
-            <RecipeRow key={recipe.id} recipe={recipe} navigation={navigation}/>
-          ))}
-        </ScrollView>
-        <TouchableOpacity>
-          <Icon name="add-circle" color={colors.addIcon} onPress={() => navigation.navigate('Crear receta')}></Icon>
-        </TouchableOpacity>
-      </>
+      <ScrollView>
+        {recipes.map((recipe) => (
+          <RecipeRow key={recipe.id} recipe={recipe} navigation={navigation}/>
+        ))}
+      </ScrollView>
     );
   }
 
   return (
     <>
-      <Text>
+      <Text style={{color: colors.kitchengramGray600, textAlign: 'center', paddingTop:15,fontSize: 16}}>
         Aún no tienes recetas.
       </Text>
-      <TouchableOpacity>
-        <Icon name="add-circle" color={colors.addIcon} onPress={() => navigation.navigate('Crear receta')}></Icon>
-      </TouchableOpacity>
     </>
   );
 }

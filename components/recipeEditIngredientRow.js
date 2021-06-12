@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput } from 'react-native';
 import styles from '../styles/Recipes/newRecipe';
+import formatMoney from '../utils/formatMoney';
 
 function IngredientRow(props) {
   const { ingredient, totalPrice, setTotalPrice, changeIngredientDataQuantity } = props;
@@ -36,7 +37,7 @@ function IngredientRow(props) {
           <Text style={styles.ingredientText}> {ingredient.name}</Text>
         </View>
         <View style={styles.sectionPrice}>
-          <Text style={styles.ingredientText}>$ {Math.round(currentPrice)}</Text>
+          <Text style={styles.ingredientText}>{formatMoney(Math.round(currentPrice), '$')}</Text>
         </View>
       </View>
     </View>

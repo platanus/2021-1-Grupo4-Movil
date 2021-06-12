@@ -3,7 +3,7 @@ import colors from '../appColors';
 
 const styles = StyleSheet.create({
   mainContainer: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.kitchengramWhite,
   },
   recipeInfoRow: {
     flexDirection: 'row',
@@ -11,38 +11,49 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   recipeInfoContainer: {
-    marginLeft: '7%',
+    marginLeft: '5%',
     marginTop: 10,
   },
   infoText: {
     color: 'black',
     fontSize: 18,
-    marginLeft: 10,
+    marginLeft: 5,
   },
   sectionTitleText: {
     marginLeft: '5%',
+    marginBottom: 15,
     color: 'black',
     fontSize: 18,
     fontWeight: 'bold',
   },
   ingredientsContainer: {
-    paddingTop: 10,
+    paddingTop: 20,
+    paddingBottom: 15,
   },
   ingredientsList: {
-    marginTop: 10,
-    backgroundColor: colors.ingredientsList,
-    paddingBottom: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.kitchengramGray400,
+    marginHorizontal: '5%',
+    justifyContent: 'center',
+    paddingVertical: 15,
   },
   ingredientTextBox: {
-    display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    paddingTop: 20,
-    marginHorizontal: '5%',
+    alignItems: 'center',
   },
-  ingredientText: {
+  ingredientTextLeft: {
     fontSize: 16,
+    color: colors.kitchengramGray600,
+    width: '60%',
+    textAlign: 'left',
+  },
+
+  ingredientTextRight: {
+    fontSize: 18,
+    color: colors.kitchengramYellow500,
+    width: '40%',
+    textAlign: 'right',
+
   },
 
   stepBox: {
@@ -52,44 +63,49 @@ const styles = StyleSheet.create({
   },
 
   stepText: {
-    color: colors.ingredientsTitle,
+    color: colors.kitchengramBlack,
     fontSize: 14,
     textAlign: 'justify',
     width: '80%',
   },
   stepNumber: {
-    color: colors.ingredientsTitle,
+    color: colors.kitchengramWhite,
     fontSize: 18,
     textAlign: 'center',
     width: 26,
     height: 26,
     borderRadius: 13,
-    backgroundColor: colors.ingredientsList,
+    backgroundColor: colors.kitchengramYellow500,
     overflow: 'hidden',
-    marginHorizontal: 10,
+    marginLeft: '3%',
+    marginRight: '5%',
   },
-  menuContainer: {
-    // position: 'absolute',
-    // zIndex: 1,
 
-    // backgroundColor: colors.white,
-    // width: '100%',
-  },
   menuOption: {
-    // zIndex: 1,
-    position: 'relative',
     display: 'flex',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 15,
-    paddingHorizontal: '5%',
-    borderBottomWidth: 0.3,
-    borderColor: colors.tableBorder,
-    // borderRadius: 5,
+    paddingVertical: 9,
+    width: '90%',
+    borderWidth: 1,
+    marginLeft: '5%',
+    marginTop: 10,
+    borderRadius: 5,
+
   },
+
+  edit: {
+    color: colors.kitchengramGray600,
+    borderColor: colors.kitchengramGray600,
+  },
+
+  delete: {
+    color: colors.kitchengramRed500,
+    borderColor: colors.kitchengramRed500,
+  },
+
   moreVert: {
     paddingRight: 8,
-    color: colors.recipeIcon,
   },
 });
 
