@@ -8,12 +8,15 @@ import RecipeRow from '../../components/menuSelectRecipesRow';
 import calculateRecipePrice from '../../utils/calculateRecipePrice';
 import formatMoney from '../../utils/formatMoney';
 
-/* eslint max-statements: [2, 20] */
+/* eslint max-statements: [2, 25] */
 function MenuForm({ navigation, route }) {
   const menu = route.params.menu ? camelizeKeys(route.params.menu) : null;
 
   const createMenu = useStoreActions((actions) => actions.createMenu);
   const editMenu = useStoreActions((actions) => actions.editMenu);
+  const getMenu = useStoreActions((actions) => actions.getMenu);
+  const globalMenus = useStoreState((state) => state.menus.menus);
+  const setGlobalMenus = useStoreActions((actions) => actions.setMenus);
   const selectedRecipes = useStoreState((state) => state.menus.selectedRecipes);
   const setSelectedRecipes = useStoreActions((actions) => actions.setMenuSelectedRecipes);
 
@@ -92,8 +95,12 @@ function MenuForm({ navigation, route }) {
     if (menu) {
       body.menuRecipesAttributes = recipes.map((recipe) => handleRecipeFinalChange(recipe)).filter(recipe => !!recipe);
       editMenu({ id: menu.id, body })
+        .then(() => getMenu({ id: menu.id }))
         .then((resp) => {
-          navigation.goBack();
+          const otherMenus = globalMenus.filter((otherMenu) => otherMenu.id !== menu.id);
+          setGlobalMenus([...otherMenus, resp]);
+          const numberScreensBack = 2;
+          navigation.pop(numberScreensBack);
         });
     } else {
       body.menuRecipesAttributes = recipes.filter((recipe) => (recipe.selected))
@@ -103,6 +110,7 @@ function MenuForm({ navigation, route }) {
         }));
       createMenu(body)
         .then((resp) => {
+          setGlobalMenus([...globalMenus, resp.data]);
           navigation.goBack();
         });
     }

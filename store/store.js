@@ -21,6 +21,7 @@ const storeState = {
     currentDeletedIngredients: [],
   },
   menus: {
+    menus: [],
     selectedRecipes: [],
   },
   menusError: '',
@@ -74,6 +75,9 @@ const storeActions = {
   }),
   setmenusError: action((state, payload) => {
     state.menusError = payload;
+  }),
+  setMenus: action((state, payload) => {
+    state.menus.menus = payload;
   }),
   setMenuSelectedRecipes: action((state, payload) => {
     state.menus.selectedRecipes = payload;
@@ -231,6 +235,16 @@ const storeThunks = {
       });
 
     return menus;
+  }),
+  getMenu: thunk(async (actions, payload) => {
+    const menu = menusApi.getMenu(payload)
+      .then((res) => res.data.data)
+      .catch((err) => {
+        actions.setMenusError(err.response.data.message);
+        throw err;
+      });
+
+    return menu;
   }),
   deleteMenu: thunk(async (actions, payload) => {
     menusApi.deleteMenu(payload)
