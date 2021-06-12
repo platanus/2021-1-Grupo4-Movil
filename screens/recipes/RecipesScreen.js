@@ -7,6 +7,7 @@ import { useStoreActions, useStoreState } from 'easy-peasy';
 import { Icon } from 'react-native-elements';
 import colors from '../../styles/appColors';
 import RecipeRow from '../../components/recipeRow';
+import styles from '../../styles/Recipes';
 
 function Recipes(props) {
   const { navigation } = props;
@@ -61,7 +62,7 @@ function Recipes(props) {
 
   return (
     <>
-      <Text>
+      <Text style={{color: colors.kitchengramGray600, textAlign: 'center', paddingTop:15,fontSize: 16}}>
         Aún no tienes recetas.
       </Text>
     </>
