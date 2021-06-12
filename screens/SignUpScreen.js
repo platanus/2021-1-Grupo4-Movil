@@ -5,7 +5,6 @@ import { useStoreActions, useStoreState } from 'easy-peasy';
 import styles from '../styles/authStyles';
 
 function SignUp() {
-  //const { setLoginView } = props;
   const setLoginView = useStoreActions((actions) => actions.setLoginView);
   const setSignUpError = useStoreActions((actions) => actions.setSignUpError);
   const [email, setEmail] = useState('');
