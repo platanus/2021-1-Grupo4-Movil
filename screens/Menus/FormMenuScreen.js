@@ -15,15 +15,12 @@ function MenuForm({ navigation, menu }) {
   const [menuName, setMenuName] = useState('');
   const [menuPortions, setMenuPortions] = useState('');
   const [menuTotalPrice, setMenuTotalPrice] = useState(0);
-  const [menuRecipes, setMenuRecipes] = useState([]);
+  const [recipes, setRecipes] = useState([]);
 
-  function changePrice(start) {
-    const recipesData = start ? selectedRecipes : menuRecipes;
+  function calculatePrice() {
     let price = 0;
-    recipesData.forEach((recipe) => {
-      if (recipe.selected) {
-        price += recipe.quantity * recipe.price;
-      }
+    recipes.forEach((recipe) => {
+      if (recipe.selected) price += recipe.quantity * recipe.price;
     });
     setMenuTotalPrice(price);
   }
@@ -33,19 +30,25 @@ function MenuForm({ navigation, menu }) {
   }, []);
 
   useEffect(() => {
-    setMenuRecipes(JSON.parse(JSON.stringify(selectedRecipes)));
-    changePrice(true);
+    setRecipes(selectedRecipes);
   }, [selectedRecipes]);
 
-  function removeRecipe(recipeId) {
-    const auxRecipes = menuRecipes;
-    const auxRecipe = auxRecipes.find((recipe) => recipe.id.toString() === recipeId.toString());
-    auxRecipe.selected = false;
-    setSelectedRecipes(auxRecipes);
+  useEffect(() => {
+    calculatePrice();
+  }, [recipes]);
+
+  function handleRecipeChange(id, newRecipeAttributes) {
+    const toChangeRecipeIndex = recipes.findIndex((recipe) => recipe.id === id);
+    if (toChangeRecipeIndex === -1) return;
+    setRecipes([
+      ...recipes.slice(0, toChangeRecipeIndex),
+      { ...recipes[toChangeRecipeIndex], ...newRecipeAttributes },
+      ...recipes.slice(toChangeRecipeIndex + 1),
+    ]);
   }
 
   function searchRecipes() {
-    setSelectedRecipes(menuRecipes);
+    setSelectedRecipes(recipes);
     navigation.navigate('Agregar Receta');
   }
 
@@ -55,7 +58,7 @@ function MenuForm({ navigation, menu }) {
       portions: Number(menuPortions),
     };
     if (!menu) {
-      body.menuRecipesAttributes = menuRecipes.filter((recipe) => (recipe.selected))
+      body.menuRecipesAttributes = recipes.filter((recipe) => (recipe.selected))
         .map((recipe) => ({
           recipeId: recipe.id,
           recipeQuantity: recipe.quantity,
@@ -93,13 +96,12 @@ function MenuForm({ navigation, menu }) {
             <Text style={styles.searchText}>Buscar Recetas</Text>
           </TouchableOpacity>
         </View>
-        {menuRecipes.map((recipe) => (recipe.selected ?
+        {recipes.map((recipe) => (recipe.selected ?
           <RecipeRow
-            recipe={recipe}
-            select={false}
-            remove={removeRecipe}
-            changePrice={changePrice}
             key={recipe.id}
+            recipe={recipe}
+            handleRecipeChange={(newAttributes) => handleRecipeChange(recipe.id, newAttributes)}
+            select={false}
           /> : null
         ))}
       </ScrollView>
