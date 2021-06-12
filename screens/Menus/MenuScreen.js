@@ -56,7 +56,7 @@ function Menu(props) {
         <ShowMenuOptions
           navigation={navigation}
           menuVisible={setShowMenuOptions}
-          element={menu}
+          element={{ menu, id: menu.id }}
           elementsArray={menus}
           setElementsArray={setMenus}
           editNavigation={'Editar Menu'}

@@ -6,6 +6,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import styles from '../../styles/Menus/form';
 import RecipeRow from '../../components/menuSelectRecipesRow';
 import calculateRecipePrice from '../../utils/calculateRecipePrice';
+import formatMoney from '../../utils/formatMoney';
 
 /* eslint max-statements: [2, 20] */
 function MenuForm({ navigation, route }) {
@@ -16,8 +17,9 @@ function MenuForm({ navigation, route }) {
   const selectedRecipes = useStoreState((state) => state.menus.selectedRecipes);
   const setSelectedRecipes = useStoreActions((actions) => actions.setMenuSelectedRecipes);
 
-  const [menuName, setMenuName] = useState(menu ? menu.attributes.name : '');
-  const [menuPortions, setMenuPortions] = useState(menu ? menu.attributes.portions.toString() : '');
+  const [menuName, setMenuName] = useState(menu && menu.attributes.name ? menu.attributes.name : '');
+  const [menuPortions, setMenuPortions] = useState(menu && menu.attributes.portions ?
+    menu.attributes.portions.toString() : '');
   const [menuTotalPrice, setMenuTotalPrice] = useState(0);
   const [recipes, setRecipes] = useState([]);
 
@@ -143,7 +145,7 @@ function MenuForm({ navigation, route }) {
       </ScrollView>
       <View style={styles.totalMenuRow}>
         <Text style={styles.totalPriceText}>Total del Menú</Text>
-        <Text style={styles.totalPriceNumber}>${Math.round(menuTotalPrice)}</Text>
+        <Text style={styles.totalPriceNumber}>{formatMoney(Math.round(menuTotalPrice), '$ ')}</Text>
       </View>
       <View style={styles.menuButtonsRow}>
         <View style={styles.twoButtonContainer}>

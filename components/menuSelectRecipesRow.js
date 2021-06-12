@@ -2,6 +2,7 @@ import { View, Text, TextInput } from 'react-native';
 import React from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { CheckBox, Icon } from 'react-native-elements';
+import formatMoney from '../utils/formatMoney';
 import styles from '../styles/Menus/form';
 import colors from '../styles/appColors';
 
@@ -51,7 +52,7 @@ function SelectRecipeRow({ select, recipe, handleRecipeChange }) {
         </View>
       </View>
       <View style={styles.priceAndRemoveRow}>
-        <Text style={styles.recipePriceText}>${Math.round(recipe.price * recipe.quantity)}</Text>
+        <Text style={styles.recipePriceText}>{formatMoney(Math.round(recipe.price * recipe.quantity), '$ ')}</Text>
         {select ? null :
           <Icon
             name='close'
