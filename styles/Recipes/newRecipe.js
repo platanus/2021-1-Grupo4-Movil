@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     position: 'relative',
-    width: '35%',
+    width: '30%',
   },
   sectionTotalCost: {
     display: 'flex',
