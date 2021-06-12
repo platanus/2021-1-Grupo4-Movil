@@ -1,19 +1,23 @@
 import { useStoreActions, useStoreState } from 'easy-peasy';
+import { camelizeKeys, decamelizeKeys } from 'humps';
 import { View, Text, ScrollView, TextInput } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import styles from '../../styles/Menus/form';
 import RecipeRow from '../../components/menuSelectRecipesRow';
+import calculateRecipePrice from '../../utils/calculateRecipePrice';
 
 /* eslint max-statements: [2, 20] */
-function MenuForm({ navigation, menu }) {
+function MenuForm({ navigation, route }) {
+  const menu = route.params.menu ? camelizeKeys(route.params.menu) : null;
+
   const createMenu = useStoreActions((actions) => actions.createMenu);
   const editMenu = useStoreActions((actions) => actions.editMenu);
   const selectedRecipes = useStoreState((state) => state.menus.selectedRecipes);
   const setSelectedRecipes = useStoreActions((actions) => actions.setMenuSelectedRecipes);
 
-  const [menuName, setMenuName] = useState('');
-  const [menuPortions, setMenuPortions] = useState('');
+  const [menuName, setMenuName] = useState(menu ? menu.attributes.name : '');
+  const [menuPortions, setMenuPortions] = useState(menu ? menu.attributes.portions.toString() : '');
   const [menuTotalPrice, setMenuTotalPrice] = useState(0);
   const [recipes, setRecipes] = useState([]);
 
@@ -26,7 +30,23 @@ function MenuForm({ navigation, menu }) {
   }
 
   useEffect(() => {
-    setSelectedRecipes([]);
+    if (menu) {
+      setSelectedRecipes(
+        menu.attributes.menuRecipes.data.map((menuRecipe) => ({
+          id: menuRecipe.attributes.recipe.id,
+          menuRecipeId: Number(menuRecipe.id),
+          name: menuRecipe.attributes.recipe.name,
+          price: calculateRecipePrice({ attributes: decamelizeKeys(menuRecipe.attributes.recipe) }),
+          selected: true,
+          quantity: menuRecipe.attributes.recipeQuantity,
+          quantityText: menuRecipe.attributes.recipeQuantity.toString(),
+          initialQuantity: menuRecipe.attributes.recipeQuantity,
+          isNew: false,
+        })),
+      );
+    } else {
+      setSelectedRecipes([]);
+    }
   }, []);
 
   useEffect(() => {
@@ -52,12 +72,28 @@ function MenuForm({ navigation, menu }) {
     navigation.navigate('Agregar Receta');
   }
 
+  function handleRecipeFinalChange(recipe) {
+    if (recipe.isNew && recipe.selected) return { recipeId: recipe.id, recipeQuantity: recipe.quantity };
+    if (!recipe.isNew && !recipe.selected) return { id: recipe.menuRecipeId, _destroy: true, recipeId: recipe.id };
+    if (!recipe.isNew && recipe.selected && recipe.quantity !== recipe.initialQuantity) {
+      return { id: recipe.menuRecipeId, recipeQuantity: recipe.quantity, _destroy: false, recipeId: recipe.id };
+    }
+
+    return null;
+  }
+
   function handleSubmit() {
     const body = {
       name: menuName,
       portions: Number(menuPortions),
     };
-    if (!menu) {
+    if (menu) {
+      body.menuRecipesAttributes = recipes.map((recipe) => handleRecipeFinalChange(recipe)).filter(recipe => !!recipe);
+      editMenu({ id: menu.id, body })
+        .then((resp) => {
+          navigation.goBack();
+        });
+    } else {
       body.menuRecipesAttributes = recipes.filter((recipe) => (recipe.selected))
         .map((recipe) => ({
           recipeId: recipe.id,
@@ -111,7 +147,7 @@ function MenuForm({ navigation, menu }) {
       </View>
       <View style={styles.menuButtonsRow}>
         <View style={styles.twoButtonContainer}>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity onPress={navigation.goBack} style={styles.button}>
             <Text>Volver</Text>
           </TouchableOpacity>
         </View>
