@@ -7,10 +7,13 @@ import {
   TouchableOpacity,
   Text,
   TextInput,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import { useStoreActions } from 'easy-peasy';
 import styles from '../../styles/Providers/formStyles';
 import formatPhone from '../../utils/formatPhone';
+import colors from '../../styles/appColors';
 
 // eslint-disable-next-line max-statements
 function FormProvider({ navigation, route }) {
@@ -90,8 +93,10 @@ function FormProvider({ navigation, route }) {
   }
 
   return (
-    <View>
-      <ScrollView style={styles.container}>
+    <>
+    <KeyboardAvoidingView style={styles.keyboardAvoiding} behavior={'padding'} keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}>
+      <ScrollView>
+        <View style={styles.container}>
         <View style={styles.inputContainer}>
           <Text style={styles.inputLabel}>
             Nombre
@@ -166,8 +171,9 @@ function FormProvider({ navigation, route }) {
             onChangeText={(text) => setMinPurchase(text)}
           />
         </View>
+        </View>
       </ScrollView>
-
+      </KeyboardAvoidingView>
       <View style={styles.buttonsContainer}>
         <TouchableOpacity
           style={[styles.button, styles.cancel]}
@@ -188,7 +194,9 @@ function FormProvider({ navigation, route }) {
         </TouchableOpacity>
       </View>
 
-    </View>
+      
+    
+    </>
   );
 }
 

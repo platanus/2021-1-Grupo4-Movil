@@ -2,12 +2,19 @@ import { StyleSheet } from 'react-native';
 import colors from '../appColors';
 
 const styles = StyleSheet.create({
-  container: {
+
+  keyboardAvoiding: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
     backgroundColor: colors.kitchengramWhite,
-    height: '87%',
-    width: '100%',
-    paddingTop: 15,
+  },
+
+  container: {
     paddingHorizontal: '5%',
+    backgroundColor: colors.kitchengramWhite,
+    minHeight: '100%',
+    paddingTop: 15,
   },
 
   inputContainer: {
@@ -42,12 +49,12 @@ const styles = StyleSheet.create({
   },
 
   buttonsContainer: {
+    paddingHorizontal: '5%',
     height: '13%',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     width: '100%',
-    paddingHorizontal: '5%',
     paddingVertical: 10,
     backgroundColor: colors.kitchengramWhite,
   },
