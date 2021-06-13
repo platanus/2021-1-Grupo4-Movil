@@ -14,59 +14,72 @@ function Recipes(props) {
   const getRecipes = useStoreActions((actions) => actions.getRecipes);
   const [recipes, setRecipes] = useState([]);
   const [showError, setShowError] = useState(false);
-  const [newRecipe, setNewRecipe] = useState(false);
+  // const [newRecipe, setNewRecipe] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const deletedRecipe = useStoreState((state) => state.recipes.delete);
+  const [mounted, setMounted] = useState(false);
 
-  const loadRecipes = useStoreState((state) => state.recipes.load);
-  const setLoadRecipes = useStoreActions((actions) => actions.setLoadRecipes);
+  // const deletedRecipe = useStoreState((state) => state.recipes.delete);
+  // const loadRecipes = useStoreState((state) => state.recipes.load);
+  // const setLoadRecipes = useStoreActions((actions) => actions.setLoadRecipes);
 
   useEffect(() => {
-    if (loadRecipes) {
-      getRecipes()
-        .then((res) => {
-          setRecipes(res);
-        })
-        .catch((err) => {
-          setShowError(true);
-          setErrorMessage(err);
-        })
-        .finally(() => {
-          setLoadRecipes(false);
-        });
-    }
-  }, [loadRecipes, getRecipes, setLoadRecipes]);
+    getRecipes()
+      .then((res) => {
+        setRecipes(res);
+      })
+      .catch((err) => {
+        setShowError(true);
+        setErrorMessage(err);
+      })
+      .finally(() => {
+        setMounted(true);
+      });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
     // eslint-disable-next-line react/display-name
       headerRight: () => (
-        <Icon name='add'
+        <Icon
+          name='add'
           size={30}
           color={colors.kitchengramWhite}
           style={{ paddingRight: 10 }}
-          onPress={() => navigation.navigate('Crear receta')}/>
+          onPress={() => navigation.navigate('Crear receta', {
+            recipes,
+            setRecipes,
+          })}/>
       ),
     });
-  }, [navigation]);
+  }, [navigation, recipes]);
 
-  if (recipes.length) {
+  if (mounted && recipes.length) {
     return (
-      <View style={styles.container2}>
-        <ScrollView>
-          {recipes.map((recipe) => (
-            <RecipeRow key={recipe.id} recipe={recipe} navigation={navigation}/>
-          ))}
-        </ScrollView>
-      </View>
+      <ScrollView>
+        {recipes.map((recipe) => (
+          <RecipeRow
+            key={recipe.id}
+            recipe={recipe}
+            navigation={navigation}
+            recipes={recipes}
+            setRecipes={setRecipes}
+          />
+        ))}
+      </ScrollView>
+    );
+  }
+
+  if (mounted) {
+    return (
+      <Text style={styles.emptyIndex}>
+        Aún no tienes recetas.
+      </Text>
     );
   }
 
   return (
     <>
-      <Text style={{ color: colors.kitchengramGray600, textAlign: 'center', paddingTop: 15, fontSize: 16 }}>
-        Aún no tienes recetas.
-      </Text>
     </>
   );
 }
