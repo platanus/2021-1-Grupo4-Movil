@@ -2,7 +2,7 @@ import { useStoreActions, useStoreState } from 'easy-peasy';
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, TextInput } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import styles from '../../styles/Recipes/newRecipe';
+import styles from '../../styles/Recipes/formRecipe';
 import RecipeSteps from './RecipeStepsScreen';
 import IngredientRow from '../../components/recipeEditIngredientRow';
 import calculateRecipePrice from '../../utils/calculateRecipePrice';
@@ -10,7 +10,10 @@ import formatMoney from '../../utils/formatMoney';
 
 /* eslint max-statements: [2, 30] */
 function FormRecipe(props) {
-  const { navigation, route } = props;
+  const {
+    navigation,
+    route,
+  } = props;
   const recipe = (route.params && route.params.recipe) && route.params.recipe;
   const {
     recipes,
@@ -187,7 +190,6 @@ function FormRecipe(props) {
     if (recipe) {
       editRecipe({ body, id: recipe.id })
         .then(() => {
-          Promise.all(stepsActions(recipe.id));
           const auxRecipes = recipes.filter(item => item.id !== recipe.id);
           auxRecipes.push(recipe);
           setRecipes(auxRecipes);
@@ -198,7 +200,6 @@ function FormRecipe(props) {
     } else {
       createRecipe(body)
         .then((resp) => {
-          Promise.all(stepsActions(resp.data.data.id));
           const auxRecipes = [...recipes];
           auxRecipes.push(resp.data.data);
           setRecipes(auxRecipes);

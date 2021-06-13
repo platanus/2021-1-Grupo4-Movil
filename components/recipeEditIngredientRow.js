@@ -8,7 +8,7 @@ import {
   TextInput,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
-import styles from '../styles/Recipes/newRecipe';
+import styles from '../styles/Recipes/formRecipe';
 import formatMoney from '../utils/formatMoney';
 
 function IngredientRow(props) {
