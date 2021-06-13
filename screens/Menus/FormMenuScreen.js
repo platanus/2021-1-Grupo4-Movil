@@ -87,6 +87,7 @@ function MenuForm({ navigation, route }) {
   }
 
   function handleSubmit() {
+    if (!menuName) return;
     const body = {
       name: menuName,
       portions: Number(menuPortions),
@@ -96,8 +97,12 @@ function MenuForm({ navigation, route }) {
       editMenu({ id: menu.id, body })
         .then(() => getMenu({ id: menu.id }))
         .then((resp) => {
-          const otherMenus = globalMenus.filter((otherMenu) => otherMenu.id !== menu.id);
-          setGlobalMenus([...otherMenus, resp]);
+          const toChangeMenueIndex = globalMenus.findIndex((otherMenu) => otherMenu.id === menu.id);
+          setGlobalMenus([
+            ...globalMenus.slice(0, toChangeMenueIndex),
+            resp,
+            ...globalMenus.slice(toChangeMenueIndex + 1),
+          ]);
           const numberScreensBack = 2;
           navigation.pop(numberScreensBack);
         });

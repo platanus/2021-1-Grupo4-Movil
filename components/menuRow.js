@@ -27,7 +27,7 @@ function MenuRow(props) {
     });
     setMenuPrice(price);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [menu]);
 
   return (
     <TouchableOpacity
