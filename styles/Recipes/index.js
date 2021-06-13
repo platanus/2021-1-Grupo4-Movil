@@ -10,8 +10,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   left: {
-    width: '65%',
+    width: '60%',
     height: '100%',
+    paddingLeft: '5%',
     flexDirection: 'column',
     alignItems: 'flex-start',
     justifyContent: 'center',

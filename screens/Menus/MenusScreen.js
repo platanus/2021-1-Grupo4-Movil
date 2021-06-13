@@ -8,6 +8,7 @@ import { Text, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MenuRow from '../../components/menuRow';
 import styles from '../../styles/Menus/indexStyles';
+import colors from '../../styles/appColors';
 
 function Menus({ navigation }) {
   const getMenus = useStoreActions((actions) => actions.getMenus);
@@ -21,7 +22,8 @@ function Menus({ navigation }) {
       headerRight: () => (
         <Icon name='add'
           size={30}
-          style={styles.navIcon}
+          color={colors.kitchengramWhite}
+          style={{ paddingRight: 10 }}
           onPress={() => navigation.navigate('Nuevo Menu', {
             isNew: true,
             menus,
