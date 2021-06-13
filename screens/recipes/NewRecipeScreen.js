@@ -1,6 +1,6 @@
 import { useStoreActions, useStoreState } from 'easy-peasy';
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, TextInput } from 'react-native';
+import { View, Text, ScrollView, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import styles from '../../styles/Recipes/newRecipe';
 import RecipeSteps from './RecipeStepsScreen';
@@ -199,94 +199,99 @@ function FormRecipe(props) {
   }
 
   return (
-    <ScrollView style={styles.mainContainer}>
-      <View style={styles.container}>
-        <Text style={styles.sectionTitleText}>Datos básicos</Text>
-        <View style={styles.inlineInputs}>
-          <View style={styles.recipeInfoRow}>
-            <Text style={styles.label}>Nombre</Text>
-            <TextInput
-              style={styles.sectionTextInput}
-              value={recipeName}
-              onChangeText={setRecipeName}/>
+    <KeyboardAvoidingView style={styles.keyboardAvoiding}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      // eslint-disable-next-line no-magic-numbers
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 65 : 0}>
+      <ScrollView style={styles.mainContainer}>
+        <View style={styles.container}>
+          <Text style={styles.sectionTitleText}>Datos básicos</Text>
+          <View style={styles.inlineInputs}>
+            <View style={styles.recipeInfoRow}>
+              <Text style={styles.label}>Nombre</Text>
+              <TextInput
+                style={styles.sectionTextInput}
+                value={recipeName}
+                onChangeText={setRecipeName}/>
+            </View>
+          </View>
+          <View style={styles.inlineInputs}>
+            <View style={styles.recipeInfoRowHalf}>
+              <Text style={styles.label}>Porciones</Text>
+              <TextInput
+                keyboardType="number-pad"
+                returnKeyType='done'
+                style={styles.sectionTextInput}
+                value={recipePortions}
+                onChangeText={setRecipePortions}/>
+            </View>
+            <View style={styles.recipeInfoRowHalf}>
+              <Text style={styles.label}>Tiempo (minutos)</Text>
+              <TextInput
+                keyboardType="number-pad"
+                returnKeyType='done'
+                style={styles.sectionTextInput}
+                value={recipeTime}
+                onChangeText={setRecipeTime}/>
+            </View>
           </View>
         </View>
-        <View style={styles.inlineInputs}>
-          <View style={styles.recipeInfoRowHalf}>
-            <Text style={styles.label}>Porciones</Text>
-            <TextInput
-              keyboardType="number-pad"
-              returnKeyType='done'
-              style={styles.sectionTextInput}
-              value={recipePortions}
-              onChangeText={setRecipePortions}/>
-          </View>
-          <View style={styles.recipeInfoRowHalf}>
-            <Text style={styles.label}>Tiempo (minutos)</Text>
-            <TextInput
-              keyboardType="number-pad"
-              returnKeyType='done'
-              style={styles.sectionTextInput}
-              value={recipeTime}
-              onChangeText={setRecipeTime}/>
+        <View style={styles.container}>
+          <View style={styles.inlineInputs}>
+            <View style={styles.recipeInfoRow}>
+              <Text style={styles.sectionTitleText}>Ingredientes seleccionados</Text>
+            </View>
+            <View style={styles.recipeInfoRow}>
+              <TouchableOpacity style={styles.ingredientButton} onPress={searchIngredients}>
+                <Text style={styles.ingredientButtonText}>Buscar ingredientes</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
-      </View>
-      <View style={styles.container}>
-        <View style={styles.inlineInputs}>
-          <View style={styles.recipeInfoRow}>
-            <Text style={styles.sectionTitleText}>Ingredientes seleccionados</Text>
+        <View style={styles.ingredientsContainer}>
+          { recipeIngredients.map((ingredient) =>
+            <IngredientRow
+              ingredient={ingredient}
+              key={ingredient.id}
+              totalPrice={recipePrice}
+              setTotalPrice={setRecipePrice}
+              changeIngredientDataQuantity={changeIngredientDataQuantity}
+            />,
+          )}
+        </View>
+        <View style={styles.ingredientsContainer}>
+          <View style={ styles.totalCostTextBox }>
+            <View style={styles.sectionQuantity}>
+              <Text style={styles.totalCostText}>Costo por porción</Text>
+            </View>
+            <View style={styles.sectionPrice}>
+              <Text style={styles.totalCostPrice}>
+                {formatMoney(Math.round(recipePrice / Number(recipePortions)), '$')}
+              </Text>
+            </View>
           </View>
-          <View style={styles.recipeInfoRow}>
-            <TouchableOpacity style={styles.ingredientButton} onPress={searchIngredients}>
-              <Text style={styles.ingredientButtonText}>Buscar ingredientes</Text>
-            </TouchableOpacity>
+          <View style={ styles.totalCostTextBox }>
+            <View style={styles.sectionQuantity}>
+              <Text style={styles.totalCostText}>Costo total</Text>
+            </View>
+            <View style={styles.sectionPrice}>
+              <Text style={styles.totalCostPrice}>
+                {formatMoney(Math.round(recipePrice), '$')}
+              </Text>
+            </View>
           </View>
         </View>
-      </View>
-      <View style={styles.ingredientsContainer}>
-        { recipeIngredients.map((ingredient) =>
-          <IngredientRow
-            ingredient={ingredient}
-            key={ingredient.id}
-            totalPrice={recipePrice}
-            setTotalPrice={setRecipePrice}
-            changeIngredientDataQuantity={changeIngredientDataQuantity}
-          />,
-        )}
-      </View>
-      <View style={styles.ingredientsContainer}>
-        <View style={ styles.totalCostTextBox }>
-          <View style={styles.sectionQuantity}>
-            <Text style={styles.totalCostText}>Costo por porción</Text>
-          </View>
-          <View style={styles.sectionPrice}>
-            <Text style={styles.totalCostPrice}>
-              {formatMoney(Math.round(recipePrice / Number(recipePortions)), '$')}
-            </Text>
-          </View>
+        <RecipeSteps
+          recipeSteps={recipeSteps}
+          setRecipeSteps={setRecipeSteps}
+        />
+        <View style={styles.container}>
+          <TouchableOpacity style={styles.submitNewRecipe} onPress={handleSubmit}>
+            <Text style={styles.newRecipeButtonText}>{recipe ? 'Editar receta' : 'Crear receta'}</Text>
+          </TouchableOpacity>
         </View>
-        <View style={ styles.totalCostTextBox }>
-          <View style={styles.sectionQuantity}>
-            <Text style={styles.totalCostText}>Costo total</Text>
-          </View>
-          <View style={styles.sectionPrice}>
-            <Text style={styles.totalCostPrice}>
-              {formatMoney(Math.round(recipePrice), '$')}
-            </Text>
-          </View>
-        </View>
-      </View>
-      <RecipeSteps
-        recipeSteps={recipeSteps}
-        setRecipeSteps={setRecipeSteps}
-      />
-      <View style={styles.container}>
-        <TouchableOpacity style={styles.submitNewRecipe} onPress={handleSubmit}>
-          <Text style={styles.newRecipeButtonText}>{recipe ? 'Editar receta' : 'Crear receta'}</Text>
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 

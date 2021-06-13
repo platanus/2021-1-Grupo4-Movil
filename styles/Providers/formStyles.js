@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
 
   buttonsContainer: {
     paddingHorizontal: '5%',
-    height: '13%',
+    height: '12%',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    height: '100%',
+    height: '90%',
     alignItems: 'center',
     justifyContent: 'center',
   },

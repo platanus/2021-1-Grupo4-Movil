@@ -6,6 +6,9 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
 } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -111,91 +114,102 @@ function FormIngredient({ navigation, route }) {
   }
 
   return (
-    <View style={styles.container}>
-      {isNew && (
-        <TouchableOpacity
-          onPress={() => navigation.navigate('Buscar Ingrediente', {
-            setName,
-            setPrice,
-            setQuantity,
-          })}
-          style={styles.scrapperButton}>
-          <Text style={styles.scrapperButtonText}>
-            Buscar ingrediente
-          </Text>
-        </TouchableOpacity>
-      )}
-      <View style={styles.inputContainer}>
-        <Text style={styles.inputLabel}>
-          Nombre
-        </Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Nombre de ingrediente..."
-          value={name}
-          onChangeText={(text) => setName(text)}
-          editable={!isFromSearch}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.inputLabel}>
-          Precio
-        </Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Precio de ingrediente..."
-          keyboardType="number-pad"
-          returnKeyType='done'
-          value={price.toString()}
-          onChangeText={(text) => setPrice(text)}
-          editable={!isFromSearch}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.inputLabel}>
-          Cantidad
-        </Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Cantidad de ingrediente..."
-          keyboardType="number-pad"
-          returnKeyType='done'
-          value={quantity.toString()}
-          onChangeText={(text) => setQuantity(text)}
-          editable={!isFromSearch}
-        />
-      </View>
-      {(!isFromSearch) && (
-        <View style={styles.inputContainer}>
-          <Text style={styles.inputLabel}>
-            Unidad
-          </Text>
-          <View style={styles.dropDown}>
-            <RNPickerSelect
-              style={pickers.customPickerStyles}
-              key={'0'}
-              placeholder={{
-                label: 'Selecciona unidad...',
-                value: '',
-              }}
-              value={measure}
-              onValueChange={(value) => setMeasure(value)}
-              items={[
-                { label: 'Kg', value: 'Kg', key: '0' },
-                { label: 'Gr', value: 'Gr', key: '1' },
-                { label: 'L', value: 'L', key: '2' },
-                { label: 'Ml', value: 'Ml', key: '3' },
-              ]}
-            />
+    <>
+      <KeyboardAvoidingView style={styles.keyboardAvoiding}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        // eslint-disable-next-line no-magic-numbers
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 65 : 0}>
+        <ScrollView>
+          <View style={styles.container}>
 
+            {isNew && (
+              <TouchableOpacity
+                onPress={() => navigation.navigate('Buscar Ingrediente', {
+                  setName,
+                  setPrice,
+                  setQuantity,
+                })}
+                style={styles.scrapperButton}>
+                <Text style={styles.scrapperButtonText}>
+            Buscar ingrediente
+                </Text>
+              </TouchableOpacity>
+            )}
+            <View style={styles.inputContainer}>
+              <Text style={styles.inputLabel}>
+          Nombre
+              </Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Nombre de ingrediente..."
+                value={name}
+                onChangeText={(text) => setName(text)}
+                editable={!isFromSearch}
+              />
+            </View>
+            <View style={styles.inputContainer}>
+              <Text style={styles.inputLabel}>
+          Precio
+              </Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Precio de ingrediente..."
+                keyboardType="number-pad"
+                returnKeyType='done'
+                value={price.toString()}
+                onChangeText={(text) => setPrice(text)}
+                editable={!isFromSearch}
+              />
+            </View>
+            <View style={styles.inputContainer}>
+              <Text style={styles.inputLabel}>
+          Cantidad
+              </Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Cantidad de ingrediente..."
+                keyboardType="number-pad"
+                returnKeyType='done'
+                value={quantity.toString()}
+                onChangeText={(text) => setQuantity(text)}
+                editable={!isFromSearch}
+              />
+            </View>
+            {(!isFromSearch) && (
+              <View style={styles.inputContainer}>
+                <Text style={styles.inputLabel}>
+            Unidad
+                </Text>
+                <View style={styles.dropDown}>
+                  <RNPickerSelect
+                    style={pickers.customPickerStyles}
+                    key={'0'}
+                    placeholder={{
+                      label: 'Selecciona unidad...',
+                      value: '',
+                    }}
+                    value={measure}
+                    onValueChange={(value) => setMeasure(value)}
+                    items={[
+                      { label: 'Kg', value: 'Kg', key: '0' },
+                      { label: 'Gr', value: 'Gr', key: '1' },
+                      { label: 'L', value: 'L', key: '2' },
+                      { label: 'Ml', value: 'Ml', key: '3' },
+                    ]}
+                  />
+
+                </View>
+                <Icon name='chevron-down'
+                  size={30}
+                  color={colors.kitchengramGray600}
+                  style={styles.arrowIcon}
+                />
+              </View>
+
+            )}
           </View>
-          <Icon name='chevron-down'
-            size={30}
-            color={colors.kitchengramGray600}
-            style={styles.arrowIcon}
-          />
-        </View>
-      )}
+        </ScrollView>
+      </KeyboardAvoidingView>
       <View style={styles.buttonsContainer}>
         <TouchableOpacity
           style={[styles.button, styles.cancel]}
@@ -216,7 +230,7 @@ function FormIngredient({ navigation, route }) {
           </Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </>
   );
 }
 

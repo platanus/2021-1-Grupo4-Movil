@@ -3,6 +3,13 @@ import colors from '../appColors';
 
 const styles = StyleSheet.create({
 
+  keyboardAvoiding: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    backgroundColor: colors.kitchengramWhite,
+  },
+
   mainContainer: {
     backgroundColor: colors.kitchengramWhite,
     paddingHorizontal: '5%',
