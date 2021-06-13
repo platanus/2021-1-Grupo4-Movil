@@ -59,14 +59,7 @@ function FormProvider({ navigation, route }) {
 
 
   function handleSubmit(create) {
-    /*
-    if (!name.length ||
-      time <= 0 ||
-      minPurchase < 0 ||
-      !email.length) {
-      return;
-    }
-    */
+
    if (!checkValidInputs()) return;
 
     const attributes = {

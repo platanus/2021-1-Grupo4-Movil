@@ -168,7 +168,29 @@ function FormRecipe(props) {
     navigation.navigate('Buscar ingredientes', recipe);
   }
 
+  function checkValidInputs() {
+
+    const validations = [
+      { error: !recipeName.length, message: "Debes asignar un nombre a la receta" },
+      { error: recipePortions <= 0, message: "Debes ingresar porciones válidas" },
+      { error: recipeTime <= 0, message: "Debes ingresar un tiempo de preparación válida" },
+      { error: !recipeIngredients.length, message: "Debes ingresar uno o más ingredientes" },
+      { error: !recipeSteps.length, message: "Debes ingresar uno o más pasos" },
+    ];
+    const error = validations.find((validation) => (validation.error));
+    if (error) {
+      alert(error.message);
+      return false
+    }
+
+    return true;
+  }
+
+
   function handleSubmit() {
+
+    if (!checkValidInputs()) return;
+
     const body = {
       name: recipeName,
       portions: parseInt(recipePortions, 10),
