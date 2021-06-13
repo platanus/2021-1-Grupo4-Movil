@@ -205,7 +205,8 @@ function FormRecipe(props) {
           setRecipes(auxRecipes);
           navigation.navigate('Recetas');
         })
-        .catch(() => {});
+        .catch(() => {
+        });
     }
   }
 
