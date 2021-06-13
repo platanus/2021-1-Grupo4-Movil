@@ -21,7 +21,7 @@ function Recipe(props) {
   const [ingredients, setIngredients] = useState([]);
   const deleteRecipe = useStoreActions((actions) => actions.deleteRecipe);
   const [showMenu, setShowMenu] = useState(false);
-  const setLoadRecipes = useStoreActions((actions) => actions.setLoadRecipes);
+  // const setLoadRecipes = useStoreActions((actions) => actions.setLoadRecipes);
 
   const scrollRef = useRef();
 
@@ -100,7 +100,6 @@ function Recipe(props) {
       </View>
       <View style={styles.ingredientsContainer}>
         <Text style={styles.sectionTitleText}>Ingredientes</Text>
-
         {ingredients.map((ingredient) =>
           <View style={styles.ingredientsList} key={ingredient.id}>
             <View style={ styles.ingredientTextBox }>
@@ -113,15 +112,27 @@ function Recipe(props) {
         )}
       </View>
       <View style={styles.ingredientsContainer}>
-        <Text style={styles.sectionTitleText}>Pasos</Text>
-        {recipe.attributes.steps.data.map((step, index) => <View key={step.id} style={styles.stepBox}>
-          <Text style={styles.stepNumber} >{index + 1}</Text>
-          <Text style={styles.stepText}>{step.attributes.description}</Text>
-        </View>)}
-        {recipe.attributes.steps.data.length === 0 &&
-        <View style={styles.stepBox}>
-          <Text style={styles.stepText}>No hay pasos disponibles</Text>
-        </View>}
+        <Text style={styles.sectionTitleText}>
+          Pasos
+        </Text>
+        {recipe.attributes.steps.data.map((step, index) => (
+          <View
+            key={step.id}
+            style={styles.stepBox}
+          >
+            <Text style={styles.stepNumber}>
+              {index + 1}
+            </Text>
+            <Text style={styles.stepText}>
+              {step.attributes.description}
+            </Text>
+          </View>
+        ))}
+        {(recipe.attributes.steps.data.length === 0) && (
+          <View style={styles.stepBox}>
+            <Text style={styles.stepText}>No hay pasos disponibles</Text>
+          </View>
+        )}
 
       </View>
     </ScrollView>

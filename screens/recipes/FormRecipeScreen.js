@@ -2,7 +2,7 @@ import { useStoreActions, useStoreState } from 'easy-peasy';
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, TextInput } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import styles from '../../styles/Recipes/newRecipe';
+import styles from '../../styles/Recipes/formRecipe';
 import RecipeSteps from './RecipeStepsScreen';
 import IngredientRow from '../../components/recipeEditIngredientRow';
 import calculateRecipePrice from '../../utils/calculateRecipePrice';
@@ -10,7 +10,10 @@ import formatMoney from '../../utils/formatMoney';
 
 /* eslint max-statements: [2, 30] */
 function FormRecipe(props) {
-  const { navigation, route } = props;
+  const {
+    navigation,
+    route,
+  } = props;
   const recipe = (route.params && route.params.recipe) && route.params.recipe;
   const {
     recipes,
@@ -20,8 +23,7 @@ function FormRecipe(props) {
   const [recipeName, setRecipeName] = useState(recipe ? recipe.attributes.name : '');
   const [recipeTime, setRecipeTime] = useState(recipe ? recipe.attributes.cook_minutes.toString() : '');
   const [recipePortions, setRecipePortions] = useState(recipe ? recipe.attributes.portions.toString() : '');
-  const [recipeSteps, setRecipeSteps] = useState(
-    recipe ? JSON.parse(JSON.stringify(recipe.attributes.steps.data)) : []);
+  const [recipeSteps, setRecipeSteps] = useState(recipe ? recipe.attributes.steps.data : []);
 
   const [recipePrice, setRecipePrice] = useState(recipe ? calculateRecipePrice(recipe) : 0);
   const createRecipe = useStoreActions((actions) => actions.createRecipe);
@@ -116,34 +118,6 @@ function FormRecipe(props) {
     }
   }
 
-  function stepsActions(recipeId) {
-    const promises = [];
-    recipeSteps.forEach((step) => {
-      const newInStep = 'new' in step;
-      const deleteInStep = 'delete' in step;
-      const editInStep = 'edit' in step;
-      if (newInStep && !deleteInStep) {
-        promises.push(createRecipeStep({
-          id: recipeId,
-          body: step.attributes,
-        }));
-      } else if (deleteInStep && !newInStep) {
-        promises.push(deleteRecipeStep({
-          recipeId,
-          stepId: step.id,
-        }));
-      } else if (editInStep && !deleteInStep && !newInStep) {
-        promises.push(editRecipeStep({
-          recipeId,
-          stepId: step.id,
-          body: step.attributes,
-        }));
-      }
-    });
-
-    return promises;
-  }
-
   function ingredientsQuery() {
     const ingredientsList = [];
     ingredientsData.forEach((ingredient) => {
@@ -185,12 +159,12 @@ function FormRecipe(props) {
       cook_minutes: parseInt(recipeTime, 10),
       // eslint-disable-next-line
       recipe_ingredients_attributes: ingredientsQuery(),
+      steps: { data: recipeSteps },
     };
 
     if (recipe) {
       editRecipe({ body, id: recipe.id })
         .then(() => {
-          Promise.all(stepsActions(recipe.id));
           const auxRecipes = recipes.filter(item => item.id !== recipe.id);
           auxRecipes.push(recipe);
           setRecipes(auxRecipes);
@@ -201,7 +175,6 @@ function FormRecipe(props) {
     } else {
       createRecipe(body)
         .then((resp) => {
-          Promise.all(stepsActions(resp.data.data.id));
           const auxRecipes = [...recipes];
           auxRecipes.push(resp.data.data);
           setRecipes(auxRecipes);

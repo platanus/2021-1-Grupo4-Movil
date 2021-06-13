@@ -2,10 +2,20 @@ import React, { useState } from 'react';
 import { View, Text, TextInput } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Icon } from 'react-native-elements';
-import styles from '../../styles/Recipes/newRecipe';
+import styles from '../../styles/Recipes/formRecipe';
 import colors from '../../styles/appColors';
 
-function RecipeStep({ recipeSteps, index, edit, options, setRecipeSteps, setEditStepIndex, setShowMenu, number }) {
+function RecipeStep(props) {
+  const {
+    recipeSteps,
+    index,
+    edit,
+    options,
+    setRecipeSteps,
+    setEditStepIndex,
+    setShowMenu,
+    number,
+  } = props;
   const [currentStepText, setCurrentStepText] = useState(recipeSteps[index].attributes.description);
   function openEditView() {
     setEditStepIndex(index);
@@ -78,7 +88,14 @@ function RecipeStep({ recipeSteps, index, edit, options, setRecipeSteps, setEdit
   );
 }
 
-function NewStep({ recipeSteps, setRecipeSteps, stepsCount, setStepsCount }) {
+function NewStep(props) {
+  const {
+    recipeSteps,
+    setRecipeSteps,
+    stepsCount,
+    setStepsCount,
+  } = props;
+
   const [newStepDescription, setNewStepDescription] = useState('');
 
   function addStep() {
@@ -97,14 +114,14 @@ function NewStep({ recipeSteps, setRecipeSteps, stepsCount, setStepsCount }) {
   return (
     <>
       <TextInput
-        style={ styles.newStepText }
+        style={styles.newStepText}
         placeholder="Nuevo paso"
         value={newStepDescription}
         onChangeText={setNewStepDescription}
         multiline={true}
         returnKeyType='done'
       />
-      <View style={ styles.sectionNewStep }>
+      <View style={styles.sectionNewStep}>
         <TouchableOpacity style={styles.stepButton} onPress={addStep}>
           <Text style={styles.ingredientButtonText}>Agregar paso</Text>
         </TouchableOpacity>
@@ -113,7 +130,13 @@ function NewStep({ recipeSteps, setRecipeSteps, stepsCount, setStepsCount }) {
   );
 }
 
-function RecipeSteps({ recipeSteps, setRecipeSteps, addDeleteStepId }) {
+function RecipeSteps(props) {
+  const {
+    recipeSteps,
+    setRecipeSteps,
+    addDeleteStepId,
+  } = props;
+
   const [editStepIndex, setEditStepIndex] = useState(null);
   const [showMenuIndex, setShowMenuIndex] = useState(null);
   const [stepsCount, setStepsCount] = useState(0);
@@ -125,7 +148,8 @@ function RecipeSteps({ recipeSteps, setRecipeSteps, addDeleteStepId }) {
       {
         recipeSteps.map((step, index) => (
           ('delete' in step) ? null :
-            <RecipeStep key={index}
+            <RecipeStep
+              key={index}
               index={index}
               number={i++}
               edit={(editStepIndex === index)}
