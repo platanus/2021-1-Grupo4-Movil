@@ -11,8 +11,11 @@ import formatMoney from '../../utils/formatMoney';
 /* eslint max-statements: [2, 30] */
 function FormRecipe(props) {
   const { navigation, route } = props;
-  const recipe = (route.params && route.params.recipe) ? route.params.recipe : null;
-  const setLoadRecipes = useStoreActions((actions) => actions.setLoadRecipes);
+  const recipe = (route.params && route.params.recipe) && route.params.recipe;
+  const {
+    recipes,
+    setRecipes,
+  } = route.params;
 
   const [recipeName, setRecipeName] = useState(recipe ? recipe.attributes.name : '');
   const [recipeTime, setRecipeTime] = useState(recipe ? recipe.attributes.cook_minutes.toString() : '');
@@ -63,6 +66,7 @@ function FormRecipe(props) {
       setIngredientsAction([]);
     }
     setIsStarting(false);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -101,6 +105,7 @@ function FormRecipe(props) {
       });
       setDeletedIngredients([]);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedIngredients]);
 
   function changeIngredientDataQuantity(ingredientId, newQuantity) {
@@ -165,7 +170,11 @@ function FormRecipe(props) {
   }
 
   function searchIngredients() {
-    navigation.navigate('Buscar ingredientes', recipe);
+    navigation.navigate('Buscar ingredientes', {
+      isNewRecipe: true,
+      recipes,
+      setRecipes,
+    });
   }
 
   function handleSubmit() {
@@ -180,19 +189,23 @@ function FormRecipe(props) {
 
     if (recipe) {
       editRecipe({ body, id: recipe.id })
-        .then(() => Promise.all(stepsActions(recipe.id)))
         .then(() => {
-          setLoadRecipes(true);
-          navigation.navigate('Recetas', { recipe });
+          Promise.all(stepsActions(recipe.id));
+          const auxRecipes = recipes.filter(item => item.id !== recipe.id);
+          auxRecipes.push(recipe);
+          setRecipes(auxRecipes);
+          navigation.navigate('Recetas');
         })
         .catch(() => {
         });
     } else {
       createRecipe(body)
-        .then((resp) => Promise.all(stepsActions(resp.data.data.id)))
-        .then(() => {
-          setLoadRecipes(true);
-          navigation.navigate('Recetas', { recipe });
+        .then((resp) => {
+          Promise.all(stepsActions(resp.data.data.id));
+          const auxRecipes = [...recipes];
+          auxRecipes.push(resp.data.data);
+          setRecipes(auxRecipes);
+          navigation.navigate('Recetas');
         })
         .catch(() => {});
     }
@@ -245,7 +258,7 @@ function FormRecipe(props) {
         </View>
       </View>
       <View style={styles.ingredientsContainer}>
-        { recipeIngredients.map((ingredient) =>
+        {recipeIngredients.map((ingredient) =>
           <IngredientRow
             ingredient={ingredient}
             key={ingredient.id}
@@ -262,7 +275,7 @@ function FormRecipe(props) {
           </View>
           <View style={styles.sectionPrice}>
             <Text style={styles.totalCostPrice}>
-              {formatMoney(Math.round(recipePrice / Number(recipePortions)), '$')}
+              {(recipePortions > 0) && formatMoney(Math.round(recipePrice / Number(recipePortions)), '$ ')}
             </Text>
           </View>
         </View>
@@ -272,7 +285,7 @@ function FormRecipe(props) {
           </View>
           <View style={styles.sectionPrice}>
             <Text style={styles.totalCostPrice}>
-              {formatMoney(Math.round(recipePrice), '$')}
+              {formatMoney(Math.round(recipePrice), '$ ')}
             </Text>
           </View>
         </View>

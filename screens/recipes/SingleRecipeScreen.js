@@ -13,7 +13,11 @@ import formatMoney from '../../utils/formatMoney';
 /* eslint max-statements: [2, 20] */
 function Recipe(props) {
   const { navigation, route } = props;
-  const recipe = route.params;
+  const {
+    recipe,
+    recipes,
+    setRecipes,
+  } = route.params;
   const [ingredients, setIngredients] = useState([]);
   const deleteRecipe = useStoreActions((actions) => actions.deleteRecipe);
   const [showMenu, setShowMenu] = useState(false);
@@ -69,11 +73,11 @@ function Recipe(props) {
           navigation={navigation}
           menuVisible={setShowMenu}
           element={recipe}
+          elementsArray={recipes}
+          setElementsArray={setRecipes}
           editNavigation={'Editar Receta'}
           indexNavigation={'Recetas'}
           deleteApi={deleteRecipe}
-          isRecipe
-          setLoadRecipes={setLoadRecipes}
         />
       )}
       <View style={styles.recipeInfoContainer}>
