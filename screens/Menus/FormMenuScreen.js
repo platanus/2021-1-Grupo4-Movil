@@ -1,5 +1,4 @@
 import { useStoreActions, useStoreState } from 'easy-peasy';
-import { camelizeKeys, decamelizeKeys } from 'humps';
 import { View, Text, ScrollView, TextInput } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -10,7 +9,7 @@ import formatMoney from '../../utils/formatMoney';
 
 /* eslint max-statements: [2, 25] */
 function MenuForm({ navigation, route }) {
-  const menu = route.params.menu ? camelizeKeys(route.params.menu) : null;
+  const menu = route.params.menu ? route.params.menu : null;
 
   const createMenu = useStoreActions((actions) => actions.createMenu);
   const editMenu = useStoreActions((actions) => actions.editMenu);
@@ -37,15 +36,15 @@ function MenuForm({ navigation, route }) {
   useEffect(() => {
     if (menu) {
       setSelectedRecipes(
-        menu.attributes.menuRecipes.data.map((menuRecipe) => ({
+        menu.attributes.menu_recipes.data.map((menuRecipe) => ({
           id: menuRecipe.attributes.recipe.id,
           menuRecipeId: Number(menuRecipe.id),
           name: menuRecipe.attributes.recipe.name,
-          price: calculateRecipePrice({ attributes: decamelizeKeys(menuRecipe.attributes.recipe) }),
+          price: calculateRecipePrice({ attributes: menuRecipe.attributes.recipe }),
           selected: true,
-          quantity: menuRecipe.attributes.recipeQuantity,
-          quantityText: menuRecipe.attributes.recipeQuantity.toString(),
-          initialQuantity: menuRecipe.attributes.recipeQuantity,
+          quantity: menuRecipe.attributes.recipe_quantity,
+          quantityText: menuRecipe.attributes.recipe_quantity.toString(),
+          initialQuantity: menuRecipe.attributes.recipe_quantity,
           isNew: false,
         })),
       );

@@ -23,7 +23,7 @@ function MenuRow(props) {
   useEffect(() => {
     let price = 0;
     menu.attributes.menu_recipes.data.forEach((recipe) => {
-      price += calculateRecipePrice(recipe.attributes.recipe, true);
+      price += calculateRecipePrice(recipe.attributes.recipe, true) * recipe.attributes.recipe_quantity;
     });
     setMenuPrice(price);
   // eslint-disable-next-line react-hooks/exhaustive-deps
