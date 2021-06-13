@@ -4,6 +4,7 @@ import IndexProvider from '../screens/Providers/IndexProviderScreen';
 import FormProvider from '../screens/Providers/FormProviderScreen';
 import ShowProvider from '../screens/Providers/ShowProviderScreen';
 import colors from '../styles/appColors';
+import defaultOptions from '../styles/Headers/defaultOptions';
 
 const MainProvidersStack = createStackNavigator();
 
@@ -21,32 +22,17 @@ function ProvidersStackScreen() {
       <MainProvidersStack.Screen
         name="Nuevo Proveedor"
         component={FormProvider}
-        options={{ headerTintColor: colors.kitchengramWhite,
-          headerTitleAlign: 'center',
-          headerStyle: { backgroundColor: colors.kitchengramBlack,
-          },
-          headerBackTitleVisible: false,
-        }}
+        options={defaultOptions}
       />
       <MainProvidersStack.Screen
         name="Proveedor"
         component={ShowProvider}
-        options={{ headerTintColor: colors.kitchengramWhite,
-          headerTitleAlign: 'center',
-          headerStyle: { backgroundColor: colors.kitchengramBlack,
-          },
-          headerBackTitleVisible: false,
-        }}
+        options={defaultOptions}
       />
       <MainProvidersStack.Screen
         name="Editar Proveedor"
         component={FormProvider}
-        options={{ headerTintColor: colors.kitchengramWhite,
-          headerTitleAlign: 'center',
-          headerStyle: { backgroundColor: colors.kitchengramBlack,
-          },
-          headerBackTitleVisible: false,
-        }}
+        options={defaultOptions}
       />
     </MainProvidersStack.Navigator>
   );
