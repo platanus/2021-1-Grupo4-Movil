@@ -36,10 +36,6 @@ function FormRecipe(props) {
   const [recipeIngredients, setRecipeIngredients] = useState([]);
   const [ingredientsData, setIngredientsData] = useState([]);
 
-  const createRecipeStep = useStoreActions((actions) => actions.createRecipeStep);
-  const editRecipeStep = useStoreActions((actions) => actions.editRecipeStep);
-  const deleteRecipeStep = useStoreActions((actions) => actions.deleteRecipeStep);
-
   const [isStarting, setIsStarting] = useState(true);
 
   useEffect(() => {
@@ -155,11 +151,9 @@ function FormRecipe(props) {
     const body = {
       name: recipeName,
       portions: parseInt(recipePortions, 10),
-      // eslint-disable-next-line
-      cook_minutes: parseInt(recipeTime, 10),
-      // eslint-disable-next-line
-      recipe_ingredients_attributes: ingredientsQuery(),
-      steps: { data: recipeSteps },
+      cookMinutes: parseInt(recipeTime, 10),
+      recipeIngredientsAttributes: ingredientsQuery(),
+      stepsAttributes: recipeSteps.map((step) => ({ description: step.attributes.description })),
     };
 
     if (recipe) {
@@ -180,7 +174,8 @@ function FormRecipe(props) {
           setRecipes(auxRecipes);
           navigation.navigate('Recetas');
         })
-        .catch(() => {});
+        .catch(() => {
+        });
     }
   }
 
