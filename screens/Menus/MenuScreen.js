@@ -72,7 +72,7 @@ function Menu(props) {
             size={23}
           />
           <Text style={styles.value}>
-            {`${menu.attributes.portions} porciones`}
+            {`${menu.attributes.portions} ${(menu.attributes.portions === 1 ? 'porción' : 'porciones')}`}
           </Text>
         </View>
         <View style={styles.infoContainer}>
