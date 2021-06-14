@@ -2,18 +2,22 @@ import { StyleSheet } from 'react-native';
 import colors from '../appColors';
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: colors.kitchengramWhite,
+    flex: 1,
+  },
   menuRow: {
     flex: 1.5,
-    width: '100%',
-    height: '20%',
-    paddingTop: '5%',
-    paddingBottom: '5%',
+    paddingTop: 20,
+    paddingBottom: 18,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'flex-start',
-    color: colors.white,
-    borderBottomColor: colors.grayName,
-    borderBottomWidth: 0.2,
+    backgroundColor: colors.kitchengramWhite,
+    borderBottomColor: colors.kitchengramGray600,
+    borderBottomWidth: 1,
+    paddingLeft: '5%',
+    paddingRight: '3%',
   },
   left: {
     width: '60%',
@@ -24,30 +28,29 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   right: {
-    width: '40%',
+    width: '35%',
     height: '100%',
-    paddingRight: '5%',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'flex-end',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
   },
   price: {
-    fontSize: 20,
-    color: colors.yellow,
+    fontSize: 24,
+    color: colors.kitchengramYellow500,
   },
   name: {
-    fontSize: 17,
-    color: colors.grayName,
-    paddingBottom: '5%',
+    fontSize: 20,
+    color: colors.kitchengramGray600,
   },
   menuInfo: {
     flexDirection: 'row',
     justifyContent: 'center',
+    marginTop: 5,
   },
   subtitle: {
-    fontSize: 15,
-    color: colors.grayIcon,
-    marginLeft: 10,
+    fontSize: 14,
+    color: colors.kitchengramGray400,
+    paddingLeft: 5,
   },
   separator: {
     marginVertical: 8,

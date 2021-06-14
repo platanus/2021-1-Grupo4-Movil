@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     position: 'relative',
-    width: '35%',
+    width: '30%',
   },
   sectionTotalCost: {
     display: 'flex',
@@ -172,6 +172,11 @@ const styles = StyleSheet.create({
     color: colors.kitchengramYellow500,
     width: '75%',
     marginRight: 2,
+  },
+
+  singleIngredientPriceText: {
+    fontSize: 16,
+    paddingHorizontal: 20,
   },
 
   totalCostText: {

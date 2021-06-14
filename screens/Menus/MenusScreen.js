@@ -4,10 +4,11 @@ import React, {
   useLayoutEffect,
 } from 'react';
 import { useStoreActions, useStoreState } from 'easy-peasy';
-import { Text, ScrollView } from 'react-native';
+import { Text, ScrollView, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MenuRow from '../../components/menuRow';
 import styles from '../../styles/Menus/indexStyles';
+import colors from '../../styles/appColors';
 
 /* eslint max-statements: [2, 15] */
 function Menus({ navigation }) {
@@ -24,7 +25,8 @@ function Menus({ navigation }) {
       headerRight: () => (
         <Icon name='add'
           size={30}
-          style={styles.navIcon}
+          color={colors.kitchengramWhite}
+          style={{ paddingRight: 10 }}
           onPress={() => navigation.navigate('Nuevo Menu', {
             isNew: true,
             menus,
@@ -50,43 +52,30 @@ function Menus({ navigation }) {
     setMenus(globalMenus);
   }, [globalMenus]);
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      // eslint-disable-next-line react/display-name
-      headerRight: () => (
-        <Icon
-          name='add'
-          size={30}
-          style={styles.navIcon}
-          onPress={() => navigation.navigate('Nuevo Menu', {
-            isNew: true,
-            menus,
-          })}
-        />
-      ),
-      headerTitle: 'Menús',
-    });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   if (menus.length && mounted) {
     return (
-      <ScrollView>
-        {menus.map((menu) => (
-          <MenuRow
-            key={menu.id}
-            navigation={navigation}
-            menu={menu}
-            menus={menus}
-          />
-        ))}
-      </ScrollView>);
+      <View style={styles.container}>
+        <ScrollView>
+          {menus.map((menu) => (
+            <MenuRow
+              key={menu.id}
+              navigation={navigation}
+              menu={menu}
+              menus={menus}
+              setMenus={setMenus}
+            />
+          ))}
+        </ScrollView>
+      </View>
+    );
   }
 
   return (mounted) && (
-    <Text>
-      Aun no tienes menus
-    </Text>
+    <View style={styles.container}>
+      <Text>
+        Aun no tienes menus
+      </Text>
+    </View>
   );
 }
 

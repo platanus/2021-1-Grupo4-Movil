@@ -9,9 +9,14 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     flex: 1,
   },
+  container2: {
+    backgroundColor: colors.kitchengramWhite,
+    flex: 1,
+  },
   left: {
-    width: '65%',
+    width: '60%',
     height: '100%',
+    paddingLeft: '5%',
     flexDirection: 'column',
     alignItems: 'flex-start',
     justifyContent: 'center',

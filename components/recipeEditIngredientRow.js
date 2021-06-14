@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput } from 'react-native';
+import { Icon } from 'react-native-elements';
 import styles from '../styles/Recipes/newRecipe';
 import formatMoney from '../utils/formatMoney';
 
 function IngredientRow(props) {
-  const { ingredient, totalPrice, setTotalPrice, changeIngredientDataQuantity } = props;
+  const { ingredient, totalPrice, setTotalPrice, changeIngredientDataQuantity, deleteIngredient } = props;
   const [currentQuantity, setCurrentQuantity] = useState(ingredient.recipeQuantity.toString());
   const priceFactor = ingredient.price / ingredient.quantity;
   const [currentPrice, setCurrentPrice] = useState(priceFactor * ingredient.recipeQuantity);
@@ -34,10 +35,15 @@ function IngredientRow(props) {
             onEndEditing={changeQuantity}
           />
           <Text style={styles.ingredientText}>{ingredient.measure}. </Text>
-          <Text style={styles.ingredientText}> {ingredient.name}</Text>
+          <View style={{ flex: 1 }}>
+            <Text> {ingredient.name}</Text>
+          </View>
         </View>
         <View style={styles.sectionPrice}>
-          <Text style={styles.ingredientText}>{formatMoney(Math.round(currentPrice), '$')}</Text>
+          <Text style={styles.singleIngredientPriceText}>{formatMoney(Math.round(currentPrice), '$')}</Text>
+        </View>
+        <View>
+          <Icon name='close' onPress={() => deleteIngredient(ingredient.id)} size={20} />
         </View>
       </View>
     </View>

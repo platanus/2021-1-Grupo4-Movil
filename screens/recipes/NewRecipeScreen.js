@@ -14,9 +14,11 @@ function FormRecipe(props) {
   const recipe = (route.params && route.params.recipe) ? route.params.recipe : null;
   const setLoadRecipes = useStoreActions((actions) => actions.setLoadRecipes);
 
-  const [recipeName, setRecipeName] = useState(recipe ? recipe.attributes.name : '');
-  const [recipeTime, setRecipeTime] = useState(recipe ? recipe.attributes.cook_minutes.toString() : '');
-  const [recipePortions, setRecipePortions] = useState(recipe ? recipe.attributes.portions.toString() : '');
+  const [recipeName, setRecipeName] = useState(recipe && recipe.attributes.name ? recipe.attributes.name : '');
+  const [recipeTime, setRecipeTime] = useState(recipe && recipe.attributes.cook_minutes ?
+    recipe.attributes.cook_minutes.toString() : '');
+  const [recipePortions, setRecipePortions] = useState(recipe && recipe.attributes.portions ?
+    recipe.attributes.portions.toString() : '');
   const [recipeSteps, setRecipeSteps] = useState(
     recipe ? JSON.parse(JSON.stringify(recipe.attributes.steps.data)) : []);
 
@@ -31,10 +33,6 @@ function FormRecipe(props) {
   const [recipeIngredients, setRecipeIngredients] = useState([]);
   const [ingredientsData, setIngredientsData] = useState([]);
 
-  const createRecipeStep = useStoreActions((actions) => actions.createRecipeStep);
-  const editRecipeStep = useStoreActions((actions) => actions.editRecipeStep);
-  const deleteRecipeStep = useStoreActions((actions) => actions.deleteRecipeStep);
-
   const [isStarting, setIsStarting] = useState(true);
 
   useEffect(() => {
@@ -48,7 +46,7 @@ function FormRecipe(props) {
         });
         auxRecipeIngredients.push({
           ...ingredient.attributes.ingredient,
-          ingredientId: ingredient.attributes.ingredient.id,
+          id: ingredient.attributes.ingredient.id,
           recipeIngredientId: ingredient.id,
           recipeQuantity: ingredient.attributes.ingredient_quantity,
           isNew: false,
@@ -68,19 +66,20 @@ function FormRecipe(props) {
   useEffect(() => {
     if (!isStarting) {
       const auxIngredients = [];
-      const auxData = [];
+      let price = 0;
       selectedIngredients.forEach((ingredient) => {
-        const index = ingredientsData.findIndex((data) => data.ingredientId.toString() === ingredient.id.toString());
+        const index = ingredientsData.findIndex((data) => data.id.toString() === ingredient.id.toString());
         if (index >= 0) {
           ingredientsData[index].isDeleted = false;
+          price += ingredientsData[index].recipeQuantity * ingredientsData[index].price /
+             ingredientsData[index].quantity;
           auxIngredients.push({
             ...ingredientsData[index],
           });
         } else {
           const newIngredient = {
             ...ingredient.attributes,
-            id: ingredient.attributes.name,
-            ingredientId: ingredient.id,
+            id: ingredient.id,
             recipeIngredientId: null,
             recipeQuantity: 0,
             isNew: true,
@@ -88,13 +87,13 @@ function FormRecipe(props) {
             isDeleted: false,
           };
           auxIngredients.push(newIngredient);
-          auxData.push(newIngredient);
+          ingredientsData.push(newIngredient);
         }
       });
+      setRecipePrice(price);
       setRecipeIngredients(auxIngredients);
-      setIngredientsData(ingredientsData.concat(auxData));
       deletedIngredients.forEach((ingredientId) => {
-        const index = ingredientsData.findIndex((data) => data.ingredientId.toString() === ingredientId.toString());
+        const index = ingredientsData.findIndex((data) => data.id.toString() === ingredientId.toString());
         if (index >= 0) {
           ingredientsData[index].isDeleted = true;
         }
@@ -104,49 +103,48 @@ function FormRecipe(props) {
   }, [selectedIngredients]);
 
   function changeIngredientDataQuantity(ingredientId, newQuantity) {
-    const index = ingredientsData.findIndex((data) => data.ingredientId.toString() === ingredientId.toString());
+    const index = ingredientsData.findIndex((data) => data.id.toString() === ingredientId.toString());
     if (index >= 0) {
       ingredientsData[index].recipeQuantity = newQuantity;
       ingredientsData[index].isEdited = true;
     }
   }
 
-  function stepsActions(recipeId) {
-    const promises = [];
+  function deleteIngredient(ingredientId) {
+    setDeletedIngredients([ingredientId]);
+    const recipesIndex = recipeIngredients.findIndex((ingredient) =>
+      ingredient.id.toString() === ingredientId.toString());
+    const auxIngredients = recipeIngredients;
+    auxIngredients.splice(recipesIndex, 1);
+    setIngredientsAction(auxIngredients);
+  }
+
+  function stepsActions() {
+    const stepsToModify = [];
     recipeSteps.forEach((step) => {
       const newInStep = 'new' in step;
       const deleteInStep = 'delete' in step;
       const editInStep = 'edit' in step;
       if (newInStep && !deleteInStep) {
-        promises.push(createRecipeStep({
-          id: recipeId,
-          body: step.attributes,
-        }));
+        stepsToModify.push({ description: step.attributes.description });
       } else if (deleteInStep && !newInStep) {
-        promises.push(deleteRecipeStep({
-          recipeId,
-          stepId: step.id,
-        }));
+        stepsToModify.push({ id: step.id, _destroy: true });
       } else if (editInStep && !deleteInStep && !newInStep) {
-        promises.push(editRecipeStep({
-          recipeId,
-          stepId: step.id,
-          body: step.attributes,
-        }));
+        stepsToModify.push({ id: step.id, description: step.attributes.description, _destroy: false });
       }
     });
 
-    return promises;
+    return stepsToModify;
   }
 
   function ingredientsQuery() {
     const ingredientsList = [];
     ingredientsData.forEach((ingredient) => {
       if (ingredient.isNew) {
-        if (ingredient.action !== 'delete') {
+        if (!ingredient.isDeleted) {
           ingredientsList.push({
-            'ingredient_id': ingredient.ingredientId,
-            'ingredient_quantity': ingredient.recipeQuantity,
+            ingredientId: ingredient.id,
+            ingredientQuantity: ingredient.recipeQuantity,
           });
         }
       } else if (ingredient.isDeleted) {
@@ -154,8 +152,8 @@ function FormRecipe(props) {
       } else if (ingredient.isEdited) {
         ingredientsList.push({
           id: ingredient.recipeIngredientId,
-          'ingredient_id': ingredient.ingredientId,
-          'ingredient_quantity': ingredient.recipeQuantity,
+          ingredientId: ingredient.id,
+          ingredientQuantity: ingredient.recipeQuantity,
           _destroy: false,
         });
       }
@@ -172,15 +170,13 @@ function FormRecipe(props) {
     const body = {
       name: recipeName,
       portions: parseInt(recipePortions, 10),
-      // eslint-disable-next-line
-      cook_minutes: parseInt(recipeTime, 10),
-      // eslint-disable-next-line
-      recipe_ingredients_attributes: ingredientsQuery(),
+      cookMinutes: parseInt(recipeTime, 10),
+      recipeIngredientsAttributes: ingredientsQuery(),
+      stepsAttributes: stepsActions(),
     };
 
     if (recipe) {
       editRecipe({ body, id: recipe.id })
-        .then(() => Promise.all(stepsActions(recipe.id)))
         .then(() => {
           setLoadRecipes(true);
           navigation.navigate('Recetas', { recipe });
@@ -189,7 +185,6 @@ function FormRecipe(props) {
         });
     } else {
       createRecipe(body)
-        .then((resp) => Promise.all(stepsActions(resp.data.data.id)))
         .then(() => {
           setLoadRecipes(true);
           navigation.navigate('Recetas', { recipe });
@@ -252,6 +247,7 @@ function FormRecipe(props) {
             totalPrice={recipePrice}
             setTotalPrice={setRecipePrice}
             changeIngredientDataQuantity={changeIngredientDataQuantity}
+            deleteIngredient={deleteIngredient}
           />,
         )}
       </View>
