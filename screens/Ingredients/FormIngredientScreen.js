@@ -63,15 +63,23 @@ function FormIngredient({ navigation, route }) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  function checkValidValues() {
+
+    const validations = [
+    { error: !name.length, message: "Debes asignar un nombre al ingrediente" },
+    { error: price <= 0, message: "Debes ingresar un precio válido" },
+    { error: quantity <= 0, message: "Debes ingresar una cantidad válida" },
+    { error:  !measure.length, message: "Debes ingresar una medida al ingrediente" },
+    ];
+    const error = validations.find((validation) => (validation.error))
+    if ( error ) { alert(error.message); return false };
+
+    return true;}
+
   function handleSubmitNew() {
-    if (!name.length ||
-      price <= 0 ||
-      quantity <= 0 ||
-      !measure.length) {
-      if (!isFromSearch) {
-        return;
-      }
-    }
+
+    if (!checkValidValues()) return;
+
     const attributes = {
       name,
       sku: ingredient.attributes.sku,
@@ -101,12 +109,9 @@ function FormIngredient({ navigation, route }) {
   }
 
   function handleSubmitEdit() {
-    if (!name.length ||
-      price <= 0 ||
-      quantity <= 0 ||
-      !measure.length) {
-      return;
-    }
+
+    if (!checkValidValues()) return;
+
     const attributes = {
       name,
       sku: ingredient.attributes.sku,
