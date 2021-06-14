@@ -55,6 +55,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 5,
   },
+
+  emptyMessage: {
+    color: colors.kitchengramGray600,
+    textAlign: 'center',
+    paddingTop: 15,
+    fontSize: 16 },
 });
 
 export default styles;

@@ -16,7 +16,7 @@ import colors from '../../styles/appColors';
 
 function IndexProviders({ navigation }) {
   const getProviders = useStoreActions((actions) => actions.getProviders);
-
+  const [mounted, setMounted] = useState(false);
   const [providers, setProviders] = useState([]);
 
   React.useLayoutEffect(() => {
@@ -41,6 +41,7 @@ function IndexProviders({ navigation }) {
     getProviders()
       .then((res) => {
         setProviders(res);
+        setMounted(true);
       })
       .catch(() => {
       });
@@ -89,8 +90,8 @@ function IndexProviders({ navigation }) {
     );
   }
 
-  return (
-    <Text style={{ color: colors.kitchengramGray600, textAlign: 'center', paddingTop: 15, fontSize: 16 }}>
+  return (mounted) && (
+    <Text style={styles.emptyMessage}>
       Aún no tienes proveedores.
     </Text>
   );

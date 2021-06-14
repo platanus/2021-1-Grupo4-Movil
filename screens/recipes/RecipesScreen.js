@@ -7,7 +7,7 @@ import { useStoreActions, useStoreState } from 'easy-peasy';
 import { Icon } from 'react-native-elements';
 import colors from '../../styles/appColors';
 import RecipeRow from '../../components/recipeRow';
-import styles from '../../styles/Recipes';
+import styles from '../../styles/Recipes/index';
 
 function Recipes(props) {
   const { navigation } = props;
@@ -17,7 +17,7 @@ function Recipes(props) {
   const [newRecipe, setNewRecipe] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const deletedRecipe = useStoreState((state) => state.recipes.delete);
-
+  const [mounted, setMounted] = useState(false);
   const loadRecipes = useStoreState((state) => state.recipes.load);
   const setLoadRecipes = useStoreActions((actions) => actions.setLoadRecipes);
 
@@ -26,6 +26,7 @@ function Recipes(props) {
       getRecipes()
         .then((res) => {
           setRecipes(res);
+          setMounted(true);
         })
         .catch((err) => {
           setShowError(true);
@@ -60,8 +61,8 @@ function Recipes(props) {
     );
   }
 
-  return (
-    <Text style={{ color: colors.kitchengramGray600, textAlign: 'center', paddingTop: 15, fontSize: 16 }}>
+  return mounted && (
+    <Text style={styles.emptyMessage}>
       Aún no tienes recetas.
     </Text>
   );

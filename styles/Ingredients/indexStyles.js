@@ -59,6 +59,12 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
 
+  emptyMessage: {
+    color: colors.kitchengramGray600,
+    textAlign: 'center',
+    paddingTop: 15,
+    fontSize: 16 },
+
   price: {
     fontSize: 24,
     color: colors.kitchengramYellow500,

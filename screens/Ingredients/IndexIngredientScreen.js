@@ -19,11 +19,13 @@ function IndexIngredients({ navigation }) {
 
   const [ingredients, setIngredients] = useState([]);
   const evenNumber = 2;
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     getIngredients()
       .then((res) => {
         setIngredients(res);
+        setMounted(true);
       })
       .catch(() => {
       });
@@ -86,9 +88,9 @@ function IndexIngredients({ navigation }) {
     );
   }
 
-  return (
-    <Text style={{ color: colors.kitchengramGray600, textAlign: 'center', paddingTop: 15, fontSize: 16 }}>
-      Aún no tienes Ingredientes.
+  return (mounted) && (
+    <Text style={styles.emptyMessage}>
+      Aún no tienes ingredientes.
     </Text>
   );
 }

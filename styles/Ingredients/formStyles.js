@@ -2,14 +2,6 @@ import { StyleSheet } from 'react-native';
 import colors from '../appColors';
 
 const styles = StyleSheet.create({
-
-  keyboardAvoiding: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    backgroundColor: colors.kitchengramWhite,
-  },
-
   container: {
     paddingHorizontal: '5%',
     backgroundColor: colors.kitchengramWhite,
@@ -73,7 +65,7 @@ const styles = StyleSheet.create({
 
   buttonsContainer: {
     paddingHorizontal: '5%',
-    height: '12%',
+    height: 65,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',

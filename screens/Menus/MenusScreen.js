@@ -8,7 +8,6 @@ import { Text, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MenuRow from '../../components/menuRow';
 import styles from '../../styles/Menus/indexStyles';
-import colors from '../../styles/appColors';
 
 function Menus({ navigation }) {
   const getMenus = useStoreActions((actions) => actions.getMenus);
@@ -81,7 +80,7 @@ function Menus({ navigation }) {
   }
 
   return (mounted) && (
-    <Text style={{ color: colors.kitchengramGray600, textAlign: 'center', paddingTop: 15, fontSize: 16 }}>
+    <Text style={styles.emptyMessage}>
       Aún no tienes menús.
     </Text>
   );

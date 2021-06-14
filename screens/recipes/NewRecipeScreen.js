@@ -1,12 +1,13 @@
 import { useStoreActions, useStoreState } from 'easy-peasy';
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Text, TextInput } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import styles from '../../styles/Recipes/newRecipe';
 import RecipeSteps from './RecipeStepsScreen';
 import IngredientRow from '../../components/recipeEditIngredientRow';
 import calculateRecipePrice from '../../utils/calculateRecipePrice';
 import formatMoney from '../../utils/formatMoney';
+import KeyboardAvoidWrapper from '../../components/KeyboardAvoidWrapper';
 
 /* eslint max-statements: [2, 30] */
 function FormRecipe(props) {
@@ -199,11 +200,8 @@ function FormRecipe(props) {
   }
 
   return (
-    <KeyboardAvoidingView style={styles.keyboardAvoiding}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      // eslint-disable-next-line no-magic-numbers
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 65 : 0}>
-      <ScrollView style={styles.mainContainer}>
+    <KeyboardAvoidWrapper>
+      <View style={styles.mainContainer}>
         <View style={styles.container}>
           <Text style={styles.sectionTitleText}>Datos básicos</Text>
           <View style={styles.inlineInputs}>
@@ -290,8 +288,8 @@ function FormRecipe(props) {
             <Text style={styles.newRecipeButtonText}>{recipe ? 'Editar receta' : 'Crear receta'}</Text>
           </TouchableOpacity>
         </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+      </View>
+    </KeyboardAvoidWrapper>
   );
 }
 
