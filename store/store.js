@@ -171,9 +171,10 @@ const storeThunks = {
   }),
   createRecipe: thunk(async (actions, payload) => {
     const recipe = recipesApi.createRecipe(payload)
-      .then((resp) => resp)
+      .then((resp) => resp.data.data)
       .catch((err) => {
         actions.setCreateRecipeError(err.response.data.message);
+        throw err;
       });
 
     return recipe;

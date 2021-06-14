@@ -50,21 +50,21 @@ function Recipe(props) {
       id: ingredient.id,
       name: ingredient.attributes.ingredient.name,
       price: ingredient.attributes.ingredient.price,
-      currentPrice: ingredient.attributes.ingredient.price * ingredient.attributes.ingredient_quantity /
+      currentPrice: ingredient.attributes.ingredient.price * ingredient.attributes.ingredientQuantity /
         ingredient.attributes.ingredient.quantity,
       unitQuantity: ingredient.attributes.ingredient.quantity,
-      recipeQuantity: ingredient.attributes.ingredient_quantity,
+      recipeQuantity: ingredient.attributes.ingredientQuantity,
       measure: ingredient.attributes.ingredient.measure,
     };
   }
 
   useEffect(() => {
     setIngredients(
-      recipe.attributes.recipe_ingredients.data.map(
+      recipe.attributes.recipeIngredients.data.map(
         (ingredient) => ingredientInfo(ingredient),
       ),
     );
-  }, [recipe.attributes.recipe_ingredients]);
+  }, [recipe.attributes.recipeIngredients]);
 
   return (
     <ScrollView style={styles.mainContainer} ref={scrollRef}>
@@ -91,7 +91,7 @@ function Recipe(props) {
         <View style={styles.recipeInfoRow}>
           <Icon name='timer' color={colors.kitchengramGray600} size={25} />
           <Text style={styles.infoText}>
-            {minutesToHoursText(recipe.attributes.cook_minutes)}
+            {minutesToHoursText(recipe.attributes.cookMinutes)}
           </Text>
         </View>
         <View style={styles.recipeInfoRow}>

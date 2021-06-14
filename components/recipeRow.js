@@ -33,7 +33,7 @@ function RecipeRow(props) {
         </View>
         <View style={styles.recipeInfo}>
           <Icon name='timer' color={colors.kitchengramGray400} size={18} />
-          <Text style = {styles.subtitle}>{recipe.attributes.cook_minutes} minutos</Text>
+          <Text style = {styles.subtitle}>{recipe.attributes.cookMinutes} minutos</Text>
         </View>
       </View>
       <View style={styles.right}>
