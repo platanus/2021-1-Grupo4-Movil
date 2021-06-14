@@ -7,7 +7,7 @@ import RecipeRow from '../../components/menuSelectRecipesRow';
 import calculateRecipePrice from '../../utils/calculateRecipePrice';
 import formatMoney from '../../utils/formatMoney';
 
-/* eslint max-statements: [2, 25] */
+/* eslint max-statements: [2, 20] */
 function MenuForm({ navigation, route }) {
   const menu = route.params.menu ? route.params.menu : null;
 
@@ -24,14 +24,6 @@ function MenuForm({ navigation, route }) {
     menu.attributes.portions.toString() : '');
   const [menuTotalPrice, setMenuTotalPrice] = useState(0);
   const [recipes, setRecipes] = useState([]);
-
-  function calculatePrice() {
-    let price = 0;
-    recipes.forEach((recipe) => {
-      if (recipe.selected) price += recipe.quantity * recipe.price;
-    });
-    setMenuTotalPrice(price);
-  }
 
   useEffect(() => {
     if (menu) {
@@ -58,7 +50,11 @@ function MenuForm({ navigation, route }) {
   }, [selectedRecipes]);
 
   useEffect(() => {
-    calculatePrice();
+    let price = 0;
+    recipes.forEach((recipe) => {
+      if (recipe.selected) price += recipe.quantity * recipe.price;
+    });
+    setMenuTotalPrice(price);
   }, [recipes]);
 
   function handleRecipeChange(id, newRecipeAttributes) {
@@ -132,6 +128,8 @@ function MenuForm({ navigation, route }) {
             onChangeText={setMenuName}/>
           <Text style={styles.subtitle}>Porciones</Text>
           <TextInput
+            keyboardType="number-pad"
+            returnKeyType='done'
             style={styles.textInput}
             value={menuPortions}
             onChangeText={setMenuPortions}/>

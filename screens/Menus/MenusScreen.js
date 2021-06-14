@@ -28,13 +28,11 @@ function Menus({ navigation }) {
           onPress={() => navigation.navigate('Nuevo Menu', {
             isNew: true,
             menus,
-            setGlobalMenus,
           })}
         />
       ),
       headerTitle: 'Menus',
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigation, menus]);
 
   useEffect(() => {
@@ -63,7 +61,6 @@ function Menus({ navigation }) {
           onPress={() => navigation.navigate('Nuevo Menu', {
             isNew: true,
             menus,
-            setMenus,
           })}
         />
       ),
@@ -81,7 +78,6 @@ function Menus({ navigation }) {
             navigation={navigation}
             menu={menu}
             menus={menus}
-            setMenus={setMenus}
           />
         ))}
       </ScrollView>);

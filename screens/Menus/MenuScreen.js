@@ -25,12 +25,12 @@ function Menu(props) {
   } = props;
 
   const deleteMenu = useStoreActions((actions) => actions.deleteMenu);
+  const setGlobalMenus = useStoreActions((actions) => actions.setMenus);
 
   const {
     menu,
     menuPrice,
     menus,
-    setMenus,
   } = route.params;
 
   const [showMenuOptions, setShowMenuOptions] = useState(false);
@@ -58,7 +58,7 @@ function Menu(props) {
           menuVisible={setShowMenuOptions}
           element={{ menu, id: menu.id }}
           elementsArray={menus}
-          setElementsArray={setMenus}
+          setElementsArray={setGlobalMenus}
           editNavigation={'Editar Menu'}
           indexNavigation={'Menus'}
           deleteApi={deleteMenu}

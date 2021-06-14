@@ -13,9 +13,8 @@ function SelectRecipeRow({ select, recipe, handleRecipeChange }) {
   }
 
   function changeRecipeQtyTo() {
-    const newQuantity = Number(recipe.quantityText);
-    if (newQuantity >= 0) handleRecipeChange({ quantity: newQuantity });
-    else handleRecipeChange({ quantityText: '0' });
+    if (!recipe.quantityText || Number(recipe.quantityText) < 0) handleRecipeChange({ quantityText: '0', quantity: 0 });
+    else handleRecipeChange({ quantity: Number(recipe.quantityText) });
   }
 
   return (
@@ -42,6 +41,8 @@ function SelectRecipeRow({ select, recipe, handleRecipeChange }) {
               value={recipe.quantityText}
               onChangeText={(newQty) => handleRecipeChange({ quantityText: newQty })}
               onEndEditing={changeRecipeQtyTo}
+              keyboardType="number-pad"
+              returnKeyType='done'
             />
             <TouchableOpacity
               style={styles.recipeMoreAndLessButton}
