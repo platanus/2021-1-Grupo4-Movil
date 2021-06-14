@@ -4,7 +4,8 @@ import { View, Text, TextInput, ScrollView } from 'react-native'; // ActionSheet
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { CheckBox } from 'react-native-elements';
 import styles from '../../styles/Recipes/ingredientRecipe';
-import { Slider } from 'react-native';
+import colors from '../../styles/appColors';
+import formatMoney from '../../utils/formatMoney';
 
 /* eslint max-statements: [2, 20] */
 function RecipeIngredients(props) {
@@ -25,9 +26,9 @@ function RecipeIngredients(props) {
         const allIds = resp.map((ingred) => ingred.id.toString());
         const currentIds = actualSelection.map((i) => i.id.toString());
         setSelecteds(
-          currentIds.map(id => allIds.indexOf(id))
-        )
-      })
+          currentIds.map(id => allIds.indexOf(id)),
+        );
+      });
   }, []);
 
   function getIngredientsFromSearch() {
@@ -65,10 +66,10 @@ function RecipeIngredients(props) {
       if (!includedCondition && indexFoundAndEqualCondition) {
         deleteIngredientsIds.push(ingred.id);
       }
-    })
+    });
     setDeletedIngredient(deleteIngredientsIds);
-    let ingredientsForRecipe = ingredients.filter((_ingredient, index) => selecteds.includes(index));
-    setIngredientsForRecipe(ingredientsForRecipe)
+    const ingredientsForRecipe = ingredients.filter((_ingredient, index) => selecteds.includes(index));
+    setIngredientsForRecipe(ingredientsForRecipe);
     const backRoute = isNewRecipe === null ? 'Crear receta' : 'Editar Receta';
     navigation.navigate(backRoute);
   }
@@ -76,47 +77,48 @@ function RecipeIngredients(props) {
   const shownIngredients = getIngredientsFromSearch();
 
   return (
-    <>
-      <View style={styles.container}>
-        <View style={styles.recipeSearcherRow}>
-          <Text style={styles.label}>Nombre del ingrediente</Text>
-          <TextInput
-            style={styles.searcherInput}
-            value={currentSearch}
-            onChangeText={setCurrentSearch}/>
-        </View>
+    <View style={styles.container}>
+      <View style={styles.recipeSearcherRow}>
+        <Text style={styles.label}>Nombre del ingrediente</Text>
+        <TextInput
+          style={styles.searcherInput}
+          value={currentSearch}
+          onChangeText={setCurrentSearch}/>
       </View>
-      <View style={styles.container}>
-        <ScrollView >
-          {
-            shownIngredients.map((ing, i) => (
-              <View key={i} style={styles.ingredientRow}>
-                <View style={styles.ingredientData} key={i}>
-                  <CheckBox
-                    checked={selecteds.includes(i)}
-                    onPress={() => addIngredientChecked(i)}
-                    style={styles.checkbox}
-                  />
-                  <Text style={styles.name}>
-                    {ing.attributes.name}
-                  </Text>
-                </View>
-                <View style={styles.ingredientPrice}>
-                  <Text style={styles.price}>
-                    {`$${ing.attributes.price / ing.attributes.quantity} / ${ing.attributes.measure}`}
-                  </Text>
-                </View>
+      <ScrollView style={styles.scroll}>
+        {
+          shownIngredients.map((ing, i) => (
+            <View key={i} style={styles.ingredientRow}>
+              <View style={styles.ingredientData} key={i}>
+                <CheckBox
+                  checked={selecteds.includes(i)}
+                  onPress={() => addIngredientChecked(i)}
+                  style={styles.checkbox}
+                  checkedColor={colors.kitchengramYellow500}
+                  checkedIcon = 'check-square'
+                  uncheckedColor={colors.kitchengramYellow500}
+                  containerStyle= { styles.checkbox }
+                  size={30}
+                />
+                <Text style={styles.name}>
+                  {ing.attributes.name}
+                </Text>
               </View>
-            ),
-            )}
-        </ScrollView>
-        <TouchableOpacity style={styles.submitIngredients} onPress={saveSelectedIngredients}>
-          <Text style={styles.saveButton}>
+              <View style={styles.ingredientPrice}>
+                <Text style={styles.price}>
+                  {`${formatMoney(ing.attributes.price / ing.attributes.quantity, '$')} / ${ing.attributes.measure}`}
+                </Text>
+              </View>
+            </View>
+          ),
+          )}
+      </ScrollView>
+      <TouchableOpacity style={styles.submitIngredients} onPress={saveSelectedIngredients}>
+        <Text style={styles.saveButton}>
             Guardar cambios
-          </Text>
-        </TouchableOpacity>
-      </View>
-    </>
+        </Text>
+      </TouchableOpacity>
+    </View>
   );
 }
 

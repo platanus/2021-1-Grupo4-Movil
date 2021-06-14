@@ -8,7 +8,7 @@ import HomeTabs from '../navigators/bottomNavigation';
 
 function Main() {
   const currentUser = useStoreState((state) => state.currentUser);
-  const [loginView, setLoginView] = useState(true);
+  const loginView = useStoreState((state) => state.loginView);
 
   if (currentUser) {
     return (
@@ -20,12 +20,12 @@ function Main() {
 
   if (loginView) {
     return (
-      <LogIn setLoginView={ setLoginView } />
+      <LogIn />
     );
   }
 
   return (
-    <SignUp setLoginView ={ setLoginView }/>
+    <SignUp />
   );
 }
 

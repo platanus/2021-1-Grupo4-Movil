@@ -2,12 +2,11 @@ import { useStoreActions, useStoreState } from 'easy-peasy';
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, TextInput } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import colors from '../../styles/appColors';
 import styles from '../../styles/Recipes/newRecipe';
 import RecipeSteps from './RecipeStepsScreen';
-// import RecipeIngredients from './RecipeIngredientsScreen';
 import IngredientRow from '../../components/recipeEditIngredientRow';
 import calculateRecipePrice from '../../utils/calculateRecipePrice';
+import formatMoney from '../../utils/formatMoney';
 
 /* eslint max-statements: [2, 30] */
 function FormRecipe(props) {
@@ -213,18 +212,20 @@ function FormRecipe(props) {
           </View>
         </View>
         <View style={styles.inlineInputs}>
-          <View style={styles.recipeInfoRow}>
+          <View style={styles.recipeInfoRowHalf}>
             <Text style={styles.label}>Porciones</Text>
             <TextInput
               keyboardType="number-pad"
+              returnKeyType='done'
               style={styles.sectionTextInput}
               value={recipePortions}
               onChangeText={setRecipePortions}/>
           </View>
-          <View style={styles.recipeInfoRow}>
-            <Text style={styles.label}>Tiempo de preparación</Text>
+          <View style={styles.recipeInfoRowHalf}>
+            <Text style={styles.label}>Tiempo (minutos)</Text>
             <TextInput
               keyboardType="number-pad"
+              returnKeyType='done'
               style={styles.sectionTextInput}
               value={recipeTime}
               onChangeText={setRecipeTime}/>
@@ -238,7 +239,7 @@ function FormRecipe(props) {
           </View>
           <View style={styles.recipeInfoRow}>
             <TouchableOpacity style={styles.ingredientButton} onPress={searchIngredients}>
-              <Text>Buscar ingredientes</Text>
+              <Text style={styles.ingredientButtonText}>Buscar ingredientes</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -255,13 +256,23 @@ function FormRecipe(props) {
         )}
       </View>
       <View style={styles.ingredientsContainer}>
-        <View style={ styles.ingredientTextBox }>
+        <View style={ styles.totalCostTextBox }>
           <View style={styles.sectionQuantity}>
-            <Text>Costo total{'\n'}Costo Unitario</Text>
+            <Text style={styles.totalCostText}>Costo por porción</Text>
           </View>
           <View style={styles.sectionPrice}>
-            <Text style={ { ...styles.ingredientText, color: colors.purplePrice } }>
-              ${Math.round(recipePrice)} {'\n'}${Math.round(recipePrice / Number(recipePortions))} c/u
+            <Text style={styles.totalCostPrice}>
+              {formatMoney(Math.round(recipePrice / Number(recipePortions)), '$')}
+            </Text>
+          </View>
+        </View>
+        <View style={ styles.totalCostTextBox }>
+          <View style={styles.sectionQuantity}>
+            <Text style={styles.totalCostText}>Costo total</Text>
+          </View>
+          <View style={styles.sectionPrice}>
+            <Text style={styles.totalCostPrice}>
+              {formatMoney(Math.round(recipePrice), '$')}
             </Text>
           </View>
         </View>

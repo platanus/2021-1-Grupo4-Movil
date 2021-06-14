@@ -6,7 +6,7 @@ import {
   Alert,
 } from 'react-native';
 
-import styles from '../styles/showMenuOptionsStyles';
+import styles from '../styles/Recipes/singleRecipe';
 
 function ShowMenuOptions(props) {
   const {
@@ -41,20 +41,22 @@ function ShowMenuOptions(props) {
   }
 
   return (
+
     <View>
-      <TouchableOpacity style={styles.menuOption}
+      <TouchableOpacity style={[styles.menuOption, styles.edit]}
         onPress={() => navigation.navigate(editNavigation, element)}>
-        <Text style={styles.menuText}>Editar</Text>
+        <Text style={styles.edit}>Editar</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.menuOption}
+      <TouchableOpacity style={[styles.menuOption, styles.delete]}
         onPress={() => Alert.alert('¿Estás seguro?', 'Esta acción es irreversible',
-          [{ text: 'No', onPress: () => { menuVisible(false); }, style: 'cancel' },
-            { text: 'Si', onPress: () => {
+          [{ text: 'Cancelar', onPress: () => { menuVisible(false); }, style: 'default' },
+            { text: 'Borrar', onPress: () => {
               deleteElement();
-            } }],
+              navigation.navigate(editNavigation, element);
+            }, style: 'destructive' }],
         )
         }>
-        <Text style={styles.menuText}>Eliminar</Text>
+        <Text style={styles.delete}>Borrar</Text>
       </TouchableOpacity>
     </View>
   );

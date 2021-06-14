@@ -11,6 +11,7 @@ const storeState = {
   loginError: '',
   signUpError: '',
   ingredientsError: '',
+  loginView: true,
   recipes: {
     getErrors: '',
     createErrors: '',
@@ -19,6 +20,9 @@ const storeState = {
     load: true,
     currentSelectedIngredients: [],
     currentDeletedIngredients: [],
+  },
+  menus: {
+    selectedRecipes: [],
   },
   menusError: '',
   providersError: '',
@@ -38,6 +42,9 @@ const storeActions = {
   }),
   setSignUpError: action((state, payload) => {
     state.signUpError = payload;
+  }),
+  setLoginView: action((state, payload) => {
+    state.loginView = payload;
   }),
   setUserAndApiHeaders: action((state, payload) => {
     if (payload.status === apiUtils.statusCodes.ok || payload.status === apiUtils.statusCodes.created) {
@@ -72,6 +79,9 @@ const storeActions = {
   setmenusError: action((state, payload) => {
     state.menusError = payload;
   }),
+  setMenuSelectedRecipes: action((state, payload) => {
+    state.menus.selectedRecipes = payload;
+  }),
   setProvidersError: action((state, payload) => {
     state.providersError = payload;
   }),
@@ -90,6 +100,8 @@ const storeThunks = {
     sessionsApi.login(payload)
       .then((resp) => {
         actions.setUserAndApiHeaders(resp);
+        actions.setLoginError('');
+        actions.setLoginView(true);
       }).catch((error) => {
         actions.setLoginError(error.response.data.message);
       });
@@ -98,6 +110,8 @@ const storeThunks = {
     sessionsApi.signUp(payload)
       .then((resp) => {
         actions.setUserAndApiHeaders(resp);
+        actions.setSignUpError('');
+        actions.setLoginView(true);
       }).catch((error) => {
         actions.setSignUpError(error.response.data.message);
       });
@@ -232,6 +246,26 @@ const storeThunks = {
         actions.setMenusError(err);
         throw err;
       });
+  }),
+  createMenu: thunk(async (actions, payload) => {
+    const menu = menusApi.createMenu(payload)
+      .then((resp) => resp.data)
+      .catch((err) => {
+        actions.setMenusError(err.response.data.message);
+        throw err;
+      });
+
+    return menu;
+  }),
+  editMenu: thunk(async (actions, payload) => {
+    const menu = menusApi.editMenu(payload)
+      .then((resp) => resp.data)
+      .catch((err) => {
+        actions.setMenusError(err.response.data.message);
+        throw err;
+      });
+
+    return menu;
   }),
   getProviders: thunk(async (actions, payload) => {
     const providers = providersApi.getProviders(payload)

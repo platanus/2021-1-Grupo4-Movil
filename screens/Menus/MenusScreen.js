@@ -9,13 +9,29 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import MenuRow from '../../components/menuRow';
 import styles from '../../styles/Menus/indexStyles';
 
-function Menus(props) {
-  const { navigation } = props;
-
+function Menus({ navigation }) {
   const getMenus = useStoreActions((actions) => actions.getMenus);
 
   const [mounted, setMounted] = useState(false);
   const [menus, setMenus] = useState([]);
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      // eslint-disable-next-line react/display-name
+      headerRight: () => (
+        <Icon name='add'
+          size={30}
+          style={styles.navIcon}
+          onPress={() => navigation.navigate('Nuevo Menu', {
+            isNew: true,
+            menus,
+            setMenus,
+          })}
+        />
+      ),
+      headerTitle: 'Menus',
+    });
+  }, [navigation, menus]);
 
   useEffect(() => {
     getMenus()

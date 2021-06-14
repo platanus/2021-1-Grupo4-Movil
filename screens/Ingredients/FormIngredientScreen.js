@@ -77,11 +77,13 @@ function FormIngredient({ navigation, route }) {
       sku: ingredient.attributes.sku,
       price,
       currency: ingredient.attributes.currency,
+
       quantity,
       measure,
       // eslint-disable-next-line
       provider_name: providerName,
       // eslint-disable-next-line
+
     };
     ingredient.attributes = attributes;
     const body = {

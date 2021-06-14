@@ -3,6 +3,7 @@ import { View, Text, TextInput } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Icon } from 'react-native-elements';
 import styles from '../../styles/Recipes/newRecipe';
+import colors from '../../styles/appColors';
 
 function RecipeStep({ recipeSteps, index, edit, options, setRecipeSteps, setEditStepIndex, setShowMenu, number }) {
   const [currentStepText, setCurrentStepText] = useState(recipeSteps[index].attributes.description);
@@ -33,27 +34,27 @@ function RecipeStep({ recipeSteps, index, edit, options, setRecipeSteps, setEdit
 
   if (!edit) {
     return (
-      <>
+      <View style={styles.containerWithBorder}>
         <View style={styles.stepBox} key={index}>
           <Text style={styles.stepNumber}>{number + 1}</Text>
           <Text style={styles.stepText}>{currentStepText}</Text>
           <Icon name='more-vert'
-            size={30}
-            style={styles.moreVert}
+            size={22}
+            color={colors.kitchengramGray600}
             onPress={(options ? () => setShowMenu(null) : () => setShowMenu(index))}/>
         </View>
         { options ?
           <>
-            <TouchableOpacity style={styles.stepMenuOption}
+            <TouchableOpacity style={[styles.stepMenuOption, styles.stepEdit]}
               onPress={openEditView}>
               <Text>Editar</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.stepMenuOption}
+            <TouchableOpacity style={[styles.stepMenuOption, styles.stepDelete]}
               onPress={deleteStep}>
               <Text>Eliminar</Text>
             </TouchableOpacity>
           </> : null }
-      </>
+      </View>
     );
   }
 
@@ -63,13 +64,14 @@ function RecipeStep({ recipeSteps, index, edit, options, setRecipeSteps, setEdit
         style={ styles.newStepText }
         value={currentStepText}
         onChangeText={setCurrentStepText}
+        multiline={true}
       />
       <View style={ styles.sectionEditStepButtons }>
         <TouchableOpacity style={styles.stepCancelEditButton} onPress={cancelEditStep}>
-          <Text>Cancelar</Text>
+          <Text style={styles.cancelButtonText}>Cancelar</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.stepEditButton} onPress={editStep}>
-          <Text>Editar</Text>
+          <Text style={styles.editButtonText}>Editar</Text>
         </TouchableOpacity>
       </View>
     </>
@@ -99,10 +101,12 @@ function NewStep({ recipeSteps, setRecipeSteps, stepsCount, setStepsCount }) {
         placeholder="Nuevo paso"
         value={newStepDescription}
         onChangeText={setNewStepDescription}
+        multiline={true}
+        returnKeyType='done'
       />
       <View style={ styles.sectionNewStep }>
         <TouchableOpacity style={styles.stepButton} onPress={addStep}>
-          <Text>Agregar paso</Text>
+          <Text style={styles.ingredientButtonText}>Agregar paso</Text>
         </TouchableOpacity>
       </View>
     </>
