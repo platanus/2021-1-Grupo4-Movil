@@ -1,6 +1,7 @@
-import { useStoreActions, useStoreState } from 'easy-peasy';
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, TextInput } from 'react-native';
+import { useStoreActions, useStoreState } from 'easy-peasy';
+import { decamelizeKeys } from 'humps';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import styles from '../../styles/Recipes/formRecipe';
 import RecipeSteps from './RecipeStepsScreen';
@@ -45,9 +46,12 @@ function FormRecipe(props) {
     if (recipe) {
       const auxIngredients = [];
       const auxRecipeIngredients = [];
-      route.params.recipe.attributes.recipe_ingredients.data.forEach((ingredient) => {
+      recipe.attributes.recipe_ingredients.data.forEach((ingredient) => {
+        console.log('-------------------------');
+        console.log(ingredient);
+        console.log(ingredient.id);
+        console.log('-------------------------');
         auxIngredients.push({
-          id: ingredient.attributes.ingredient.id,
           attributes: ingredient.attributes.ingredient,
         });
         auxRecipeIngredients.push({
@@ -71,6 +75,8 @@ function FormRecipe(props) {
   }, []);
 
   useEffect(() => {
+    console.log('ingredientsData', ingredientsData);
+    console.log('selectedIngredients', selectedIngredients);
     if (!isStarting) {
       const auxIngredients = [];
       let price = 0;
@@ -158,12 +164,12 @@ function FormRecipe(props) {
       } else if (ingredient.isDeleted) {
         ingredientsList.push({ id: ingredient.recipeIngredientId, _destroy: true });
       } else if (ingredient.isEdited) {
-        ingredientsList.push({
+        ingredientsList.push(decamelizeKeys({
           id: ingredient.recipeIngredientId,
           ingredientId: ingredient.id,
           ingredientQuantity: ingredient.recipeQuantity,
           _destroy: false,
-        });
+        }));
       }
     });
 
@@ -179,6 +185,7 @@ function FormRecipe(props) {
   }
 
   function handleSubmit() {
+    console.log('Sending', ingredientsQuery());
     const body = {
       name: recipeName,
       portions: parseInt(recipePortions, 10),

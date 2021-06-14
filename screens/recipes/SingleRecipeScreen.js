@@ -78,6 +78,7 @@ function Recipe(props) {
           editNavigation={'Editar Receta'}
           indexNavigation={'Recetas'}
           deleteApi={deleteRecipe}
+          isRecipe
         />
       )}
       <View style={styles.recipeInfoContainer}>
