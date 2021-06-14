@@ -64,7 +64,7 @@ function Recipes(props) {
 
   return (
     <>
-      <Text style={{color: colors.kitchengramGray600, textAlign: 'center', paddingTop:15,fontSize: 16}}>
+      <Text style={{ color: colors.kitchengramGray600, textAlign: 'center', paddingTop: 15, fontSize: 16 }}>
         Aún no tienes recetas.
       </Text>
     </>

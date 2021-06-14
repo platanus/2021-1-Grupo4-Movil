@@ -68,7 +68,7 @@ function Recipe(props) {
         <ShowMenuOptions
           navigation={navigation}
           menuVisible={setShowMenu}
-          element={recipe}
+          element={{ recipe, id: recipe.id }}
           editNavigation={'Editar Receta'}
           indexNavigation={'Recetas'}
           deleteApi={deleteRecipe}
