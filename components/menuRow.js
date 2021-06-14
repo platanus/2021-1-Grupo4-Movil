@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { useEffect, useState } from 'react';
 import {
   View,
@@ -47,21 +48,21 @@ function MenuRow(props) {
         <View style={styles.menuInfo}>
           <Icon
             name='people'
-            color={colors.grayIcon}
-            size={23}
+            color={colors.kitchengramGray400}
+            size={18}
           />
           <Text style={styles.subtitle}>
-            {`${menu.attributes.portions} porciones`}
+            {`${menu.attributes.portions} ${(menu.attributes.portions === 1 ? 'porción' : 'porciones')}`}
           </Text>
         </View>
         <View style={styles.menuInfo}>
           <Icon
             name='restaurant-menu'
-            color={colors.grayIcon}
-            size={23}
+            color={colors.kitchengramGray400}
+            size={18}
           />
           <Text style={styles.subtitle}>
-            {`${menu.attributes.menu_recipes.data.length} recetas`}
+            {`${menu.attributes.menu_recipes.data.length} ${(menu.attributes.menu_recipes.data.length === 1 ? 'receta' : 'recetas')}`}
           </Text>
         </View>
       </View>
@@ -69,6 +70,7 @@ function MenuRow(props) {
         <Text style={styles.price}>
           {formatMoney(menuPrice, '$ ', '')}
         </Text>
+        <Icon name='chevron-right' color={colors.kitchengramGray400} size={20} />
       </View>
     </TouchableOpacity>
   );
