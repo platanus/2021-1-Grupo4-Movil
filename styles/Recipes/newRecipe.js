@@ -174,6 +174,11 @@ const styles = StyleSheet.create({
     marginRight: 2,
   },
 
+  singleIngredientPriceText: {
+    fontSize: 16,
+    paddingHorizontal: 20,
+  },
+
   totalCostText: {
     fontSize: 18,
     paddingTop: 10,

@@ -35,10 +35,12 @@ function IngredientRow(props) {
             onEndEditing={changeQuantity}
           />
           <Text style={styles.ingredientText}>{ingredient.measure}. </Text>
-          <Text style={styles.ingredientText}> {ingredient.name}</Text>
+          <View style={{ flex: 1 }}>
+            <Text> {ingredient.name}</Text>
+          </View>
         </View>
         <View style={styles.sectionPrice}>
-          <Text style={styles.ingredientText}>{formatMoney(Math.round(currentPrice), '$')}</Text>
+          <Text style={styles.singleIngredientPriceText}>{formatMoney(Math.round(currentPrice), '$')}</Text>
         </View>
         <View>
           <Icon name='close' onPress={() => deleteIngredient(ingredient.id)} size={20} />
