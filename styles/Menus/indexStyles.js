@@ -2,6 +2,10 @@ import { StyleSheet } from 'react-native';
 import colors from '../appColors';
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: colors.kitchengramWhite,
+    flex: 1,
+  },
   menuRow: {
     flex: 1.5,
     paddingTop: 20,

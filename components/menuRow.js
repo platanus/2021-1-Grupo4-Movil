@@ -52,7 +52,7 @@ function MenuRow(props) {
             size={18}
           />
           <Text style={styles.subtitle}>
-            {`${menu.attributes.portions} ${(menu.attributes.portions === 1 ? 'porcion' : 'porciones')}`}
+            {`${menu.attributes.portions} ${(menu.attributes.portions === 1 ? 'porción' : 'porciones')}`}
           </Text>
         </View>
         <View style={styles.menuInfo}>

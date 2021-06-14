@@ -9,6 +9,10 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     flex: 1,
   },
+  container2: {
+    backgroundColor: colors.kitchengramWhite,
+    flex: 1,
+  },
   left: {
     width: '60%',
     height: '100%',

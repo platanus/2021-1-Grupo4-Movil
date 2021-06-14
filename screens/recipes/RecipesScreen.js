@@ -2,7 +2,7 @@
 /* eslint-disable max-statements */
 
 import React, { useEffect, useState } from 'react';
-import { Text, ScrollView, TouchableOpacity } from 'react-native';
+import { Text, ScrollView, View } from 'react-native';
 import { useStoreActions, useStoreState } from 'easy-peasy';
 import { Icon } from 'react-native-elements';
 import colors from '../../styles/appColors';
@@ -52,11 +52,13 @@ function Recipes(props) {
 
   if (recipes.length) {
     return (
-      <ScrollView>
-        {recipes.map((recipe) => (
-          <RecipeRow key={recipe.id} recipe={recipe} navigation={navigation}/>
-        ))}
-      </ScrollView>
+      <View style={styles.container2}>
+        <ScrollView>
+          {recipes.map((recipe) => (
+            <RecipeRow key={recipe.id} recipe={recipe} navigation={navigation}/>
+          ))}
+        </ScrollView>
+      </View>
     );
   }
 
