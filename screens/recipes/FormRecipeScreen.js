@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, TextInput } from 'react-native';
 import { useStoreActions, useStoreState } from 'easy-peasy';
-import { decamelizeKeys } from 'humps';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import styles from '../../styles/Recipes/formRecipe';
 import RecipeSteps from './RecipeStepsScreen';
@@ -21,13 +20,13 @@ function FormRecipe(props) {
     setRecipes,
   } = route.params;
 
-  const [recipeName, setRecipeName] = useState(recipe.attributes.name ? recipe.attributes.name : '');
-  const [recipeTime, setRecipeTime] = useState(recipe.attributes.cookMinutes ?
+  const [recipeName, setRecipeName] = useState(recipe && recipe.attributes.name ? recipe.attributes.name : '');
+  const [recipeTime, setRecipeTime] = useState(recipe && recipe.attributes.cookMinutes ?
     recipe.attributes.cookMinutes.toString() : '');
-  const [recipePortions, setRecipePortions] = useState(recipe.attributes.portions ?
+  const [recipePortions, setRecipePortions] = useState(recipe && recipe.attributes.portions ?
     recipe.attributes.portions.toString() : '');
   const [recipeSteps, setRecipeSteps] = useState(
-    recipe.attributes.steps.data ? JSON.parse(JSON.stringify(recipe.attributes.steps.data)) : []);
+    recipe && recipe.attributes.steps.data ? JSON.parse(JSON.stringify(recipe.attributes.steps.data)) : []);
 
   const [recipePrice, setRecipePrice] = useState(recipe ? calculateRecipePrice(recipe) : 0);
   const createRecipe = useStoreActions((actions) => actions.createRecipe);
@@ -75,7 +74,12 @@ function FormRecipe(props) {
       const auxIngredients = [];
       let price = 0;
       selectedIngredients.forEach((ingredient) => {
-        const index = ingredientsData.findIndex((data) => data.id.toString() === ingredient.id.toString());
+        let index = -1;
+        if (ingredient.id) {
+          index = ingredientsData.findIndex((data) => data.id.toString() === ingredient.id.toString());
+        } else {
+          index = ingredientsData.findIndex((data) => data.id.toString() === ingredient.attributes.id.toString());
+        }
         if (index >= 0) {
           ingredientsData[index].isDeleted = false;
           price += ingredientsData[index].recipeQuantity * ingredientsData[index].price /
@@ -159,12 +163,12 @@ function FormRecipe(props) {
       } else if (ingredient.isDeleted) {
         ingredientsList.push({ id: ingredient.recipeIngredientId, _destroy: true });
       } else if (ingredient.isEdited) {
-        ingredientsList.push(decamelizeKeys({
+        ingredientsList.push({
           id: ingredient.recipeIngredientId,
           ingredientId: ingredient.id,
           ingredientQuantity: ingredient.recipeQuantity,
           _destroy: false,
-        }));
+        });
       }
     });
 
@@ -184,6 +188,49 @@ function FormRecipe(props) {
     recipe.attributes.name = body.name;
     recipe.attributes.portions = body.portions;
     recipe.attributes.cookMinutes = body.cookMinutes;
+    let auxStepsData = recipe.attributes.steps.data;
+    body.stepsAttributes.forEach((step, i) => {
+      // eslint-disable-next-line no-underscore-dangle
+      if (step._destroy) {
+        auxStepsData = auxStepsData.filter((element) => element.id !== step.id);
+      // eslint-disable-next-line no-magic-numbers
+      } else if (Object.keys(step).length > 2) {
+        const index = auxStepsData.findIndex((element) => element.id === step.id);
+        auxStepsData[index].attributes.description = step.description;
+      } else {
+        auxStepsData.push({
+          attributes: {
+            description: step.description,
+          },
+          id: i,
+        });
+      }
+    });
+    recipe.attributes.steps.data = auxStepsData;
+    let auxIngredientsData = recipe.attributes.recipeIngredients.data;
+    body.recipeIngredientsAttributes.forEach((ingredient, i) => {
+      // eslint-disable-next-line no-underscore-dangle
+      if (ingredient._destroy) {
+        auxIngredientsData = auxIngredientsData.filter(
+          (element) => element.id !== ingredient.id);
+      } else {
+        const index = auxIngredientsData.findIndex(
+          (element) => element.attributes.ingredient.id === ingredient.ingredientId);
+        if (index >= 0) {
+          auxIngredientsData[index].attributes.ingredientQuantity = ingredient.ingredientQuantity;
+        } else {
+          const ingredientsDataIndex = ingredientsData.findIndex((element) => element.id === ingredient.ingredientId);
+          auxIngredientsData.push({
+            attributes: {
+              ingredient: ingredientsData[ingredientsDataIndex],
+              ingredientQuantity: ingredientsData[ingredientsDataIndex].recipeQuantity,
+            },
+            id: i,
+          });
+        }
+      }
+    });
+    recipe.attributes.recipeIngredients.data = auxIngredientsData;
   }
 
   function handleSubmit() {

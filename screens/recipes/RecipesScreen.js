@@ -15,13 +15,8 @@ function Recipes(props) {
   const getRecipes = useStoreActions((actions) => actions.getRecipes);
   const [recipes, setRecipes] = useState([]);
   const [showError, setShowError] = useState(false);
-  // const [newRecipe, setNewRecipe] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [mounted, setMounted] = useState(false);
-
-  // const deletedRecipe = useStoreState((state) => state.recipes.delete);
-  // const loadRecipes = useStoreState((state) => state.recipes.load);
-  // const setLoadRecipes = useStoreActions((actions) => actions.setLoadRecipes);
 
   useEffect(() => {
     getRecipes()

@@ -30,7 +30,8 @@ function RecipeIngredients(props) {
       .then((resp) => {
         setIngredients(resp);
         const auxSelecteds = selectedIngredients.map((ingredient) => (
-          (ingredient.attributes.id) ? ingredient.attributes.id.toString() : ingredient.id.toString()
+          (ingredient.attributes && ingredient.attributes.id) ?
+            ingredient.attributes.id.toString() : ingredient.id.toString()
         ));
         setSelecteds(auxSelecteds);
       });
@@ -69,7 +70,7 @@ function RecipeIngredients(props) {
     ingredients.forEach((ingredient) => {
       const includedCondition = selecteds.includes(ingredient.id);
       const indexFoundAndEqualCondition = actualSelection.findIndex(
-        (actual) => ((actual.attributes.id) ?
+        (actual) => ((actual.attributes && actual.attributes.id) ?
           actual.attributes.id.toString() === ingredient.id.toString() :
           actual.id.toString() === ingredient.id.toString())) >= 0;
       if (!includedCondition && indexFoundAndEqualCondition) {
