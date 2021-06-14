@@ -3,15 +3,18 @@ import React, {
   useState,
   useLayoutEffect,
 } from 'react';
-import { useStoreActions } from 'easy-peasy';
+import { useStoreActions, useStoreState } from 'easy-peasy';
 import { Text, ScrollView, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MenuRow from '../../components/menuRow';
 import styles from '../../styles/Menus/indexStyles';
 import colors from '../../styles/appColors';
 
+/* eslint max-statements: [2, 15] */
 function Menus({ navigation }) {
   const getMenus = useStoreActions((actions) => actions.getMenus);
+  const globalMenus = useStoreState((state) => state.menus.menus);
+  const setGlobalMenus = useStoreActions((actions) => actions.setMenus);
 
   const [mounted, setMounted] = useState(false);
   const [menus, setMenus] = useState([]);
@@ -27,7 +30,6 @@ function Menus({ navigation }) {
           onPress={() => navigation.navigate('Nuevo Menu', {
             isNew: true,
             menus,
-            setMenus,
           })}
         />
       ),
@@ -38,13 +40,17 @@ function Menus({ navigation }) {
   useEffect(() => {
     getMenus()
       .then((res) => {
-        setMenus(res);
+        setGlobalMenus(res);
         setMounted(true);
       })
       .catch(() => {
       });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    setMenus(globalMenus);
+  }, [globalMenus]);
 
   if (menus.length && mounted) {
     return (

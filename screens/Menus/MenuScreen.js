@@ -25,12 +25,12 @@ function Menu(props) {
   } = props;
 
   const deleteMenu = useStoreActions((actions) => actions.deleteMenu);
+  const setGlobalMenus = useStoreActions((actions) => actions.setMenus);
 
   const {
     menu,
     menuPrice,
     menus,
-    setMenus,
   } = route.params;
 
   const [showMenuOptions, setShowMenuOptions] = useState(false);
@@ -56,9 +56,9 @@ function Menu(props) {
         <ShowMenuOptions
           navigation={navigation}
           menuVisible={setShowMenuOptions}
-          element={menu}
+          element={{ menu, id: menu.id }}
           elementsArray={menus}
-          setElementsArray={setMenus}
+          setElementsArray={setGlobalMenus}
           editNavigation={'Editar Menu'}
           indexNavigation={'Menus'}
           deleteApi={deleteMenu}
@@ -99,12 +99,13 @@ function Menu(props) {
                   {recipe.attributes.recipe.name}
                 </Text>
                 <Text style={styles.portions}>
-                  {`${recipe.attributes.recipe.portions} porciones`}
+                  {`${recipe.attributes.recipe.portions * recipe.attributes.recipe_quantity} porciones`}
                 </Text>
               </View>
               <View style={styles.right}>
                 <Text style={styles.price}>
-                  {formatMoney(calculateRecipePrice(recipe.attributes.recipe, true), '$ ', '')}
+                  {formatMoney(calculateRecipePrice(recipe.attributes.recipe, true) *
+                    recipe.attributes.recipe_quantity, '$ ')}
                 </Text>
               </View>
             </View>

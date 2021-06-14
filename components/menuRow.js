@@ -16,7 +16,6 @@ function MenuRow(props) {
     navigation,
     menu,
     menus,
-    setMenus,
   } = props;
 
   const [menuPrice, setMenuPrice] = useState(0);
@@ -24,11 +23,10 @@ function MenuRow(props) {
   useEffect(() => {
     let price = 0;
     menu.attributes.menu_recipes.data.forEach((recipe) => {
-      price += calculateRecipePrice(recipe.attributes.recipe, true);
+      price += calculateRecipePrice(recipe.attributes.recipe, true) * recipe.attributes.recipe_quantity;
     });
     setMenuPrice(price);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [menu]);
 
   return (
     <TouchableOpacity
@@ -36,7 +34,6 @@ function MenuRow(props) {
       onPress={() => navigation.navigate('Menu', {
         menu,
         menus,
-        setMenus,
         menuPrice,
       })}
       key={menu.id}
