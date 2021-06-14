@@ -21,13 +21,13 @@ function FormRecipe(props) {
     setRecipes,
   } = route.params;
 
-  const [recipeName, setRecipeName] = useState(recipe && recipe.attributes.name ? recipe.attributes.name : '');
-  const [recipeTime, setRecipeTime] = useState(recipe && recipe.attributes.cook_minutes ?
+  const [recipeName, setRecipeName] = useState(recipe.attributes.name ? recipe.attributes.name : '');
+  const [recipeTime, setRecipeTime] = useState(recipe.attributes.cook_minutes ?
     recipe.attributes.cook_minutes.toString() : '');
-  const [recipePortions, setRecipePortions] = useState(recipe && recipe.attributes.portions ?
+  const [recipePortions, setRecipePortions] = useState(recipe.attributes.portions ?
     recipe.attributes.portions.toString() : '');
   const [recipeSteps, setRecipeSteps] = useState(
-    recipe ? JSON.parse(JSON.stringify(recipe.attributes.steps.data)) : []);
+    recipe.attributes.steps.data ? JSON.parse(JSON.stringify(recipe.attributes.steps.data)) : []);
 
   const [recipePrice, setRecipePrice] = useState(recipe ? calculateRecipePrice(recipe) : 0);
   const createRecipe = useStoreActions((actions) => actions.createRecipe);
@@ -46,11 +46,7 @@ function FormRecipe(props) {
     if (recipe) {
       const auxIngredients = [];
       const auxRecipeIngredients = [];
-      recipe.attributes.recipe_ingredients.data.forEach((ingredient) => {
-        console.log('-------------------------');
-        console.log(ingredient);
-        console.log(ingredient.id);
-        console.log('-------------------------');
+      recipe.attributes.recipeIngredients.data.forEach((ingredient) => {
         auxIngredients.push({
           attributes: ingredient.attributes.ingredient,
         });
@@ -58,7 +54,7 @@ function FormRecipe(props) {
           ...ingredient.attributes.ingredient,
           id: ingredient.attributes.ingredient.id,
           recipeIngredientId: ingredient.id,
-          recipeQuantity: ingredient.attributes.ingredient_quantity,
+          recipeQuantity: ingredient.attributes.ingredientQuantity,
           isNew: false,
           isDeleted: false,
           isEdited: false,
@@ -75,8 +71,6 @@ function FormRecipe(props) {
   }, []);
 
   useEffect(() => {
-    console.log('ingredientsData', ingredientsData);
-    console.log('selectedIngredients', selectedIngredients);
     if (!isStarting) {
       const auxIngredients = [];
       let price = 0;
@@ -92,6 +86,7 @@ function FormRecipe(props) {
         } else {
           const newIngredient = {
             ...ingredient.attributes,
+            name: ingredient.attributes.name,
             id: ingredient.id,
             recipeIngredientId: null,
             recipeQuantity: 0,
@@ -178,14 +173,20 @@ function FormRecipe(props) {
 
   function searchIngredients() {
     navigation.navigate('Buscar ingredientes', {
-      isNewRecipe: true,
+      isNewRecipe: !(recipe),
+      recipe,
       recipes,
       setRecipes,
     });
   }
 
+  function changeRecipeLocally(body) {
+    recipe.attributes.name = body.name;
+    recipe.attributes.portions = body.portions;
+    recipe.attributes.cookMinutes = body.cookMinutes;
+  }
+
   function handleSubmit() {
-    console.log('Sending', ingredientsQuery());
     const body = {
       name: recipeName,
       portions: parseInt(recipePortions, 10),
@@ -195,6 +196,7 @@ function FormRecipe(props) {
     };
 
     if (recipe) {
+      changeRecipeLocally(body);
       editRecipe({ body, id: recipe.id })
         .then(() => {
           const auxRecipes = recipes.filter(item => item.id !== recipe.id);
@@ -208,7 +210,7 @@ function FormRecipe(props) {
       createRecipe(body)
         .then((resp) => {
           const auxRecipes = [...recipes];
-          auxRecipes.push(resp.data.data);
+          auxRecipes.push(resp);
           setRecipes(auxRecipes);
           navigation.navigate('Recetas');
         })
