@@ -18,6 +18,7 @@ function ShowMenuOptions(props) {
     editNavigation,
     indexNavigation,
     deleteApi,
+    isRecipe = false,
   } = props;
 
   function deleteElement() {
@@ -34,14 +35,25 @@ function ShowMenuOptions(props) {
   return (
 
     <View>
-      <TouchableOpacity style={[styles.menuOption, styles.edit]}
-        onPress={() => navigation.navigate(editNavigation, {
-          element,
-          elementsArray,
-          setElementsArray,
-        })}>
-        <Text style={styles.edit}>Editar</Text>
-      </TouchableOpacity>
+      {(isRecipe) ? (
+        <TouchableOpacity style={[styles.menuOption, styles.edit]}
+          onPress={() => navigation.navigate(editNavigation, {
+            recipe: element,
+            recipes: elementsArray,
+            setRecipes: setElementsArray,
+          })}>
+          <Text style={styles.edit}>Editar</Text>
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity style={[styles.menuOption, styles.edit]}
+          onPress={() => navigation.navigate(editNavigation, {
+            menu: element,
+            menus: elementsArray,
+            setMenus: setElementsArray,
+          })}>
+          <Text style={styles.edit}>Editar</Text>
+        </TouchableOpacity>
+      )}
       <TouchableOpacity style={[styles.menuOption, styles.delete]}
         onPress={() => Alert.alert('¿Estás seguro?', 'Esta acción es irreversible',
           [{ text: 'Cancelar', onPress: () => { menuVisible(false); }, style: 'default' },
