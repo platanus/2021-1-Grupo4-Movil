@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { useEffect, useState } from 'react';
 import {
   View,
@@ -15,7 +16,6 @@ function MenuRow(props) {
     navigation,
     menu,
     menus,
-    setMenus,
   } = props;
 
   const [menuPrice, setMenuPrice] = useState(0);
@@ -23,11 +23,10 @@ function MenuRow(props) {
   useEffect(() => {
     let price = 0;
     menu.attributes.menu_recipes.data.forEach((recipe) => {
-      price += calculateRecipePrice(recipe.attributes.recipe, true);
+      price += calculateRecipePrice(recipe.attributes.recipe, true) * recipe.attributes.recipe_quantity;
     });
     setMenuPrice(price);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [menu]);
 
   return (
     <TouchableOpacity
@@ -35,7 +34,6 @@ function MenuRow(props) {
       onPress={() => navigation.navigate('Menu', {
         menu,
         menus,
-        setMenus,
         menuPrice,
       })}
       key={menu.id}
@@ -47,21 +45,21 @@ function MenuRow(props) {
         <View style={styles.menuInfo}>
           <Icon
             name='people'
-            color={colors.grayIcon}
-            size={23}
+            color={colors.kitchengramGray400}
+            size={18}
           />
           <Text style={styles.subtitle}>
-            {`${menu.attributes.portions} porciones`}
+            {`${menu.attributes.portions} ${(menu.attributes.portions === 1 ? 'porción' : 'porciones')}`}
           </Text>
         </View>
         <View style={styles.menuInfo}>
           <Icon
             name='restaurant-menu'
-            color={colors.grayIcon}
-            size={23}
+            color={colors.kitchengramGray400}
+            size={18}
           />
           <Text style={styles.subtitle}>
-            {`${menu.attributes.menu_recipes.data.length} recetas`}
+            {`${menu.attributes.menu_recipes.data.length} ${(menu.attributes.menu_recipes.data.length === 1 ? 'receta' : 'recetas')}`}
           </Text>
         </View>
       </View>
@@ -69,6 +67,7 @@ function MenuRow(props) {
         <Text style={styles.price}>
           {formatMoney(menuPrice, '$ ', '')}
         </Text>
+        <Icon name='chevron-right' color={colors.kitchengramGray400} size={20} />
       </View>
     </TouchableOpacity>
   );

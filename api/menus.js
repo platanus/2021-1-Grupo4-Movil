@@ -12,6 +12,15 @@ const menusApi = {
       data: payload,
     });
   },
+  getMenu: (payload) => {
+    const url = `${config.endpoints.menus.specific}${payload.id}`;
+
+    return apiUtils.api({
+      method: 'get',
+      url,
+      data: payload.body,
+    });
+  },
   deleteMenu: (payload) => {
     const url = config.endpoints.menus.specific + payload;
 
