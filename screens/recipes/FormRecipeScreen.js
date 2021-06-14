@@ -22,8 +22,8 @@ function FormRecipe(props) {
   } = route.params;
 
   const [recipeName, setRecipeName] = useState(recipe.attributes.name ? recipe.attributes.name : '');
-  const [recipeTime, setRecipeTime] = useState(recipe.attributes.cook_minutes ?
-    recipe.attributes.cook_minutes.toString() : '');
+  const [recipeTime, setRecipeTime] = useState(recipe.attributes.cookMinutes ?
+    recipe.attributes.cookMinutes.toString() : '');
   const [recipePortions, setRecipePortions] = useState(recipe.attributes.portions ?
     recipe.attributes.portions.toString() : '');
   const [recipeSteps, setRecipeSteps] = useState(
