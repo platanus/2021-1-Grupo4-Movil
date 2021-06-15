@@ -68,7 +68,10 @@ function IndexIngredients({ navigation }) {
                   {ingredient.attributes.name}
                 </Text>
                 <Text style={styles.measure}>
-                  {`${ingredient.attributes.quantity} ${ingredient.attributes.measure}`}
+                  {`${ingredient.attributes.otherMeasures.data[
+                    ingredient.attributes.otherMeasures.data.length - 1
+                  ].attributes.quantity
+                  } ${ingredient.attributes.measure}`}
                 </Text>
               </View>
               <View style={styles.right}>
@@ -77,7 +80,9 @@ function IndexIngredients({ navigation }) {
                 </Text>
                 <Text style={styles.measure}>
                   {`${formatMoney(
-                    ingredient.attributes.price / ingredient.attributes.quantity, '$')
+                    ingredient.attributes.price / ingredient.attributes.otherMeasures.data[
+                      ingredient.attributes.otherMeasures.data.length - 1
+                    ].attributes.quantity, '$')
                   } / ${ingredient.attributes.measure}`}
                 </Text>
               </View>

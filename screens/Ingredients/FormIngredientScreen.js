@@ -26,8 +26,16 @@ function FormIngredient({ navigation, route }) {
       attributes: {
         name: '',
         price: 0,
-        quantity: 1,
+        quantity: 0,
         measure: 'Unidad',
+        otherMeasures: {
+          data: [{
+            attributes: {
+              quantity: 0,
+            },
+          }],
+
+        },
         sku: '',
         currency: 'CLP',
         providerName: null,
@@ -43,7 +51,9 @@ function FormIngredient({ navigation, route }) {
 
   const [name, setName] = useState(ingredient.attributes.name);
   const [price, setPrice] = useState(ingredient.attributes.price);
-  const [quantity, setQuantity] = useState(ingredient.attributes.quantity);
+  const [quantity, setQuantity] = useState(ingredient.attributes.otherMeasures.data[
+    ingredient.attributes.otherMeasures.data.length - 1
+  ].attributes.quantity);
   const [measure, setMeasure] = useState(ingredient.attributes.measure);
   const [providerName, setProviderName] = useState(ingredient.attributes.providerName);
   const [providersNames, setProvidersNames] = useState([]);
@@ -89,13 +99,21 @@ function FormIngredient({ navigation, route }) {
       sku: ingredient.attributes.sku,
       price,
       currency: ingredient.attributes.currency,
-
+      ingredientMeasuresAttributes: [{
+        quantity,
+        name: measure,
+      }],
       quantity,
       measure,
-      // eslint-disable-next-line
-      provider_name: providerName,
-      // eslint-disable-next-line
-
+      otherMeasures: {
+        data: [{
+          attributes: {
+            quantity,
+            name: measure,
+          },
+        }],
+      },
+      providerName,
     };
     ingredient.attributes = attributes;
     const body = {
@@ -120,11 +138,21 @@ function FormIngredient({ navigation, route }) {
       sku: ingredient.attributes.sku,
       price,
       currency: ingredient.attributes.currency,
+      ingredientMeasuresAttributes: [{
+        quantity,
+        name: measure,
+      }],
+      otherMeasures: {
+        data: [{
+          attributes: {
+            quantity,
+            name: measure,
+          },
+        }],
+      },
       quantity,
       measure,
-      // eslint-disable-next-line
-      provider_name: providerName,
-      // eslint-disable-next-line
+      providerName,
     };
     ingredient.attributes = attributes;
     const body = {
@@ -157,6 +185,7 @@ function FormIngredient({ navigation, route }) {
                 setPrice,
                 setQuantity,
                 setProviderName,
+                setMeasure,
               })}
               style={styles.scrapperButton}>
               <Text style={styles.scrapperButtonText}>
