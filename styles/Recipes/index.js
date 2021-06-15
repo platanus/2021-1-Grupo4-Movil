@@ -9,6 +9,10 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     flex: 1,
   },
+
+  scroll: {
+    backgroundColor: colors.kitchengramWhite,
+  },
   container2: {
     backgroundColor: colors.kitchengramWhite,
     flex: 1,

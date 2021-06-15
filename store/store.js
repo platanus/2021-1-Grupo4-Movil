@@ -166,7 +166,7 @@ const storeThunks = {
   }),
   getRecipes: thunk(async (actions, payload) => {
     const recipes = recipesApi.getRecipes(payload)
-      .then((res) => res.data.data)
+      .then((res) => camelizeKeys(res.data.data))
       .catch((err) => {
         actions.setGetRecipesError(err.response.data.message);
         throw err;
@@ -238,7 +238,7 @@ const storeThunks = {
   }),
   getMenus: thunk(async (actions, payload) => {
     const menus = menusApi.getMenus(payload)
-      .then((res) => res.data.data)
+      .then((res) => camelizeKeys(res.data.data))
       .catch((err) => {
         actions.setMenusError(err.response.data.message);
         throw err;
@@ -248,7 +248,7 @@ const storeThunks = {
   }),
   getMenu: thunk(async (actions, payload) => {
     const menu = menusApi.getMenu(payload)
-      .then((res) => res.data.data)
+      .then((res) => camelizeKeys(res.data.data))
       .catch((err) => {
         actions.setMenusError(err.response.data.message);
         throw err;
@@ -265,7 +265,7 @@ const storeThunks = {
   }),
   createMenu: thunk(async (actions, payload) => {
     const menu = menusApi.createMenu(payload)
-      .then((resp) => resp.data)
+      .then((resp) => camelizeKeys(resp.data))
       .catch((err) => {
         actions.setMenusError(err.response.data.message);
         throw err;
@@ -275,7 +275,7 @@ const storeThunks = {
   }),
   editMenu: thunk(async (actions, payload) => {
     const menu = menusApi.editMenu(payload)
-      .then((resp) => resp.data)
+      .then((resp) => camelizeKeys(resp.data))
       .catch((err) => {
         actions.setMenusError(err.response.data.message);
         throw err;

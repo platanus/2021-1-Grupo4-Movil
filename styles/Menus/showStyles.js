@@ -95,6 +95,9 @@ const styles = StyleSheet.create({
     color: colors.selectedTabYellow,
     textAlign: 'right',
   },
+  navIcon: {
+    paddingRight: 8,
+  },
 });
 
 export default styles;

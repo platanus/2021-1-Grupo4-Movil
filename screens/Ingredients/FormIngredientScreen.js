@@ -205,30 +205,41 @@ function FormIngredient({ navigation, route }) {
               editable={!isFromSearch}
             />
           </View>
-          <View style={styles.inputContainer}>
-            <Text style={styles.inputLabel}>
-          Proveedor
-            </Text>
-            <View style={styles.dropDown}>
-              <RNPickerSelect
-                style={pickers.customPickerStyles}
-                key={'0'}
-                placeholder={{
-                  label: 'Selecciona proveedor...',
-                  value: null,
-                }}
+          {isFromSearch ? (
+            <View style={styles.inputContainer}>
+              <Text style={styles.inputLabel}>
+            Proveedor
+              </Text>
+              <TextInput
+                style={styles.input}
                 value={providerName}
-                onValueChange={(value) => setProviderName(value)}
-                items={providersNames}
+                editable={!isFromSearch}
               />
+            </View>) : (
+            <View style={styles.inputContainer}>
+              <Text style={styles.inputLabel}>
+            Proveedor
+              </Text>
+              <View style={styles.dropDown}>
+                <RNPickerSelect
+                  style={pickers.customPickerStyles}
+                  key={'0'}
+                  placeholder={{
+                    label: 'Selecciona proveedor...',
+                    value: null,
+                  }}
+                  value={providerName}
+                  onValueChange={(value) => setProviderName(value)}
+                  items={providersNames}
+                />
 
-            </View>
-            <Icon name='chevron-down'
-              size={30}
-              color={colors.kitchengramGray600}
-              style={styles.arrowIcon}
-            />
-          </View>
+              </View>
+              <Icon name='chevron-down'
+                size={30}
+                color={colors.kitchengramGray600}
+                style={styles.arrowIcon}
+              />
+            </View>) }
           <View style={styles.inputContainer}>
             <Text style={styles.inputLabel}>
           Precio

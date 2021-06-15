@@ -8,7 +8,7 @@ import { camelizeKeys } from 'humps';
 import { Icon } from 'react-native-elements';
 import colors from '../../styles/appColors';
 import RecipeRow from '../../components/recipeRow';
-import styles from '../../styles/Recipes';
+import styles from '../../styles/Recipes/index';
 
 function Recipes(props) {
   const { navigation } = props;
@@ -52,7 +52,7 @@ function Recipes(props) {
 
   if (mounted && recipes.length) {
     return (
-      <ScrollView>
+      <ScrollView style={styles.scroll}>
         {recipes.map((recipe) => (
           <RecipeRow
             key={recipe.id}
@@ -68,7 +68,7 @@ function Recipes(props) {
 
   if (mounted) {
     return (
-      <Text style={styles.emptyIndex}>
+      <Text style={styles.emptyMessage}>
         Aún no tienes recetas.
       </Text>
     );

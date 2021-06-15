@@ -42,6 +42,7 @@ function Menu(props) {
         <Icon
           name='more-vert'
           size={30}
+          color={colors.kitchengramWhite}
           style={styles.navIcon}
           onPress={() => setShowMenuOptions(!showMenuOptions)}/>
       ),
@@ -88,7 +89,7 @@ function Menu(props) {
         <Text style={styles.title}>
           {'Recetas'}
         </Text>
-        {menu.attributes.menu_recipes.data.map((recipe, i) => (
+        {menu.attributes.menuRecipes.data.map((recipe, i) => (
           <View
             key={recipe.id}
             style={styles.recipeRow}
@@ -99,13 +100,13 @@ function Menu(props) {
                   {recipe.attributes.recipe.name}
                 </Text>
                 <Text style={styles.portions}>
-                  {`${recipe.attributes.recipe.portions * recipe.attributes.recipe_quantity} porciones`}
+                  {`${recipe.attributes.recipe.portions * recipe.attributes.recipeQuantity} porciones`}
                 </Text>
               </View>
               <View style={styles.right}>
                 <Text style={styles.price}>
                   {formatMoney(calculateRecipePrice(recipe.attributes.recipe, true) *
-                    recipe.attributes.recipe_quantity, '$ ')}
+                    recipe.attributes.recipeQuantity, '$ ')}
                 </Text>
               </View>
             </View>
