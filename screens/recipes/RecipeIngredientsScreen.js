@@ -11,9 +11,15 @@ import formatMoney from '../../utils/formatMoney';
 function RecipeIngredients(props) {
   const { navigation, route } = props;
   const actualSelection = useStoreState((state) => state.recipes.currentSelectedIngredients);
-  const isNewRecipe = route.params;
+  const {
+    isNewRecipe,
+    recipe,
+    recipes,
+    setRecipes,
+  } = route.params;
   const getAllIngredients = useStoreActions((actions) => actions.getIngredients);
   const setIngredientsForRecipe = useStoreActions((actions) => actions.setSelectedRecipeIngredients);
+  const selectedIngredients = useStoreState((state) => state.recipes.currentSelectedIngredients);
   const setDeletedIngredient = useStoreActions((actions) => actions.setDeletedRecipeIngredients);
   const [selecteds, setSelecteds] = useState([]);
   const [ingredients, setIngredients] = useState([]);
@@ -23,12 +29,13 @@ function RecipeIngredients(props) {
     getAllIngredients()
       .then((resp) => {
         setIngredients(resp);
-        const allIds = resp.map((ingred) => ingred.id.toString());
-        const currentIds = actualSelection.map((i) => i.id.toString());
-        setSelecteds(
-          currentIds.map(id => allIds.indexOf(id)),
-        );
+        const auxSelecteds = selectedIngredients.map((ingredient) => (
+          (ingredient.attributes && ingredient.attributes.id) ?
+            ingredient.attributes.id.toString() : ingredient.id.toString()
+        ));
+        setSelecteds(auxSelecteds);
       });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function getIngredientsFromSearch() {
@@ -47,31 +54,38 @@ function RecipeIngredients(props) {
     return filter;
   }
 
-  function addIngredientChecked(i) {
-    if (selecteds.includes(i)) {
-      const index = selecteds.indexOf(i);
-      selecteds.splice(index, 1);
-      setSelecteds([].concat(selecteds));
+  function changeIngredientChecked(id) {
+    if (selecteds.includes(id)) {
+      const auxSelecteds = selecteds.filter(item => item !== id);
+      setSelecteds(auxSelecteds);
     } else {
-      setSelecteds(selecteds.concat(i));
+      const auxSelecteds = [...selecteds];
+      auxSelecteds.push(id);
+      setSelecteds(auxSelecteds);
     }
   }
 
   function saveSelectedIngredients() {
     const deleteIngredientsIds = [];
-    ingredients.forEach((ingred, i) => {
-      const includedCondition = selecteds.includes(i);
+    ingredients.forEach((ingredient) => {
+      const includedCondition = selecteds.includes(ingredient.id);
       const indexFoundAndEqualCondition = actualSelection.findIndex(
-        (actual) => actual.id.toString() === ingred.id.toString()) >= 0;
+        (actual) => ((actual.attributes && actual.attributes.id) ?
+          actual.attributes.id.toString() === ingredient.id.toString() :
+          actual.id.toString() === ingredient.id.toString())) >= 0;
       if (!includedCondition && indexFoundAndEqualCondition) {
-        deleteIngredientsIds.push(ingred.id);
+        deleteIngredientsIds.push(ingredient.id);
       }
     });
     setDeletedIngredient(deleteIngredientsIds);
-    const ingredientsForRecipe = ingredients.filter((_ingredient, index) => selecteds.includes(index));
+    const ingredientsForRecipe = ingredients.filter((ingredient) => selecteds.includes(ingredient.id));
     setIngredientsForRecipe(ingredientsForRecipe);
-    const backRoute = isNewRecipe === null ? 'Crear receta' : 'Editar Receta';
-    navigation.navigate(backRoute);
+    const backRoute = (isNewRecipe) ? 'Crear receta' : 'Editar Receta';
+    navigation.navigate(backRoute, {
+      recipe,
+      recipes,
+      setRecipes,
+    });
   }
 
   const shownIngredients = getIngredientsFromSearch();
@@ -87,12 +101,17 @@ function RecipeIngredients(props) {
       </View>
       <ScrollView style={styles.scroll}>
         {
-          shownIngredients.map((ing, i) => (
-            <View key={i} style={styles.ingredientRow}>
-              <View style={styles.ingredientData} key={i}>
+          shownIngredients.map((ingredient, i) => (
+            <View
+              key={i}
+              style={styles.ingredientRow}
+            >
+              <View style={styles.ingredientData}>
                 <CheckBox
-                  checked={selecteds.includes(i)}
-                  onPress={() => addIngredientChecked(i)}
+                  checked={selecteds.includes(ingredient.id)}
+                  onPress={() => {
+                    changeIngredientChecked(ingredient.id);
+                  }}
                   style={styles.checkbox}
                   checkedColor={colors.kitchengramYellow500}
                   checkedIcon = 'check-square'
@@ -101,19 +120,23 @@ function RecipeIngredients(props) {
                   size={30}
                 />
                 <Text style={styles.name}>
-                  {ing.attributes.name}
+                  {ingredient.attributes.name}
                 </Text>
               </View>
               <View style={styles.ingredientPrice}>
                 <Text style={styles.price}>
-                  {`${formatMoney(ing.attributes.price / ing.attributes.quantity, '$')} / ${ing.attributes.measure}`}
+                  {`${formatMoney(ingredient.attributes.price / ingredient.attributes.quantity, '$')}
+                  / ${ingredient.attributes.measure}`}
                 </Text>
               </View>
             </View>
           ),
           )}
       </ScrollView>
-      <TouchableOpacity style={styles.submitIngredients} onPress={saveSelectedIngredients}>
+      <TouchableOpacity
+        style={styles.submitIngredients}
+        onPress={saveSelectedIngredients}
+      >
         <Text style={styles.saveButton}>
             Guardar cambios
         </Text>

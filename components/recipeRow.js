@@ -7,12 +7,21 @@ import calculateRecipePrice from '../utils/calculateRecipePrice';
 import formatMoney from '../utils/formatMoney';
 
 function RecipeRow(props) {
-  const { recipe, navigation } = props;
+  const {
+    recipe,
+    navigation,
+    recipes,
+    setRecipes,
+  } = props;
 
   return (
     <TouchableOpacity
       style={styles.recipeRow}
-      onPress={() => navigation.navigate('Receta', recipe)}
+      onPress={() => navigation.navigate('Receta', {
+        recipe,
+        recipes,
+        setRecipes,
+      })}
       key={recipe.id}>
       <View style={styles.left}>
         <Text style={styles.name} >{(recipe) ? recipe.attributes.name : '---'}</Text>
@@ -24,7 +33,7 @@ function RecipeRow(props) {
         </View>
         <View style={styles.recipeInfo}>
           <Icon name='timer' color={colors.kitchengramGray400} size={18} />
-          <Text style = {styles.subtitle}>{recipe.attributes.cook_minutes} minutos</Text>
+          <Text style = {styles.subtitle}>{recipe.attributes.cookMinutes} minutos</Text>
         </View>
       </View>
       <View style={styles.right}>
