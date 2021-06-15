@@ -1,7 +1,7 @@
 /* eslint-disable max-statements */
 import React, {
   useState,
-  useEffect
+  useEffect,
 } from 'react';
 import {
   Text,
@@ -65,20 +65,23 @@ function FormIngredient({ navigation, route }) {
   }, []);
 
   function checkValidValues() {
-
     const validations = [
-    { error: !name.length, message: "Debes asignar un nombre al ingrediente" },
-    { error: price <= 0, message: "Debes ingresar un precio válido" },
-    { error: quantity <= 0, message: "Debes ingresar una cantidad válida" },
-    { error:  !measure.length, message: "Debes ingresar una medida al ingrediente" },
+      { error: !name.length, message: 'Debes asignar un nombre al ingrediente' },
+      { error: price <= 0, message: 'Debes ingresar un precio válido' },
+      { error: quantity <= 0, message: 'Debes ingresar una cantidad válida' },
+      { error: !measure.length, message: 'Debes ingresar una medida al ingrediente' },
     ];
-    const error = validations.find((validation) => (validation.error))
-    if ( error ) { alert(error.message); return false };
+    const error = validations.find((validation) => (validation.error));
+    if (error) {
+      alert(error.message);
 
-    return true;}
+      return false;
+    }
+
+    return true;
+  }
 
   function handleSubmitNew() {
-
     if (!checkValidValues()) return;
 
     const attributes = {
@@ -110,7 +113,6 @@ function FormIngredient({ navigation, route }) {
   }
 
   function handleSubmitEdit() {
-
     if (!checkValidValues()) return;
 
     const attributes = {
@@ -166,40 +168,40 @@ function FormIngredient({ navigation, route }) {
             <Text style={styles.inputLabel}>
           Nombre
             </Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Nombre de ingrediente..."
-          value={name}
-          onChangeText={(text) => setName(text)}
-          editable={!isFromSearch}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.inputLabel}>
+            <TextInput
+              style={styles.input}
+              placeholder="Nombre de ingrediente..."
+              value={name}
+              onChangeText={(text) => setName(text)}
+              editable={!isFromSearch}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputLabel}>
           Proveedor
-        </Text>
-        <View style={styles.dropDown}>
-          <RNPickerSelect
-            style={pickers.customPickerStyles}
-            key={'0'}
-            placeholder={{
-              label: 'Selecciona proveedor...',
-              value: null,
-            }}
-            value={providerName}
-            onValueChange={(value) => setProviderName(value)}
-            items={providersNames}
-          />
+            </Text>
+            <View style={styles.dropDown}>
+              <RNPickerSelect
+                style={pickers.customPickerStyles}
+                key={'0'}
+                placeholder={{
+                  label: 'Selecciona proveedor...',
+                  value: null,
+                }}
+                value={providerName}
+                onValueChange={(value) => setProviderName(value)}
+                items={providersNames}
+              />
 
-        </View>
-        <Icon name='chevron-down'
-          size={30}
-          color={colors.kitchengramGray600}
-          style={styles.arrowIcon}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.inputLabel}>
+            </View>
+            <Icon name='chevron-down'
+              size={30}
+              color={colors.kitchengramGray600}
+              style={styles.arrowIcon}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputLabel}>
           Precio
             </Text>
             <TextInput

@@ -62,6 +62,7 @@ function Recipes(props) {
       </View>
     );
   }
+
   return mounted && (
     <Text style={styles.emptyMessage}>
       Aún no tienes recetas.

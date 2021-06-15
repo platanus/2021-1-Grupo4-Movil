@@ -13,6 +13,7 @@ export default function KeyboardAvoidWrapper({ children }) {
     <KeyboardAvoidingView
       style={styles.keyboardAvoidView}
       behavior={Platform.OS === 'ios' ? 'padding' : null}
+      // eslint-disable-next-line no-magic-numbers
       keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}>
       <ScrollView>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

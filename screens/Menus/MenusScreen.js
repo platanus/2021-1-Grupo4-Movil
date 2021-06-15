@@ -1,7 +1,6 @@
 import React, {
   useEffect,
   useState,
-  useLayoutEffect,
 } from 'react';
 import { useStoreActions, useStoreState } from 'easy-peasy';
 import { Text, ScrollView, View } from 'react-native';

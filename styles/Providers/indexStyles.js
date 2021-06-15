@@ -75,7 +75,8 @@ const styles = StyleSheet.create({
     color: colors.kitchengramGray600,
     textAlign: 'center',
     paddingTop: 15,
-    fontSize: 16 },
+    fontSize: 16,
+  },
 });
 
 export default styles;
