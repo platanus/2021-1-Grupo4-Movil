@@ -1,11 +1,11 @@
 import { createStore, action, thunk } from 'easy-peasy';
+import { camelizeKeys } from 'humps';
 import apiUtils from '../api/api';
 import sessionsApi from '../api/sessions';
 import ingredientsApi from '../api/ingredients';
 import recipesApi from '../api/recipes';
 import menusApi from '../api/menus';
 import providersApi from '../api/providers';
-import { camelizeKeys } from 'humps';
 
 const storeState = {
   currentUser: null,
@@ -28,6 +28,7 @@ const storeState = {
   },
   menusError: '',
   providersError: '',
+  chargeProviders: false,
 };
 
 const getters = {
@@ -97,6 +98,9 @@ const storeActions = {
   }),
   setLoadRecipes: action((state, payload) => {
     state.recipes.load = payload;
+  }),
+  setChargeProviders: action((state) => {
+    state.chargeProviders = !state.chargeProviders;
   }),
 };
 

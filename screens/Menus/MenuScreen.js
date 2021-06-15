@@ -48,8 +48,7 @@ function Menu(props) {
       ),
       headerTitle: menu.attributes.name,
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [navigation, showMenuOptions, menu.attributes.name]);
 
   return (
     <View style={styles.container}>

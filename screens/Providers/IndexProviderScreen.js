@@ -8,14 +8,18 @@ import {
   Text,
   ScrollView,
 } from 'react-native';
-import { useStoreActions } from 'easy-peasy';
+import { useStoreActions, useStoreState } from 'easy-peasy';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { camelizeKeys } from 'humps';
 import styles from '../../styles/Providers/indexStyles';
 import colors from '../../styles/appColors';
 
+// eslint-disable-next-line max-statements
 function IndexProviders({ navigation }) {
   const getProviders = useStoreActions((actions) => actions.getProviders);
+  const chargeProviders = useStoreState((state) => state.chargeProviders);
+  const setChargeProviders = useStoreActions((actions) => actions.setChargeProviders);
+
   const [mounted, setMounted] = useState(false);
   const [providers, setProviders] = useState([]);
 
@@ -45,7 +49,22 @@ function IndexProviders({ navigation }) {
       })
       .catch(() => {
       });
-  }, [getProviders]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (chargeProviders) {
+      getProviders()
+        .then((res) => {
+          setProviders(res);
+          setMounted(true);
+          setChargeProviders();
+        })
+        .catch(() => {
+        });
+    }
+  }, [chargeProviders]);
+
   if (providers.length) {
     return (
       <View style={styles.container}>
