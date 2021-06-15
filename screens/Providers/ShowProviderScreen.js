@@ -3,6 +3,7 @@ import {
   View,
   TouchableOpacity,
   Text,
+  Linking,
 } from 'react-native';
 import { useStoreActions } from 'easy-peasy';
 
@@ -61,7 +62,10 @@ function ShowProvider({ navigation, route }) {
         <Text style={styles.name}>
           Página web
         </Text>
-        <Text style={styles.value}>
+        <Text
+          style={[styles.value, styles.url]}
+          onPress={() => Linking.openURL(`https://${provider.attributes.webpageUrl}`)}
+        >
           {provider.attributes.webpageUrl}
         </Text>
       </View>

@@ -39,6 +39,10 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
   },
 
+  url: {
+    color: 'blue',
+  },
+
   buttonsContainer: {
     width: '100%',
     height: '15%',
