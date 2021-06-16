@@ -52,7 +52,7 @@ function LogIn() {
             secureTextEntry={hidePassword}
             style={styles.input}
           />
-          <Icon name={hidePassword ? 'eye-sharp' : 'eye-off-sharp'}
+          <Icon name={hidePassword ? 'eye-off-sharp' : 'eye-sharp'}
             color={colors.kitchengramGray600}
             size={20}
             style={styles.eye}

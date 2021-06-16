@@ -57,7 +57,7 @@ function SignUp() {
             secureTextEntry={hidePassword}
             style={styles.input}
           />
-          <Icon name={hidePassword ? 'eye-sharp' : 'eye-off-sharp'}
+          <Icon name={hidePassword ? 'eye-off-sharp' : 'eye-sharp'}
             color={colors.kitchengramGray600}
             size={20} style={styles.eye}
             onPress={() => setHidePassword(!hidePassword)}/>
@@ -69,7 +69,7 @@ function SignUp() {
             secureTextEntry={hidePassword2}
             style={styles.input}
           />
-          <Icon name={hidePassword2 ? 'eye-sharp' : 'eye-off-sharp'}
+          <Icon name={hidePassword2 ? 'eye-off-sharp' : 'eye-sharp'}
             color={colors.kitchengramGray600}
             size={20}
             style={styles.eye}
