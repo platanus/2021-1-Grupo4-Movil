@@ -52,9 +52,11 @@ function Recipe(props) {
       price: ingredient.attributes.ingredient.price,
       currentPrice: ingredient.attributes.ingredient.price * ingredient.attributes.ingredientQuantity /
         ingredient.attributes.ingredient.quantity,
-      unitQuantity: ingredient.attributes.ingredient.quantity,
+      unitQuantity: ingredient.attributes.ingredient.otherMeasures.data[
+        ingredient.attributes.ingredient.otherMeasures.data.length - 1].attributes.quantity,
       recipeQuantity: ingredient.attributes.ingredientQuantity,
-      measure: ingredient.attributes.ingredient.measure,
+      measure: ingredient.attributes.ingredient.otherMeasures.data[
+        ingredient.attributes.ingredient.otherMeasures.data.length - 1].attributes.name,
     };
   }
 
