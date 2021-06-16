@@ -19,7 +19,6 @@ function RecipesMenu({ navigation }) {
   function recipeInitialData(recipe) {
     const data = selectedRecipes.find((selected) => recipe.id.toString() === selected.id.toString());
     if (data) return data;
-    console.log(recipe);
 
     return {
       id: recipe.id,

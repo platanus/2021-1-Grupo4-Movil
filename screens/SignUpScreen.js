@@ -1,7 +1,10 @@
+/* eslint-disable max-statements */
 import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Text, View, TextInput, TouchableOpacity } from 'react-native';
 import { useStoreActions, useStoreState } from 'easy-peasy';
+import Icon from 'react-native-vector-icons/Ionicons';
+import colors from '../styles/appColors';
 import styles from '../styles/authStyles';
 
 function SignUp() {
@@ -13,6 +16,8 @@ function SignUp() {
   const [errorMessage, setErrorMessage] = useState('');
   const signUp = useStoreActions((actions) => actions.signUp);
   const signUpError = useStoreState((state) => state.signUpError);
+  const [hidePassword, setHidePassword] = useState(true);
+  const [hidePassword2, setHidePassword2] = useState(true);
 
   useEffect(() => {
     if (signUpError) {
@@ -46,17 +51,30 @@ function SignUp() {
           style={styles.input}
           autoCapitalize="none"/>
         <Text style={styles.loginText}> Contraseña:</Text>
-        <TextInput
-          onChangeText={(pass) => setPassword(pass)}
-          secureTextEntry={true}
-          style={styles.input}
-        />
+        <View>
+          <TextInput
+            onChangeText={(pass) => setPassword(pass)}
+            secureTextEntry={hidePassword}
+            style={styles.input}
+          />
+          <Icon name={hidePassword ? 'eye-sharp' : 'eye-off-sharp'}
+            color={colors.kitchengramGray600}
+            size={20} style={styles.eye}
+            onPress={() => setHidePassword(!hidePassword)}/>
+        </View>
         <Text style={styles.loginText}> Confirmar Contraseña:</Text>
-        <TextInput
-          onChangeText={(pass2) => setPassword2(pass2)}
-          secureTextEntry={true}
-          style={styles.input}
-        />
+        <View>
+          <TextInput
+            onChangeText={(pass2) => setPassword2(pass2)}
+            secureTextEntry={hidePassword2}
+            style={styles.input}
+          />
+          <Icon name={hidePassword2 ? 'eye-sharp' : 'eye-off-sharp'}
+            color={colors.kitchengramGray600}
+            size={20}
+            style={styles.eye}
+            onPress={() => setHidePassword2(!hidePassword2)}/>
+        </View>
         <Text style={styles.errorMessage}>
           {errorMessage}
         </Text>

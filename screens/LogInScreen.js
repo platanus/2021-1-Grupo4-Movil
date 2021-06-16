@@ -1,7 +1,10 @@
+/* eslint-disable max-statements */
 import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Text, View, TextInput, TouchableOpacity } from 'react-native';
 import { useStoreState, useStoreActions } from 'easy-peasy';
+import Icon from 'react-native-vector-icons/Ionicons';
+import colors from '../styles/appColors';
 import styles from '../styles/authStyles';
 
 function LogIn() {
@@ -9,6 +12,7 @@ function LogIn() {
   const setLoginError = useStoreActions((actions) => actions.setLoginError);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [hidePassword, setHidePassword] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
   const login = useStoreActions((actions) => actions.login);
   const loginError = useStoreState((state) => state.loginError);
@@ -42,11 +46,18 @@ function LogIn() {
           autoCapitalize="none"/>
 
         <Text style={styles.loginText}> Contraseña:</Text>
-        <TextInput
-          onChangeText={(pass) => setPassword(pass)}
-          secureTextEntry={true}
-          style={styles.input}
-        />
+        <View>
+          <TextInput
+            onChangeText={(pass) => setPassword(pass)}
+            secureTextEntry={hidePassword}
+            style={styles.input}
+          />
+          <Icon name={hidePassword ? 'eye-sharp' : 'eye-off-sharp'}
+            color={colors.kitchengramGray600}
+            size={20}
+            style={styles.eye}
+            onPress={() => setHidePassword(!hidePassword)}/>
+        </View>
 
         <Text style={styles.errorMessage}>
           {errorMessage}
