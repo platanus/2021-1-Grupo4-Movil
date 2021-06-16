@@ -71,7 +71,9 @@ function IndexIngredients({ navigation }) {
                   {`${ingredient.attributes.otherMeasures.data[
                     ingredient.attributes.otherMeasures.data.length - 1
                   ].attributes.quantity
-                  } ${ingredient.attributes.measure}`}
+                  } ${ingredient.attributes.otherMeasures.data[
+                    ingredient.attributes.otherMeasures.data.length - 1
+                  ].attributes.name}`}
                 </Text>
               </View>
               <View style={styles.right}>
@@ -83,7 +85,9 @@ function IndexIngredients({ navigation }) {
                     ingredient.attributes.price / ingredient.attributes.otherMeasures.data[
                       ingredient.attributes.otherMeasures.data.length - 1
                     ].attributes.quantity, '$')
-                  } / ${ingredient.attributes.measure}`}
+                  } / ${ingredient.attributes.otherMeasures.data[
+                    ingredient.attributes.otherMeasures.data.length - 1
+                  ].attributes.name}`}
                 </Text>
               </View>
             </TouchableOpacity>

@@ -55,7 +55,9 @@ function FormIngredient({ navigation, route }) {
   const [quantity, setQuantity] = useState(ingredient.attributes.otherMeasures.data[
     ingredient.attributes.otherMeasures.data.length - 1
   ].attributes.quantity);
-  const [measure, setMeasure] = useState(ingredient.attributes.measure);
+  const [measure, setMeasure] = useState(ingredient.attributes.otherMeasures.data[
+    ingredient.attributes.otherMeasures.data.length - 1
+  ].attributes.name);
   const [providerName, setProviderName] = useState(ingredient.attributes.providerName);
   const [providersNames, setProvidersNames] = useState([]);
 
@@ -269,38 +271,36 @@ function FormIngredient({ navigation, route }) {
               onChangeText={(text) => setQuantity(text)}
             />
           </View>
-          {(!isFromSearch) && (
-            <View style={styles.inputContainer}>
-              <Text style={styles.inputLabel}>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputLabel}>
             Unidad
-              </Text>
-              <View style={styles.dropDown}>
-                <RNPickerSelect
-                  style={pickers.customPickerStyles}
-                  key={'0'}
-                  placeholder={{
-                    label: 'Selecciona unidad...',
-                    value: '',
-                  }}
-                  value={measure}
-                  onValueChange={(value) => setMeasure(value)}
-                  items={[
-                    { label: 'Kg', value: 'Kg', key: '0' },
-                    { label: 'Gr', value: 'Gr', key: '1' },
-                    { label: 'L', value: 'L', key: '2' },
-                    { label: 'Ml', value: 'Ml', key: '3' },
-                  ]}
-                />
-
-              </View>
-              <Icon name='chevron-down'
-                size={30}
-                color={colors.kitchengramGray600}
-                style={styles.arrowIcon}
+            </Text>
+            <View style={styles.dropDown}>
+              <RNPickerSelect
+                style={pickers.customPickerStyles}
+                key={'0'}
+                placeholder={{
+                  label: 'Selecciona unidad...',
+                  value: '',
+                }}
+                value={measure}
+                onValueChange={(value) => setMeasure(value)}
+                items={[
+                  { label: 'KG', value: 'KG', key: '0' },
+                  { label: 'Gr', value: 'Gr', key: '1' },
+                  { label: 'L', value: 'L', key: '2' },
+                  { label: 'ml', value: 'ml', key: '3' },
+                  { label: 'UN', value: 'UN', key: '4' },
+                ]}
               />
-            </View>
 
-          )}
+            </View>
+            <Icon name='chevron-down'
+              size={30}
+              color={colors.kitchengramGray600}
+              style={styles.arrowIcon}
+            />
+          </View>
         </View>
       </KeyboardAvoidWrapper>
       <View style={styles.buttonsContainer}>
