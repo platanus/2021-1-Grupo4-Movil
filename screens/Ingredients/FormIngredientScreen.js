@@ -206,7 +206,6 @@ function FormIngredient({ navigation, route }) {
               placeholder="Nombre de ingrediente..."
               value={name}
               onChangeText={(text) => setName(text)}
-              editable={!isFromSearch}
             />
           </View>
           {isFromSearch ? (
@@ -215,9 +214,9 @@ function FormIngredient({ navigation, route }) {
             Proveedor
               </Text>
               <TextInput
-                style={styles.input}
+                style={[styles.input, styles.cancelText]}
                 value={providerName}
-                editable={!isFromSearch}
+                editable={false}
               />
             </View>) : (
             <View style={styles.inputContainer}>
@@ -255,7 +254,6 @@ function FormIngredient({ navigation, route }) {
               returnKeyType='done'
               value={price.toString()}
               onChangeText={(text) => setPrice(text)}
-              editable={!isFromSearch}
             />
           </View>
           <View style={styles.inputContainer}>
@@ -269,7 +267,6 @@ function FormIngredient({ navigation, route }) {
               returnKeyType='done'
               value={quantity.toString()}
               onChangeText={(text) => setQuantity(text)}
-              editable={!isFromSearch}
             />
           </View>
           {(!isFromSearch) && (
