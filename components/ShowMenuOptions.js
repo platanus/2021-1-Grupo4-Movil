@@ -47,7 +47,7 @@ function ShowMenuOptions(props) {
       ) : (
         <TouchableOpacity style={[styles.menuOption, styles.edit]}
           onPress={() => navigation.navigate(editNavigation, {
-            menu: element,
+            menu: element.menu,
             menus: elementsArray,
             setMenus: setElementsArray,
           })}>

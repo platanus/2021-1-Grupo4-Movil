@@ -1,4 +1,5 @@
 import { createStore, action, thunk } from 'easy-peasy';
+import { camelizeKeys } from 'humps';
 import apiUtils from '../api/api';
 import sessionsApi from '../api/sessions';
 import ingredientsApi from '../api/ingredients';
@@ -26,6 +27,7 @@ const storeState = {
   },
   menusError: '',
   providersError: '',
+  chargeProviders: false,
 };
 
 const getters = {
@@ -93,6 +95,9 @@ const storeActions = {
   setLoadRecipes: action((state, payload) => {
     state.recipes.load = payload;
   }),
+  setChargeProviders: action((state) => {
+    state.chargeProviders = !state.chargeProviders;
+  }),
 };
 
 const storeThunks = {
@@ -118,7 +123,7 @@ const storeThunks = {
   }),
   getIngredients: thunk(async (actions, payload) => {
     const ingredients = ingredientsApi.getIngredients(payload)
-      .then((res) => res.data.data)
+      .then((res) => camelizeKeys(res.data.data))
       .catch((err) => {
         actions.setIngredientsError(err.response.data.message);
         throw err;
@@ -128,7 +133,7 @@ const storeThunks = {
   }),
   createIngredient: thunk(async (actions, payload) => {
     const ingredient = ingredientsApi.createIngredient(payload)
-      .then((res) => res.data.data)
+      .then((res) => camelizeKeys(res.data.data))
       .catch((err) => {
         actions.setIngredientsError(err.response.data.message);
         throw err;
@@ -161,7 +166,7 @@ const storeThunks = {
   }),
   getRecipes: thunk(async (actions, payload) => {
     const recipes = recipesApi.getRecipes(payload)
-      .then((res) => res.data.data)
+      .then((res) => camelizeKeys(res.data.data))
       .catch((err) => {
         actions.setGetRecipesError(err.response.data.message);
         throw err;

@@ -50,7 +50,9 @@ function IngredientRow(props) {
             value={currentQuantity}
             onChangeText={(text) => setCurrentQuantity(quantityRegex(text))}
           />
-          <Text style={styles.ingredientText}>{ingredient.measure}. </Text>
+          <Text style={styles.ingredientText}>
+            {`${ingredient.measure}.`}
+          </Text>
           <View style={{ flex: 1 }}>
             <Text> {ingredient.name}</Text>
           </View>

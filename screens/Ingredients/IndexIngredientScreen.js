@@ -19,11 +19,13 @@ function IndexIngredients({ navigation }) {
 
   const [ingredients, setIngredients] = useState([]);
   const evenNumber = 2;
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     getIngredients()
       .then((res) => {
         setIngredients(res);
+        setMounted(true);
       })
       .catch(() => {
       });
@@ -45,44 +47,51 @@ function IndexIngredients({ navigation }) {
       ),
     });
   }, [navigation, ingredients]);
+  if (ingredients.length) {
+    return (
+      <View style={styles.container}>
+        <ScrollView>
+          {ingredients.map((ingredient, i) => (
+            <TouchableOpacity
+              style={[styles.ingredientRow, (i % evenNumber === 0) ? styles.even : styles.odd]}
+              key={ingredient.id}
+              onPress={() => {
+                navigation.navigate('Ingrediente', {
+                  ingredient,
+                  ingredients,
+                  setIngredients,
+                });
+              }}
+            >
+              <View style={styles.left}>
+                <Text style={styles.name}>
+                  {ingredient.attributes.name}
+                </Text>
+                <Text style={styles.measure}>
+                  {`${ingredient.attributes.quantity} ${ingredient.attributes.measure}`}
+                </Text>
+              </View>
+              <View style={styles.right}>
+                <Text style={styles.price}>
+                  {formatMoney(ingredient.attributes.price, '$')}
+                </Text>
+                <Text style={styles.measure}>
+                  {`${formatMoney(
+                    ingredient.attributes.price / ingredient.attributes.quantity, '$')
+                  } / ${ingredient.attributes.measure}`}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      </View>
+    );
+  }
 
-  return (
-    <View style={styles.container}>
-      <ScrollView>
-        {ingredients.map((ingredient, i) => (
-          <TouchableOpacity
-            style={[styles.ingredientRow, (i % evenNumber === 0) ? styles.even : styles.odd]}
-            key={ingredient.id}
-            onPress={() => {
-              navigation.navigate('Ingrediente', {
-                ingredient,
-                ingredients,
-                setIngredients,
-              });
-            }}
-          >
-            <View style={styles.left}>
-              <Text style={styles.name}>
-                {ingredient.attributes.name}
-              </Text>
-              <Text style={styles.measure}>
-                {`${ingredient.attributes.quantity} ${ingredient.attributes.measure}`}
-              </Text>
-            </View>
-            <View style={styles.right}>
-              <Text style={styles.price}>
-                {formatMoney(ingredient.attributes.price, '$')}
-              </Text>
-              <Text style={styles.measure}>
-                {`${formatMoney(
-                  ingredient.attributes.price / ingredient.attributes.quantity, '$')
-                } / ${ingredient.attributes.measure}`}
-              </Text>
-            </View>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
-    </View>
+  return (mounted) && (
+    <Text style={styles.emptyMessage}>
+      Aún no tienes ingredientes.
+    </Text>
   );
 }
 

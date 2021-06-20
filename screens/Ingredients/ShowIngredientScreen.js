@@ -50,6 +50,14 @@ function ShowIngredient({ navigation, route }) {
       </View>
       <View style={styles.attributeContainer}>
         <Text style={styles.name}>
+          Proveedor
+        </Text>
+        <Text style={styles.value}>
+          {ingredient.attributes.providerName}
+        </Text>
+      </View>
+      <View style={styles.attributeContainer}>
+        <Text style={styles.name}>
           Cantidad
         </Text>
         <Text style={styles.value}>
