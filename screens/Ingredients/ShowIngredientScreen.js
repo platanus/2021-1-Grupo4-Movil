@@ -74,6 +74,14 @@ function ShowIngredient({ navigation, route }) {
           } / ${ingredient.attributes.measure}`}
         </Text>
       </View>
+      <View style={styles.attributeContainer}>
+        <Text style={styles.name}>
+          Inventario
+        </Text>
+        <Text style={styles.value}>
+          {ingredient.attributes.inventory}
+        </Text>
+      </View>
       <View style={styles.buttonsContainer}>
         <TouchableOpacity
           style={styles.edit}

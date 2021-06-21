@@ -30,6 +30,7 @@ function FormIngredient({ navigation, route }) {
         sku: '',
         currency: 'CLP',
         providerName: null,
+        inventory: 0,
       },
     },
     ingredients,
@@ -44,6 +45,7 @@ function FormIngredient({ navigation, route }) {
   const [price, setPrice] = useState(ingredient.attributes.price);
   const [quantity, setQuantity] = useState(ingredient.attributes.quantity);
   const [measure, setMeasure] = useState(ingredient.attributes.measure);
+  const [inventory, setInventory] = useState(ingredient.attributes.inventory);
   const [providerName, setProviderName] = useState(ingredient.attributes.providerName);
   const [providersNames, setProvidersNames] = useState([]);
 
@@ -62,6 +64,14 @@ function FormIngredient({ navigation, route }) {
       });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const increaseInventory = () => {
+    setInventory(inventory + 1)
+  }
+
+  const decreaseInventory = () => {
+    setInventory(inventory - 1)
+  }
 
   function checkValidValues() {
 
@@ -88,6 +98,7 @@ function FormIngredient({ navigation, route }) {
 
       quantity,
       measure,
+      inventory,
       // eslint-disable-next-line
       provider_name: providerName,
       // eslint-disable-next-line
@@ -119,6 +130,7 @@ function FormIngredient({ navigation, route }) {
       currency: ingredient.attributes.currency,
       quantity,
       measure,
+      inventory,
       // eslint-disable-next-line
       provider_name: providerName,
       // eslint-disable-next-line
@@ -151,6 +163,7 @@ function FormIngredient({ navigation, route }) {
             setPrice,
             setQuantity,
             setProviderName,
+            setInventory,
           })}
           style={styles.scrapperButton}>
           <Text style={styles.scrapperButtonText}>
@@ -166,7 +179,7 @@ function FormIngredient({ navigation, route }) {
           style={styles.input}
           placeholder="Nombre de ingrediente..."
           value={name}
-          onChangeText={(text) => setName(text)}
+          onChangeText={setName}
           editable={!isFromSearch}
         />
       </View>
@@ -183,7 +196,7 @@ function FormIngredient({ navigation, route }) {
               value: null,
             }}
             value={providerName}
-            onValueChange={(value) => setProviderName(value)}
+            onValueChange={setProviderName}
             items={providersNames}
           />
 
@@ -204,7 +217,7 @@ function FormIngredient({ navigation, route }) {
           keyboardType="number-pad"
           returnKeyType='done'
           value={price.toString()}
-          onChangeText={(text) => setPrice(text)}
+          onChangeText={setPrice}
           editable={!isFromSearch}
         />
       </View>
@@ -218,9 +231,39 @@ function FormIngredient({ navigation, route }) {
           keyboardType="number-pad"
           returnKeyType='done'
           value={quantity.toString()}
-          onChangeText={(text) => setQuantity(text)}
+          onChangeText={setQuantity}
           editable={!isFromSearch}
         />
+      </View>
+      <View style={styles.inputContainer}>
+        <Text style={styles.inputLabel}>
+          Inventario
+        </Text>
+        <TouchableOpacity
+          style={[styles.button, styles.cancel]}
+          onPress={increaseInventory}
+        >
+          <Text>
+            +
+          </Text>
+        </TouchableOpacity>
+        <TextInput
+          style={styles.input}
+          placeholder="Inventario de ingrediente..."
+          keyboardType="number-pad"
+          returnKeyType='done'
+          value={inventory.toString()}
+          onChangeText={setInventory}
+          editable={true}
+        />
+        <TouchableOpacity
+          style={[styles.button, styles.cancel]}
+          onPress={decreaseInventory}
+        >
+          <Text>
+            -
+          </Text>
+        </TouchableOpacity>
       </View>
       {(!isFromSearch) && (
         <View style={styles.inputContainer}>
@@ -236,7 +279,7 @@ function FormIngredient({ navigation, route }) {
                 value: '',
               }}
               value={measure}
-              onValueChange={(value) => setMeasure(value)}
+              onValueChange={setMeasure}
               items={[
                 { label: 'Kg', value: 'Kg', key: '0' },
                 { label: 'Gr', value: 'Gr', key: '1' },
