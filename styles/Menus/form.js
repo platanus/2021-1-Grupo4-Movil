@@ -27,12 +27,13 @@ const styles = StyleSheet.create({
   },
   textInput: {
     width: '100%',
-    height: 35,
+    height: 50,
     paddingHorizontal: 5,
     borderWidth: 2,
     borderColor: colors.tableBorder,
     borderRadius: 5,
     alignSelf: 'center',
+    marginTop: 5,
   },
   selectRecipesRow: {
     display: 'flex',
@@ -105,7 +106,8 @@ const styles = StyleSheet.create({
   },
   searchText: {
     color: colors.yellow,
-    fontWeight: 'bold',
+    fontSize: 16,
+    padding: 10,
   },
   recipeRow: {
     display: 'flex',

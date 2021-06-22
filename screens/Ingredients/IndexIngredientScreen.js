@@ -23,6 +23,7 @@ function IndexIngredients({ navigation }) {
 
   const [ingredients, setIngredients] = useState([]);
   const evenNumber = 2;
+  const [mounted, setMounted] = useState(false);
   const [editableInventories, setEditableInventories] = useState([]);
 
   const inventoryModifier = (adder, ingId) => {
@@ -89,7 +90,8 @@ function IndexIngredients({ navigation }) {
     getIngredients()
       .then((res) => {
         setIngredients(res);
-        setEditableInventories(res)
+        setEditableInventories(res);
+        setMounted(true);
       })
       .catch(() => {
       });
@@ -111,8 +113,52 @@ function IndexIngredients({ navigation }) {
       ),
     });
   }, [navigation, ingredients]);
-
-  return (
+  if (ingredients.length) {
+    return (
+      <View style={styles.container}>
+        <ScrollView>
+          {ingredients.map((ingredient, i) => (
+            <TouchableOpacity
+              style={[styles.ingredientRow, (i % evenNumber === 0) ? styles.even : styles.odd]}
+              key={ingredient.id}
+              onPress={() => {
+                navigation.navigate('Ingrediente', {
+                  ingredient,
+                  ingredients,
+                  setIngredients,
+                });
+              }}
+            >
+              <View style={styles.left}>
+                <Text style={styles.name}>
+                  {ingredient.attributes.name}
+                </Text>
+                <Text style={styles.measure}>
+                  {`${ingredient.attributes.otherMeasures.data[
+                    ingredient.attributes.otherMeasures.data.length - 1
+                  ].attributes.quantity
+                  } ${ingredient.attributes.measure}`}
+                </Text>
+              </View>
+              <View style={styles.right}>
+                <Text style={styles.price}>
+                  {formatMoney(ingredient.attributes.price, '$')}
+                </Text>
+                <Text style={styles.measure}>
+                  {`${formatMoney(
+                    ingredient.attributes.price / ingredient.attributes.otherMeasures.data[
+                      ingredient.attributes.otherMeasures.data.length - 1
+                    ].attributes.quantity, '$')
+                  } / ${ingredient.attributes.measure}`}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      </View>
+    );
+  }
+  return (!mounted) && (
     <View style={styles.container}>
       <ScrollView>
         {ingredients.map((ingredient, i) => (
@@ -204,6 +250,11 @@ function IndexIngredients({ navigation }) {
         ))}
       </ScrollView>
     </View>
+ );
+  return (mounted) && (
+    <Text style={styles.emptyMessage}>
+      Aún no tienes ingredientes.
+    </Text>
   );
 }
 

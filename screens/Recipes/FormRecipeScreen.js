@@ -1,27 +1,32 @@
-import { useStoreActions, useStoreState } from 'easy-peasy';
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput } from 'react-native';
+import { View, Text, ScrollView, TextInput } from 'react-native';
+import { useStoreActions, useStoreState } from 'easy-peasy';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import styles from '../../styles/Recipes/newRecipe';
+import styles from '../../styles/Recipes/formRecipe';
 import RecipeSteps from './RecipeStepsScreen';
 import IngredientRow from '../../components/recipeEditIngredientRow';
 import calculateRecipePrice from '../../utils/calculateRecipePrice';
 import formatMoney from '../../utils/formatMoney';
-import KeyboardAvoidWrapper from '../../components/KeyboardAvoidWrapper';
 
 /* eslint max-statements: [2, 30] */
 function FormRecipe(props) {
-  const { navigation, route } = props;
-  const recipe = (route.params && route.params.recipe) ? route.params.recipe : null;
-  const setLoadRecipes = useStoreActions((actions) => actions.setLoadRecipes);
+  const {
+    navigation,
+    route,
+  } = props;
+  const recipe = (route.params && route.params.recipe) && route.params.recipe;
+  const {
+    recipes,
+    setRecipes,
+  } = route.params;
 
   const [recipeName, setRecipeName] = useState(recipe && recipe.attributes.name ? recipe.attributes.name : '');
-  const [recipeTime, setRecipeTime] = useState(recipe && recipe.attributes.cook_minutes ?
-    recipe.attributes.cook_minutes.toString() : '');
+  const [recipeTime, setRecipeTime] = useState(recipe && recipe.attributes.cookMinutes ?
+    recipe.attributes.cookMinutes.toString() : '');
   const [recipePortions, setRecipePortions] = useState(recipe && recipe.attributes.portions ?
     recipe.attributes.portions.toString() : '');
   const [recipeSteps, setRecipeSteps] = useState(
-    recipe ? JSON.parse(JSON.stringify(recipe.attributes.steps.data)) : []);
+    recipe && recipe.attributes.steps.data ? JSON.parse(JSON.stringify(recipe.attributes.steps.data)) : []);
 
   const [recipePrice, setRecipePrice] = useState(recipe ? calculateRecipePrice(recipe) : 0);
   const createRecipe = useStoreActions((actions) => actions.createRecipe);
@@ -40,16 +45,15 @@ function FormRecipe(props) {
     if (recipe) {
       const auxIngredients = [];
       const auxRecipeIngredients = [];
-      route.params.recipe.attributes.recipe_ingredients.data.forEach((ingredient) => {
+      recipe.attributes.recipeIngredients.data.forEach((ingredient) => {
         auxIngredients.push({
-          id: ingredient.attributes.ingredient.id,
           attributes: ingredient.attributes.ingredient,
         });
         auxRecipeIngredients.push({
           ...ingredient.attributes.ingredient,
           id: ingredient.attributes.ingredient.id,
           recipeIngredientId: ingredient.id,
-          recipeQuantity: ingredient.attributes.ingredient_quantity,
+          recipeQuantity: ingredient.attributes.ingredientQuantity,
           isNew: false,
           isDeleted: false,
           isEdited: false,
@@ -62,6 +66,7 @@ function FormRecipe(props) {
       setIngredientsAction([]);
     }
     setIsStarting(false);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -69,7 +74,12 @@ function FormRecipe(props) {
       const auxIngredients = [];
       let price = 0;
       selectedIngredients.forEach((ingredient) => {
-        const index = ingredientsData.findIndex((data) => data.id.toString() === ingredient.id.toString());
+        let index = -1;
+        if (ingredient.id) {
+          index = ingredientsData.findIndex((data) => data.id.toString() === ingredient.id.toString());
+        } else {
+          index = ingredientsData.findIndex((data) => data.id.toString() === ingredient.attributes.id.toString());
+        }
         if (index >= 0) {
           ingredientsData[index].isDeleted = false;
           price += ingredientsData[index].recipeQuantity * ingredientsData[index].price /
@@ -80,6 +90,7 @@ function FormRecipe(props) {
         } else {
           const newIngredient = {
             ...ingredient.attributes,
+            name: ingredient.attributes.name,
             id: ingredient.id,
             recipeIngredientId: null,
             recipeQuantity: 0,
@@ -101,6 +112,7 @@ function FormRecipe(props) {
       });
       setDeletedIngredients([]);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedIngredients]);
 
   function changeIngredientDataQuantity(ingredientId, newQuantity) {
@@ -164,32 +176,64 @@ function FormRecipe(props) {
   }
 
   function searchIngredients() {
-    navigation.navigate('Buscar ingredientes', recipe);
+    navigation.navigate('Buscar ingredientes', {
+      isNewRecipe: !(recipe),
+      recipe,
+      recipes,
+      setRecipes,
+    });
   }
 
-  function checkValidInputs() {
-
-    const validations = [
-      { error: !recipeName.length, message: "Debes asignar un nombre a la receta" },
-      { error: recipePortions <= 0, message: "Debes ingresar porciones válidas" },
-      { error: recipeTime <= 0, message: "Debes ingresar un tiempo de preparación válida" },
-      { error: !recipeIngredients.length, message: "Debes ingresar uno o más ingredientes" },
-      { error: !recipeSteps.length, message: "Debes ingresar uno o más pasos" },
-    ];
-    const error = validations.find((validation) => (validation.error));
-    if (error) {
-      alert(error.message);
-      return false
-    }
-
-    return true;
+  function changeRecipeLocally(body) {
+    recipe.attributes.name = body.name;
+    recipe.attributes.portions = body.portions;
+    recipe.attributes.cookMinutes = body.cookMinutes;
+    let auxStepsData = recipe.attributes.steps.data;
+    body.stepsAttributes.forEach((step, i) => {
+      // eslint-disable-next-line no-underscore-dangle
+      if (step._destroy) {
+        auxStepsData = auxStepsData.filter((element) => element.id !== step.id);
+      // eslint-disable-next-line no-magic-numbers
+      } else if (Object.keys(step).length > 2) {
+        const index = auxStepsData.findIndex((element) => element.id === step.id);
+        auxStepsData[index].attributes.description = step.description;
+      } else {
+        auxStepsData.push({
+          attributes: {
+            description: step.description,
+          },
+          id: i,
+        });
+      }
+    });
+    recipe.attributes.steps.data = auxStepsData;
+    let auxIngredientsData = recipe.attributes.recipeIngredients.data;
+    body.recipeIngredientsAttributes.forEach((ingredient, i) => {
+      // eslint-disable-next-line no-underscore-dangle
+      if (ingredient._destroy) {
+        auxIngredientsData = auxIngredientsData.filter(
+          (element) => element.id !== ingredient.id);
+      } else {
+        const index = auxIngredientsData.findIndex(
+          (element) => element.attributes.ingredient.id === ingredient.ingredientId);
+        if (index >= 0) {
+          auxIngredientsData[index].attributes.ingredientQuantity = ingredient.ingredientQuantity;
+        } else {
+          const ingredientsDataIndex = ingredientsData.findIndex((element) => element.id === ingredient.ingredientId);
+          auxIngredientsData.push({
+            attributes: {
+              ingredient: ingredientsData[ingredientsDataIndex],
+              ingredientQuantity: ingredientsData[ingredientsDataIndex].recipeQuantity,
+            },
+            id: i,
+          });
+        }
+      }
+    });
+    recipe.attributes.recipeIngredients.data = auxIngredientsData;
   }
-
 
   function handleSubmit() {
-
-    if (!checkValidInputs()) return;
-
     const body = {
       name: recipeName,
       portions: parseInt(recipePortions, 10),
@@ -199,73 +243,77 @@ function FormRecipe(props) {
     };
 
     if (recipe) {
+      changeRecipeLocally(body);
       editRecipe({ body, id: recipe.id })
         .then(() => {
-          setLoadRecipes(true);
-          navigation.navigate('Recetas', { recipe });
+          const auxRecipes = recipes.filter(item => item.id !== recipe.id);
+          auxRecipes.push(recipe);
+          setRecipes(auxRecipes);
+          navigation.navigate('Recetas');
         })
         .catch(() => {
         });
     } else {
       createRecipe(body)
-        .then(() => {
-          setLoadRecipes(true);
-          navigation.navigate('Recetas', { recipe });
+        .then((resp) => {
+          const auxRecipes = [...recipes];
+          auxRecipes.push(resp);
+          setRecipes(auxRecipes);
+          navigation.navigate('Recetas');
         })
-        .catch(() => {});
+        .catch(() => {
+        });
     }
   }
 
   return (
-    <KeyboardAvoidWrapper>
-      <View style={styles.mainContainer}>
-        <View style={styles.container}>
-          <Text style={styles.sectionTitleText}>Datos básicos</Text>
-          <View style={styles.inlineInputs}>
-            <View style={styles.recipeInfoRow}>
-              <Text style={styles.label}>Nombre</Text>
-              <TextInput
-                style={styles.sectionTextInput}
-                value={recipeName}
-                onChangeText={setRecipeName}/>
-            </View>
-          </View>
-          <View style={styles.inlineInputs}>
-            <View style={styles.recipeInfoRowHalf}>
-              <Text style={styles.label}>Porciones</Text>
-              <TextInput
-                keyboardType="number-pad"
-                returnKeyType='done'
-                style={styles.sectionTextInput}
-                value={recipePortions}
-                onChangeText={setRecipePortions}/>
-            </View>
-            <View style={styles.recipeInfoRowHalf}>
-              <Text style={styles.label}>Tiempo (minutos)</Text>
-              <TextInput
-                keyboardType="number-pad"
-                returnKeyType='done'
-                style={styles.sectionTextInput}
-                value={recipeTime}
-                onChangeText={setRecipeTime}/>
-            </View>
+    <ScrollView style={styles.mainContainer}>
+      <View style={styles.container}>
+        <Text style={styles.sectionTitleText}>Datos básicos</Text>
+        <View style={styles.inlineInputs}>
+          <View style={styles.recipeInfoRow}>
+            <Text style={styles.label}>Nombre</Text>
+            <TextInput
+              style={styles.sectionTextInput}
+              value={recipeName}
+              onChangeText={setRecipeName}/>
           </View>
         </View>
-        <View style={styles.container}>
-          <View style={styles.inlineInputs}>
-            <View style={styles.recipeInfoRow}>
-              <Text style={styles.sectionTitleText}>Ingredientes seleccionados</Text>
-            </View>
-            <View style={styles.recipeInfoRow}>
-              <TouchableOpacity style={styles.ingredientButton} onPress={searchIngredients}>
-                <Text style={styles.ingredientButtonText}>Buscar ingredientes</Text>
-              </TouchableOpacity>
-            </View>
+        <View style={styles.inlineInputs}>
+          <View style={styles.recipeInfoRowHalf}>
+            <Text style={styles.label}>Porciones</Text>
+            <TextInput
+              keyboardType="number-pad"
+              returnKeyType='done'
+              style={styles.sectionTextInput}
+              value={recipePortions}
+              onChangeText={setRecipePortions}/>
+          </View>
+          <View style={styles.recipeInfoRowHalf}>
+            <Text style={styles.label}>Tiempo (minutos)</Text>
+            <TextInput
+              keyboardType="number-pad"
+              returnKeyType='done'
+              style={styles.sectionTextInput}
+              value={recipeTime}
+              onChangeText={setRecipeTime}/>
+          </View>
+        </View>
+      </View>
+      <View style={styles.container}>
+        <View style={styles.inlineInputs}>
+          <View style={styles.recipeInfoRow}>
+            <Text style={styles.sectionTitleText}>Ingredientes seleccionados</Text>
+          </View>
+          <View style={styles.recipeInfoRow}>
+            <TouchableOpacity style={styles.ingredientButton} onPress={searchIngredients}>
+              <Text style={styles.ingredientButtonText}>Buscar ingredientes</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
       <View style={styles.ingredientsContainer}>
-        { recipeIngredients.map((ingredient) =>
+        {recipeIngredients.map((ingredient) =>
           <IngredientRow
             ingredient={ingredient}
             key={ingredient.id}
@@ -283,43 +331,31 @@ function FormRecipe(props) {
           </View>
           <View style={styles.sectionPrice}>
             <Text style={styles.totalCostPrice}>
-              {formatMoney(Math.round(recipePrice / Number(recipePortions)), '$')}
+              {(recipePortions > 0) && formatMoney(Math.round(recipePrice / Number(recipePortions)), '$ ')}
             </Text>
           </View>
         </View>
-        <View style={styles.ingredientsContainer}>
-          <View style={ styles.totalCostTextBox }>
-            <View style={styles.sectionQuantity}>
-              <Text style={styles.totalCostText}>Costo por porción</Text>
-            </View>
-            <View style={styles.sectionPrice}>
-              <Text style={styles.totalCostPrice}>
-                {formatMoney(Math.round(recipePrice / Number(recipePortions)), '$')}
-              </Text>
-            </View>
+        <View style={ styles.totalCostTextBox }>
+          <View style={styles.sectionQuantity}>
+            <Text style={styles.totalCostText}>Costo total</Text>
           </View>
-          <View style={ styles.totalCostTextBox }>
-            <View style={styles.sectionQuantity}>
-              <Text style={styles.totalCostText}>Costo total</Text>
-            </View>
-            <View style={styles.sectionPrice}>
-              <Text style={styles.totalCostPrice}>
-                {formatMoney(Math.round(recipePrice), '$')}
-              </Text>
-            </View>
+          <View style={styles.sectionPrice}>
+            <Text style={styles.totalCostPrice}>
+              {formatMoney(Math.round(recipePrice), '$ ')}
+            </Text>
           </View>
-        </View>
-        <RecipeSteps
-          recipeSteps={recipeSteps}
-          setRecipeSteps={setRecipeSteps}
-        />
-        <View style={styles.container}>
-          <TouchableOpacity style={styles.submitNewRecipe} onPress={handleSubmit}>
-            <Text style={styles.newRecipeButtonText}>{recipe ? 'Editar receta' : 'Crear receta'}</Text>
-          </TouchableOpacity>
         </View>
       </View>
-    </KeyboardAvoidWrapper>
+      <RecipeSteps
+        recipeSteps={recipeSteps}
+        setRecipeSteps={setRecipeSteps}
+      />
+      <View style={styles.container}>
+        <TouchableOpacity style={styles.submitNewRecipe} onPress={handleSubmit}>
+          <Text style={styles.newRecipeButtonText}>{recipe ? 'Editar receta' : 'Crear receta'}</Text>
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
   );
 }
 

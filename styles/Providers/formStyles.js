@@ -3,33 +3,33 @@ import colors from '../appColors';
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#FFFFFF',
-    alignItems: 'center',
-    width: '100%',
-    height: '100%',
+    paddingHorizontal: '5%',
+    backgroundColor: colors.kitchengramWhite,
+    minHeight: '100%',
+    paddingTop: 15,
   },
 
   inputContainer: {
-    width: '75%',
-    height: '10%',
+    width: '100%',
+    height: 60,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'flex-start',
-    marginTop: 22,
+    marginVertical: 15,
   },
 
   inputLabel: {
     fontSize: 14,
     fontWeight: 'normal',
     fontStyle: 'normal',
-    color: colors.tableBorder,
-    marginBottom: 3,
+    color: colors.kitchengramBlack,
+    marginBottom: 5,
   },
 
   input: {
     width: '100%',
-    height: '85%',
-    borderColor: colors.tableBorder,
+    height: 50,
+    borderColor: colors.kitchengramGray600,
     borderWidth: 2,
     borderRadius: 5,
     fontSize: 14,
@@ -37,59 +37,36 @@ const styles = StyleSheet.create({
     paddingRight: 15,
     fontWeight: 'bold',
     fontStyle: 'normal',
-    color: '#111111',
-  },
-
-  dropDown: {
-    width: '100%',
-    height: '85%',
-    borderColor: colors.tableBorder,
-    borderWidth: 2,
-    borderRadius: 5,
-    fontSize: 16,
+    color: colors.kitchengramBlack,
   },
 
   buttonsContainer: {
-    width: '100%',
-    height: '15%',
+    paddingHorizontal: '5%',
+    height: 65,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
+    justifyContent: 'space-between',
+    width: '100%',
+    paddingVertical: 10,
+    backgroundColor: colors.kitchengramWhite,
   },
 
   button: {
-    height: '40%',
+    height: '90%',
     alignItems: 'center',
     justifyContent: 'center',
   },
-
-  scrapperButton: {
-    backgroundColor: colors.greenButtons,
-    padding: 12,
-    borderRadius: 5,
-    height: '8%',
-    width: '75%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginVertical: 10 },
-
-  scrapperButtonText: {
-    color: colors.white,
-    fontWeight: 'bold',
-  },
-
   cancel: {
-    width: '30%',
+    width: '48%',
     backgroundColor: 'transparent',
-    marginRight: 10,
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: colors.kitchengramGray600,
   },
 
   confirm: {
-    width: '55%',
-    backgroundColor: colors.greenButtons,
+    width: '48%',
+    backgroundColor: colors.kitchengramGreen500,
     borderRadius: 5,
   },
 
@@ -100,11 +77,11 @@ const styles = StyleSheet.create({
   },
 
   cancelText: {
-    color: colors.greenButtons,
+    color: colors.kitchengramGray600,
   },
 
   confirmText: {
-    color: colors.white,
+    color: colors.kitchengramWhite,
   },
 });
 

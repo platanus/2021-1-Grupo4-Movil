@@ -53,7 +53,9 @@ function ShowIngredient({ navigation, route }) {
           Cantidad
         </Text>
         <Text style={styles.value}>
-          {ingredient.attributes.quantity}
+          {ingredient.attributes.otherMeasures.data[
+            ingredient.attributes.otherMeasures.data.length - 1
+          ].attributes.quantity}
         </Text>
       </View>
       <View style={styles.attributeContainer}>
@@ -70,7 +72,9 @@ function ShowIngredient({ navigation, route }) {
         </Text>
         <Text style={styles.value}>
           {`${formatMoney(
-            ingredient.attributes.price / ingredient.attributes.quantity, '$')
+            ingredient.attributes.price / ingredient.attributes.otherMeasures.data[
+              ingredient.attributes.otherMeasures.data.length - 1
+            ].attributes.quantity, '$')
           } / ${ingredient.attributes.measure}`}
         </Text>
       </View>
