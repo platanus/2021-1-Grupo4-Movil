@@ -130,6 +130,9 @@ const storeThunks = {
 
     return ingredients;
   }),
+  setIngredientInventory: thunk(async (_, payload) => {
+    await ingredientsApi.editIngredient(payload);
+  }),
   createIngredient: thunk(async (actions, payload) => {
     const ingredient = ingredientsApi.createIngredient(payload)
       .then((res) => res.data.data)

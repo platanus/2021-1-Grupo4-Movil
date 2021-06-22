@@ -65,21 +65,14 @@ function FormIngredient({ navigation, route }) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const increaseInventory = () => {
-    setInventory(inventory + 1)
-  }
-
-  const decreaseInventory = () => {
-    setInventory(inventory - 1)
-  }
-
   function checkValidValues() {
 
     const validations = [
     { error: !name.length, message: "Debes asignar un nombre al ingrediente" },
     { error: price <= 0, message: "Debes ingresar un precio válido" },
     { error: quantity <= 0, message: "Debes ingresar una cantidad válida" },
-    { error:  !measure.length, message: "Debes ingresar una medida al ingrediente" },
+    { error: !measure.length, message: "Debes ingresar una medida al ingrediente" },
+    { error: !inventory.length, message: "Debes ingresar una medida al inventario" },
     ];
     const error = validations.find((validation) => (validation.error))
     if ( error ) { alert(error.message); return false };
@@ -235,36 +228,6 @@ function FormIngredient({ navigation, route }) {
           editable={!isFromSearch}
         />
       </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.inputLabel}>
-          Inventario
-        </Text>
-        <TouchableOpacity
-          style={[styles.button, styles.cancel]}
-          onPress={increaseInventory}
-        >
-          <Text>
-            +
-          </Text>
-        </TouchableOpacity>
-        <TextInput
-          style={styles.input}
-          placeholder="Inventario de ingrediente..."
-          keyboardType="number-pad"
-          returnKeyType='done'
-          value={inventory.toString()}
-          onChangeText={setInventory}
-          editable={true}
-        />
-        <TouchableOpacity
-          style={[styles.button, styles.cancel]}
-          onPress={decreaseInventory}
-        >
-          <Text>
-            -
-          </Text>
-        </TouchableOpacity>
-      </View>
       {(!isFromSearch) && (
         <View style={styles.inputContainer}>
           <Text style={styles.inputLabel}>
@@ -296,6 +259,19 @@ function FormIngredient({ navigation, route }) {
           />
         </View>
       )}
+      <View style={styles.inputContainer}>
+        <Text style={styles.inputLabel}>
+          Inventario
+        </Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Inventario de ingrediente..."
+          keyboardType="number-pad"
+          returnKeyType='done'
+          value={inventory.toString()}
+          onChangeText={setInventory}
+        />
+      </View>
       <View style={styles.buttonsContainer}>
         <TouchableOpacity
           style={[styles.button, styles.cancel]}

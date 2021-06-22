@@ -79,7 +79,7 @@ function ShowIngredient({ navigation, route }) {
           Inventario
         </Text>
         <Text style={styles.value}>
-          {ingredient.attributes.inventory}
+          {Number(ingredient.attributes.inventory)}
         </Text>
       </View>
       <View style={styles.buttonsContainer}>
