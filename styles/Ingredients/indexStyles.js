@@ -87,6 +87,27 @@ const styles = StyleSheet.create({
     paddingTop: 3,
     paddingLeft: 2,
   },
+  decreaseInventoryBtn: {
+    width: 40,
+    left: 16, 
+    display: 'flex',
+  },
+  increaseInventoryBtn: {
+    width: 40,
+  },
+  inventoryEditPanel: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  inventoryInput: {
+    width: 50,
+    textAlign: 'center',
+    borderColor: colors.kitchengramGray400,
+    borderWidth: 2,
+    borderRadius: 5,
+  },
 });
 
 export default styles;

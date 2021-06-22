@@ -163,9 +163,9 @@ function IndexIngredients({ navigation }) {
                   >
                     {`${ingredient.attributes.inventory} un.`}
                   </Text> :
-                  <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <View style={styles.inventoryEditPanel}>
                     <TouchableOpacity
-                      style={{ width: 40, left: 16, display: 'flex' }}
+                      style={styles.decreaseInventoryBtn}
                       onPress={() => decreaseInventory(ingredient.id)}
                     >
                       <Icon
@@ -175,7 +175,7 @@ function IndexIngredients({ navigation }) {
                       />
                     </TouchableOpacity>
                     <TextInput
-                      style={{ width: 50, textAlign: 'center', borderColor: colors.kitchengramGray400, borderWidth: 2, borderRadius: 5 }}
+                      style={styles.inventoryInput}
                       keyboardType="number-pad"
                       returnKeyType='done'
                       value={ingredient.attributes.inventory.toString()}
@@ -183,7 +183,7 @@ function IndexIngredients({ navigation }) {
                       editable={true}
                     />
                     <TouchableOpacity
-                      style={{ width: 40 }}
+                      style={styles.increaseInventoryBtn}
                       onPress={() => increaseInventory(ingredient.id)}
                     >
                       <Icon
