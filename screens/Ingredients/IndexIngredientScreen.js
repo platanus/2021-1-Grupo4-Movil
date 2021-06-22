@@ -25,27 +25,17 @@ function IndexIngredients({ navigation }) {
   const evenNumber = 2;
   const [editableInventories, setEditableInventories] = useState([]);
 
-  const increaseInventory = (ingId) => {
+  const inventoryModifier = (adder, ingId) => {
     const newIngredients = [...ingredients];
 
-    newIngredients.map((ing) => {
-      if (ing.id == ingId & ing.attributes.inventory >= 0) {
-        ing.attributes.inventory = ing.attributes.inventory + 1;
+    newIngredients.forEach((ing) => {
+      if (ing.id === ingId && ing.attributes.inventory >= 0) {
+        ing.attributes.inventory = adder;
       }
     });
-    setIngredients(newIngredients);
-  };
 
-  const decreaseInventory = (ingId) => {
-    const newIngredients = [...ingredients];
-
-    newIngredients.map((ing) => {
-      if (ing.id == ingId & ing.attributes.inventory > 0) {
-        ing.attributes.inventory = ing.attributes.inventory - 1;
-      }
-    });
     setIngredients(newIngredients);
-  };
+  }
 
   const showInventoryInput = (index) => {
     const copyEditables = [...editableInventories];
@@ -62,7 +52,7 @@ function IndexIngredients({ navigation }) {
     const newIngredients = [...ingredients];
 
     newIngredients.map((ing) => {
-      if (ing.id == ingId & ing.attributes.inventory >= 0) {
+      if (ing.id === ingId && ing.attributes.inventory >= 0) {
         ing.attributes.inventory = Number(event);
       }
     });
@@ -99,9 +89,7 @@ function IndexIngredients({ navigation }) {
     getIngredients()
       .then((res) => {
         setIngredients(res);
-        setEditableInventories(
-          res.map((ing) => ({ ...ing, shown: false })),
-        );
+        setEditableInventories(res)
       })
       .catch(() => {
       });
@@ -166,7 +154,8 @@ function IndexIngredients({ navigation }) {
                   <View style={styles.inventoryEditPanel}>
                     <TouchableOpacity
                       style={styles.decreaseInventoryBtn}
-                      onPress={() => decreaseInventory(ingredient.id)}
+                      onPress={() => inventoryModifier(
+                        ingredient.attributes.inventory - 1, ingredient.id)}
                     >
                       <Icon
                         name='remove-circle-outline'
@@ -184,7 +173,8 @@ function IndexIngredients({ navigation }) {
                     />
                     <TouchableOpacity
                       style={styles.increaseInventoryBtn}
-                      onPress={() => increaseInventory(ingredient.id)}
+                      onPress={() => inventoryModifier(
+                        ingredient.attributes.inventory + 1, ingredient.id)}
                     >
                       <Icon
                         name='add-circle-outline'
