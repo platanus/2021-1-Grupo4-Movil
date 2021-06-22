@@ -10,6 +10,7 @@ import {
 import { useStoreActions } from 'easy-peasy';
 import styles from '../../styles/Providers/formStyles';
 import formatPhone from '../../utils/formatPhone';
+import KeyboardAvoidWrapper from '../../components/KeyboardAvoidWrapper';
 
 // eslint-disable-next-line max-statements
 function FormProvider({ navigation, route }) {
@@ -103,82 +104,85 @@ function FormProvider({ navigation, route }) {
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.inputContainer}>
-        <Text style={styles.inputLabel}>
+    <>
+      <KeyboardAvoidWrapper>
+        <View style={styles.container}>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputLabel}>
             Nombre
-        </Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Nombre de proveedor..."
-          value={name}
-          onChangeText={(text) => setName(text)}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.inputLabel}>
+            </Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Nombre de proveedor..."
+              value={name}
+              onChangeText={(text) => setName(text)}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputLabel}>
             Correo
-        </Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Correo electrónico..."
-          autoCapitalize="none"
-          value={email}
-          onChangeText={(text) => setEmail(text)}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.inputLabel}>
+            </Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Correo electrónico..."
+              autoCapitalize="none"
+              value={email}
+              onChangeText={(text) => setEmail(text)}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputLabel}>
             Teléfono
-        </Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Teléfono de contacto..."
-          keyboardType="number-pad"
-          returnKeyType='done'
-          value={phone}
-          onChangeText={(text) => setPhone(formatPhone(text))}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.inputLabel}>
+            </Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Teléfono de contacto..."
+              keyboardType="number-pad"
+              returnKeyType='done'
+              value={phone}
+              onChangeText={(text) => setPhone(formatPhone(text))}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputLabel}>
             Página Web
-        </Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Página Web..."
-          autoCapitalize="none"
-          value={webpageUrl}
-          onChangeText={(text) => setWebpageUrl(text)}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.inputLabel}>
-            Tiempo de entrega
-        </Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Tiempo de entrega..."
-          keyboardType="number-pad"
-          returnKeyType='done'
-          value={time ? time.toString() : 0}
-          onChangeText={(text) => setTime(text)}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.inputLabel}>
+            </Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Página Web..."
+              autoCapitalize="none"
+              value={webpageUrl}
+              onChangeText={(text) => setWebpageUrl(text)}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputLabel}>
+            Tiempo de entrega (días)
+            </Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Tiempo de entrega..."
+              keyboardType="number-pad"
+              returnKeyType='done'
+              value={time ? time.toString() : 0}
+              onChangeText={(text) => setTime(text)}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputLabel}>
             Mínimo de compra
-        </Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Mínimo de compra..."
-          keyboardType="number-pad"
-          returnKeyType='done'
-          value={minPurchase ? minPurchase.toString() : 0}
-          onChangeText={(text) => setMinPurchase(text)}
-        />
-      </View>
-
+            </Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Mínimo de compra..."
+              keyboardType="number-pad"
+              returnKeyType='done'
+              value={minPurchase ? minPurchase.toString() : 0}
+              onChangeText={(text) => setMinPurchase(text)}
+            />
+          </View>
+        </View>
+      </KeyboardAvoidWrapper>
       <View style={styles.buttonsContainer}>
         <TouchableOpacity
           style={[styles.button, styles.cancel]}
@@ -198,7 +202,8 @@ function FormProvider({ navigation, route }) {
           </Text>
         </TouchableOpacity>
       </View>
-    </View>
+
+    </>
   );
 }
 

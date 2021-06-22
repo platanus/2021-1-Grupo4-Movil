@@ -1,7 +1,6 @@
 import React, {
   useEffect,
   useState,
-  useLayoutEffect,
 } from 'react';
 import { useStoreActions, useStoreState } from 'easy-peasy';
 import { Text, ScrollView, View } from 'react-native';
@@ -71,11 +70,9 @@ function Menus({ navigation }) {
   }
 
   return (mounted) && (
-    <View style={styles.container}>
-      <Text>
-        Aun no tienes menus
-      </Text>
-    </View>
+    <Text style={styles.emptyMessage}>
+      Aún no tienes menús.
+    </Text>
   );
 }
 

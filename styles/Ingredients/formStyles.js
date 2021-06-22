@@ -3,21 +3,20 @@ import colors from '../appColors';
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.kitchengramWhite,
-    alignItems: 'center',
-    height: '100%',
-    width: '100%',
-    paddingTop: 15,
     paddingHorizontal: '5%',
+    backgroundColor: colors.kitchengramWhite,
+    minHeight: '100%',
+    paddingTop: 15,
   },
 
   inputContainer: {
     width: '100%',
-    height: '10%',
+    height: 60,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'flex-start',
-    marginTop: 30,
+    marginVertical: 15,
+    backgroundColor: colors.kitchengramWhite,
   },
 
   inputLabel: {
@@ -30,7 +29,7 @@ const styles = StyleSheet.create({
 
   input: {
     width: '100%',
-    height: '90%',
+    height: 50,
     borderColor: colors.kitchengramGray600,
     borderWidth: 2,
     borderRadius: 5,
@@ -44,7 +43,7 @@ const styles = StyleSheet.create({
 
   dropDown: {
     width: '100%',
-    height: '90%',
+    height: 50,
     borderColor: colors.kitchengramGray600,
     borderWidth: 2,
     borderRadius: 5,
@@ -65,16 +64,14 @@ const styles = StyleSheet.create({
   },
 
   buttonsContainer: {
-    width: '100%',
-    height: '15%',
+    paddingHorizontal: '5%',
+    height: 65,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    marginHorizontal: '5%',
-    paddingVertical: '5%',
+    width: '100%',
+    paddingVertical: 10,
+    backgroundColor: colors.kitchengramWhite,
   },
 
   button: {
@@ -87,11 +84,11 @@ const styles = StyleSheet.create({
     backgroundColor: colors.kitchengramGreen500,
     padding: 12,
     borderRadius: 5,
-    height: '8%',
+    height: 50,
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 10 },
+    marginVertical: 10 },
 
   scrapperButtonText: {
     color: colors.kitchengramWhite,

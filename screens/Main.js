@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useStoreState } from 'easy-peasy';
 import { NavigationContainer } from '@react-navigation/native';
 

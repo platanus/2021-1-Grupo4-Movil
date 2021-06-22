@@ -17,7 +17,9 @@ function HomeTabs() {
       inactiveBackgroundColor: colors.kitchengramBlack,
       activeTintColor: colors.kitchengramWhite,
       inactiveTintColor: colors.kitchengramWhite,
-      labelPosition: 'below-icon' }}>
+      labelPosition: 'below-icon',
+      keyboardHidesTabBar: true }}
+    >
 
       <Tab.Screen name="Ingredientes" component={IngredientsStack} options={{ tabBarIcon: () => (
         <Icon name='nutrition-outline'

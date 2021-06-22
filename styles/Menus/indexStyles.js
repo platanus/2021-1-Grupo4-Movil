@@ -61,6 +61,13 @@ const styles = StyleSheet.create({
     paddingRight: 8,
     color: colors.black,
   },
+
+  emptyMessage: {
+    color: colors.kitchengramGray600,
+    textAlign: 'center',
+    paddingTop: 15,
+    fontSize: 16,
+  },
 });
 
 export default styles;

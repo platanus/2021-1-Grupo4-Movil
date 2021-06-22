@@ -5,6 +5,7 @@ import ingredientsApi from '../api/ingredients';
 import recipesApi from '../api/recipes';
 import menusApi from '../api/menus';
 import providersApi from '../api/providers';
+import { camelizeKeys } from 'humps';
 
 const storeState = {
   currentUser: null,
@@ -122,7 +123,7 @@ const storeThunks = {
   }),
   getIngredients: thunk(async (actions, payload) => {
     const ingredients = ingredientsApi.getIngredients(payload)
-      .then((res) => res.data.data)
+      .then((res) => camelizeKeys(res.data.data))
       .catch((err) => {
         actions.setIngredientsError(err.response.data.message);
         throw err;
@@ -132,7 +133,7 @@ const storeThunks = {
   }),
   createIngredient: thunk(async (actions, payload) => {
     const ingredient = ingredientsApi.createIngredient(payload)
-      .then((res) => res.data.data)
+      .then((res) => camelizeKeys(res.data.data))
       .catch((err) => {
         actions.setIngredientsError(err.response.data.message);
         throw err;
