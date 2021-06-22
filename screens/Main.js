@@ -1,6 +1,6 @@
 import React from 'react';
 import { useStoreState } from 'easy-peasy';
-import { NavigationContainer} from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 
 import LogIn from './LogInScreen';
 import SignUp from './SignUpScreen';
@@ -27,7 +27,7 @@ function Main() {
     return (
       <>
         <LogIn />
-        {/* {showLoadingSpinner && <Spinner /> } */}
+        {showLoadingSpinner && <Spinner /> }
       </>
     );
   }

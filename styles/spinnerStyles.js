@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import colors from './appColors'
+import colors from './appColors';
 
 const styles = StyleSheet.create({
   activityIndicatorContainer: {
