@@ -20,7 +20,6 @@ function SearchIngredient({ navigation, route }) {
     setPrice,
     setQuantity,
     setProviderName,
-    setInventory,
   } = route.params;
   const searchCornerShop = useStoreActions((actions) => actions.searchCornerShop);
 
@@ -97,7 +96,6 @@ function SearchIngredient({ navigation, route }) {
                   setPrice(product.price);
                   setQuantity(product.package);
                   setProviderName(searchResponse[actualProvider].provider.name);
-                  setInventory(0);
                   navigation.navigate('Nuevo Ingrediente', {
                     isFromSearch: true,
                   });

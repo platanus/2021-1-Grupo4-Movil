@@ -45,7 +45,6 @@ function FormIngredient({ navigation, route }) {
   const [price, setPrice] = useState(ingredient.attributes.price);
   const [quantity, setQuantity] = useState(ingredient.attributes.quantity);
   const [measure, setMeasure] = useState(ingredient.attributes.measure);
-  const [inventory, setInventory] = useState(ingredient.attributes.inventory);
   const [providerName, setProviderName] = useState(ingredient.attributes.providerName);
   const [providersNames, setProvidersNames] = useState([]);
 
@@ -72,7 +71,6 @@ function FormIngredient({ navigation, route }) {
     { error: price <= 0, message: "Debes ingresar un precio válido" },
     { error: quantity <= 0, message: "Debes ingresar una cantidad válida" },
     { error: !measure.length, message: "Debes ingresar una medida al ingrediente" },
-    { error: !inventory.length, message: "Debes ingresar una medida al inventario" },
     ];
     const error = validations.find((validation) => (validation.error))
     if ( error ) { alert(error.message); return false };
@@ -91,7 +89,7 @@ function FormIngredient({ navigation, route }) {
 
       quantity,
       measure,
-      inventory,
+      inventory: 0,
       // eslint-disable-next-line
       provider_name: providerName,
       // eslint-disable-next-line
@@ -123,7 +121,7 @@ function FormIngredient({ navigation, route }) {
       currency: ingredient.attributes.currency,
       quantity,
       measure,
-      inventory,
+      inventory: ingredient.attributes.inventory,
       // eslint-disable-next-line
       provider_name: providerName,
       // eslint-disable-next-line
@@ -156,7 +154,6 @@ function FormIngredient({ navigation, route }) {
             setPrice,
             setQuantity,
             setProviderName,
-            setInventory,
           })}
           style={styles.scrapperButton}>
           <Text style={styles.scrapperButtonText}>
@@ -259,19 +256,6 @@ function FormIngredient({ navigation, route }) {
           />
         </View>
       )}
-      <View style={styles.inputContainer}>
-        <Text style={styles.inputLabel}>
-          Inventario
-        </Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Inventario de ingrediente..."
-          keyboardType="number-pad"
-          returnKeyType='done'
-          value={inventory.toString()}
-          onChangeText={setInventory}
-        />
-      </View>
       <View style={styles.buttonsContainer}>
         <TouchableOpacity
           style={[styles.button, styles.cancel]}
