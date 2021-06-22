@@ -175,7 +175,7 @@ function IndexIngredients({ navigation }) {
                       />
                     </TouchableOpacity>
                     <TextInput
-                      style={{ width: 30, textAlign: 'center', borderColor: colors.kitchengramGray400, borderWidth: 2, borderRadius: 5 }}
+                      style={{ width: 50, textAlign: 'center', borderColor: colors.kitchengramGray400, borderWidth: 2, borderRadius: 5 }}
                       keyboardType="number-pad"
                       returnKeyType='done'
                       value={ingredient.attributes.inventory.toString()}
@@ -196,12 +196,17 @@ function IndexIngredients({ navigation }) {
                 }
                 <TouchableOpacity
                   onPress={() => showInventoryInput(i)}
-                  // disabled={squeezables}
-                >
+                >{editableInventories[i] ?
                   <Icon
                     name='create'
                     size={25}
+                  /> :
+                  <Icon
+                    name='create'
+                    size={25}
+                    color='green'
                   />
+                }
                 </TouchableOpacity>
               </View>
             </View>
