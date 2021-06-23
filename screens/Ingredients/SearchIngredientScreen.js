@@ -108,7 +108,7 @@ function SearchIngredient({ navigation, route }) {
                   <Image
                     style={styles.image}
                     source={{
-                      uri: product.img_url,
+                      uri: product.imgUrl,
                     }}
                   />
                   <Text style={styles.productName}>

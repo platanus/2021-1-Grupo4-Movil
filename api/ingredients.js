@@ -1,4 +1,3 @@
-import { decamelizeKeys } from 'humps';
 import config from '../config';
 import apiUtils from './api';
 
@@ -18,7 +17,7 @@ const ingredientsApi = {
     return apiUtils.api({
       method: 'post',
       url,
-      data: decamelizeKeys(payload),
+      data: payload,
     });
   },
   editIngredient: (payload) => {
@@ -27,7 +26,7 @@ const ingredientsApi = {
     return apiUtils.api({
       method: 'put',
       url,
-      data: decamelizeKeys(payload.body),
+      data: payload.body,
     });
   },
   deleteIngredient: (payload) => {

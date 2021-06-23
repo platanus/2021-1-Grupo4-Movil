@@ -22,8 +22,8 @@ function MenuRow(props) {
 
   useEffect(() => {
     let price = 0;
-    menu.attributes.menu_recipes.data.forEach((recipe) => {
-      price += calculateRecipePrice(recipe.attributes.recipe, true) * recipe.attributes.recipe_quantity;
+    menu.attributes.menuRecipes.data.forEach((recipe) => {
+      price += calculateRecipePrice(recipe.attributes.recipe, true) * recipe.attributes.recipeQuantity;
     });
     setMenuPrice(price);
   }, [menu]);
@@ -59,7 +59,7 @@ function MenuRow(props) {
             size={18}
           />
           <Text style={styles.subtitle}>
-            {`${menu.attributes.menu_recipes.data.length} ${(menu.attributes.menu_recipes.data.length === 1 ? 'receta' : 'recetas')}`}
+            {`${menu.attributes.menuRecipes.data.length} ${(menu.attributes.menuRecipes.data.length === 1 ? 'receta' : 'recetas')}`}
           </Text>
         </View>
       </View>

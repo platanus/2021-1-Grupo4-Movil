@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import { useStoreActions } from 'easy-peasy';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { camelizeKeys } from 'humps';
 import styles from '../../styles/Providers/indexStyles';
 import colors from '../../styles/appColors';
 
@@ -56,7 +55,7 @@ function IndexProviders({ navigation }) {
             key={provider.id}
             onPress={() => {
               navigation.navigate('Proveedor', {
-                provider: camelizeKeys(provider),
+                provider,
                 providers,
                 setProviders,
               });

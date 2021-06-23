@@ -1,5 +1,4 @@
 import { createStore, action, thunk } from 'easy-peasy';
-import { camelizeKeys } from 'humps';
 import apiUtils from '../api/api';
 import sessionsApi from '../api/sessions';
 import ingredientsApi from '../api/ingredients';
@@ -54,7 +53,7 @@ const storeActions = {
       state.currentUser = user;
       apiUtils.api.defaults.headers = { 'Accept': 'application/json',
         'Content-Type': 'application/json', 'X-User-Email': user.email,
-        'X-User-Token': user.authentication_token };
+        'X-User-Token': user.authenticationToken };
     }
   }),
   setIngredientsError: action((state, payload) => {
@@ -123,7 +122,7 @@ const storeThunks = {
   }),
   getIngredients: thunk(async (actions, payload) => {
     const ingredients = ingredientsApi.getIngredients(payload)
-      .then((res) => camelizeKeys(res.data.data))
+      .then((res) => res.data.data)
       .catch((err) => {
         actions.setIngredientsError(err.response.data.message);
         throw err;
@@ -133,7 +132,7 @@ const storeThunks = {
   }),
   createIngredient: thunk(async (actions, payload) => {
     const ingredient = ingredientsApi.createIngredient(payload)
-      .then((res) => camelizeKeys(res.data.data))
+      .then((res) => res.data.data)
       .catch((err) => {
         actions.setIngredientsError(err.response.data.message);
         throw err;
@@ -166,7 +165,7 @@ const storeThunks = {
   }),
   getRecipes: thunk(async (actions, payload) => {
     const recipes = recipesApi.getRecipes(payload)
-      .then((res) => camelizeKeys(res.data.data))
+      .then((res) => res.data.data)
       .catch((err) => {
         actions.setGetRecipesError(err.response.data.message);
         throw err;
