@@ -66,7 +66,6 @@ function IndexIngredients({ navigation }) {
             <RefreshControl
               refreshing={refreshing}
               onRefresh={onRefresh}
-              colors={[colors.kitchengramYellow500]}
             />
           }>
           {ingredients.map((ingredient, i) => (
