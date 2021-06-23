@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import React, { useEffect, useState } from 'react';
 import {
   View,
@@ -59,7 +58,8 @@ function MenuRow(props) {
             size={18}
           />
           <Text style={styles.subtitle}>
-            {`${menu.attributes.menuRecipes.data.length} ${(menu.attributes.menuRecipes.data.length === 1 ? 'receta' : 'recetas')}`}
+            {`${menu.attributes.menuRecipes.data.length} ${(menu.attributes.menuRecipes.data.length === 1 ?
+              'receta' : 'recetas')}`}
           </Text>
         </View>
       </View>

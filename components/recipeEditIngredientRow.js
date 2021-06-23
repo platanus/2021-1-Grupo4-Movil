@@ -31,8 +31,9 @@ function IngredientRow(props) {
     setTotalPrice(totalPrice - lastPrice + newPrice);
     ingredient.recipeQuantity = Number(currentQuantity.replace(',', '.'));
     changeIngredientDataQuantity(ingredient.id, Number(currentQuantity.replace(',', '.')));
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentQuantity]);
+  }, [currentQuantity, currentPrice, priceFactor]);
 
   function quantityRegex(value) {
     const newValue = value.replace(/[^\d]/g, '');
