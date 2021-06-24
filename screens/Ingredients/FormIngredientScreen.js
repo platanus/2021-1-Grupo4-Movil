@@ -17,6 +17,7 @@ import { useStoreActions } from 'easy-peasy';
 import styles from '../../styles/Ingredients/formStyles';
 import pickers from '../../styles/customPickerStyles';
 import colors from '../../styles/appColors';
+import KeyboardAvoidWrapper from '../../components/KeyboardAvoidWrapper';
 
 function FormIngredient({ navigation, route }) {
   const {
@@ -52,7 +53,9 @@ function FormIngredient({ navigation, route }) {
 
   const [name, setName] = useState(ingredient.attributes.name);
   const [price, setPrice] = useState(ingredient.attributes.price);
-  const [quantity, setQuantity] = useState(ingredient.attributes.quantity);
+  const [quantity, setQuantity] = useState(ingredient.attributes.otherMeasures.data[
+    ingredient.attributes.otherMeasures.data.length - 1
+  ].attributes.quantity);
   const [measure, setMeasure] = useState(ingredient.attributes.measure);
   const [providerName, setProviderName] = useState(ingredient.attributes.providerName);
   const [providersNames, setProvidersNames] = useState([]);
@@ -177,48 +180,39 @@ function FormIngredient({ navigation, route }) {
 
   return (
     <>
-      <View style={styles.container}>
+      <KeyboardAvoidWrapper>
+        <View style={styles.container}>
 
-        {isNew && (
-          <TouchableOpacity
-            onPress={() => navigation.navigate('Buscar Ingrediente', {
-              setName,
-              setPrice,
-              setQuantity,
-              setProviderName,
-              setMeasure,
-            })}
-            style={styles.scrapperButton}>
-            <Text style={styles.scrapperButtonText}>
-            Buscar ingrediente
-            </Text>
-          </TouchableOpacity>
-        )}
-        <View style={styles.inputContainer}>
-          <Text style={styles.inputLabel}>
-          Nombre
-          </Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Nombre de ingrediente..."
-            value={name}
-            onChangeText={(text) => setName(text)}
-          />
-        </View>
-        {isFromSearch ? (
+          {isNew && (
+            <TouchableOpacity
+              onPress={() => navigation.navigate('Buscar Ingrediente', {
+                setName,
+                setPrice,
+                setQuantity,
+                setProviderName,
+                setMeasure,
+              })}
+              style={styles.scrapperButton}>
+              <Text style={styles.scrapperButtonText}>
+                Buscar ingrediente
+              </Text>
+            </TouchableOpacity>
+          )}
           <View style={styles.inputContainer}>
             <Text style={styles.inputLabel}>
-            Proveedor
+              Nombre
             </Text>
             <TextInput
-              style={[styles.input, styles.cancelText]}
-              value={providerName}
-              editable={false}
+              style={styles.input}
+              placeholder="Nombre de ingrediente..."
+              value={name}
+              onChangeText={(text) => setName(text)}
+              editable={!isFromSearch}
             />
-          </View>) : (
+          </View>
           <View style={styles.inputContainer}>
             <Text style={styles.inputLabel}>
-            Proveedor
+              Proveedor
             </Text>
             <View style={styles.dropDown}>
               <RNPickerSelect
@@ -239,64 +233,69 @@ function FormIngredient({ navigation, route }) {
               color={colors.kitchengramGray600}
               style={styles.arrowIcon}
             />
-          </View>) }
-        <View style={styles.inputContainer}>
-          <Text style={styles.inputLabel}>
-          Precio
-          </Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Precio de ingrediente..."
-            keyboardType="number-pad"
-            returnKeyType='done'
-            value={price.toString()}
-            onChangeText={(text) => setPrice(text)}
-          />
-        </View>
-        <View style={styles.inputContainer}>
-          <Text style={styles.inputLabel}>
-          Cantidad
-          </Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Cantidad de ingrediente..."
-            keyboardType="number-pad"
-            returnKeyType='done'
-            value={quantity.toString()}
-            onChangeText={(text) => setQuantity(text)}
-          />
-        </View>
-        <View style={styles.inputContainer}>
-          <Text style={styles.inputLabel}>
-            Unidad
-          </Text>
-          <View style={styles.dropDown}>
-            <RNPickerSelect
-              style={pickers.customPickerStyles}
-              key={'0'}
-              placeholder={{
-                label: 'Selecciona unidad...',
-                value: '',
-              }}
-              value={measure}
-              onValueChange={(value) => setMeasure(value)}
-              items={[
-                { label: 'KG', value: 'KG', key: '0' },
-                { label: 'Gr', value: 'Gr', key: '1' },
-                { label: 'L', value: 'L', key: '2' },
-                { label: 'ml', value: 'ml', key: '3' },
-                { label: 'UN', value: 'UN', key: '4' },
-              ]}
-            />
-
           </View>
-          <Icon name='chevron-down'
-            size={30}
-            color={colors.kitchengramGray600}
-            style={styles.arrowIcon}
-          />
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputLabel}>
+              Precio
+            </Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Precio de ingrediente..."
+              keyboardType="number-pad"
+              returnKeyType='done'
+              value={price.toString()}
+              onChangeText={(text) => setPrice(text)}
+              editable={!isFromSearch}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputLabel}>
+              Cantidad
+            </Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Cantidad de ingrediente..."
+              keyboardType="number-pad"
+              returnKeyType='done'
+              value={quantity.toString()}
+              onChangeText={(text) => setQuantity(text)}
+              editable={!isFromSearch}
+            />
+          </View>
+          {(!isFromSearch) && (
+            <View style={styles.inputContainer}>
+              <Text style={styles.inputLabel}>
+                Unidad
+              </Text>
+              <View style={styles.dropDown}>
+                <RNPickerSelect
+                  style={pickers.customPickerStyles}
+                  key={'0'}
+                  placeholder={{
+                    label: 'Selecciona unidad...',
+                    value: '',
+                  }}
+                  value={measure}
+                  onValueChange={(value) => setMeasure(value)}
+                  items={[
+                    { label: 'Kg', value: 'Kg', key: '0' },
+                    { label: 'Gr', value: 'Gr', key: '1' },
+                    { label: 'L', value: 'L', key: '2' },
+                    { label: 'Ml', value: 'Ml', key: '3' },
+                  ]}
+                />
+
+              </View>
+              <Icon name='chevron-down'
+                size={30}
+                color={colors.kitchengramGray600}
+                style={styles.arrowIcon}
+              />
+            </View>
+
+          )}
         </View>
-      </View>
+      </KeyboardAvoidWrapper>
       <View style={styles.buttonsContainer}>
         <TouchableOpacity
           style={[styles.button, styles.cancel]}

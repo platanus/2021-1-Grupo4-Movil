@@ -1,4 +1,5 @@
 import { createStore, action, thunk } from 'easy-peasy';
+import { camelizeKeys } from 'humps';
 import apiUtils from '../api/api';
 import sessionsApi from '../api/sessions';
 import ingredientsApi from '../api/ingredients';
@@ -22,11 +23,13 @@ const storeState = {
     currentDeletedIngredients: [],
   },
   menus: {
+    menus: [],
     selectedRecipes: [],
   },
   menusError: '',
   providersError: '',
   chargeProviders: false,
+  showLoadingSpinner: false,
 };
 
 const getters = {
@@ -80,6 +83,9 @@ const storeActions = {
   setmenusError: action((state, payload) => {
     state.menusError = payload;
   }),
+  setMenus: action((state, payload) => {
+    state.menus.menus = payload;
+  }),
   setMenuSelectedRecipes: action((state, payload) => {
     state.menus.selectedRecipes = payload;
   }),
@@ -97,11 +103,15 @@ const storeActions = {
   setChargeProviders: action((state) => {
     state.chargeProviders = !state.chargeProviders;
   }),
+  setShowLoadingSpinner: action((state) => {
+    state.showLoadingSpinner = !state.showLoadingSpinner;
+  }),
 };
 
 const storeThunks = {
   login: thunk(async (actions, payload) => {
-    sessionsApi.login(payload)
+    actions.setShowLoadingSpinner();
+    await sessionsApi.login(payload)
       .then((resp) => {
         actions.setUserAndApiHeaders(resp);
         actions.setLoginError('');
@@ -109,9 +119,11 @@ const storeThunks = {
       }).catch((error) => {
         actions.setLoginError(error.response.data.message);
       });
+    actions.setShowLoadingSpinner();
   }),
   signUp: thunk(async (actions, payload) => {
-    sessionsApi.signUp(payload)
+    actions.setShowLoadingSpinner();
+    await sessionsApi.signUp(payload)
       .then((resp) => {
         actions.setUserAndApiHeaders(resp);
         actions.setSignUpError('');
@@ -119,81 +131,98 @@ const storeThunks = {
       }).catch((error) => {
         actions.setSignUpError(error.response.data.message);
       });
+    actions.setShowLoadingSpinner();
   }),
   getIngredients: thunk(async (actions, payload) => {
-    const ingredients = ingredientsApi.getIngredients(payload)
-      .then((res) => res.data.data)
+    actions.setShowLoadingSpinner();
+    const ingredients = await ingredientsApi.getIngredients(payload)
+      .then((res) => camelizeKeys(res.data.data))
       .catch((err) => {
         actions.setIngredientsError(err.response.data.message);
         throw err;
       });
+    actions.setShowLoadingSpinner();
 
     return ingredients;
   }),
   createIngredient: thunk(async (actions, payload) => {
-    const ingredient = ingredientsApi.createIngredient(payload)
-      .then((res) => res.data.data)
+    actions.setShowLoadingSpinner();
+    const ingredient = await ingredientsApi.createIngredient(payload)
+      .then((res) => camelizeKeys(res.data.data))
       .catch((err) => {
         actions.setIngredientsError(err.response.data.message);
         throw err;
       });
+    actions.setShowLoadingSpinner();
 
     return ingredient;
   }),
   editIngredient: thunk(async (actions, payload) => {
-    ingredientsApi.editIngredient(payload)
+    actions.setShowLoadingSpinner();
+    await ingredientsApi.editIngredient(payload)
       .catch((err) => {
         actions.setIngredientsError(err.response.data.message);
         throw err;
       });
+    actions.setShowLoadingSpinner();
   }),
   deleteIngredient: thunk(async (actions, payload) => {
-    ingredientsApi.deleteIngredient(payload)
+    actions.setShowLoadingSpinner();
+    await ingredientsApi.deleteIngredient(payload)
       .catch((err) => {
         actions.setIngredientsError(err.response.data.message);
         throw err;
       });
+    actions.setShowLoadingSpinner();
   }),
   searchCornerShop: thunk(async (actions, payload) => {
-    const ingredients = ingredientsApi.searchCornerShop(payload)
+    actions.setShowLoadingSpinner();
+    const ingredients = await ingredientsApi.searchCornerShop(payload)
       .then((res) => res.data.data)
       .catch((err) => {
         actions.setIngredientsError(err.response.data.message);
       });
+    actions.setShowLoadingSpinner();
 
     return ingredients;
   }),
   getRecipes: thunk(async (actions, payload) => {
-    const recipes = recipesApi.getRecipes(payload)
+    actions.setShowLoadingSpinner();
+    const recipes = await recipesApi.getRecipes(payload)
       .then((res) => res.data.data)
       .catch((err) => {
         actions.setGetRecipesError(err.response.data.message);
         throw err;
       });
+    actions.setShowLoadingSpinner();
 
     return recipes;
   }),
   createRecipe: thunk(async (actions, payload) => {
-    const recipe = recipesApi.createRecipe(payload)
+    const recipe = await recipesApi.createRecipe(payload)
       .then((resp) => resp.data.data)
       .catch((err) => {
         actions.setCreateRecipeError(err.response.data.message);
         throw err;
       });
+    actions.setShowLoadingSpinner();
 
     return recipe;
   }),
   editRecipe: thunk(async (actions, payload) => {
-    recipesApi.editRecipe(payload)
+    actions.setShowLoadingSpinner();
+    await recipesApi.editRecipe(payload)
       .then((resp) => resp.data)
       .catch((err) => {
         actions.setEditRecipeError(err.response.data.message);
 
         throw err;
       });
+    actions.setShowLoadingSpinner();
   }),
   deleteRecipe: thunk(async (actions, payload) => {
-    recipesApi.deleteRecipe(payload)
+    actions.setShowLoadingSpinner();
+    await recipesApi.deleteRecipe(payload)
       .then(() => {
         actions.setDeletedRecipe(true);
       })
@@ -201,106 +230,141 @@ const storeThunks = {
         actions.setDeleteRecipeError(err);
         throw err;
       });
+    actions.setShowLoadingSpinner();
   }),
 
   createRecipeStep: thunk(async (actions, payload) => {
-    const step = recipesApi.createRecipeStep(payload)
+    actions.setShowLoadingSpinner();
+    const step = await recipesApi.createRecipeStep(payload)
       .then((resp) => resp.data.data)
       .catch((err) => {
         actions.setEditRecipeError(err.response.data.message);
 
         throw err;
       });
+    actions.setShowLoadingSpinner();
 
     return step;
   }),
   editRecipeStep: thunk(async (actions, payload) => {
-    const step = recipesApi.editRecipeStep(payload)
+    actions.setShowLoadingSpinner();
+    const step = await recipesApi.editRecipeStep(payload)
       .then((resp) => resp.data)
       .catch((err) => {
         actions.setEditRecipeError(err.response.data.message);
 
         throw err;
       });
+    actions.setShowLoadingSpinner();
 
     return step;
   }),
   deleteRecipeStep: thunk(async (actions, payload) => {
-    const resp = recipesApi.deleteRecipeStep(payload)
+    actions.setShowLoadingSpinner();
+    const resp = await recipesApi.deleteRecipeStep(payload)
       .then((res) => res.data)
       .catch((err) => {
         actions.setEditRecipeError(err);
         throw err;
       });
+    actions.setShowLoadingSpinner();
 
     return resp;
   }),
   getMenus: thunk(async (actions, payload) => {
-    const menus = menusApi.getMenus(payload)
+    actions.setShowLoadingSpinner();
+    const menus = await menusApi.getMenus(payload)
       .then((res) => res.data.data)
       .catch((err) => {
         actions.setMenusError(err.response.data.message);
         throw err;
       });
+    actions.setShowLoadingSpinner();
 
     return menus;
   }),
+  getMenu: thunk(async (actions, payload) => {
+    actions.setShowLoadingSpinner();
+    const menu = await menusApi.getMenu(payload)
+      .then((res) => res.data.data)
+      .catch((err) => {
+        actions.setMenusError(err.response.data.message);
+        throw err;
+      });
+    actions.setShowLoadingSpinner();
+
+    return menu;
+  }),
   deleteMenu: thunk(async (actions, payload) => {
-    menusApi.deleteMenu(payload)
+    actions.setShowLoadingSpinner();
+    await menusApi.deleteMenu(payload)
       .catch((err) => {
         actions.setMenusError(err);
         throw err;
       });
+    actions.setShowLoadingSpinner();
   }),
   createMenu: thunk(async (actions, payload) => {
-    const menu = menusApi.createMenu(payload)
+    actions.setShowLoadingSpinner();
+    const menu = await menusApi.createMenu(payload)
       .then((resp) => resp.data)
       .catch((err) => {
         actions.setMenusError(err.response.data.message);
         throw err;
       });
+    actions.setShowLoadingSpinner();
 
     return menu;
   }),
   editMenu: thunk(async (actions, payload) => {
-    const menu = menusApi.editMenu(payload)
+    actions.setShowLoadingSpinner();
+    const menu = await menusApi.editMenu(payload)
       .then((resp) => resp.data)
       .catch((err) => {
         actions.setMenusError(err.response.data.message);
         throw err;
       });
+    actions.setShowLoadingSpinner();
 
     return menu;
   }),
   getProviders: thunk(async (actions, payload) => {
-    const providers = providersApi.getProviders(payload)
+    actions.setShowLoadingSpinner();
+    const providers = await providersApi.getProviders(payload)
       .then((res) => res.data.data)
       .catch((err) => {
         actions.setProvidersError(err.response.data.message);
         throw err;
       });
+    actions.setShowLoadingSpinner();
 
     return providers;
   }),
   createProvider: thunk(async (actions, payload) => {
-    const provider = providersApi.createProvider(payload)
+    actions.setShowLoadingSpinner();
+    const provider = await providersApi.createProvider(payload)
       .then((res) => res.data.data);
+    actions.setShowLoadingSpinner();
 
     return provider;
   }),
   deleteProvider: thunk(async (actions, payload) => {
-    providersApi.deleteProvider(payload)
+    actions.setShowLoadingSpinner();
+    await providersApi.deleteProvider(payload)
       .catch((err) => {
         actions.setProvidersError(err.response.data.message);
         throw err;
       });
+    actions.setShowLoadingSpinner();
   }),
   editProvider: thunk(async (actions, payload) => {
-    providersApi.editProvider(payload)
+    actions.setShowLoadingSpinner();
+    await providersApi.editProvider(payload)
       .catch((err) => {
         actions.setProvidersError(err.response.data.message);
         throw err;
       });
+    actions.setShowLoadingSpinner();
   }),
 };
 

@@ -3,7 +3,7 @@ import colors from '../appColors';
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: colors.kitchengramWhite,
     flex: 1,
   },
 
@@ -13,14 +13,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'flex-start',
+    borderBottomColor: colors.kitchengramGray400,
+    borderBottomWidth: 1,
   },
 
   even: {
-    backgroundColor: '#EEEEEE',
+    backgroundColor: colors.kitchengramWhite,
   },
 
   odd: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: colors.kitchengramWhite,
   },
 
   left: {
@@ -34,7 +36,7 @@ const styles = StyleSheet.create({
 
   name: {
     fontSize: 20,
-    color: colors.black,
+    color: colors.kitchengramGray600,
     fontWeight: '500',
     fontStyle: 'normal',
     marginBottom: 10,
@@ -66,7 +68,14 @@ const styles = StyleSheet.create({
 
   navIcon: {
     paddingRight: 8,
-    color: colors.black,
+    color: colors.kitchengramWhite,
+  },
+
+  emptyMessage: {
+    color: colors.kitchengramGray600,
+    textAlign: 'center',
+    paddingTop: 15,
+    fontSize: 16,
   },
 });
 

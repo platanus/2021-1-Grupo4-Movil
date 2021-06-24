@@ -10,6 +10,7 @@ import {
 import { useStoreActions } from 'easy-peasy';
 import styles from '../../styles/Providers/formStyles';
 import formatPhone from '../../utils/formatPhone';
+import KeyboardAvoidWrapper from '../../components/KeyboardAvoidWrapper';
 
 // eslint-disable-next-line max-statements
 function FormProvider({ navigation, route }) {
@@ -40,13 +41,25 @@ function FormProvider({ navigation, route }) {
   const createProvider = useStoreActions((actions) => actions.createProvider);
   const editProvider = useStoreActions((actions) => actions.editProvider);
 
-  function handleSubmit(create) {
-    if (!name.length ||
-      time <= 0 ||
-      minPurchase < 0 ||
-      !email.length) {
-      return;
+  function checkValidInputs() {
+    const validations = [
+      { error: !name.length, message: 'Debes asignar un nombre al proveedor' },
+      { error: !email.length, message: 'Debes ingresar un email válido.' },
+      { error: time <= 0, message: 'Debes ingresar un tiempo válido' },
+      { error: minPurchase <= 0, message: 'Debes ingresar un mínimo de compra válido' },
+    ];
+    const error = validations.find((validation) => (validation.error));
+    if (error) {
+      alert(error.message);
+
+      return false;
     }
+
+    return true;
+  }
+
+  function handleSubmit(create) {
+    if (!checkValidInputs()) return;
 
     const attributes = {
       name,
@@ -89,82 +102,85 @@ function FormProvider({ navigation, route }) {
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.inputContainer}>
-        <Text style={styles.inputLabel}>
+    <>
+      <KeyboardAvoidWrapper>
+        <View style={styles.container}>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputLabel}>
             Nombre
-        </Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Nombre de proveedor..."
-          value={name}
-          onChangeText={(text) => setName(text)}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.inputLabel}>
+            </Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Nombre de proveedor..."
+              value={name}
+              onChangeText={(text) => setName(text)}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputLabel}>
             Correo
-        </Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Correo electrónico..."
-          autoCapitalize="none"
-          value={email}
-          onChangeText={(text) => setEmail(text)}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.inputLabel}>
+            </Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Correo electrónico..."
+              autoCapitalize="none"
+              value={email}
+              onChangeText={(text) => setEmail(text)}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputLabel}>
             Teléfono
-        </Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Teléfono de contacto..."
-          keyboardType="number-pad"
-          returnKeyType='done'
-          value={phone}
-          onChangeText={(text) => setPhone(formatPhone(text))}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.inputLabel}>
+            </Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Teléfono de contacto..."
+              keyboardType="number-pad"
+              returnKeyType='done'
+              value={phone}
+              onChangeText={(text) => setPhone(formatPhone(text))}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputLabel}>
             Página Web
-        </Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Página Web..."
-          autoCapitalize="none"
-          value={webpageUrl}
-          onChangeText={(text) => setWebpageUrl(text)}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.inputLabel}>
-            Tiempo de entrega
-        </Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Tiempo de entrega..."
-          keyboardType="number-pad"
-          returnKeyType='done'
-          value={time ? time.toString() : 0}
-          onChangeText={(text) => setTime(text)}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.inputLabel}>
+            </Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Página Web..."
+              autoCapitalize="none"
+              value={webpageUrl}
+              onChangeText={(text) => setWebpageUrl(text)}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputLabel}>
+            Tiempo de entrega (días)
+            </Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Tiempo de entrega..."
+              keyboardType="number-pad"
+              returnKeyType='done'
+              value={time ? time.toString() : 0}
+              onChangeText={(text) => setTime(text)}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputLabel}>
             Mínimo de compra
-        </Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Mínimo de compra..."
-          keyboardType="number-pad"
-          returnKeyType='done'
-          value={minPurchase ? minPurchase.toString() : 0}
-          onChangeText={(text) => setMinPurchase(text)}
-        />
-      </View>
-
+            </Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Mínimo de compra..."
+              keyboardType="number-pad"
+              returnKeyType='done'
+              value={minPurchase ? minPurchase.toString() : 0}
+              onChangeText={(text) => setMinPurchase(text)}
+            />
+          </View>
+        </View>
+      </KeyboardAvoidWrapper>
       <View style={styles.buttonsContainer}>
         <TouchableOpacity
           style={[styles.button, styles.cancel]}
@@ -184,7 +200,8 @@ function FormProvider({ navigation, route }) {
           </Text>
         </TouchableOpacity>
       </View>
-    </View>
+
+    </>
   );
 }
 
