@@ -60,7 +60,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 5,
   },
-
   emptyMessage: {
     color: colors.kitchengramGray600,
     textAlign: 'center',

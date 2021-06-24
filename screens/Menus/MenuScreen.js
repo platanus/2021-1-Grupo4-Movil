@@ -88,7 +88,7 @@ function Menu(props) {
         <Text style={styles.title}>
           {'Recetas'}
         </Text>
-        {menu.attributes.menu_recipes.data.map((recipe, i) => (
+        {menu.attributes.menuRecipes.data.map((recipe, i) => (
           <View
             key={recipe.id}
             style={styles.recipeRow}

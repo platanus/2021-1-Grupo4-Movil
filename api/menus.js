@@ -1,4 +1,3 @@
-import { decamelizeKeys } from 'humps';
 import config from '../config';
 import apiUtils from './api';
 
@@ -36,7 +35,7 @@ const menusApi = {
     return apiUtils.api({
       method: 'post',
       url,
-      data: decamelizeKeys(payload),
+      data: payload,
     });
   },
   editMenu: (payload) => {
@@ -45,7 +44,7 @@ const menusApi = {
     return apiUtils.api({
       method: 'put',
       url,
-      data: decamelizeKeys(payload.body),
+      data: payload.body,
     });
   },
 };

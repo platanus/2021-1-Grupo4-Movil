@@ -1,5 +1,4 @@
 import { createStore, action, thunk } from 'easy-peasy';
-import { camelizeKeys } from 'humps';
 import apiUtils from '../api/api';
 import sessionsApi from '../api/sessions';
 import ingredientsApi from '../api/ingredients';
@@ -28,6 +27,7 @@ const storeState = {
   },
   menusError: '',
   providersError: '',
+  chargeProviders: false,
   showLoadingSpinner: false,
 };
 
@@ -55,7 +55,7 @@ const storeActions = {
       state.currentUser = user;
       apiUtils.api.defaults.headers = { 'Accept': 'application/json',
         'Content-Type': 'application/json', 'X-User-Email': user.email,
-        'X-User-Token': user.authentication_token };
+        'X-User-Token': user.authenticationToken };
     }
   }),
   setIngredientsError: action((state, payload) => {
@@ -99,6 +99,9 @@ const storeActions = {
   setLoadRecipes: action((state, payload) => {
     state.recipes.load = payload;
   }),
+  setChargeProviders: action((state) => {
+    state.chargeProviders = !state.chargeProviders;
+  }),
   setShowLoadingSpinner: action((state) => {
     state.showLoadingSpinner = !state.showLoadingSpinner;
   }),
@@ -132,7 +135,7 @@ const storeThunks = {
   getIngredients: thunk(async (actions, payload) => {
     actions.setShowLoadingSpinner();
     const ingredients = await ingredientsApi.getIngredients(payload)
-      .then((res) => camelizeKeys(res.data.data))
+      .then((res) => res.data.data)
       .catch((err) => {
         actions.setIngredientsError(err.response.data.message);
         throw err;
@@ -144,7 +147,7 @@ const storeThunks = {
   createIngredient: thunk(async (actions, payload) => {
     actions.setShowLoadingSpinner();
     const ingredient = await ingredientsApi.createIngredient(payload)
-      .then((res) => camelizeKeys(res.data.data))
+      .then((res) => res.data.data)
       .catch((err) => {
         actions.setIngredientsError(err.response.data.message);
         throw err;
@@ -195,11 +198,11 @@ const storeThunks = {
     return recipes;
   }),
   createRecipe: thunk(async (actions, payload) => {
-    actions.setShowLoadingSpinner();
     const recipe = await recipesApi.createRecipe(payload)
-      .then((resp) => resp)
+      .then((resp) => resp.data.data)
       .catch((err) => {
         actions.setCreateRecipeError(err.response.data.message);
+        throw err;
       });
     actions.setShowLoadingSpinner();
 

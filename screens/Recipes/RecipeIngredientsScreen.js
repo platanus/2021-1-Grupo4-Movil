@@ -125,10 +125,8 @@ function RecipeIngredients(props) {
               </View>
               <View style={styles.ingredientPrice}>
                 <Text style={styles.price}>
-                  {`${formatMoney(ingredient.attributes.price / ingredient.attributes.otherMeasures.data[
-                    ingredient.attributes.otherMeasures.data.length - 1
-                  ].attributes.quantity, '$')}
-                  / ${ingredient.attributes.measure}`}
+                  {`${formatMoney(ingredient.attributes.price / ingredient.attributes.quantity, '$')}/
+                    ${ingredient.attributes.measure}`}
                 </Text>
               </View>
             </View>

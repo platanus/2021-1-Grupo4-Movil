@@ -8,6 +8,7 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Alert,
 } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -27,7 +28,7 @@ function FormIngredient({ navigation, route }) {
         name: '',
         price: 0,
         quantity: 0,
-        measure: 'Unidad',
+        measure: '',
         otherMeasures: {
           data: [{
             attributes: {
@@ -48,6 +49,7 @@ function FormIngredient({ navigation, route }) {
   const createIngredient = useStoreActions((actions) => actions.createIngredient);
   const editIngredient = useStoreActions((actions) => actions.editIngredient);
   const getProviders = useStoreActions((actions) => actions.getProviders);
+  const setChargeProviders = useStoreActions((actions) => actions.setChargeProviders);
 
   const [name, setName] = useState(ingredient.attributes.name);
   const [price, setPrice] = useState(ingredient.attributes.price);
@@ -83,7 +85,7 @@ function FormIngredient({ navigation, route }) {
     ];
     const error = validations.find((validation) => (validation.error));
     if (error) {
-      alert(error.message);
+      Alert.alert(error.message);
 
       return false;
     }
@@ -124,6 +126,9 @@ function FormIngredient({ navigation, route }) {
         const auxIngredients = [...ingredients];
         auxIngredients.push(res);
         setIngredients(auxIngredients);
+        if (isFromSearch) {
+          setChargeProviders();
+        }
         navigation.navigate('Ingredientes');
       })
       .catch(() => {
@@ -189,13 +194,13 @@ function FormIngredient({ navigation, route }) {
               })}
               style={styles.scrapperButton}>
               <Text style={styles.scrapperButtonText}>
-            Buscar ingrediente
+                Buscar ingrediente
               </Text>
             </TouchableOpacity>
           )}
           <View style={styles.inputContainer}>
             <Text style={styles.inputLabel}>
-          Nombre
+              Nombre
             </Text>
             <TextInput
               style={styles.input}
@@ -207,7 +212,7 @@ function FormIngredient({ navigation, route }) {
           </View>
           <View style={styles.inputContainer}>
             <Text style={styles.inputLabel}>
-          Proveedor
+              Proveedor
             </Text>
             <View style={styles.dropDown}>
               <RNPickerSelect
@@ -231,7 +236,7 @@ function FormIngredient({ navigation, route }) {
           </View>
           <View style={styles.inputContainer}>
             <Text style={styles.inputLabel}>
-          Precio
+              Precio
             </Text>
             <TextInput
               style={styles.input}
@@ -245,7 +250,7 @@ function FormIngredient({ navigation, route }) {
           </View>
           <View style={styles.inputContainer}>
             <Text style={styles.inputLabel}>
-          Cantidad
+              Cantidad
             </Text>
             <TextInput
               style={styles.input}
@@ -260,7 +265,7 @@ function FormIngredient({ navigation, route }) {
           {(!isFromSearch) && (
             <View style={styles.inputContainer}>
               <Text style={styles.inputLabel}>
-            Unidad
+                Unidad
               </Text>
               <View style={styles.dropDown}>
                 <RNPickerSelect
