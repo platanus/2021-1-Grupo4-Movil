@@ -1,5 +1,4 @@
 import { createStore, action, thunk } from 'easy-peasy';
-import { camelizeKeys } from 'humps';
 import apiUtils from '../api/api';
 import sessionsApi from '../api/sessions';
 import ingredientsApi from '../api/ingredients';
@@ -136,7 +135,7 @@ const storeThunks = {
   getIngredients: thunk(async (actions, payload) => {
     actions.setShowLoadingSpinner();
     const ingredients = await ingredientsApi.getIngredients(payload)
-      .then((res) => camelizeKeys(res.data.data))
+      .then((res) => res.data.data)
       .catch((err) => {
         actions.setIngredientsError(err.response.data.message);
         throw err;
@@ -148,7 +147,7 @@ const storeThunks = {
   createIngredient: thunk(async (actions, payload) => {
     actions.setShowLoadingSpinner();
     const ingredient = await ingredientsApi.createIngredient(payload)
-      .then((res) => camelizeKeys(res.data.data))
+      .then((res) => res.data.data)
       .catch((err) => {
         actions.setIngredientsError(err.response.data.message);
         throw err;
