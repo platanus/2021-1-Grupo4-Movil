@@ -1,5 +1,6 @@
+/* eslint-disable max-statements */
 import React, { useEffect, useState } from 'react';
-import { Text, ScrollView } from 'react-native';
+import { Text, ScrollView, RefreshControl } from 'react-native';
 import { useStoreActions } from 'easy-peasy';
 import { Icon } from 'react-native-elements';
 import colors from '../../styles/appColors';
@@ -13,6 +14,16 @@ function Recipes(props) {
   const [_showError, setShowError] = useState(false);
   const [_errorMessage, setErrorMessage] = useState('');
   const [mounted, setMounted] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+
+  function onRefresh() {
+    setRefreshing(true);
+    getRecipes()
+      .then((res) => {
+        setRecipes(res);
+      });
+    setRefreshing(false);
+  }
 
   useEffect(() => {
     getRecipes()
@@ -48,7 +59,12 @@ function Recipes(props) {
 
   if (mounted && recipes.length) {
     return (
-      <ScrollView>
+      <ScrollView refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+        />
+      }>
         {recipes.map((recipe) => (
           <RecipeRow
             key={recipe.id}
