@@ -3,7 +3,7 @@ import React, {
   useState,
 } from 'react';
 import { useStoreActions, useStoreState } from 'easy-peasy';
-import { Text, ScrollView, View } from 'react-native';
+import { Text, ScrollView, View, RefreshControl } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MenuRow from '../../components/menuRow';
 import styles from '../../styles/Menus/indexStyles';
@@ -17,6 +17,16 @@ function Menus({ navigation }) {
 
   const [mounted, setMounted] = useState(false);
   const [menus, setMenus] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+
+  function onRefresh() {
+    setRefreshing(true);
+    getMenus()
+      .then((res) => {
+        setGlobalMenus(res);
+      });
+    setRefreshing(false);
+  }
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -54,7 +64,13 @@ function Menus({ navigation }) {
   if (menus.length && mounted) {
     return (
       <View style={styles.container}>
-        <ScrollView>
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+            />
+          }>
           {menus.map((menu) => (
             <MenuRow
               key={menu.id}

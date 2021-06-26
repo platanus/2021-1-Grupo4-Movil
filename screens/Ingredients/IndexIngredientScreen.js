@@ -1,3 +1,4 @@
+/* eslint-disable max-statements */
 import React, {
   useEffect,
   useState,
@@ -7,6 +8,7 @@ import {
   TouchableOpacity,
   Text,
   ScrollView,
+  RefreshControl,
 } from 'react-native';
 import { useStoreActions } from 'easy-peasy';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -16,10 +18,10 @@ import formatMoney from '../../utils/formatMoney';
 
 function IndexIngredients({ navigation }) {
   const getIngredients = useStoreActions((actions) => actions.getIngredients);
-
   const [ingredients, setIngredients] = useState([]);
   const evenNumber = 2;
   const [mounted, setMounted] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     getIngredients()
@@ -47,10 +49,25 @@ function IndexIngredients({ navigation }) {
       ),
     });
   }, [navigation, ingredients]);
+
+  function onRefresh() {
+    setRefreshing(true);
+    getIngredients()
+      .then((res) => {
+        setIngredients(res);
+      });
+    setRefreshing(false);
+  }
   if (ingredients.length) {
     return (
       <View style={styles.container}>
-        <ScrollView>
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+            />
+          }>
           {ingredients.map((ingredient, i) => (
             <TouchableOpacity
               style={[styles.ingredientRow, (i % evenNumber === 0) ? styles.even : styles.odd]}
