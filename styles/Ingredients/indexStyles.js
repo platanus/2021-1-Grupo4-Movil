@@ -94,6 +94,11 @@ const styles = StyleSheet.create({
     paddingTop: 3,
     paddingLeft: 2,
   },
+  inventory: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   decreaseInventoryBtn: {
     width: 40,
     left: 16, 
@@ -107,6 +112,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    left: 5,
   },
   inventoryInput: {
     width: 50,
@@ -114,6 +120,15 @@ const styles = StyleSheet.create({
     borderColor: colors.kitchengramGray400,
     borderWidth: 2,
     borderRadius: 5,
+  },
+  saveInventoryButton: {
+    display: 'flex',
+    width: 80,
+    borderColor: colors.kitchengramGray400,
+    borderWidth: 2,
+    textAlign: 'center',
+    borderRadius: 5,
+    color: colors.kitchengramGray600,
   },
 });
 
