@@ -207,33 +207,43 @@ function FormIngredient({ navigation, route }) {
               placeholder="Nombre de ingrediente..."
               value={name}
               onChangeText={(text) => setName(text)}
-              editable={!isFromSearch}
             />
           </View>
-          <View style={styles.inputContainer}>
-            <Text style={styles.inputLabel}>
-              Proveedor
-            </Text>
-            <View style={styles.dropDown}>
-              <RNPickerSelect
-                style={pickers.customPickerStyles}
-                key={'0'}
-                placeholder={{
-                  label: 'Selecciona proveedor...',
-                  value: null,
-                }}
+          {isFromSearch ? (
+            <View style={styles.inputContainer}>
+              <Text style={styles.inputLabel}>
+            Proveedor
+              </Text>
+              <TextInput
+                style={[styles.input, styles.cancelText]}
                 value={providerName}
-                onValueChange={(value) => setProviderName(value)}
-                items={providersNames}
+                editable={false}
               />
+            </View>) : (
+            <View style={styles.inputContainer}>
+              <Text style={styles.inputLabel}>
+            Proveedor
+              </Text>
+              <View style={styles.dropDown}>
+                <RNPickerSelect
+                  style={pickers.customPickerStyles}
+                  key={'0'}
+                  placeholder={{
+                    label: 'Selecciona proveedor...',
+                    value: null,
+                  }}
+                  value={providerName}
+                  onValueChange={(value) => setProviderName(value)}
+                  items={providersNames}
+                />
 
-            </View>
-            <Icon name='chevron-down'
-              size={30}
-              color={colors.kitchengramGray600}
-              style={styles.arrowIcon}
-            />
-          </View>
+              </View>
+              <Icon name='chevron-down'
+                size={30}
+                color={colors.kitchengramGray600}
+                style={styles.arrowIcon}
+              />
+            </View>) }
           <View style={styles.inputContainer}>
             <Text style={styles.inputLabel}>
               Precio
@@ -245,7 +255,6 @@ function FormIngredient({ navigation, route }) {
               returnKeyType='done'
               value={price.toString()}
               onChangeText={(text) => setPrice(text)}
-              editable={!isFromSearch}
             />
           </View>
           <View style={styles.inputContainer}>
@@ -259,41 +268,38 @@ function FormIngredient({ navigation, route }) {
               returnKeyType='done'
               value={quantity.toString()}
               onChangeText={(text) => setQuantity(text)}
-              editable={!isFromSearch}
             />
           </View>
-          {(!isFromSearch) && (
-            <View style={styles.inputContainer}>
-              <Text style={styles.inputLabel}>
-                Unidad
-              </Text>
-              <View style={styles.dropDown}>
-                <RNPickerSelect
-                  style={pickers.customPickerStyles}
-                  key={'0'}
-                  placeholder={{
-                    label: 'Selecciona unidad...',
-                    value: '',
-                  }}
-                  value={measure}
-                  onValueChange={(value) => setMeasure(value)}
-                  items={[
-                    { label: 'Kg', value: 'Kg', key: '0' },
-                    { label: 'Gr', value: 'Gr', key: '1' },
-                    { label: 'L', value: 'L', key: '2' },
-                    { label: 'Ml', value: 'Ml', key: '3' },
-                  ]}
-                />
-
-              </View>
-              <Icon name='chevron-down'
-                size={30}
-                color={colors.kitchengramGray600}
-                style={styles.arrowIcon}
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputLabel}>
+              Unidad
+            </Text>
+            <View style={styles.dropDown}>
+              <RNPickerSelect
+                style={pickers.customPickerStyles}
+                key={'0'}
+                placeholder={{
+                  label: 'Selecciona unidad...',
+                  value: '',
+                }}
+                value={measure}
+                onValueChange={(value) => setMeasure(value)}
+                items={[
+                  { label: 'Kg', value: 'Kg', key: '0' },
+                  { label: 'Gr', value: 'Gr', key: '1' },
+                  { label: 'L', value: 'L', key: '2' },
+                  { label: 'Ml', value: 'Ml', key: '3' },
+                ]}
               />
-            </View>
 
-          )}
+            </View>
+            <Icon name='chevron-down'
+              size={30}
+              color={colors.kitchengramGray600}
+              style={styles.arrowIcon}
+            />
+          </View>
+
         </View>
       </KeyboardAvoidWrapper>
       <View style={styles.buttonsContainer}>
