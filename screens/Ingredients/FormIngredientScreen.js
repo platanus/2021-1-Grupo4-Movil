@@ -8,6 +8,7 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Alert,
 } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -27,7 +28,7 @@ function FormIngredient({ navigation, route }) {
         name: '',
         price: 0,
         quantity: 0,
-        measure: 'Unidad',
+        measure: '',
         otherMeasures: {
           data: [{
             attributes: {
@@ -49,6 +50,7 @@ function FormIngredient({ navigation, route }) {
   const createIngredient = useStoreActions((actions) => actions.createIngredient);
   const editIngredient = useStoreActions((actions) => actions.editIngredient);
   const getProviders = useStoreActions((actions) => actions.getProviders);
+  const setChargeProviders = useStoreActions((actions) => actions.setChargeProviders);
 
   const [name, setName] = useState(ingredient.attributes.name);
   const [price, setPrice] = useState(ingredient.attributes.price);
@@ -84,7 +86,7 @@ function FormIngredient({ navigation, route }) {
     ];
     const error = validations.find((validation) => (validation.error));
     if (error) {
-      alert(error.message);
+      Alert.alert(error.message);
 
       return false;
     }
@@ -126,6 +128,9 @@ function FormIngredient({ navigation, route }) {
         const auxIngredients = [...ingredients];
         auxIngredients.push(res);
         setIngredients(auxIngredients);
+        if (isFromSearch) {
+          setChargeProviders();
+        }
         navigation.navigate('Ingredientes');
       })
       .catch(() => {
@@ -193,38 +198,38 @@ function FormIngredient({ navigation, route }) {
               })}
               style={styles.scrapperButton}>
               <Text style={styles.scrapperButtonText}>
-            Buscar ingrediente
+                Buscar ingrediente
               </Text>
             </TouchableOpacity>
           )}
           <View style={styles.inputContainer}>
             <Text style={styles.inputLabel}>
-          Nombre
-        </Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Nombre de ingrediente..."
-          value={name}
-          onChangeText={setName}
-          editable={!isFromSearch}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.inputLabel}>
-          Proveedor
-        </Text>
-        <View style={styles.dropDown}>
-          <RNPickerSelect
-            style={pickers.customPickerStyles}
-            key={'0'}
-            placeholder={{
-              label: 'Selecciona proveedor...',
-              value: null,
-            }}
-            value={providerName}
-            onValueChange={setProviderName}
-            items={providersNames}
-          />
+              Nombre
+            </Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Nombre de ingrediente..."
+              value={name}
+              onChangeText={(text) => setName(text)}
+              editable={!isFromSearch}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputLabel}>
+              Proveedor
+            </Text>
+            <View style={styles.dropDown}>
+              <RNPickerSelect
+                style={pickers.customPickerStyles}
+                key={'0'}
+                placeholder={{
+                  label: 'Selecciona proveedor...',
+                  value: null,
+                }}
+                value={providerName}
+                onValueChange={(value) => setProviderName(value)}
+                items={providersNames}
+              />
             </View>
             <Icon name='chevron-down'
               size={30}
@@ -234,59 +239,36 @@ function FormIngredient({ navigation, route }) {
           </View>
           <View style={styles.inputContainer}>
             <Text style={styles.inputLabel}>
-          Precio
-        </Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Precio de ingrediente..."
-          keyboardType="number-pad"
-          returnKeyType='done'
-          value={price.toString()}
-          onChangeText={setPrice}
-          editable={!isFromSearch}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.inputLabel}>
-          Cantidad
-        </Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Cantidad de ingrediente..."
-          keyboardType="number-pad"
-          returnKeyType='done'
-          value={quantity.toString()}
-          onChangeText={setQuantity}
-          editable={!isFromSearch}
-        />
-      </View>
-      {(!isFromSearch) && (
-        <View style={styles.inputContainer}>
-          <Text style={styles.inputLabel}>
-            Unidad
-          </Text>
-          <View style={styles.dropDown}>
-            <RNPickerSelect
-              style={pickers.customPickerStyles}
-              key={'0'}
-              placeholder={{
-                label: 'Selecciona unidad...',
-                value: '',
-              }}
-              value={measure}
-              onValueChange={setMeasure}
-              items={[
-                { label: 'Kg', value: 'Kg', key: '0' },
-                { label: 'Gr', value: 'Gr', key: '1' },
-                { label: 'L', value: 'L', key: '2' },
-                { label: 'Ml', value: 'Ml', key: '3' },
-              ]}
+              Precio
+            </Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Precio de ingrediente..."
+              keyboardType="number-pad"
+              returnKeyType='done'
+              value={price.toString()}
+              onChangeText={(text) => setPrice(text)}
+              editable={!isFromSearch}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputLabel}>
+              Cantidad
+            </Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Cantidad de ingrediente..."
+              keyboardType="number-pad"
+              returnKeyType='done'
+              value={quantity.toString()}
+              onChangeText={(text) => setQuantity(text)}
+              editable={!isFromSearch}
             />
           </View>
           {(!isFromSearch) && (
             <View style={styles.inputContainer}>
               <Text style={styles.inputLabel}>
-            Unidad
+                Unidad
               </Text>
               <View style={styles.dropDown}>
                 <RNPickerSelect

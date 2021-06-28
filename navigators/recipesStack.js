@@ -1,9 +1,9 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import Recipes from '../screens/recipes/RecipesScreen';
-import Recipe from '../screens/recipes/SingleRecipeScreen';
-import RecipeForm from '../screens/recipes/NewRecipeScreen';
-import RecipeIngredients from '../screens/recipes/RecipeIngredientsScreen';
+import Recipes from '../screens/Recipes/RecipesScreen';
+import Recipe from '../screens/Recipes/SingleRecipeScreen';
+import RecipeForm from '../screens/Recipes/FormRecipeScreen';
+import RecipeIngredients from '../screens/Recipes/RecipeIngredientsScreen';
 import colors from '../styles/appColors';
 import defaultOptions from '../styles/Headers/defaultOptions';
 

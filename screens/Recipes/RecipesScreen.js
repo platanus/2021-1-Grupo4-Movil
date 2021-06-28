@@ -1,10 +1,7 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable max-statements */
-
 import React, { useEffect, useState } from 'react';
-import { Text, ScrollView, View } from 'react-native';
-import { useStoreActions, useStoreState } from 'easy-peasy';
-import { camelizeKeys } from 'humps';
+import { Text, ScrollView, RefreshControl } from 'react-native';
+import { useStoreActions } from 'easy-peasy';
 import { Icon } from 'react-native-elements';
 import colors from '../../styles/appColors';
 import RecipeRow from '../../components/recipeRow';
@@ -14,9 +11,19 @@ function Recipes(props) {
   const { navigation } = props;
   const getRecipes = useStoreActions((actions) => actions.getRecipes);
   const [recipes, setRecipes] = useState([]);
-  const [showError, setShowError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [_showError, setShowError] = useState(false);
+  const [_errorMessage, setErrorMessage] = useState('');
   const [mounted, setMounted] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+
+  function onRefresh() {
+    setRefreshing(true);
+    getRecipes()
+      .then((res) => {
+        setRecipes(res);
+      });
+    setRefreshing(false);
+  }
 
   useEffect(() => {
     getRecipes()
@@ -52,11 +59,16 @@ function Recipes(props) {
 
   if (mounted && recipes.length) {
     return (
-      <ScrollView>
+      <ScrollView refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+        />
+      }>
         {recipes.map((recipe) => (
           <RecipeRow
             key={recipe.id}
-            recipe={camelizeKeys(recipe)}
+            recipe={recipe}
             navigation={navigation}
             recipes={recipes}
             setRecipes={setRecipes}
@@ -68,7 +80,7 @@ function Recipes(props) {
 
   if (mounted) {
     return (
-      <Text style={styles.emptyIndex}>
+      <Text style={styles.emptyMessage}>
         Aún no tienes recetas.
       </Text>
     );

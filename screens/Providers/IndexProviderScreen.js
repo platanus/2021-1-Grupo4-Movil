@@ -7,10 +7,10 @@ import {
   TouchableOpacity,
   Text,
   ScrollView,
+  RefreshControl,
 } from 'react-native';
 import { useStoreActions } from 'easy-peasy';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { camelizeKeys } from 'humps';
 import styles from '../../styles/Providers/indexStyles';
 import colors from '../../styles/appColors';
 
@@ -18,6 +18,16 @@ function IndexProviders({ navigation }) {
   const getProviders = useStoreActions((actions) => actions.getProviders);
   const [mounted, setMounted] = useState(false);
   const [providers, setProviders] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+
+  function onRefresh() {
+    setRefreshing(true);
+    getProviders()
+      .then((res) => {
+        setProviders(res);
+      });
+    setRefreshing(false);
+  }
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -49,7 +59,13 @@ function IndexProviders({ navigation }) {
   if (providers.length) {
     return (
       <View style={styles.container}>
-        <ScrollView>
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+            />
+          }>
           {providers.map((provider, i) => (
             <TouchableOpacity
               // eslint-disable-next-line no-magic-numbers
@@ -57,7 +73,7 @@ function IndexProviders({ navigation }) {
               key={provider.id}
               onPress={() => {
                 navigation.navigate('Proveedor', {
-                  provider: camelizeKeys(provider),
+                  provider: provider,
                   providers,
                   setProviders,
                 });

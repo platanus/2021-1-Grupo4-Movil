@@ -1,3 +1,4 @@
+/* eslint-disable max-statements */
 import React, {
   useLayoutEffect,
   useEffect,
@@ -10,6 +11,7 @@ import {
   Text,
   TextInput,
   ScrollView,
+  RefreshControl,
 } from 'react-native';
 import { useStoreActions } from 'easy-peasy';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -20,11 +22,11 @@ import formatMoney from '../../utils/formatMoney';
 function IndexIngredients({ navigation }) {
   const getIngredients = useStoreActions((actions) => actions.getIngredients);
   const setInventory = useStoreActions((actions) => actions.setIngredientInventory);
-
   const [ingredients, setIngredients] = useState([]);
   const evenNumber = 2;
   const [mounted, setMounted] = useState(false);
   const [editableInventories, setEditableInventories] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
 
   const inventoryModifier = (adder, ingId) => {
     const newIngredients = [...ingredients];
@@ -113,10 +115,25 @@ function IndexIngredients({ navigation }) {
       ),
     });
   }, [navigation, ingredients]);
+
+  function onRefresh() {
+    setRefreshing(true);
+    getIngredients()
+      .then((res) => {
+        setIngredients(res);
+      });
+    setRefreshing(false);
+  }
   if (ingredients.length) {
     return (
       <View style={styles.container}>
-        <ScrollView>
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+            />
+          }>
           {ingredients.map((ingredient, i) => (
             <TouchableOpacity
               style={[styles.ingredientRow, (i % evenNumber === 0) ? styles.even : styles.odd]}
@@ -134,10 +151,7 @@ function IndexIngredients({ navigation }) {
                   {ingredient.attributes.name}
                 </Text>
                 <Text style={styles.measure}>
-                  {`${ingredient.attributes.otherMeasures.data[
-                    ingredient.attributes.otherMeasures.data.length - 1
-                  ].attributes.quantity
-                  } ${ingredient.attributes.measure}`}
+                  {`${ingredient.attributes.quantity} ${ingredient.attributes.measure}`}
                 </Text>
               </View>
               <View style={styles.right}>
@@ -146,9 +160,7 @@ function IndexIngredients({ navigation }) {
                 </Text>
                 <Text style={styles.measure}>
                   {`${formatMoney(
-                    ingredient.attributes.price / ingredient.attributes.otherMeasures.data[
-                      ingredient.attributes.otherMeasures.data.length - 1
-                    ].attributes.quantity, '$')
+                    ingredient.attributes.price / ingredient.attributes.quantity, '$')
                   } / ${ingredient.attributes.measure}`}
                 </Text>
               </View>
