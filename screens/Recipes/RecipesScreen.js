@@ -59,7 +59,7 @@ function Recipes(props) {
 
   if (mounted && recipes.length) {
     return (
-      <ScrollView refreshControl={
+      <ScrollView style={styles.scroll} refreshControl={
         <RefreshControl
           refreshing={refreshing}
           onRefresh={onRefresh}

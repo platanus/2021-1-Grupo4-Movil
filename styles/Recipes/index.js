@@ -50,6 +50,11 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: colors.kitchengramYellow500,
   },
+
+  scroll: {
+    backgroundColor: colors.kitchengramWhite,
+  },
+
   subtitle: {
     fontSize: 14,
     color: colors.kitchengramGray400,
