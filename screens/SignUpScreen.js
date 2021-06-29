@@ -11,13 +11,13 @@ function SignUp() {
   const setLoginView = useStoreActions((actions) => actions.setLoginView);
   const setSignUpError = useStoreActions((actions) => actions.setSignUpError);
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [password2, setPassword2] = useState('');
+  const [firstPassword, setFirstPassword] = useState('');
+  const [secondPassword, setSecondPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const signUp = useStoreActions((actions) => actions.signUp);
   const signUpError = useStoreState((state) => state.signUpError);
-  const [hidePassword, setHidePassword] = useState(true);
-  const [hidePassword2, setHidePassword2] = useState(true);
+  const [hideFirstPassword, setHideFirstPassword] = useState(true);
+  const [hideSecondPassword, setHideSecondPassword] = useState(true);
 
   useEffect(() => {
     if (signUpError) {
@@ -26,9 +26,9 @@ function SignUp() {
   }, [signUpError]);
 
   function handleSignUp() {
-    if (password === password2) {
+    if (firstPassword === secondPassword) {
       const body = {
-        user: { email, password },
+        user: { email, password: firstPassword },
         logIn: false };
       signUp(body);
     } else {
@@ -57,29 +57,29 @@ function SignUp() {
         </Text>
         <View>
           <TextInput
-            onChangeText={(pass) => setPassword(pass)}
-            secureTextEntry={hidePassword}
+            onChangeText={(pass) => setFirstPassword(pass)}
+            secureTextEntry={hideFirstPassword}
             style={styles.input}
           />
-          <Icon name={hidePassword ? 'eye-off-sharp' : 'eye-sharp'}
+          <Icon name={hideFirstPassword ? 'eye-off-sharp' : 'eye-sharp'}
             color={colors.kitchengramGray600}
             size={20} style={styles.eye}
-            onPress={() => setHidePassword(!hidePassword)}/>
+            onPress={() => setHideFirstPassword(!hideFirstPassword)}/>
         </View>
         <Text style={styles.loginText}>
           Confirmar Contraseña:
         </Text>
         <View>
           <TextInput
-            onChangeText={(pass2) => setPassword2(pass2)}
-            secureTextEntry={hidePassword2}
+            onChangeText={(pass) => setSecondPassword(pass)}
+            secureTextEntry={hideSecondPassword}
             style={styles.input}
           />
-          <Icon name={hidePassword2 ? 'eye-off-sharp' : 'eye-sharp'}
+          <Icon name={hideSecondPassword ? 'eye-off-sharp' : 'eye-sharp'}
             color={colors.kitchengramGray600}
             size={20}
             style={styles.eye}
-            onPress={() => setHidePassword2(!hidePassword2)}/>
+            onPress={() => setHideSecondPassword(!hideSecondPassword)}/>
         </View>
         <Text style={styles.errorMessage}>
           {errorMessage}
