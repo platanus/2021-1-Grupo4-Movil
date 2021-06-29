@@ -22,7 +22,7 @@ import formatMoney from '../../utils/formatMoney';
 
 function IndexIngredients({ navigation }) {
   const getIngredients = useStoreActions((actions) => actions.getIngredients);
-  const setInventory = useStoreActions((actions) => actions.setIngredientInventory);
+  const updateInventory = useStoreActions((actions) => actions.updateInventory);
   const [ingredients, setIngredients] = useState([]);
   const evenNumber = 2;
   const [mounted, setMounted] = useState(false);
@@ -53,29 +53,11 @@ function IndexIngredients({ navigation }) {
     setIngredients(newIngredients);
   }
 
-  function formatIngredientMeasure(otherMeasures) {
-    const ingredientMeasuresAttributes = otherMeasures.data.map((object) => object.attributes);
-
-    return ingredientMeasuresAttributes;
-  }
-
-  async function submitInventoryValue(ingredient) {
-    const attributes = {
-      providerName: ingredient.attributes.provider_name,
-      name: ingredient.attributes.name,
-      sku: ingredient.attributes.sku,
-      price: ingredient.attributes.price,
-      currency: ingredient.attributes.currency,
-      quantity: ingredient.attributes.quantity,
-      measure: ingredient.attributes.measure,
-      inventory: ingredient.attributes.inventory,
-      ingredientMeasuresAttributes: formatIngredientMeasure(ingredient.attributes.other_measures),
-    };
-    const body = {
-      ingredient: attributes,
-    };
-    await setInventory({ body, id: ingredient.id })
-      .catch((err) => {
+  function submitInventoryValue(ingredient) {
+    // eslint-disable-next-line camelcase
+    const ingredientsPayload = [{ ingredient_id: ingredient.id, inventory: ingredient.attributes.inventory }];
+    updateInventory({ ingredients: ingredientsPayload })
+      .catch(() => {
       });
   }
 
@@ -205,15 +187,14 @@ function IndexIngredients({ navigation }) {
                       </TouchableOpacity>
                     </View>
                   }
-                  <TouchableOpacity
-                    onPress={() => showInventoryInput(i)}
-                  >{editableInventories[i] ?
+                  <TouchableOpacity onPress={() => showInventoryInput(i)}>
+                    {editableInventories[i] ?
                       <Icon
                         name='create'
                         size={25}
                       /> :
                       <Text style={styles.saveInventoryButton}>
-                    Guardar
+                        Guardar
                       </Text>
                     }
                   </TouchableOpacity>
