@@ -144,6 +144,18 @@ const storeThunks = {
 
     return ingredients;
   }),
+  getIngredient: thunk(async (actions, payload) => {
+    actions.setShowLoadingSpinner();
+    const ingredient = await ingredientsApi.getIngredient(payload)
+      .then((res) => res.data.data)
+      .catch((err) => {
+        actions.setIngredientsError(err.response.data.message);
+        throw err;
+      });
+    actions.setShowLoadingSpinner();
+
+    return ingredient;
+  }),
   createIngredient: thunk(async (actions, payload) => {
     actions.setShowLoadingSpinner();
     const ingredient = await ingredientsApi.createIngredient(payload)
