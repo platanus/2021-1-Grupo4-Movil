@@ -11,6 +11,15 @@ const ingredientsApi = {
       data: payload,
     });
   },
+  getIngredient: (payload) => {
+    const url = `${config.endpoints.ingredients.specific}${payload.id}`;
+
+    return apiUtils.api({
+      method: 'get',
+      url,
+      data: payload.body,
+    });
+  },
   createIngredient: (payload) => {
     const url = config.endpoints.ingredients.index;
 
