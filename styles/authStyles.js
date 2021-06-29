@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.kitchengramWhite,
   },
   loginText: {
+    paddingLeft: 5,
     fontSize: 18,
     color: colors.tableBorder,
   },

@@ -39,13 +39,17 @@ function LogIn() {
     <View style={styles.container}>
       <Text style={styles.helloText}>Hola KitchenGram!</Text>
       <View style={styles.logContainer}>
-        <Text style={styles.loginText}> Email:</Text>
+        <Text style={styles.loginText}>
+          Email:
+        </Text>
         <TextInput
           onChangeText={(mail) => setEmail(mail)}
           style={styles.input}
           autoCapitalize="none"/>
 
-        <Text style={styles.loginText}> Contraseña:</Text>
+        <Text style={styles.loginText}>
+          Contraseña:
+        </Text>
         <View>
           <TextInput
             onChangeText={(pass) => setPassword(pass)}

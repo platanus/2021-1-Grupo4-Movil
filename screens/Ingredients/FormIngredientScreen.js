@@ -212,7 +212,7 @@ function FormIngredient({ navigation, route }) {
           {isFromSearch ? (
             <View style={styles.inputContainer}>
               <Text style={styles.inputLabel}>
-            Proveedor
+                Proveedor
               </Text>
               <TextInput
                 style={[styles.input, styles.cancelText]}
@@ -222,7 +222,7 @@ function FormIngredient({ navigation, route }) {
             </View>) : (
             <View style={styles.inputContainer}>
               <Text style={styles.inputLabel}>
-            Proveedor
+                Proveedor
               </Text>
               <View style={styles.dropDown}>
                 <RNPickerSelect
