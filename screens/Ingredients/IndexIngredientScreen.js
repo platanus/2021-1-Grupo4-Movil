@@ -13,6 +13,7 @@ import {
   ScrollView,
   RefreshControl,
 } from 'react-native';
+
 import { useStoreActions } from 'easy-peasy';
 import Icon from 'react-native-vector-icons/Ionicons';
 import styles from '../../styles/Ingredients/indexStyles';
@@ -28,7 +29,7 @@ function IndexIngredients({ navigation }) {
   const [editableInventories, setEditableInventories] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
 
-  const inventoryModifier = (adder, ingId) => {
+  function inventoryModifier(adder, ingId) {
     const newIngredients = [...ingredients];
 
     newIngredients.forEach((ing) => {
@@ -38,9 +39,47 @@ function IndexIngredients({ navigation }) {
     });
 
     setIngredients(newIngredients);
-  };
+  }
 
-  const showInventoryInput = (index) => {
+  function setInventoryInIngredient(event, ingId) {
+    const newIngredients = [...ingredients];
+    const quantity = event.replace(/[^\d]/g, '');
+
+    newIngredients.forEach((ing) => {
+      if (ing.id === ingId && ing.attributes.inventory >= 0) {
+        ing.attributes.inventory = Number(quantity);
+      }
+    });
+    setIngredients(newIngredients);
+  }
+
+  function formatIngredientMeasure(otherMeasures) {
+    const ingredientMeasuresAttributes = otherMeasures.data.map((object) => object.attributes);
+
+    return ingredientMeasuresAttributes;
+  }
+
+  async function submitInventoryValue(ingredient) {
+    const attributes = {
+      providerName: ingredient.attributes.provider_name,
+      name: ingredient.attributes.name,
+      sku: ingredient.attributes.sku,
+      price: ingredient.attributes.price,
+      currency: ingredient.attributes.currency,
+      quantity: ingredient.attributes.quantity,
+      measure: ingredient.attributes.measure,
+      inventory: ingredient.attributes.inventory,
+      ingredientMeasuresAttributes: formatIngredientMeasure(ingredient.attributes.other_measures),
+    };
+    const body = {
+      ingredient: attributes,
+    };
+    await setInventory({ body, id: ingredient.id })
+      .catch((err) => {
+      });
+  }
+
+  function showInventoryInput(index) {
     const copyEditables = [...editableInventories];
     if (copyEditables[index]) {
       copyEditables[index] = false;
@@ -49,44 +88,7 @@ function IndexIngredients({ navigation }) {
       submitInventoryValue(ingredients[index]);
     }
     setEditableInventories(copyEditables);
-  };
-
-  const setInventoryInIngredient = (event, ingId) => {
-    const newIngredients = [...ingredients];
-
-    newIngredients.map((ing) => {
-      if (ing.id === ingId && ing.attributes.inventory >= 0) {
-        ing.attributes.inventory = Number(event);
-      }
-    });
-    setIngredients(newIngredients);
-  };
-
-  const submitInventoryValue = async (ingredient) => {
-    const attributes = {
-      // eslint-disable-next-line
-      provider_name: ingredient.attributes.provider_name,
-      name: ingredient.attributes.name,
-      sku: ingredient.attributes.sku,
-      price: ingredient.attributes.price,
-      currency: ingredient.attributes.currency,
-      quantity: ingredient.attributes.quantity,
-      measure: ingredient.attributes.measure,
-      inventory: ingredient.attributes.inventory,
-      // eslint-disable-next-line
-      ingredient_measures_attributes: formatIngredientMeasure(ingredient.attributes.other_measures)
-    };
-    const body = {
-      ingredient: attributes,
-    };
-    await setInventory({ body, id: ingredient.id });
-  };
-
-  const formatIngredientMeasure = (otherMeasures) => {
-    const ingredientMeasuresAttributes = otherMeasures.data.map((object) => object.attributes);
-
-    return ingredientMeasuresAttributes;
-  };
+  }
 
   useEffect(() => {
     getIngredients()
