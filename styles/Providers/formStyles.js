@@ -97,6 +97,13 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
 
+  sectionTitleText: {
+    color: 'black',
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginVertical: 20,
+  },
+
   buttonText: {
     fontWeight: 'normal',
     fontStyle: 'normal',
