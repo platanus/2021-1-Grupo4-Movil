@@ -38,8 +38,15 @@ function IndexIngredients({ navigation }) {
   }
 
   function submitInventoryValue(ingredient) {
-    const ingredientsPayload = [{ ingredientId: ingredient.id, inventory: newInventories[ingredient.id.toString()] }];
+    const newInventory = Number(newInventories[ingredient.id.toString()]);
+    const ingredientsPayload = [{ ingredientId: ingredient.id, inventory: newInventory }];
     updateInventory({ ingredients: ingredientsPayload })
+      .then(() => {
+        const index = ingredients.indexOf(ingredient);
+        const ingredientsCopy = [...ingredients];
+        ingredientsCopy[index].attributes.inventory = newInventory;
+        setIngredients(ingredientsCopy);
+      })
       .catch(() => {
       });
   }
