@@ -26,48 +26,31 @@ function IndexIngredients({ navigation }) {
   const [ingredients, setIngredients] = useState([]);
   const evenNumber = 2;
   const [mounted, setMounted] = useState(false);
-  const [editableInventories, setEditableInventories] = useState([]);
+  const [editableInventories, setEditableInventories] = useState({});
   const [refreshing, setRefreshing] = useState(false);
+  const [newInventories, setNewInventories] = useState({});
 
-  function inventoryModifier(adder, ingId) {
-    const newIngredients = [...ingredients];
+  function inventoryModifier(event, ingId) {
+    const newInventoriesAux = { ...newInventories };
+    newInventoriesAux[ingId.toString()] = event;
 
-    newIngredients.forEach((ing) => {
-      if (ing.id === ingId && ing.attributes.inventory >= 0) {
-        ing.attributes.inventory = adder;
-      }
-    });
-
-    setIngredients(newIngredients);
-  }
-
-  function setInventoryInIngredient(event, ingId) {
-    const newIngredients = [...ingredients];
-    const quantity = event.replace(/[^\d]/g, '');
-
-    newIngredients.forEach((ing) => {
-      if (ing.id === ingId && ing.attributes.inventory >= 0) {
-        ing.attributes.inventory = Number(quantity);
-      }
-    });
-    setIngredients(newIngredients);
+    setNewInventories(newInventoriesAux);
   }
 
   function submitInventoryValue(ingredient) {
-    // eslint-disable-next-line camelcase
-    const ingredientsPayload = [{ ingredient_id: ingredient.id, inventory: ingredient.attributes.inventory }];
+    const ingredientsPayload = [{ ingredientId: ingredient.id, inventory: newInventories[ingredient.id.toString()] }];
     updateInventory({ ingredients: ingredientsPayload })
       .catch(() => {
       });
   }
 
-  function showInventoryInput(index) {
-    const copyEditables = [...editableInventories];
-    if (copyEditables[index]) {
-      copyEditables[index] = false;
-    } else {
-      copyEditables[index] = true;
-      submitInventoryValue(ingredients[index]);
+  function showInventoryInput(ingredient) {
+    const copyEditables = { ...editableInventories };
+    copyEditables[ingredient.id.toString()] = !copyEditables[ingredient.id.toString()];
+
+    if (!copyEditables[ingredient.id.toString()] &&
+    ingredient.attributes.inventory !== newInventories[ingredient.id.toString()]) {
+      submitInventoryValue(ingredient);
     }
     setEditableInventories(copyEditables);
   }
@@ -76,12 +59,18 @@ function IndexIngredients({ navigation }) {
     getIngredients()
       .then((res) => {
         setIngredients(res);
-        setEditableInventories(res);
+        res.forEach((ingredient) => {
+          newInventories[ingredient.id.toString()] = ingredient.attributes.inventory;
+          editableInventories[ingredient.id.toString()] = false;
+        });
+        setNewInventories(newInventories);
+        setEditableInventories(editableInventories);
         setMounted(true);
       })
       .catch(() => {
       });
-  }, [getIngredients]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -108,7 +97,8 @@ function IndexIngredients({ navigation }) {
       });
     setRefreshing(false);
   }
-  if (ingredients.length) {
+
+  if (mounted && ingredients.length) {
     return (
       <View style={styles.container}>
         <ScrollView
@@ -148,17 +138,12 @@ function IndexIngredients({ navigation }) {
                   } / ${ingredient.attributes.measure}`}
                 </Text>
                 <View style={styles.inventory}>
-                  { editableInventories[i] ?
-                    <Text
-                      style={styles.measure}
-                    >
-                      {`${ingredient.attributes.inventory} un.`}
-                    </Text> :
+                  {editableInventories[ingredient.id] ? (
                     <View style={styles.inventoryEditPanel}>
                       <TouchableOpacity
                         style={styles.decreaseInventoryBtn}
                         onPress={() => inventoryModifier(
-                          ingredient.attributes.inventory - 1, ingredient.id)}
+                          newInventories[ingredient.id.toString()] - 1, ingredient.id)}
                       >
                         <Icon
                           name='remove-circle-outline'
@@ -170,14 +155,14 @@ function IndexIngredients({ navigation }) {
                         style={styles.inventoryInput}
                         keyboardType="number-pad"
                         returnKeyType='done'
-                        value={ingredient.attributes.inventory.toString()}
-                        onChangeText={(event) => setInventoryInIngredient(event, ingredient.id)}
+                        value={newInventories[ingredient.id.toString()].toString()}
+                        onChangeText={(event) => inventoryModifier(event, ingredient.id)}
                         editable={true}
                       />
                       <TouchableOpacity
                         style={styles.increaseInventoryBtn}
                         onPress={() => inventoryModifier(
-                          ingredient.attributes.inventory + 1, ingredient.id)}
+                          newInventories[ingredient.id.toString()] + 1, ingredient.id)}
                       >
                         <Icon
                           name='add-circle-outline'
@@ -186,17 +171,24 @@ function IndexIngredients({ navigation }) {
                         />
                       </TouchableOpacity>
                     </View>
-                  }
-                  <TouchableOpacity onPress={() => showInventoryInput(i)}>
-                    {editableInventories[i] ?
-                      <Icon
-                        name='create'
-                        size={25}
-                      /> :
+                  ) : (
+                    <Text
+                      style={styles.measure}
+                    >
+                      {`${newInventories[ingredient.id.toString()]} un.`}
+                    </Text>
+                  )}
+                  <TouchableOpacity onPress={() => showInventoryInput(ingredient)}>
+                    {editableInventories[ingredient.id] ? (
                       <Text style={styles.saveInventoryButton}>
                         Guardar
                       </Text>
-                    }
+                    ) : (
+                      <Icon
+                        name='create'
+                        size={25}
+                      />
+                    )}
                   </TouchableOpacity>
                 </View>
               </View>
