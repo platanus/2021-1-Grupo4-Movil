@@ -31,6 +31,7 @@ function FormIngredient({ navigation, route }) {
         sku: '',
         currency: 'CLP',
         providerName: null,
+        inventory: 0,
       },
     },
     ingredients,
@@ -144,6 +145,7 @@ function FormIngredient({ navigation, route }) {
         currency: ingredient.attributes.currency,
         ingredientMeasuresAttributes: selectMeasuresToModify(),
         providerName,
+        inventory: ingredient.attributes.inventory,
       },
     };
 
@@ -161,6 +163,7 @@ function FormIngredient({ navigation, route }) {
 
   function handleSubmitEdit() {
     if (!checkValidValues()) return;
+
     const body = {
       ingredient: {
         name,
@@ -169,6 +172,7 @@ function FormIngredient({ navigation, route }) {
         currency: ingredient.attributes.currency,
         ingredientMeasuresAttributes: selectMeasuresToModify(),
         providerName,
+        inventory: ingredient.attributes.inventory,
       },
     };
     editIngredient({ body, id: ingredient.id })
@@ -228,7 +232,8 @@ function FormIngredient({ navigation, route }) {
                 value={providerName}
                 editable={false}
               />
-            </View>) : (
+            </View>
+          ) : (
             <View style={styles.inputContainer}>
               <Text style={styles.inputLabel}>
                 Proveedor
@@ -252,7 +257,8 @@ function FormIngredient({ navigation, route }) {
                 color={colors.kitchengramGray600}
                 style={styles.arrowIcon}
               />
-            </View>) }
+            </View>
+          )}
           <View style={styles.inputContainer}>
             <Text style={styles.inputLabel}>
               Precio

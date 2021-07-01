@@ -11,8 +11,8 @@ function Recipes(props) {
   const { navigation } = props;
   const getRecipes = useStoreActions((actions) => actions.getRecipes);
   const [recipes, setRecipes] = useState([]);
-  const [_showError, setShowError] = useState(false);
-  const [_errorMessage, setErrorMessage] = useState('');
+  const [, setShowError] = useState(false);
+  const [, setErrorMessage] = useState('');
   const [mounted, setMounted] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
 

@@ -43,6 +43,7 @@ function MenuForm({ navigation, route }) {
     } else {
       setSelectedRecipes([]);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

@@ -58,5 +58,14 @@ const ingredientsApi = {
       },
     });
   },
+  updateInventory: (payload) => {
+    const url = config.endpoints.ingredients.updateInventory;
+
+    return apiUtils.api({
+      method: 'post',
+      url,
+      data: payload,
+    });
+  },
 };
 export default ingredientsApi;
