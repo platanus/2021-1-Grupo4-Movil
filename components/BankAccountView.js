@@ -3,20 +3,34 @@ import {
   View,
   TouchableOpacity,
   Text,
+  Alert,
 } from 'react-native';
+import Clipboard from 'expo-clipboard';
 
 import styles from '../styles/showStyles';
 
 export default function BankAccountView({ provider, setShowBankAccount }) {
+  const bankAccount = { ...provider.attributes };
+  function copyToClipboard() {
+    Clipboard.setString(`${bankAccount.contactName}\n${
+      bankAccount.contactRut}\n${
+      bankAccount.bankName}\n${
+      bankAccount.accountType}\n${
+      bankAccount.accountNumber}`);
+    Alert.alert('¡Los datos han sido copiados con éxito!', '',
+      [{ text: 'Ok', style: 'default' }],
+    );
+  }
+
   return (
-    <View style={{ height: '100%', width: '100%', position: 'absolute', justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.7)' }}>
-      <View style={{ height: '60%', width: '90%', backgroundColor: 'white', borderColor: 'green', borderWidth: 2, marginBottom: '15%', borderRadius: 10, paddingHorizontal: '5%', paddingTop: 15 }}>
+    <View style={styles.backgroundOpacity}>
+      <View style={styles.bankAccountPopUp}>
         <View style={styles.attributeContainer}>
           <Text style={styles.name}>
             Nombre
           </Text>
           <Text style={styles.value}>
-            {provider.attributes.contactName}
+            {bankAccount.contactName}
           </Text>
         </View>
         <View style={styles.attributeContainer}>
@@ -24,7 +38,7 @@ export default function BankAccountView({ provider, setShowBankAccount }) {
             Rut
           </Text>
           <Text style={styles.value}>
-            {provider.attributes.contactRut}
+            {bankAccount.contactRut}
           </Text>
         </View>
         <View style={styles.attributeContainer}>
@@ -32,7 +46,7 @@ export default function BankAccountView({ provider, setShowBankAccount }) {
             Banco
           </Text>
           <Text style={styles.value}>
-            {provider.attributes.bankName}
+            {bankAccount.bankName}
           </Text>
         </View>
         <View style={styles.attributeContainer}>
@@ -40,7 +54,7 @@ export default function BankAccountView({ provider, setShowBankAccount }) {
             Tipo de cuenta
           </Text>
           <Text style={styles.value}>
-            {provider.attributes.accountType}
+            {bankAccount.accountType}
           </Text>
         </View>
         <View style={styles.attributeContainer}>
@@ -48,12 +62,13 @@ export default function BankAccountView({ provider, setShowBankAccount }) {
             Número de cuenta
           </Text>
           <Text style={styles.value}>
-            {provider.attributes.accountNumber}
+            {bankAccount.accountNumber}
           </Text>
         </View>
-        <View style={styles.buttonsContainer}>
+        <View style={styles.bankButtonsContainer}>
           <TouchableOpacity
             style={styles.edit}
+            onPress={copyToClipboard}
           >
             <Text style={styles.editText}>
               Copiar

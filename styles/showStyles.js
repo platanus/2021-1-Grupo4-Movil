@@ -2,6 +2,27 @@ import { StyleSheet } from 'react-native';
 import colors from './appColors';
 
 const styles = StyleSheet.create({
+  backgroundOpacity: {
+    height: '100%',
+    width: '100%',
+    position: 'absolute',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+  },
+
+  bankAccountPopUp: {
+    height: 450,
+    width: '90%',
+    backgroundColor: colors.kitchengramWhite,
+    borderColor: colors.kitchengramGreen500,
+    borderWidth: 2,
+    marginBottom: '15%',
+    borderRadius: 10,
+    paddingHorizontal: '5%',
+    paddingTop: 15,
+  },
+
   container: {
     backgroundColor: colors.kitchengramWhite,
     flexDirection: 'column',
@@ -13,18 +34,20 @@ const styles = StyleSheet.create({
   },
 
   scrapperButton: {
-    backgroundColor: colors.kitchengramGreen500,
+    backgroundColor: colors.kitchengramWhite,
     padding: 12,
     borderRadius: 5,
+    borderWidth: 1,
+    borderColor: colors.kitchengramGreen500,
     height: 50,
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 30,
+    marginTop: '5%',
   },
 
   scrapperButtonText: {
-    color: colors.kitchengramWhite,
+    color: colors.kitchengramGreen500,
     fontSize: 16,
   },
 
@@ -67,6 +90,19 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     width: '100%',
     height: '15%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    marginHorizontal: '5%',
+    paddingVertical: '5%',
+  },
+
+  bankButtonsContainer: {
+    width: '100%',
+    height: 70,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
