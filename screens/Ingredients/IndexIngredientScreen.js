@@ -66,12 +66,14 @@ function IndexIngredients({ navigation }) {
     getIngredients()
       .then((res) => {
         setIngredients(res);
+        const newInventoriesAux = {};
+        const editableInventoriesAux = {};
         res.forEach((ingredient) => {
-          newInventories[ingredient.id.toString()] = ingredient.attributes.inventory;
-          editableInventories[ingredient.id.toString()] = false;
+          newInventoriesAux[ingredient.id.toString()] = ingredient.attributes.inventory;
+          editableInventoriesAux[ingredient.id.toString()] = false;
         });
-        setNewInventories(newInventories);
-        setEditableInventories(editableInventories);
+        setNewInventories(newInventoriesAux);
+        setEditableInventories(editableInventoriesAux);
         setMounted(true);
       })
       .catch(() => {
