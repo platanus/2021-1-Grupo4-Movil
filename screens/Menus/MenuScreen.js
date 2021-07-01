@@ -20,7 +20,6 @@ import formatMoney from '../../utils/formatMoney';
 import createExcel from '../../utils/excelMaker';
 
 import ShowMenuOptions from '../../components/ShowMenuOptions';
-import { color } from 'react-native-elements/dist/helpers';
 
 function Menu(props) {
   const {
@@ -38,15 +37,7 @@ function Menu(props) {
     menus,
   } = route.params;
 
-  const [shoppingList, setShoppingList] = useState([]);
   const [showMenuOptions, setShowMenuOptions] = useState(false);
-
-  useEffect(() => {
-    getShoppingList({ id: menu.id })
-      .then((res) => {
-        setShoppingList(res);
-      });
-  }, []);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -62,6 +53,14 @@ function Menu(props) {
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const exportShoppingList = () => {
+    getShoppingList({ id: menu.id })
+      .then((res) => {
+        createExcel(res);
+      })
+      .catch((err) => alert(err))
+  };
 
   return (
     <View style={styles.container}>
@@ -126,7 +125,7 @@ function Menu(props) {
         ))}
         <TouchableOpacity
           style={styles.shoppingListButton}
-          onPress={() => createExcel(shoppingList)}
+          onPress={() => exportShoppingList()}
         ><Text style={styles.shoppingListText}>Exportar lista de compras</Text>
         </TouchableOpacity>
       </ScrollView>

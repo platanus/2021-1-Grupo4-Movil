@@ -328,10 +328,8 @@ const storeThunks = {
 
     return menu;
   }),
-  getShoppingList: thunk(async (actions, payload) => {
-    actions.setShowLoadingSpinner();
+  getShoppingList: thunk(async (_, payload) => {
     const shoppingList = await menusApi.shoppingList(payload);
-    actions.setShowLoadingSpinner();
 
     return shoppingList.data;
   }),
