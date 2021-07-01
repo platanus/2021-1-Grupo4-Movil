@@ -20,6 +20,7 @@ import formatMoney from '../../utils/formatMoney';
 import createExcel from '../../utils/excelMaker';
 
 import ShowMenuOptions from '../../components/ShowMenuOptions';
+import { color } from 'react-native-elements/dist/helpers';
 
 function Menu(props) {
   const {
@@ -124,9 +125,9 @@ function Menu(props) {
           </View>
         ))}
         <TouchableOpacity
-          style={styles.ingredientRow}
+          style={styles.shoppingListButton}
           onPress={() => createExcel(shoppingList)}
-        ><Text>Exportar lista de compras</Text>
+        ><Text style={styles.shoppingListText}>Exportar lista de compras</Text>
         </TouchableOpacity>
       </ScrollView>
     </View>

@@ -15,9 +15,6 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import styles from '../../styles/Ingredients/indexStyles';
 import colors from '../../styles/appColors';
 import formatMoney from '../../utils/formatMoney';
-import createExcel from '../../utils/excelMaker';
-
-
 
 function IndexIngredients({ navigation }) {
   const getIngredients = useStoreActions((actions) => actions.getIngredients);

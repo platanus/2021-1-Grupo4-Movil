@@ -95,6 +95,18 @@ const styles = StyleSheet.create({
     color: colors.selectedTabYellow,
     textAlign: 'right',
   },
+  shoppingListButton: {
+    backgroundColor: colors.kitchengramGreen500,
+    padding: 12,
+    borderRadius: 5,
+    width: '85%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginHorizontal: 30,
+  },
+  shoppingListText: {
+    color: colors.kitchengramWhite,
+  },
 });
 
 export default styles;
