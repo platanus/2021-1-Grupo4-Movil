@@ -12,6 +12,22 @@ const styles = StyleSheet.create({
     paddingHorizontal: '5%',
   },
 
+  scrapperButton: {
+    backgroundColor: colors.kitchengramGreen500,
+    padding: 12,
+    borderRadius: 5,
+    height: 50,
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 30,
+  },
+
+  scrapperButtonText: {
+    color: colors.kitchengramWhite,
+    fontSize: 16,
+  },
+
   attributeContainer: {
     height: '12%',
     borderBottomColor: colors.kitchengramGray400,
