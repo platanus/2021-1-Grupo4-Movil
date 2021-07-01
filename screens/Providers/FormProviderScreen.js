@@ -82,6 +82,11 @@ function FormProvider({ navigation, route }) {
       webpageUrl,
       deliveryDays: time,
       minimumPurchase: minPurchase,
+      contactName,
+      contactRut,
+      bankName,
+      accountType,
+      accountNumber,
     };
     provider.attributes = attributes;
     const body = {
