@@ -66,20 +66,28 @@ function IndexIngredients({ navigation }) {
     getIngredients()
       .then((res) => {
         setIngredients(res);
-        const newInventoriesAux = {};
-        const editableInventoriesAux = {};
-        res.forEach((ingredient) => {
-          newInventoriesAux[ingredient.id.toString()] = ingredient.attributes.inventory;
-          editableInventoriesAux[ingredient.id.toString()] = false;
-        });
-        setNewInventories(newInventoriesAux);
-        setEditableInventories(editableInventoriesAux);
-        setMounted(true);
+        if (res.length === 0) {
+          setMounted(true);
+        }
       })
       .catch(() => {
       });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (ingredients.length > 0) {
+      const newInventoriesAux = {};
+      const editableInventoriesAux = {};
+      ingredients.forEach((ingredient) => {
+        newInventoriesAux[ingredient.id.toString()] = ingredient.attributes.inventory;
+        editableInventoriesAux[ingredient.id.toString()] = false;
+      });
+      setNewInventories(newInventoriesAux);
+      setEditableInventories(editableInventoriesAux);
+      setMounted(true);
+    }
+  }, [ingredients]);
 
   useLayoutEffect(() => {
     navigation.setOptions({

@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
   },
   decreaseInventoryBtn: {
     width: 40,
-    left: 16, 
+    left: 16,
     display: 'flex',
   },
   increaseInventoryBtn: {

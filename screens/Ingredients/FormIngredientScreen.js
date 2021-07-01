@@ -233,7 +233,7 @@ function FormIngredient({ navigation, route }) {
                 editable={false}
               />
             </View>
-           ) : (
+          ) : (
             <View style={styles.inputContainer}>
               <Text style={styles.inputLabel}>
                 Proveedor
