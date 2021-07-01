@@ -16,6 +16,10 @@
     "axios": "^0.21.1",
     "easy-peasy": "^5.0.3",
     "expo": "~41.0.0",
+    "expo-file-system": "~11.0.2",
+    "expo-media-library": "~12.0.2",
+    "expo-print": "~10.1.0",
+    "expo-sharing": "~9.1.2",
     "expo-status-bar": "~1.0.4",
     "humps": "^2.0.1",
     "react": "16.13.1",
@@ -23,6 +27,7 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-41.0.0.tar.gz",
     "react-native-dotenv": "^2.5.5",
     "react-native-elements": "^3.4.1",
+    "react-native-fs": "^2.18.0",
     "react-native-gesture-handler": "~1.10.2",
     "react-native-numeric-input": "^1.9.0",
     "react-native-picker-select": "^8.0.4",
@@ -30,7 +35,8 @@
     "react-native-safe-area-context": "3.2.0",
     "react-native-screens": "~3.0.0",
     "react-native-vector-icons": "^8.1.0",
-    "react-native-web": "~0.13.12"
+    "react-native-web": "~0.13.12",
+    "xlsx": "^0.17.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",

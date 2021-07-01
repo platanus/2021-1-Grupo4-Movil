@@ -1,4 +1,5 @@
 import React, {
+  useEffect,
   useLayoutEffect,
   useState,
 } from 'react';
@@ -6,6 +7,7 @@ import {
   View,
   Text,
   ScrollView,
+  TouchableOpacity,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { useStoreActions } from 'easy-peasy';
@@ -15,6 +17,7 @@ import styles from '../../styles/Menus/showStyles';
 
 import calculateRecipePrice from '../../utils/calculateRecipePrice';
 import formatMoney from '../../utils/formatMoney';
+import createExcel from '../../utils/excelMaker';
 
 import ShowMenuOptions from '../../components/ShowMenuOptions';
 
@@ -26,6 +29,7 @@ function Menu(props) {
 
   const deleteMenu = useStoreActions((actions) => actions.deleteMenu);
   const setGlobalMenus = useStoreActions((actions) => actions.setMenus);
+  const getShoppingList = useStoreActions((actions) => actions.getShoppingList);
 
   const {
     menu,
@@ -33,7 +37,15 @@ function Menu(props) {
     menus,
   } = route.params;
 
+  const [shoppingList, setShoppingList] = useState([]);
   const [showMenuOptions, setShowMenuOptions] = useState(false);
+
+  useEffect(() => {
+    getShoppingList({ id: menu.id })
+      .then((res) => {
+        setShoppingList(res);
+      });
+  }, []);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -111,6 +123,11 @@ function Menu(props) {
             </View>
           </View>
         ))}
+        <TouchableOpacity
+          style={styles.ingredientRow}
+          onPress={() => createExcel(shoppingList)}
+        ><Text>Exportar lista de compras</Text>
+        </TouchableOpacity>
       </ScrollView>
     </View>
   );

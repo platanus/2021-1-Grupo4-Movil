@@ -290,6 +290,7 @@ const storeThunks = {
         actions.setMenusError(err.response.data.message);
         throw err;
       });
+    console.log(menu)
     actions.setShowLoadingSpinner();
 
     return menu;
@@ -326,6 +327,19 @@ const storeThunks = {
     actions.setShowLoadingSpinner();
 
     return menu;
+  }),
+  getShoppingList: thunk(async (actions, payload) => {
+    actions.setShowLoadingSpinner();
+    const shoppingList = await menusApi.shoppingList(payload)
+      // .then((res) => {console.log(res.data); res.data})
+      //  .catch((err) => {
+      //    console.log(err.response.data)
+      //   actions.setMenusError(err.response.data.message);
+      //    throw err;
+      // });
+    actions.setShowLoadingSpinner();
+    //console.log(shoppingList)
+    return shoppingList.data;
   }),
   getProviders: thunk(async (actions, payload) => {
     actions.setShowLoadingSpinner();
