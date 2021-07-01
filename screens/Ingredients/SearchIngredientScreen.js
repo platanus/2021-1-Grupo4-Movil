@@ -18,7 +18,6 @@ function SearchIngredient({ navigation, route }) {
   const {
     setName,
     setPrice,
-    setQuantity,
     setProviderName,
     setMeasure,
   } = route.params;
@@ -95,9 +94,8 @@ function SearchIngredient({ navigation, route }) {
                 onPress={() => {
                   setName(product.name);
                   setPrice(product.price);
-                  setQuantity(1);
                   setProviderName(searchResponse[actualProvider].provider.name);
-                  setMeasure(product.measure);
+                  setMeasure({ name: product.measure, quantity: 1 });
                   navigation.navigate('Nuevo Ingrediente', {
                     isFromSearch: true,
                   });

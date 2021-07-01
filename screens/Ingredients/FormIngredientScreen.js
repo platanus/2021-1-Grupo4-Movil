@@ -18,6 +18,7 @@ import styles from '../../styles/Ingredients/formStyles';
 import pickers from '../../styles/customPickerStyles';
 import colors from '../../styles/appColors';
 import KeyboardAvoidWrapper from '../../components/KeyboardAvoidWrapper';
+import IngredientMeasureRow from '../../components/IngredientMeasureRow';
 
 function FormIngredient({ navigation, route }) {
   const {
@@ -27,16 +28,6 @@ function FormIngredient({ navigation, route }) {
       attributes: {
         name: '',
         price: 0,
-        quantity: 0,
-        measure: '',
-        otherMeasures: {
-          data: [{
-            attributes: {
-              quantity: 0,
-            },
-          }],
-
-        },
         sku: '',
         currency: 'CLP',
         providerName: null,
@@ -47,6 +38,7 @@ function FormIngredient({ navigation, route }) {
     setIngredients,
   } = route.params;
 
+  const getIngredient = useStoreActions((actions) => actions.getIngredient);
   const createIngredient = useStoreActions((actions) => actions.createIngredient);
   const editIngredient = useStoreActions((actions) => actions.editIngredient);
   const getProviders = useStoreActions((actions) => actions.getProviders);
@@ -54,10 +46,14 @@ function FormIngredient({ navigation, route }) {
 
   const [name, setName] = useState(ingredient.attributes.name);
   const [price, setPrice] = useState(ingredient.attributes.price);
-  const [quantity, setQuantity] = useState(ingredient.attributes.otherMeasures.data[
-    ingredient.attributes.otherMeasures.data.length - 1
-  ].attributes.quantity);
-  const [measure, setMeasure] = useState(ingredient.attributes.measure);
+  const [measures, setMeasures] = useState(isNew ? [{ id: 0, name: '', quantity: '', isNew: true }] :
+    ingredient.attributes.otherMeasures.data.map(thisMeasure => ({
+      id: thisMeasure.id,
+      name: thisMeasure.attributes.name,
+      quantity: thisMeasure.attributes.quantity,
+      isNew: false,
+      isRemoved: false,
+    })));
   const [providerName, setProviderName] = useState(ingredient.attributes.providerName);
   const [providersNames, setProvidersNames] = useState([]);
 
@@ -77,12 +73,56 @@ function FormIngredient({ navigation, route }) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  function handleMeasureChange(id, newMeasureAttributes) {
+    const toChangeMeasureIndex = measures.findIndex((thisMeasure) => thisMeasure.id === id);
+    if (toChangeMeasureIndex === -1) return;
+    setMeasures([
+      ...measures.slice(0, toChangeMeasureIndex),
+      { ...measures[toChangeMeasureIndex], ...newMeasureAttributes },
+      ...measures.slice(toChangeMeasureIndex + 1),
+    ]);
+  }
+
+  function addNewMeasure() {
+    setMeasures([
+      ...measures,
+      {
+        id: Math.max(...measures.map(thisMeasure => Number(thisMeasure.id)), 0) + 1,
+        name: '',
+        quantity: '',
+        isNew: true,
+        isRemoved: false,
+      },
+    ]);
+  }
+
+  function measureData(thisMeasure, primary) {
+    if (thisMeasure.isNew) {
+      if (!thisMeasure.isRemoved) return { name: thisMeasure.name, quantity: thisMeasure.quantity, primary };
+    } else if (thisMeasure.isRemoved) return { id: Number(thisMeasure.id), _destroy: true };
+    else if (!thisMeasure.isRemoved) return { ...thisMeasure, id: Number(thisMeasure.id), _destroy: false, primary };
+
+    return null;
+  }
+
+  function selectMeasuresToModify() {
+    return measures.map((thisMeasure, idx) => measureData(thisMeasure, !idx)).filter(thisMeasure => thisMeasure);
+  }
+
   function checkValidValues() {
     const validations = [
-    { error: !name.length, message: "Debes asignar un nombre al ingrediente" },
-    { error: price <= 0, message: "Debes ingresar un precio válido" },
-    { error: quantity <= 0, message: "Debes ingresar una cantidad válida" },
-    { error: !measure.length, message: "Debes ingresar una medida al ingrediente" },
+      { error: !name.length, message: 'Debes asignar un nombre al ingrediente' },
+      { error: price <= 0, message: 'Debes ingresar un precio válido' },
+      { error: measures[0].quantity <= 0, message: 'Debes ingresar una cantidad por defecto' },
+      { error: !measures[0].name, message: 'Debes ingresar una medida por defecto' },
+      ...measures.slice(1).map(thisMeasure => ({
+        error: !thisMeasure.isRemoved && !thisMeasure.name,
+        message: 'Debes ingresar una medida a la unidad equivalente',
+      })),
+      ...measures.slice(1).map(thisMeasure => ({
+        error: !thisMeasure.isRemoved && !thisMeasure.quantity,
+        message: 'Debes ingresar una cantidad válida a la unidad equivalente',
+      })),
     ];
     const error = validations.find((validation) => (validation.error));
     if (error) {
@@ -97,37 +137,21 @@ function FormIngredient({ navigation, route }) {
   function handleSubmitNew() {
     if (!checkValidValues()) return;
 
-    const attributes = {
-      name,
-      sku: ingredient.attributes.sku,
-      price,
-      currency: ingredient.attributes.currency,
-      ingredientMeasuresAttributes: [{
-        quantity,
-        name: measure,
-      }],
-      quantity,
-      measure,
-      otherMeasures: {
-        data: [{
-          attributes: {
-            quantity,
-            name: measure,
-          },
-        }],
-      },
-      providerName,
-      inventory: 0,
-    };
-    ingredient.attributes = attributes;
     const body = {
-      ingredient: ingredient.attributes,
+      ingredient: {
+        name,
+        sku: ingredient.attributes.sku,
+        price,
+        currency: ingredient.attributes.currency,
+        ingredientMeasuresAttributes: selectMeasuresToModify(),
+        providerName,
+        inventory: ingredient.attributes.inventory,
+      },
     };
+
     createIngredient(body)
       .then((res) => {
-        const auxIngredients = [...ingredients];
-        auxIngredients.push(res);
-        setIngredients(auxIngredients);
+        setIngredients([...ingredients, res]);
         if (isFromSearch) {
           setChargeProviders();
         }
@@ -140,37 +164,23 @@ function FormIngredient({ navigation, route }) {
   function handleSubmitEdit() {
     if (!checkValidValues()) return;
 
-    const attributes = {
-      name,
-      sku: ingredient.attributes.sku,
-      price,
-      currency: ingredient.attributes.currency,
-      ingredientMeasuresAttributes: [{
-        quantity,
-        name: measure,
-      }],
-      otherMeasures: {
-        data: [{
-          attributes: {
-            quantity,
-            name: measure,
-          },
-        }],
-      },
-      quantity,
-      measure,
-      inventory: ingredient.attributes.inventory,
-      // eslint-disable-next-line
-      providerName,
-    };
-    ingredient.attributes = attributes;
     const body = {
-      ingredient: ingredient.attributes,
+      ingredient: {
+        name,
+        sku: ingredient.attributes.sku,
+        price,
+        currency: ingredient.attributes.currency,
+        ingredientMeasuresAttributes: selectMeasuresToModify(),
+        providerName,
+        inventory: ingredient.attributes.inventory,
+      },
     };
     editIngredient({ body, id: ingredient.id })
-      .then(() => {
+      .then(() => getIngredient({ id: ingredient.id }))
+      .then((resp) => {
         const auxIngredients = ingredients.filter(item => item.id !== ingredient.id);
-        auxIngredients.push(ingredient);
+        ingredient.attributes = resp.attributes;
+        auxIngredients.push(resp);
         setIngredients(auxIngredients);
         navigation.navigate('Ingrediente', {
           ingredient,
@@ -192,9 +202,8 @@ function FormIngredient({ navigation, route }) {
               onPress={() => navigation.navigate('Buscar Ingrediente', {
                 setName,
                 setPrice,
-                setQuantity,
                 setProviderName,
-                setMeasure,
+                setMeasure: (newMeasure) => handleMeasureChange(measures[0].id, newMeasure),
               })}
               style={styles.scrapperButton}>
               <Text style={styles.scrapperButtonText}>
@@ -211,32 +220,45 @@ function FormIngredient({ navigation, route }) {
               placeholder="Nombre de ingrediente..."
               value={name}
               onChangeText={(text) => setName(text)}
-              editable={!isFromSearch}
             />
           </View>
-          <View style={styles.inputContainer}>
-            <Text style={styles.inputLabel}>
-              Proveedor
-            </Text>
-            <View style={styles.dropDown}>
-              <RNPickerSelect
-                style={pickers.customPickerStyles}
-                key={'0'}
-                placeholder={{
-                  label: 'Selecciona proveedor...',
-                  value: null,
-                }}
+          {isFromSearch ? (
+            <View style={styles.inputContainer}>
+              <Text style={styles.inputLabel}>
+                Proveedor
+              </Text>
+              <TextInput
+                style={[styles.input, styles.cancelText]}
                 value={providerName}
-                onValueChange={(value) => setProviderName(value)}
-                items={providersNames}
+                editable={false}
               />
             </View>
-            <Icon name='chevron-down'
-              size={30}
-              color={colors.kitchengramGray600}
-              style={styles.arrowIcon}
-            />
-          </View>
+           ) : (
+            <View style={styles.inputContainer}>
+              <Text style={styles.inputLabel}>
+                Proveedor
+              </Text>
+              <View style={styles.dropDown}>
+                <RNPickerSelect
+                  style={pickers.customPickerStyles}
+                  key={'0'}
+                  placeholder={{
+                    label: 'Selecciona proveedor...',
+                    value: null,
+                  }}
+                  value={providerName}
+                  onValueChange={(value) => setProviderName(value)}
+                  items={providersNames}
+                />
+
+              </View>
+              <Icon name='chevron-down'
+                size={30}
+                color={colors.kitchengramGray600}
+                style={styles.arrowIcon}
+              />
+            </View>
+          )}
           <View style={styles.inputContainer}>
             <Text style={styles.inputLabel}>
               Precio
@@ -248,55 +270,40 @@ function FormIngredient({ navigation, route }) {
               returnKeyType='done'
               value={price.toString()}
               onChangeText={(text) => setPrice(text)}
-              editable={!isFromSearch}
             />
           </View>
-          <View style={styles.inputContainer}>
-            <Text style={styles.inputLabel}>
-              Cantidad
-            </Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Cantidad de ingrediente..."
-              keyboardType="number-pad"
-              returnKeyType='done'
-              value={quantity.toString()}
-              onChangeText={(text) => setQuantity(text)}
-              editable={!isFromSearch}
+          <Text style={styles.measureLabel}>
+            Unidad por defecto
+          </Text>
+          <IngredientMeasureRow
+            key={measures[0].id}
+            measure={measures[0]}
+            handleMeasureChange={(newAttributes) => handleMeasureChange(measures[0].id, newAttributes)}
+            isDefault={true}
+            hasLabels={true}
+          />
+          <Text style={styles.measureLabel}>
+            Unidades alternativas
+          </Text>
+          {measures.filter((thisMeasure, index) => !thisMeasure.isRemoved && index).map((thisMeasure, index) => (
+            <IngredientMeasureRow
+              key={thisMeasure.id}
+              measure={thisMeasure}
+              handleMeasureChange={(newAttributes) => handleMeasureChange(thisMeasure.id, newAttributes)}
+              isDefault={false}
+              hasLabels={!index}
             />
-          </View>
-          {(!isFromSearch) && (
-            <View style={styles.inputContainer}>
-              <Text style={styles.inputLabel}>
-                Unidad
+          ))}
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              style={[styles.button, styles.addUnit]}
+              onPress={addNewMeasure}>
+              <Text style={[styles.buttonText, styles.confirmText]}>
+                Agregar Unidad
               </Text>
-              <View style={styles.dropDown}>
-                <RNPickerSelect
-                  style={pickers.customPickerStyles}
-                  key={'0'}
-                  placeholder={{
-                    label: 'Selecciona unidad...',
-                    value: '',
-                  }}
-                  value={measure}
-                  onValueChange={(value) => setMeasure(value)}
-                  items={[
-                    { label: 'Kg', value: 'Kg', key: '0' },
-                    { label: 'Gr', value: 'Gr', key: '1' },
-                    { label: 'L', value: 'L', key: '2' },
-                    { label: 'Ml', value: 'Ml', key: '3' },
-                  ]}
-                />
+            </TouchableOpacity>
+          </View>
 
-              </View>
-              <Icon name='chevron-down'
-                size={30}
-                color={colors.kitchengramGray600}
-                style={styles.arrowIcon}
-              />
-            </View>
-
-          )}
         </View>
       </KeyboardAvoidWrapper>
       <View style={styles.buttonsContainer}>

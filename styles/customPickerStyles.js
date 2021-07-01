@@ -39,6 +39,9 @@ const pickers = {
       top: 20,
       right: 15,
     },
+    iconContainer: {
+      top: 5,
+    },
   },
   providerPicker: {
     inputIOS: {
