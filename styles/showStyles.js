@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: '5%',
   },
 
-  scrapperButton: {
+  bankButton: {
     backgroundColor: colors.kitchengramWhite,
     padding: 12,
     borderRadius: 5,
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     marginTop: '5%',
   },
 
-  scrapperButtonText: {
+  bankButtonText: {
     color: colors.kitchengramGreen500,
     fontSize: 16,
   },

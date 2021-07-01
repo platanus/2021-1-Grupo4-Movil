@@ -90,9 +90,9 @@ function ShowProvider({ navigation, route }) {
               ''}
           </Text>
         </View>
-        <TouchableOpacity style={styles.scrapperButton}
+        <TouchableOpacity style={styles.bankButton}
           onPress={() => setShowBankAccount(true)}>
-          <Text style={styles.scrapperButtonText}>
+          <Text style={styles.bankButtonText}>
             Datos bancarios
           </Text>
         </TouchableOpacity>
