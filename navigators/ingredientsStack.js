@@ -5,6 +5,7 @@ import IndexIngredient from '../screens/Ingredients/IndexIngredientScreen';
 import ShowIngredient from '../screens/Ingredients/ShowIngredientScreen';
 import FormIngredient from '../screens/Ingredients/FormIngredientScreen';
 import SearchIngredient from '../screens/Ingredients/SearchIngredientScreen';
+import InventoryIngredient from '../screens/Ingredients/InventoryScreen';
 import colors from '../styles/appColors';
 import defaultOptions from '../styles/Headers/defaultOptions';
 
@@ -39,6 +40,11 @@ function IngredientsStackScreen() {
       <MainIngredientsStack.Screen
         name="Buscar Ingrediente"
         component={SearchIngredient}
+        options={defaultOptions}
+      />
+      <MainIngredientsStack.Screen
+        name="Inventario Ingrediente"
+        component={InventoryIngredient}
         options={defaultOptions}
       />
     </MainIngredientsStack.Navigator>
