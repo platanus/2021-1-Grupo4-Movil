@@ -73,7 +73,7 @@ function IndexProviders({ navigation }) {
               key={provider.id}
               onPress={() => {
                 navigation.navigate('Proveedor', {
-                  provider: provider,
+                  provider,
                   providers,
                   setProviders,
                 });

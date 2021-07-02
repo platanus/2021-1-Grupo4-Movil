@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Text,
   TextInput,
+  Alert,
 } from 'react-native';
 import { useStoreActions } from 'easy-peasy';
 import styles from '../../styles/Providers/formStyles';
@@ -50,7 +51,7 @@ function FormProvider({ navigation, route }) {
     ];
     const error = validations.find((validation) => (validation.error));
     if (error) {
-      alert(error.message);
+      Alert.alert(error.message);
 
       return false;
     }

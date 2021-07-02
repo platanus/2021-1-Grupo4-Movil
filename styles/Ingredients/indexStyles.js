@@ -97,6 +97,42 @@ const styles = StyleSheet.create({
     paddingTop: 3,
     paddingLeft: 2,
   },
+  inventory: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  decreaseInventoryBtn: {
+    width: 40,
+    left: 16,
+    display: 'flex',
+  },
+  increaseInventoryBtn: {
+    width: 40,
+  },
+  inventoryEditPanel: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    left: 5,
+  },
+  inventoryInput: {
+    width: 50,
+    textAlign: 'center',
+    borderColor: colors.kitchengramGray400,
+    borderWidth: 2,
+    borderRadius: 5,
+  },
+  saveInventoryButton: {
+    display: 'flex',
+    width: 80,
+    borderColor: colors.kitchengramGray400,
+    borderWidth: 2,
+    textAlign: 'center',
+    borderRadius: 5,
+    color: colors.kitchengramGray600,
+  },
 });
 
 export default styles;

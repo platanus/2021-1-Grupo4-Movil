@@ -37,6 +37,7 @@ function RecipesMenu({ navigation }) {
         const newRecipes = resp.map((recipe) => recipeInitialData(recipe));
         setRecipes(newRecipes);
       });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
