@@ -18,6 +18,8 @@ import styles from '../../styles/Ingredients/InventoryStyles';
 function InventoryIngredient({ navigation, route }) {
   const {
     ingredients,
+    inventories,
+    setInventories,
   } = route.params;
 
   const updateInventory = useStoreActions((actions) => actions.updateInventory);
@@ -41,6 +43,8 @@ function InventoryIngredient({ navigation, route }) {
   }, [ingredients]);
 
   function inventoryModifier(event, ingId, isSum) {
+    if (Number(event) < 0) return;
+
     if (isSum) {
       const aux = { ...sumInventories };
       aux[ingId.toString()] = event;
@@ -54,6 +58,7 @@ function InventoryIngredient({ navigation, route }) {
 
   function submitInventory() {
     const payload = [];
+    const inventoriesCopy = { ...inventories };
     ingredients.forEach((ingredient) => {
       const changeNumber = sumInventories[ingredient.id.toString()] - subtractionInventories[ingredient.id.toString()];
       if (changeNumber !== 0) {
@@ -63,24 +68,27 @@ function InventoryIngredient({ navigation, route }) {
             ingredientId: ingredient.id,
             inventory: newInventory,
           };
+          inventoriesCopy[ingredient.id.toString()] = newInventory;
           payload.push(ingredientPayload);
         } else {
           const ingredientPayload = {
             ingredientId: ingredient.id,
             inventory: 0,
           };
+          inventoriesCopy[ingredient.id.toString()] = 0;
           payload.push(ingredientPayload);
         }
       }
-      if (payload.length > 0) {
-        updateInventory({ ingredients: payload })
-          .then(() => {
-            navigation.navigate('Ingredientes');
-          })
-          .catch(() => {
-          });
-      }
     });
+    if (payload.length > 0) {
+      updateInventory({ ingredients: payload })
+        .then(() => {
+          setInventories(inventoriesCopy);
+          navigation.navigate('Ingredientes');
+        })
+        .catch(() => {
+        });
+    }
   }
 
   if (mounted && ingredients.length) {
@@ -91,6 +99,7 @@ function InventoryIngredient({ navigation, route }) {
             <TouchableOpacity
               style = {[styles.inventoryRow, (i % colorNumber === 0) ? styles.even : styles.odd]}
               key={ingredient.id}
+              disabled
             >
               <View style = {styles.left}>
                 <Text style = {styles.name}>

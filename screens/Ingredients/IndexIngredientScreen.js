@@ -28,17 +28,17 @@ function IndexIngredients({ navigation }) {
   const [mounted, setMounted] = useState(false);
   const [editableInventories, setEditableInventories] = useState({});
   const [refreshing, setRefreshing] = useState(false);
-  const [newInventories, setNewInventories] = useState({});
+  const [inventories, setInventories] = useState({});
 
   function inventoryModifier(event, ingId) {
-    const newInventoriesAux = { ...newInventories };
+    const newInventoriesAux = { ...inventories };
     newInventoriesAux[ingId.toString()] = event;
 
-    setNewInventories(newInventoriesAux);
+    setInventories(newInventoriesAux);
   }
 
   function submitInventoryValue(ingredient) {
-    const newInventory = Number(newInventories[ingredient.id.toString()]);
+    const newInventory = Number(inventories[ingredient.id.toString()]);
     const ingredientsPayload = [{ ingredientId: ingredient.id, inventory: newInventory }];
     updateInventory({ ingredients: ingredientsPayload })
       .then(() => {
@@ -56,7 +56,7 @@ function IndexIngredients({ navigation }) {
     copyEditables[ingredient.id.toString()] = !copyEditables[ingredient.id.toString()];
 
     if (!copyEditables[ingredient.id.toString()] &&
-    ingredient.attributes.inventory !== newInventories[ingredient.id.toString()]) {
+    ingredient.attributes.inventory !== inventories[ingredient.id.toString()]) {
       submitInventoryValue(ingredient);
     }
     setEditableInventories(copyEditables);
@@ -83,7 +83,7 @@ function IndexIngredients({ navigation }) {
         newInventoriesAux[ingredient.id.toString()] = ingredient.attributes.inventory;
         editableInventoriesAux[ingredient.id.toString()] = false;
       });
-      setNewInventories(newInventoriesAux);
+      setInventories(newInventoriesAux);
       setEditableInventories(editableInventoriesAux);
       setMounted(true);
     }
@@ -100,7 +100,8 @@ function IndexIngredients({ navigation }) {
             style={{ paddingRight: 20 }}
             onPress={() => navigation.navigate('Inventario Ingrediente', {
               ingredients,
-              setIngredients,
+              inventories,
+              setInventories,
             })}/>
           <Icon name='add'
             size={30}
@@ -114,7 +115,7 @@ function IndexIngredients({ navigation }) {
         </View>
       ),
     });
-  }, [navigation, ingredients]);
+  }, [navigation, ingredients, inventories]);
 
   function onRefresh() {
     setRefreshing(true);
@@ -170,7 +171,7 @@ function IndexIngredients({ navigation }) {
                       <TouchableOpacity
                         style={styles.decreaseInventoryBtn}
                         onPress={() => inventoryModifier(
-                          newInventories[ingredient.id.toString()] - 1, ingredient.id)}
+                          inventories[ingredient.id.toString()] - 1, ingredient.id)}
                       >
                         <Icon
                           name='remove-circle-outline'
@@ -182,14 +183,14 @@ function IndexIngredients({ navigation }) {
                         style={styles.inventoryInput}
                         keyboardType="number-pad"
                         returnKeyType='done'
-                        value={newInventories[ingredient.id.toString()].toString()}
+                        value={inventories[ingredient.id.toString()].toString()}
                         onChangeText={(event) => inventoryModifier(event, ingredient.id)}
                         editable={true}
                       />
                       <TouchableOpacity
                         style={styles.increaseInventoryBtn}
                         onPress={() => inventoryModifier(
-                          newInventories[ingredient.id.toString()] + 1, ingredient.id)}
+                          inventories[ingredient.id.toString()] + 1, ingredient.id)}
                       >
                         <Icon
                           name='add-circle-outline'
@@ -202,7 +203,7 @@ function IndexIngredients({ navigation }) {
                     <Text
                       style={styles.measure}
                     >
-                      {`${newInventories[ingredient.id.toString()]} un.`}
+                      {`${inventories[ingredient.id.toString()]} un.`}
                     </Text>
                   )}
                   <TouchableOpacity onPress={() => showInventoryInput(ingredient)}>
