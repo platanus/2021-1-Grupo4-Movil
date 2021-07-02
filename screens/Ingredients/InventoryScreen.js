@@ -21,9 +21,10 @@ function InventoryIngredient({ navigation, route }) {
   } = route.params;
 
   const updateInventory = useStoreActions((actions) => actions.updateInventory);
-  const [sumInventories, setsumInventories] = useState({});
-  const colornumber = 2;
-  const [subtractionInventories, setsubtractionInventories] = useState({});
+  const [sumInventories, setSumInventories] = useState({});
+  const colorNumber = 2;
+  const [subtractionInventories, setSubtractionInventories] = useState({});
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     if (ingredients.length > 0) {
@@ -33,20 +34,21 @@ function InventoryIngredient({ navigation, route }) {
         sumInventoriesAux[ingredient.id.toString()] = 0;
         subtractionInventoriesAux[ingredient.id.toString()] = 0;
       });
-      setsumInventories(sumInventoriesAux);
-      setsubtractionInventories(subtractionInventoriesAux);
+      setSumInventories(sumInventoriesAux);
+      setSubtractionInventories(subtractionInventoriesAux);
     }
+    setMounted(true);
   }, [ingredients]);
 
-  function inventoryModifier(event, ingId, bool) {
-    if (bool) {
+  function inventoryModifier(event, ingId, isSum) {
+    if (isSum) {
       const aux = { ...sumInventories };
       aux[ingId.toString()] = event;
-      setsumInventories(aux);
+      setSumInventories(aux);
     } else {
       const aux = { ... subtractionInventories };
       aux[ingId.toString()] = event;
-      setsubtractionInventories(aux);
+      setSubtractionInventories(aux);
     }
   }
 
@@ -57,29 +59,37 @@ function InventoryIngredient({ navigation, route }) {
       if (changeNumber !== 0) {
         if (ingredient.attributes.inventory + changeNumber > 0) {
           const newInventory = ingredient.attributes.inventory + changeNumber;
-          const ingredientPayload = { ingredientId: ingredient.id, inventory: newInventory };
+          const ingredientPayload = {
+            ingredientId: ingredient.id,
+            inventory: newInventory,
+          };
           payload.push(ingredientPayload);
         } else {
-          const ingredientPayload = { ingredientId: ingredient.id, inventory: 0 };
+          const ingredientPayload = {
+            ingredientId: ingredient.id,
+            inventory: 0,
+          };
           payload.push(ingredientPayload);
         }
       }
-      updateInventory({ ingredients: payload })
-        .then(() => {
-          navigation.navigate('Ingredientes');
-        })
-        .catch(() => {
-        });
+      if (payload.length > 0) {
+        updateInventory({ ingredients: payload })
+          .then(() => {
+            navigation.navigate('Ingredientes');
+          })
+          .catch(() => {
+          });
+      }
     });
   }
 
-  if (ingredients.length) {
+  if (mounted && ingredients.length) {
     return (
       <View style = {styles.container}>
         <ScrollView>
           {ingredients.map((ingredient, i) => (
             <TouchableOpacity
-              style = {[styles.inventoryRow, (i % colornumber === 0) ? styles.even : styles.odd]}
+              style = {[styles.inventoryRow, (i % colorNumber === 0) ? styles.even : styles.odd]}
               key={ingredient.id}
             >
               <View style = {styles.left}>
@@ -170,8 +180,13 @@ function InventoryIngredient({ navigation, route }) {
           ))}
         </ScrollView>
         <View styles = {styles.container2}>
-          <TouchableOpacity style={styles.buttonAccept} onPress={submitInventory} >
-            <Text style={styles.acceptButtonText}>Guardar cambios </Text>
+          <TouchableOpacity
+            style={styles.buttonAccept}
+            onPress={submitInventory}
+          >
+            <Text style={styles.acceptButtonText}>
+              Guardar cambios
+            </Text>
           </TouchableOpacity>
 
         </View>
@@ -180,7 +195,7 @@ function InventoryIngredient({ navigation, route }) {
     );
   }
 
-  return (
+  return (mounted) && (
     <Text style={styles.emptyMessage}>
       No tienes ingredientes
     </Text>

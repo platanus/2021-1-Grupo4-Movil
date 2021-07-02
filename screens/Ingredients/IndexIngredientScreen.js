@@ -68,6 +68,7 @@ function IndexIngredients({ navigation }) {
       });
     setRefreshing(false);
   }
+
   if (ingredients.length) {
     return (
       <View style={styles.container}>
