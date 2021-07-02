@@ -12,6 +12,7 @@ import {
 import { useStoreActions } from 'easy-peasy';
 import styles from '../../styles/Providers/formStyles';
 import formatPhone from '../../utils/formatPhone';
+import formatRut from '../../utils/formatRut';
 import KeyboardAvoidWrapper from '../../components/KeyboardAvoidWrapper';
 
 // eslint-disable-next-line max-statements
@@ -222,7 +223,7 @@ function FormProvider({ navigation, route }) {
               placeholder="Rut..."
               returnKeyType='done'
               value={contactRut}
-              onChangeText={(text) => setContactRut(text)}
+              onChangeText={(text) => setContactRut(formatRut(text))}
             />
           </View>
           <View style={styles.inputContainer}>
