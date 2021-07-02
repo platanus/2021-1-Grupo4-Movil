@@ -39,7 +39,7 @@ function FormProvider({ navigation, route }) {
   } = route.params;
 
   const [name, setName] = useState(provider.attributes.name);
-  const [email, setEmail] = useState(provider.attributes.email);
+  const [email, setEmail] = useState(provider.attributes.email ? provider.attributes.email : '');
   const [phone, setPhone] = useState(provider.attributes.phone);
   const [webpageUrl, setWebpageUrl] = useState(provider.attributes.webpageUrl);
   const [time, setTime] = useState(provider.attributes.deliveryDays);
