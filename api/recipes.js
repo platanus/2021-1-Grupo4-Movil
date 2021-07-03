@@ -11,6 +11,15 @@ const recipesApi = {
       data: payload,
     });
   },
+  getRecipe: (payload) => {
+    const url = `${config.endpoints.recipes.specific}${payload.id}`;
+
+    return apiUtils.api({
+      method: 'get',
+      url,
+      data: payload.body,
+    });
+  },
   createRecipe: (payload) => {
     const url = config.endpoints.recipes.new;
 
