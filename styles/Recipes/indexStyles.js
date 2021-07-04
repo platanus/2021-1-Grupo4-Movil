@@ -65,6 +65,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 5,
   },
+  navIcon: {
+    paddingRight: 8,
+    color: colors.kitchengramWhite,
+  },
   emptyMessage: {
     color: colors.kitchengramGray600,
     textAlign: 'center',

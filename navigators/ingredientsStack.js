@@ -1,6 +1,5 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-
 import IndexIngredient from '../screens/Ingredients/IndexIngredientScreen';
 import ShowIngredient from '../screens/Ingredients/ShowIngredientScreen';
 import FormIngredient from '../screens/Ingredients/FormIngredientScreen';

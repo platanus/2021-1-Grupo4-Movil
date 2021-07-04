@@ -65,7 +65,7 @@ function MenuRow(props) {
       </View>
       <View style={styles.right}>
         <Text style={styles.price}>
-          {formatMoney(menuPrice, '$ ', '')}
+          {formatMoney(menuPrice, '$ ')}
         </Text>
         <Icon name='chevron-right' color={colors.kitchengramGray400} size={20} />
       </View>

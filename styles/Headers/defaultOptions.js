@@ -3,7 +3,8 @@ import colors from '../appColors';
 const defaultOptions = {
   headerTintColor: colors.kitchengramWhite,
   headerTitleAlign: 'center',
-  headerStyle: { backgroundColor: colors.kitchengramBlack,
+  headerStyle: {
+    backgroundColor: colors.kitchengramBlack,
   },
   headerBackTitleVisible: false,
 };

@@ -53,6 +53,8 @@ const styles = StyleSheet.create({
   },
 
   prefixInput: {
+    width: '100%',
+    height: '100%',
     fontWeight: 'bold',
     fontStyle: 'normal',
     color: colors.kitchengramBlack,
