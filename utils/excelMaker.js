@@ -13,43 +13,6 @@ const formatListForExcel = (shoppingList) => {
 };
 
 const exportExcel = async (providers) => {
-  // ESTO ES PARA DEBUGGEAR
-  // const providers = [
-  //     {
-  //       "ingredients": [
-  //         {
-  //           "measure": "Un",
-  //           "name": "Clorox - Cloro tradicional",
-  //           "quantity": 4,
-  //           "totalPrice": 1599,
-  //         },
-  //         {
-  //           "measure": "Un",
-  //           "name": "Ford",
-  //           "quantity": 1,
-  //           "totalPrice": 1599,
-  //         },
-  //       ],
-  //       "provider": "Sin proveedor",
-  //     },
-  //     {
-  //       "ingredients": [
-  //         {
-  //           "measure": "Gr",
-  //           "name": "Palto",
-  //           "quantity": 2,
-  //           "totalPrice": 1600,
-  //         },
-  //         {
-  //           "measure": "Gr",
-  //           "name": "Zanahorias",
-  //           "quantity": 60,
-  //           "totalPrice": 500,
-  //         },
-  //       ],
-  //       "provider": "Jumbo",
-  //     },
-  //   ]
 
   const formattedProviders = formatListForExcel(providers);
 
