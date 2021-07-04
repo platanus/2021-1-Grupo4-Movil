@@ -28,15 +28,15 @@ function MenuForm({ navigation, route }) {
   useEffect(() => {
     if (menu) {
       setSelectedRecipes(
-        menu.attributes.menu_recipes.data.map((menuRecipe) => ({
+        menu.attributes.menuRecipes.data.map((menuRecipe) => ({
           id: menuRecipe.attributes.recipe.id,
           menuRecipeId: Number(menuRecipe.id),
           name: menuRecipe.attributes.recipe.name,
           price: calculateRecipePrice({ attributes: menuRecipe.attributes.recipe }),
           selected: true,
-          quantity: menuRecipe.attributes.recipe_quantity,
-          quantityText: menuRecipe.attributes.recipe_quantity.toString(),
-          initialQuantity: menuRecipe.attributes.recipe_quantity,
+          quantity: menuRecipe.attributes.recipeQuantity,
+          quantityText: menuRecipe.attributes.recipeQuantity.toString(),
+          initialQuantity: menuRecipe.attributes.recipeQuantity,
           isNew: false,
         })),
       );
