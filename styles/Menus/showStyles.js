@@ -149,18 +149,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  button: {
-    borderRadius: 5,
-    padding: 10,
-    marginTop: 10,
-    elevation: 2,
-    backgroundColor: colors.kitchengramGreen500,
-  },
-  textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
   modalText: {
     width: '100%',
     fontSize: 14,
@@ -175,6 +163,42 @@ const styles = StyleSheet.create({
     color: colors.black,
     textAlign: 'center',
     marginBottom: 10,
+  },
+  modalButtonsContainer: {
+    width: '100%',
+    height: 30,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  cancelButton: {
+    width: '48%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'transparent',
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: colors.kitchengramGray600,
+  },
+  confirmButton: {
+    width: '48%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.kitchengramGreen500,
+    borderRadius: 5,
+  },
+  buttonText: {
+    fontWeight: 'normal',
+    fontStyle: 'normal',
+    fontSize: 16,
+  },
+  cancelButtonText: {
+    color: colors.kitchengramGray600,
+  },
+  confirmButtonText: {
+    color: colors.kitchengramWhite,
   },
 });
 

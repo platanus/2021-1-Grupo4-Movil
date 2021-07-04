@@ -47,22 +47,22 @@ function Menu(props) {
   const [alertIngredients, setAlertIngredients] = useState({});
   const [newIngredientsInventory, setNewIngredientsInventory] = useState({});
   const [confirmReduceInventory, setConfirmReduceInventory] = useState(false);
+  const [confirmReduceInventoryModal, setConfirmReduceInventoryModal] = useState(false);
   const [reduceInventorySuccessful, setReduceInventorySuccessful] = useState(false);
 
   useEffect(() => {
     if (confirmReduceInventory) {
       const ingredientsInventoryCopy = { ...ingredientsInventory };
       Object.keys(newIngredientsInventory).forEach((id) => {
-        ingredientsInventoryCopy[id] = newIngredientsInventory[id] < 0 ? 0 : newIngredientsInventory[id];
+        ingredientsInventoryCopy[id] = newIngredientsInventory[id].quantity < 0 ?
+          0 : newIngredientsInventory[id].quantity;
       });
       reduceInventory({ id: menu.id })
         .then(() => {
           setIngredientsInventory(ingredientsInventoryCopy);
           setReduceInventorySuccessful(true);
         })
-        .catch((err) => {
-          console.log(err);
-          console.log(err.response.data);
+        .catch(() => {
         });
     }
     setConfirmReduceInventory(false);
@@ -97,7 +97,11 @@ function Menu(props) {
         } else {
           newInventory = ingredientsInventory[id] - ingredient.attributes.ingredientQuantity;
         }
-        newIngredientsInventoryCopy[id] = newInventory;
+        newIngredientsInventoryCopy[id] = {
+          quantity: newInventory,
+          measure: ingredient.attributes.ingredient.measure,
+          name: ingredient.attributes.ingredient.name,
+        };
         if (newInventory < 0) {
           alertIngredientsCopy[ingredient.attributes.ingredient.name] = {
             quantity: Math.abs(newInventory),
@@ -107,11 +111,8 @@ function Menu(props) {
       });
     });
     setNewIngredientsInventory(newIngredientsInventoryCopy);
-    if (alertIngredientsCopy) {
-      setAlertIngredients(alertIngredientsCopy);
-    } else {
-      setConfirmReduceInventory(true);
-    }
+    setAlertIngredients(alertIngredientsCopy);
+    setConfirmReduceInventoryModal(true);
   }
 
   return (
@@ -137,47 +138,76 @@ function Menu(props) {
             <Text style={styles.modalTitle}>
               Reducción de inventario exitosa
             </Text>
-            <TouchableOpacity
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => setReduceInventorySuccessful(false)}
-            >
-              <Text style={styles.textStyle}>
-                Aceptar
-              </Text>
-            </TouchableOpacity>
+            <View style={styles.modalButtonsContainer}>
+              <TouchableOpacity
+                style={styles.confirmButton}
+                onPress={() => setReduceInventorySuccessful(false)}
+              >
+                <Text style={styles.confirmButtonText}>
+                  Aceptar
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </Modal>
       <Modal
-        visible={Object.keys(alertIngredients).length > 0}
+        visible={confirmReduceInventoryModal}
         transparent={true}
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
+            <Text style={styles.modalTitle}>
+              Ingredientes modificados
+            </Text>
             <ScrollView>
-              <Text style={styles.modalTitle}>
-                Ingredientes con falta de inventario
-              </Text>
-              {Object.keys(alertIngredients).map((key, i) => (
-                <Text
-                  key={i.toString()}
-                  style={styles.modalText}
-                >
-                  {`${key}: ${alertIngredients[key].quantity} ${alertIngredients[key].measure}`}
-                </Text>
-              ))}
+              {Object.keys(newIngredientsInventory).map((key, i) =>
+                (!Object.keys(alertIngredients).includes(newIngredientsInventory[key].name)) && (
+                  <Text
+                    key={i.toString()}
+                    style={styles.modalText}
+                  >
+                    {newIngredientsInventory[key].name}: de {ingredientsInventory[key]} a{' '}
+                    {newIngredientsInventory[key].quantity} {newIngredientsInventory[key].measure}
+                  </Text>
+                ))}
             </ScrollView>
-            <TouchableOpacity
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => {
-                setAlertIngredients({});
-                setConfirmReduceInventory(true);
-              }}
-            >
-              <Text style={styles.textStyle}>
-                Aceptar
-              </Text>
-            </TouchableOpacity>
+            <Text style={styles.modalTitle}>
+              {Object.keys(alertIngredients).length > 0 && 'Ingredientes con falta de inventario'}
+            </Text>
+            {Object.keys(alertIngredients).length > 0 && (
+              <ScrollView>
+                {Object.keys(alertIngredients).map((key, i) => (
+                  <Text
+                    key={i.toString()}
+                    style={styles.modalText}
+                  >
+                    {`${key}: ${alertIngredients[key].quantity} ${alertIngredients[key].measure}`}
+                  </Text>
+                ))}
+              </ScrollView>
+            )}
+            <View style={styles.modalButtonsContainer}>
+              <TouchableOpacity
+                style={styles.cancelButton}
+                onPress={() => setConfirmReduceInventoryModal(false)}
+              >
+                <Text style={[styles.buttonText, styles.cancelButtonText]}>
+                  Cancelar
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.confirmButton}
+                onPress={() => {
+                  setConfirmReduceInventoryModal(false);
+                  setConfirmReduceInventory(true);
+                }}
+              >
+                <Text style={[styles.buttonText, styles.confirmButtonText]}>
+                  Reducir Inventario
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </Modal>
@@ -224,13 +254,13 @@ function Menu(props) {
                   {recipe.attributes.recipe.name}
                 </Text>
                 <Text style={styles.portions}>
-                  {`${recipe.attributes.recipe.portions * recipe.attributes.recipe_quantity} porciones`}
+                  {`${recipe.attributes.recipe.portions * recipe.attributes.recipeQuantity} porciones`}
                 </Text>
               </View>
               <View style={styles.right}>
                 <Text style={styles.price}>
                   {formatMoney(calculateRecipePrice(recipe.attributes.recipe, true) *
-                    recipe.attributes.recipe_quantity, '$ ')}
+                    recipe.attributes.recipeQuantity, '$ ')}
                 </Text>
               </View>
             </View>
