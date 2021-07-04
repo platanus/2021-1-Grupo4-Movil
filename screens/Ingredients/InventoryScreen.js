@@ -10,7 +10,10 @@ import {
   Text,
   TextInput,
 } from 'react-native';
-import { useStoreActions } from 'easy-peasy';
+import {
+  useStoreActions,
+  useStoreState,
+} from 'easy-peasy';
 import Icon from 'react-native-vector-icons/Ionicons';
 import colors from '../../styles/appColors';
 import styles from '../../styles/Ingredients/InventoryStyles';
@@ -18,9 +21,10 @@ import styles from '../../styles/Ingredients/InventoryStyles';
 function InventoryIngredient({ navigation, route }) {
   const {
     ingredients,
-    inventories,
-    setInventories,
   } = route.params;
+
+  const setIngredientsInventory = useStoreActions((actions) => actions.setIngredientsInventory);
+  const ingredientsInventory = useStoreState((state) => state.ingredientsInventory);
 
   const updateInventory = useStoreActions((actions) => actions.updateInventory);
   const [sumInventories, setSumInventories] = useState({});
@@ -58,7 +62,7 @@ function InventoryIngredient({ navigation, route }) {
 
   function submitInventory() {
     const payload = [];
-    const inventoriesCopy = { ...inventories };
+    const inventoriesCopy = { ...ingredientsInventory };
     ingredients.forEach((ingredient) => {
       const changeNumber = sumInventories[ingredient.id.toString()] - subtractionInventories[ingredient.id.toString()];
       if (changeNumber !== 0) {
@@ -83,7 +87,7 @@ function InventoryIngredient({ navigation, route }) {
     if (payload.length > 0) {
       updateInventory({ ingredients: payload })
         .then(() => {
-          setInventories(inventoriesCopy);
+          setIngredientsInventory(inventoriesCopy);
           navigation.navigate('Ingredientes');
         })
         .catch(() => {
