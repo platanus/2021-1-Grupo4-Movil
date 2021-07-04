@@ -136,7 +136,7 @@ function Menu(props) {
         transparent={true}
       >
         <View style={styles.centeredView}>
-          <View style={styles.modalView}>
+          <View style={[styles.modalView, styles.modalViewSuccesful]}>
             <Text style={styles.modalTitle}>
               Reducción de inventario exitosa
             </Text>

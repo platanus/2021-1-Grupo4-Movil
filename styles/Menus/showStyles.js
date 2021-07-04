@@ -123,10 +123,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  modalViewSuccesful: {
+    minHeight: '20%',
+    minWidth: '60%',
+  },
   modalView: {
-    minHeight: '22%',
+    minHeight: '35%',
     maxHeight: '50%',
-    minWidth: '80%',
+    minWidth: '90%',
     margin: 20,
     backgroundColor: 'white',
     borderRadius: 20,
