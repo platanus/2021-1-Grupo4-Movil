@@ -3,6 +3,7 @@ import {
   View,
   TouchableOpacity,
   Text,
+  Linking,
 } from 'react-native';
 import { useStoreActions } from 'easy-peasy';
 
@@ -61,7 +62,10 @@ function ShowProvider({ navigation, route }) {
         <Text style={styles.name}>
           Página web
         </Text>
-        <Text style={styles.value}>
+        <Text
+          style={styles.linkValue}
+          onPress={() => Linking.openURL(`https://${provider.attributes.webpageUrl}`)}
+        >
           {provider.attributes.webpageUrl}
         </Text>
       </View>
@@ -79,7 +83,7 @@ function ShowProvider({ navigation, route }) {
         </Text>
         <Text style={styles.value}>
           {(provider.attributes.deliveryDays) ?
-            `${provider.attributes.deliveryDays} días hábiles` :
+            `${provider.attributes.deliveryDays} día(s) hábiles` :
             ''}
         </Text>
       </View>

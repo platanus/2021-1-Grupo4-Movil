@@ -146,13 +146,16 @@ function FormProvider({ navigation, route }) {
             <Text style={styles.inputLabel}>
             Página Web
             </Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Página Web..."
-              autoCapitalize="none"
-              value={webpageUrl}
-              onChangeText={(text) => setWebpageUrl(text)}
-            />
+            <View style={styles.inputWithPrefixContainer}>
+              <Text style={styles.prefix}>https://</Text>
+              <TextInput
+                style={styles.prefixInput}
+                placeholder="paginaweb.com"
+                autoCapitalize="none"
+                value={webpageUrl}
+                onChangeText={(text) => setWebpageUrl(text)}
+              />
+            </View>
           </View>
           <View style={styles.inputContainer}>
             <Text style={styles.inputLabel}>
