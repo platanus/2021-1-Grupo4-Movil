@@ -80,7 +80,7 @@ const storeActions = {
   setDeletedRecipe: action((state, payload) => {
     state.recipes.delete = payload;
   }),
-  setmenusError: action((state, payload) => {
+  setMenusError: action((state, payload) => {
     state.menusError = payload;
   }),
   setMenus: action((state, payload) => {
@@ -352,6 +352,15 @@ const storeThunks = {
     actions.setShowLoadingSpinner();
 
     return menu;
+  }),
+  reduceInventory: thunk(async (actions, payload) => {
+    actions.setShowLoadingSpinner();
+    await menusApi.reduceInventory(payload)
+      .catch((err) => {
+        actions.setMenusError(err.response.data.message);
+        throw err;
+      });
+    actions.setShowLoadingSpinner();
   }),
   getProviders: thunk(async (actions, payload) => {
     actions.setShowLoadingSpinner();

@@ -34,7 +34,7 @@ function Menu(props) {
   const deleteMenu = useStoreActions((actions) => actions.deleteMenu);
   const setGlobalMenus = useStoreActions((actions) => actions.setMenus);
   const setIngredientsInventory = useStoreActions((actions) => actions.setIngredientsInventory);
-  const updateInventory = useStoreActions((actions) => actions.updateInventory);
+  const reduceInventory = useStoreActions((actions) => actions.reduceInventory);
   const ingredientsInventory = useStoreState((state) => state.ingredientsInventory);
 
   const {
@@ -52,20 +52,17 @@ function Menu(props) {
   useEffect(() => {
     if (confirmReduceInventory) {
       const ingredientsInventoryCopy = { ...ingredientsInventory };
-      const payload = [];
       Object.keys(newIngredientsInventory).forEach((id) => {
-        payload.push({
-          ingredientId: id,
-          inventory: newIngredientsInventory[id] < 0 ? 0 : newIngredientsInventory[id],
-        });
         ingredientsInventoryCopy[id] = newIngredientsInventory[id] < 0 ? 0 : newIngredientsInventory[id];
       });
-      updateInventory({ ingredients: payload })
+      reduceInventory({ id: menu.id })
         .then(() => {
           setIngredientsInventory(ingredientsInventoryCopy);
           setReduceInventorySuccessful(true);
         })
-        .catch(() => {
+        .catch((err) => {
+          console.log(err);
+          console.log(err.response.data);
         });
     }
     setConfirmReduceInventory(false);
@@ -88,7 +85,7 @@ function Menu(props) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  function reduceInventory() {
+  function reduceInventorySubmit() {
     const newIngredientsInventoryCopy = {};
     const alertIngredientsCopy = {};
     menu.attributes.menuRecipes.data.forEach((recipe) => {
@@ -187,7 +184,7 @@ function Menu(props) {
       <ScrollView>
         <TouchableOpacity
           style={styles.inventoryButton}
-          onPress={reduceInventory}
+          onPress={reduceInventorySubmit}
         >
           <Text style={styles.inventoryButtonText}>
             Reducir Inventario
