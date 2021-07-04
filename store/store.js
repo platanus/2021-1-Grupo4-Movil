@@ -29,6 +29,7 @@ const storeState = {
   providersError: '',
   chargeProviders: false,
   showLoadingSpinner: false,
+  ingredientsInventory: {},
 };
 
 const getters = {
@@ -104,6 +105,9 @@ const storeActions = {
   }),
   setShowLoadingSpinner: action((state) => {
     state.showLoadingSpinner = !state.showLoadingSpinner;
+  }),
+  setIngredientsInventory: action((state, payload) => {
+    state.ingredientsInventory = payload;
   }),
 };
 

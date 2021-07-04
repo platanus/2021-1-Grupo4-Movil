@@ -1,4 +1,6 @@
+/* eslint-disable max-statements */
 import React, {
+  useEffect,
   useLayoutEffect,
   useState,
 } from 'react';
@@ -6,9 +8,14 @@ import {
   View,
   Text,
   ScrollView,
+  TouchableOpacity,
+  Modal,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
-import { useStoreActions } from 'easy-peasy';
+import {
+  useStoreActions,
+  useStoreState,
+} from 'easy-peasy';
 
 import colors from '../../styles/appColors';
 import styles from '../../styles/Menus/showStyles';
@@ -26,6 +33,9 @@ function Menu(props) {
 
   const deleteMenu = useStoreActions((actions) => actions.deleteMenu);
   const setGlobalMenus = useStoreActions((actions) => actions.setMenus);
+  const setIngredientsInventory = useStoreActions((actions) => actions.setIngredientsInventory);
+  const updateInventory = useStoreActions((actions) => actions.updateInventory);
+  const ingredientsInventory = useStoreState((state) => state.ingredientsInventory);
 
   const {
     menu,
@@ -34,6 +44,33 @@ function Menu(props) {
   } = route.params;
 
   const [showMenuOptions, setShowMenuOptions] = useState(false);
+  const [alertIngredients, setAlertIngredients] = useState({});
+  const [newIngredientsInventory, setNewIngredientsInventory] = useState({});
+  const [confirmReduceInventory, setConfirmReduceInventory] = useState(false);
+  const [reduceInventorySuccessful, setReduceInventorySuccessful] = useState(false);
+
+  useEffect(() => {
+    if (confirmReduceInventory) {
+      const ingredientsInventoryCopy = { ...ingredientsInventory };
+      const payload = [];
+      Object.keys(newIngredientsInventory).forEach((id) => {
+        payload.push({
+          ingredientId: id,
+          inventory: newIngredientsInventory[id] < 0 ? 0 : newIngredientsInventory[id],
+        });
+        ingredientsInventoryCopy[id] = newIngredientsInventory[id] < 0 ? 0 : newIngredientsInventory[id];
+      });
+      updateInventory({ ingredients: payload })
+        .then(() => {
+          setIngredientsInventory(ingredientsInventoryCopy);
+          setReduceInventorySuccessful(true);
+        })
+        .catch(() => {
+        });
+    }
+    setConfirmReduceInventory(false);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [confirmReduceInventory]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -42,13 +79,43 @@ function Menu(props) {
         <Icon
           name='more-vert'
           size={30}
-          style={styles.navIcon}
+          style={styles.moreVert}
+          color={colors.kitchengramWhite}
           onPress={() => setShowMenuOptions(!showMenuOptions)}/>
       ),
       headerTitle: menu.attributes.name,
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  function reduceInventory() {
+    const newIngredientsInventoryCopy = {};
+    const alertIngredientsCopy = {};
+    menu.attributes.menuRecipes.data.forEach((recipe) => {
+      recipe.attributes.recipe.recipeIngredients.data.forEach((ingredient) => {
+        const id = ingredient.attributes.ingredient.id.toString();
+        let newInventory = 0;
+        if (Object.keys(newIngredientsInventoryCopy).includes(id)) {
+          newInventory = newIngredientsInventoryCopy[id] - ingredient.attributes.ingredientQuantity;
+        } else {
+          newInventory = ingredientsInventory[id] - ingredient.attributes.ingredientQuantity;
+        }
+        newIngredientsInventoryCopy[id] = newInventory;
+        if (newInventory < 0) {
+          alertIngredientsCopy[ingredient.attributes.ingredient.name] = {
+            quantity: Math.abs(newInventory),
+            measure: ingredient.attributes.ingredient.measure,
+          };
+        }
+      });
+    });
+    setNewIngredientsInventory(newIngredientsInventoryCopy);
+    if (alertIngredientsCopy) {
+      setAlertIngredients(alertIngredientsCopy);
+    } else {
+      setConfirmReduceInventory(true);
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -64,7 +131,68 @@ function Menu(props) {
           deleteApi={deleteMenu}
         />
       )}
+      <Modal
+        visible={reduceInventorySuccessful}
+        transparent={true}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalTitle}>
+              Reducción de inventario exitosa
+            </Text>
+            <TouchableOpacity
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => setReduceInventorySuccessful(false)}
+            >
+              <Text style={styles.textStyle}>
+                Aceptar
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+      <Modal
+        visible={Object.keys(alertIngredients).length > 0}
+        transparent={true}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <ScrollView>
+              <Text style={styles.modalTitle}>
+                Ingredientes con falta de inventario
+              </Text>
+              {Object.keys(alertIngredients).map((key, i) => (
+                <Text
+                  key={i.toString()}
+                  style={styles.modalText}
+                >
+                  {`${key}: ${alertIngredients[key].quantity} ${alertIngredients[key].measure}`}
+                </Text>
+              ))}
+            </ScrollView>
+            <TouchableOpacity
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => {
+                setAlertIngredients({});
+                setConfirmReduceInventory(true);
+              }}
+            >
+              <Text style={styles.textStyle}>
+                Aceptar
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
       <ScrollView>
+        <TouchableOpacity
+          style={styles.inventoryButton}
+          onPress={reduceInventory}
+        >
+          <Text style={styles.inventoryButtonText}>
+            Reducir Inventario
+          </Text>
+        </TouchableOpacity>
         <View style={styles.infoContainer}>
           <Icon
             name='people'

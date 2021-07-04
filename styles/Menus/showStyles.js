@@ -5,7 +5,6 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.white,
     flex: 1,
-    paddingTop: 15,
   },
 
   infoContainer: {
@@ -94,6 +93,84 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: colors.selectedTabYellow,
     textAlign: 'right',
+  },
+
+  moreVert: {
+    paddingRight: 8,
+  },
+
+  inventoryButton: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 9,
+    width: '90%',
+    borderWidth: 1,
+    marginLeft: '5%',
+    marginTop: 10,
+    marginBottom: 10,
+    borderRadius: 5,
+    color: colors.kitchengramGray600,
+    borderColor: colors.kitchengramGray600,
+  },
+
+  inventoryButtonText: {
+    fontSize: 16,
+  },
+
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalView: {
+    minHeight: '22%',
+    maxHeight: '50%',
+    minWidth: '80%',
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 20,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    position: 'relative',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  button: {
+    borderRadius: 5,
+    padding: 10,
+    marginTop: 10,
+    elevation: 2,
+    backgroundColor: colors.kitchengramGreen500,
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    width: '100%',
+    fontSize: 14,
+    color: colors.black,
+    textAlign: 'center',
+    marginVertical: 3,
+  },
+  modalTitle: {
+    width: '100%',
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: colors.black,
+    textAlign: 'center',
+    marginBottom: 10,
   },
 });
 
