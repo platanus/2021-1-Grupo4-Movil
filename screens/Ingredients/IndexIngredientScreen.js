@@ -14,7 +14,10 @@ import {
   RefreshControl,
 } from 'react-native';
 
-import { useStoreActions } from 'easy-peasy';
+import {
+  useStoreActions,
+  useStoreState,
+} from 'easy-peasy';
 import Icon from 'react-native-vector-icons/Ionicons';
 import styles from '../../styles/Ingredients/indexStyles';
 import colors from '../../styles/appColors';
@@ -23,22 +26,24 @@ import formatMoney from '../../utils/formatMoney';
 function IndexIngredients({ navigation }) {
   const getIngredients = useStoreActions((actions) => actions.getIngredients);
   const updateInventory = useStoreActions((actions) => actions.updateInventory);
+  const setIngredientsInventory = useStoreActions((actions) => actions.setIngredientsInventory);
+  const ingredientsInventory = useStoreState((state) => state.ingredientsInventory);
+
   const [ingredients, setIngredients] = useState([]);
   const evenNumber = 2;
   const [mounted, setMounted] = useState(false);
   const [editableInventories, setEditableInventories] = useState({});
   const [refreshing, setRefreshing] = useState(false);
-  const [newInventories, setNewInventories] = useState({});
 
   function inventoryModifier(event, ingId) {
-    const newInventoriesAux = { ...newInventories };
+    const newInventoriesAux = { ...ingredientsInventory };
     newInventoriesAux[ingId.toString()] = event;
 
-    setNewInventories(newInventoriesAux);
+    setIngredientsInventory(newInventoriesAux);
   }
 
   function submitInventoryValue(ingredient) {
-    const newInventory = Number(newInventories[ingredient.id.toString()]);
+    const newInventory = Number(ingredientsInventory[ingredient.id.toString()]);
     const ingredientsPayload = [{ ingredientId: ingredient.id, inventory: newInventory }];
     updateInventory({ ingredients: ingredientsPayload })
       .then(() => {
@@ -56,7 +61,7 @@ function IndexIngredients({ navigation }) {
     copyEditables[ingredient.id.toString()] = !copyEditables[ingredient.id.toString()];
 
     if (!copyEditables[ingredient.id.toString()] &&
-    ingredient.attributes.inventory !== newInventories[ingredient.id.toString()]) {
+    ingredient.attributes.inventory !== ingredientsInventory[ingredient.id.toString()]) {
       submitInventoryValue(ingredient);
     }
     setEditableInventories(copyEditables);
@@ -83,10 +88,11 @@ function IndexIngredients({ navigation }) {
         newInventoriesAux[ingredient.id.toString()] = ingredient.attributes.inventory;
         editableInventoriesAux[ingredient.id.toString()] = false;
       });
-      setNewInventories(newInventoriesAux);
+      setIngredientsInventory(newInventoriesAux);
       setEditableInventories(editableInventoriesAux);
       setMounted(true);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ingredients]);
 
   useLayoutEffect(() => {
@@ -111,6 +117,8 @@ function IndexIngredients({ navigation }) {
     getIngredients()
       .then((res) => {
         setIngredients(res);
+      })
+      .catch(() => {
       });
     setRefreshing(false);
   }
@@ -160,7 +168,7 @@ function IndexIngredients({ navigation }) {
                       <TouchableOpacity
                         style={styles.decreaseInventoryBtn}
                         onPress={() => inventoryModifier(
-                          newInventories[ingredient.id.toString()] - 1, ingredient.id)}
+                          ingredientsInventory[ingredient.id.toString()] - 1, ingredient.id)}
                       >
                         <Icon
                           name='remove-circle-outline'
@@ -172,14 +180,14 @@ function IndexIngredients({ navigation }) {
                         style={styles.inventoryInput}
                         keyboardType="number-pad"
                         returnKeyType='done'
-                        value={newInventories[ingredient.id.toString()].toString()}
+                        value={ingredientsInventory[ingredient.id.toString()].toString()}
                         onChangeText={(event) => inventoryModifier(event, ingredient.id)}
                         editable={true}
                       />
                       <TouchableOpacity
                         style={styles.increaseInventoryBtn}
                         onPress={() => inventoryModifier(
-                          newInventories[ingredient.id.toString()] + 1, ingredient.id)}
+                          ingredientsInventory[ingredient.id.toString()] + 1, ingredient.id)}
                       >
                         <Icon
                           name='add-circle-outline'
@@ -192,7 +200,7 @@ function IndexIngredients({ navigation }) {
                     <Text
                       style={styles.measure}
                     >
-                      {`${newInventories[ingredient.id.toString()]} un.`}
+                      {`${ingredientsInventory[ingredient.id.toString()]} un.`}
                     </Text>
                   )}
                   <TouchableOpacity onPress={() => showInventoryInput(ingredient)}>
