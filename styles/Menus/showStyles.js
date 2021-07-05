@@ -200,6 +200,18 @@ const styles = StyleSheet.create({
   confirmButtonText: {
     color: colors.kitchengramWhite,
   },
+  shoppingListButton: {
+    backgroundColor: colors.kitchengramGreen500,
+    padding: 12,
+    borderRadius: 5,
+    width: '45%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginHorizontal: 10,
+  },
+  shoppingListText: {
+    color: colors.kitchengramWhite,
+  },
 });
 
 export default styles;

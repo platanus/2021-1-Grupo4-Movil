@@ -22,6 +22,8 @@ import styles from '../../styles/Menus/showStyles';
 
 import calculateRecipePrice from '../../utils/calculateRecipePrice';
 import formatMoney from '../../utils/formatMoney';
+import createExcel from '../../utils/excelMaker';
+import copyList from '../../utils/listToClipboard';
 
 import ShowMenuOptions from '../../components/ShowMenuOptions';
 
@@ -36,6 +38,7 @@ function Menu(props) {
   const setIngredientsInventory = useStoreActions((actions) => actions.setIngredientsInventory);
   const reduceInventory = useStoreActions((actions) => actions.reduceInventory);
   const ingredientsInventory = useStoreState((state) => state.ingredientsInventory);
+  const getShoppingList = useStoreActions((actions) => actions.getShoppingList);
 
   const {
     menu,
@@ -114,6 +117,23 @@ function Menu(props) {
     setAlertIngredients(alertIngredientsCopy);
     setConfirmReduceInventoryModal(true);
   }
+
+
+  const copyShoppingListToClipboard = () => {
+    getShoppingList({ id: menu.id })
+      .then((res) => {
+        copyList(res);
+      })
+      .catch((err) => alert(err))
+  }
+
+  const exportShoppingList = () => {
+    getShoppingList({ id: menu.id })
+      .then((res) => {
+        createExcel(res);
+      })
+      .catch((err) => alert(err))
+  };
 
   return (
     <View style={styles.container}>
@@ -266,6 +286,18 @@ function Menu(props) {
             </View>
           </View>
         ))}
+        <View style={styles.infoContainer}>
+        <TouchableOpacity
+          style={styles.shoppingListButton}
+          onPress={() => exportShoppingList()}
+        ><Text style={styles.shoppingListText}>Exportar lista de compras</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.shoppingListButton}
+          onPress={() => copyShoppingListToClipboard()}
+        ><Text style={styles.shoppingListText}>Copiar lista en el portapapeles</Text>
+        </TouchableOpacity>
+        </View>
       </ScrollView>
     </View>
   );
