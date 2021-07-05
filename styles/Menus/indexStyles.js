@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
   },
   navIcon: {
     paddingRight: 8,
-    color: colors.black,
+    color: colors.kitchengramWhite,
   },
 
   emptyMessage: {

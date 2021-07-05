@@ -101,8 +101,7 @@ function IndexIngredients({ navigation }) {
       headerRight: () => (
         <Icon name='add'
           size={30}
-          color={colors.kitchengramWhite}
-          style={{ paddingRight: 10 }}
+          style={styles.navIcon}
           onPress={() => navigation.navigate('Nuevo Ingrediente', {
             isNew: true,
             ingredients,

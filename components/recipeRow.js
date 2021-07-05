@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Icon } from 'react-native-elements';
 import colors from '../styles/appColors';
-import styles from '../styles/Recipes/index';
+import styles from '../styles/Recipes/indexStyles';
 import calculateRecipePrice from '../utils/calculateRecipePrice';
 import formatMoney from '../utils/formatMoney';
 
@@ -37,7 +37,7 @@ function RecipeRow(props) {
         </View>
       </View>
       <View style={styles.right}>
-        <Text style = {styles.price}>{formatMoney(Math.round(calculateRecipePrice(recipe)), '$')}</Text>
+        <Text style = {styles.price}>{formatMoney(Math.round(calculateRecipePrice(recipe)), '$ ')}</Text>
         <Icon name='chevron-right' color={colors.kitchengramGray400} size={20} />
       </View>
     </TouchableOpacity>
