@@ -83,7 +83,7 @@ function ShowProvider({ navigation, route }) {
         </Text>
         <Text style={styles.value}>
           {(provider.attributes.deliveryDays) ?
-            `${provider.attributes.deliveryDays} día(s) hábiles` :
+            `${provider.attributes.deliveryDays} día(s) hábile(s)` :
             ''}
         </Text>
       </View>
