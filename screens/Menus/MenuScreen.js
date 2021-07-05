@@ -56,12 +56,11 @@ function Menu(props) {
   }, []);
 
   const copyShoppingListToClipboard = () => {
-    // getShoppingList({ id: menu.id })
-    //   .then((res) => {
-    //     copyList(res);
-    //   })
-    //   .catch((err) => alert(err))
-    copyList('smosk')
+    getShoppingList({ id: menu.id })
+      .then((res) => {
+        copyList(res);
+      })
+      .catch((err) => alert(err))
   }
 
   const exportShoppingList = () => {
