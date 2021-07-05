@@ -9,6 +9,13 @@ const styles = StyleSheet.create({
     paddingTop: 15,
   },
 
+  rowContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
+
   inputContainer: {
     width: '100%',
     height: 60,
@@ -17,6 +24,35 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     marginVertical: 15,
     backgroundColor: colors.kitchengramWhite,
+  },
+
+  inputUnitContainer: {
+    width: '40%',
+    marginRight: '5%',
+    height: 60,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    marginVertical: 5,
+    backgroundColor: colors.kitchengramWhite,
+  },
+
+  inputNewMeasureContainer: {
+    width: '86%',
+    height: 60,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    marginVertical: 10,
+    backgroundColor: colors.kitchengramWhite,
+    marginRight: '5%',
+  },
+
+  measureLabel: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    fontStyle: 'normal',
+    color: colors.kitchengramBlack,
+    marginVertical: 15,
   },
 
   inputLabel: {
@@ -78,6 +114,18 @@ const styles = StyleSheet.create({
     height: '100%',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+
+  buttonContainer: {
+    width: '99%',
+    height: 65,
+    paddingVertical: 10,
+  },
+
+  addUnit: {
+    width: '48%',
+    backgroundColor: colors.kitchengramYellow500,
+    borderRadius: 5,
   },
 
   scrapperButton: {

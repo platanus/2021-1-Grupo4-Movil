@@ -121,13 +121,13 @@ function Menu(props) {
                   {recipe.attributes.recipe.name}
                 </Text>
                 <Text style={styles.portions}>
-                  {`${recipe.attributes.recipe.portions * recipe.attributes.recipe_quantity} porciones`}
+                  {`${recipe.attributes.recipe.portions * recipe.attributes.recipeQuantity} porciones`}
                 </Text>
               </View>
               <View style={styles.right}>
                 <Text style={styles.price}>
                   {formatMoney(calculateRecipePrice(recipe.attributes.recipe, true) *
-                    recipe.attributes.recipe_quantity, '$ ')}
+                    recipe.attributes.recipeQuantity, '$ ')}
                 </Text>
               </View>
             </View>

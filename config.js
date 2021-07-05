@@ -10,6 +10,7 @@ const config = {
       index: `${API_VERSION}/ingredients`,
       specific: `${API_VERSION}/ingredients/`,
       searchCornerShop: `${API_VERSION}/search-cornershop-products`,
+      updateInventory: `${API_VERSION}/ingredients/update-inventories`,
     },
     recipes: {
       index: `${API_VERSION}/recipes`,
