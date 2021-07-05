@@ -99,10 +99,10 @@ const styles = StyleSheet.create({
     backgroundColor: colors.kitchengramGreen500,
     padding: 12,
     borderRadius: 5,
-    width: '85%',
+    width: '45%',
     alignItems: 'center',
     justifyContent: 'center',
-    marginHorizontal: 30,
+    marginHorizontal: 10,
   },
   shoppingListText: {
     color: colors.kitchengramWhite,

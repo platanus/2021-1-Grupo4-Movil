@@ -18,6 +18,7 @@ import styles from '../../styles/Menus/showStyles';
 import calculateRecipePrice from '../../utils/calculateRecipePrice';
 import formatMoney from '../../utils/formatMoney';
 import createExcel from '../../utils/excelMaker';
+import copyList from '../../utils/listToClipboard';
 
 import ShowMenuOptions from '../../components/ShowMenuOptions';
 
@@ -53,6 +54,15 @@ function Menu(props) {
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const copyShoppingListToClipboard = () => {
+    // getShoppingList({ id: menu.id })
+    //   .then((res) => {
+    //     copyList(res);
+    //   })
+    //   .catch((err) => alert(err))
+    copyList('smosk')
+  }
 
   const exportShoppingList = () => {
     getShoppingList({ id: menu.id })
@@ -123,11 +133,18 @@ function Menu(props) {
             </View>
           </View>
         ))}
+        <View style={styles.infoContainer}>
         <TouchableOpacity
           style={styles.shoppingListButton}
           onPress={() => exportShoppingList()}
         ><Text style={styles.shoppingListText}>Exportar lista de compras</Text>
         </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.shoppingListButton}
+          onPress={() => copyShoppingListToClipboard()}
+        ><Text style={styles.shoppingListText}>Copiar lista en el portapapeles</Text>
+        </TouchableOpacity>
+        </View>
       </ScrollView>
     </View>
   );
