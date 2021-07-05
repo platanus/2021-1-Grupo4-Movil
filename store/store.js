@@ -311,6 +311,7 @@ const storeThunks = {
         actions.setMenusError(err.response.data.message);
         throw err;
       });
+
     actions.setShowLoadingSpinner();
 
     return menu;
@@ -347,6 +348,11 @@ const storeThunks = {
     actions.setShowLoadingSpinner();
 
     return menu;
+  }),
+  getShoppingList: thunk(async (_, payload) => {
+    const shoppingList = await menusApi.shoppingList(payload);
+
+    return shoppingList.data;
   }),
   getProviders: thunk(async (actions, payload) => {
     actions.setShowLoadingSpinner();

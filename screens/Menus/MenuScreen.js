@@ -1,4 +1,5 @@
 import React, {
+  useEffect,
   useLayoutEffect,
   useState,
 } from 'react';
@@ -6,6 +7,7 @@ import {
   View,
   Text,
   ScrollView,
+  TouchableOpacity,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { useStoreActions } from 'easy-peasy';
@@ -15,6 +17,8 @@ import styles from '../../styles/Menus/showStyles';
 
 import calculateRecipePrice from '../../utils/calculateRecipePrice';
 import formatMoney from '../../utils/formatMoney';
+import createExcel from '../../utils/excelMaker';
+import copyList from '../../utils/listToClipboard';
 
 import ShowMenuOptions from '../../components/ShowMenuOptions';
 
@@ -26,6 +30,7 @@ function Menu(props) {
 
   const deleteMenu = useStoreActions((actions) => actions.deleteMenu);
   const setGlobalMenus = useStoreActions((actions) => actions.setMenus);
+  const getShoppingList = useStoreActions((actions) => actions.getShoppingList);
 
   const {
     menu,
@@ -49,6 +54,22 @@ function Menu(props) {
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const copyShoppingListToClipboard = () => {
+    getShoppingList({ id: menu.id })
+      .then((res) => {
+        copyList(res);
+      })
+      .catch((err) => alert(err))
+  }
+
+  const exportShoppingList = () => {
+    getShoppingList({ id: menu.id })
+      .then((res) => {
+        createExcel(res);
+      })
+      .catch((err) => alert(err))
+  };
 
   return (
     <View style={styles.container}>
@@ -111,6 +132,18 @@ function Menu(props) {
             </View>
           </View>
         ))}
+        <View style={styles.infoContainer}>
+        <TouchableOpacity
+          style={styles.shoppingListButton}
+          onPress={() => exportShoppingList()}
+        ><Text style={styles.shoppingListText}>Exportar lista de compras</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.shoppingListButton}
+          onPress={() => copyShoppingListToClipboard()}
+        ><Text style={styles.shoppingListText}>Copiar lista en el portapapeles</Text>
+        </TouchableOpacity>
+        </View>
       </ScrollView>
     </View>
   );
