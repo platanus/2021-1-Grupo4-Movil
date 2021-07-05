@@ -11,7 +11,7 @@ const formatListForClipboard = (shoppingList) => {
 
     let totalPrice = 0;
     provider.ingredients.forEach((ingredient) => {
-      const totalPriceIngredient = ingredient.quantity * ingredient.total_price;
+      const totalPriceIngredient = Number(ingredient.quantity) * Number(ingredient.totalPrice);
       totalPrice += totalPriceIngredient;
       shoppingListString += `${ingredient.name} (${ingredient.quantity}): $${totalPriceIngredient}\n`;
     });
