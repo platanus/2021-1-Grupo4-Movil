@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   TouchableOpacity,
   Text,
   Alert,
+  Modal,
+  ScrollView,
 } from 'react-native';
 import { useStoreActions } from 'easy-peasy';
 import formatMoney from '../../utils/formatMoney';
@@ -17,6 +19,8 @@ function ShowIngredient({ navigation, route }) {
   } = route.params;
 
   const deleteIngredient = useStoreActions((actions) => actions.deleteIngredient);
+  const getIngredientAssociations = useStoreActions((actions) => actions.getIngredientAssociations);
+  const [showModal, setShowModal] = useState(false);
 
   function handleSubmitDelete() {
     const body = { id: ingredient.id };
@@ -29,9 +33,82 @@ function ShowIngredient({ navigation, route }) {
       .catch(() => {
       });
   }
+  function handleGetAssociations() {
+    const body = { id: ingredient.id };
+    getIngredientAssociations(body)
+      .then((res) => {
+        console.log(res);
+        setShowModal(true);
+      })
+      .catch(() => {
+      });
+  }
 
   return (
     <View style={styles.container}>
+      <Modal
+        visible={showModal}
+        transparent={true}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalTitle}>
+                Eliminar ingrediente
+            </Text>
+            <ScrollView>
+              {/* {Object.keys(newIngredientsInventory).map((key, i) =>
+                (!Object.keys(alertIngredients).includes(newIngredientsInventory[key].name)) && (
+                  <Text
+                    key={i.toString()}
+                    style={styles.modalText}
+                  >
+                    {newIngredientsInventory[key].name}: de {ingredientsInventory[key]} a{' '}
+                    {newIngredientsInventory[key].quantity} {newIngredientsInventory[key].measure}
+                  </Text>
+                ))} */}
+            </ScrollView>
+            {/*
+            <Text style={styles.modalTitle}>
+              {Object.keys(alertIngredients).length > 0 && 'Ingredientes con falta de inventario'}
+            </Text>
+            {Object.keys(alertIngredients).length > 0 && (
+              <ScrollView>
+                {Object.keys(alertIngredients).map((key, i) => (
+                  <Text
+                    key={i.toString()}
+                    style={styles.modalText}
+                  >
+                    {`${key}: ${alertIngredients[key].quantity} ${alertIngredients[key].measure}`}
+                  </Text>
+                ))}
+              </ScrollView>
+            )}*/}
+            <View style={styles.modalButtonsContainer}>
+              <TouchableOpacity
+                style={styles.cancelButton}
+                onPress={() => setShowModal(false)}
+              >
+                <Text style={[styles.buttonText, styles.cancelButtonText]}>
+                  Cancelar
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.confirmButton}
+                onPress={() => {
+                  setShowModal(false);
+                  handleSubmitDelete();
+                  navigation.navigate('Ingredientes');
+                }}
+              >
+                <Text style={[styles.buttonText, styles.confirmButtonText]}>
+                  Borrar
+                </Text>
+              </TouchableOpacity>
+            </View> 
+          </View>
+        </View>
+      </Modal>
+
       <View style={styles.attributeContainer}>
         <Text style={styles.name}>
           Nombre
@@ -106,13 +183,14 @@ function ShowIngredient({ navigation, route }) {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.delete}
-          onPress={() => Alert.alert('¿Estás seguro?', 'Esta acción es irreversible',
-            [{ text: 'Cancelar', onPress: () => {}, style: 'default' },
-              { text: 'Borrar', onPress: () => {
-                handleSubmitDelete();
-                navigation.navigate('Ingredientes');
-              }, style: 'destructive' }],
-          )}
+          onPress={handleGetAssociations}
+          // onPress={() => Alert.alert('¿Estás seguro?', 'Esta acción es irreversible',
+          //   [{ text: 'Cancelar', onPress: () => {}, style: 'default' },
+          //     { text: 'Borrar', onPress: () => {
+          //       handleSubmitDelete();
+          //       navigation.navigate('Ingredientes');
+          //     }, style: 'destructive' }],
+          // )}
         >
           <Text style={styles.deleteText}>
             Borrar
