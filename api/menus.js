@@ -47,6 +47,23 @@ const menusApi = {
       data: payload.body,
     });
   },
+  reduceInventory: (payload) => {
+    const url = `${config.endpoints.menus.specific}${payload.id}/reduce-inventory`;
+
+    return apiUtils.api({
+      method: 'post',
+      url,
+    });
+  },
+  shoppingList: (payload) => {
+    const url = `${config.endpoints.menus.specific}${payload.id}/shopping-list`;
+
+    return apiUtils.api({
+      method: 'get',
+      url,
+      data: payload.body,
+    });
+  },
 };
 
 export default menusApi;

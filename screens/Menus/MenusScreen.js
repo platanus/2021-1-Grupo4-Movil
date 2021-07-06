@@ -7,7 +7,6 @@ import { Text, ScrollView, View, RefreshControl } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MenuRow from '../../components/menuRow';
 import styles from '../../styles/Menus/indexStyles';
-import colors from '../../styles/appColors';
 
 /* eslint max-statements: [2, 15] */
 function Menus({ navigation }) {
@@ -32,10 +31,10 @@ function Menus({ navigation }) {
     navigation.setOptions({
       // eslint-disable-next-line react/display-name
       headerRight: () => (
-        <Icon name='add'
+        <Icon
+          name='add'
           size={30}
-          color={colors.kitchengramWhite}
-          style={{ paddingRight: 10 }}
+          style={styles.navIcon}
           onPress={() => navigation.navigate('Nuevo Menu', {
             isNew: true,
             menus,

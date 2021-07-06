@@ -126,6 +126,8 @@ function IndexIngredients({ navigation }) {
     getIngredients()
       .then((res) => {
         setIngredients(res);
+      })
+      .catch(() => {
       });
     setRefreshing(false);
   }

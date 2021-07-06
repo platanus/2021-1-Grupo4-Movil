@@ -80,7 +80,7 @@ const storeActions = {
   setDeletedRecipe: action((state, payload) => {
     state.recipes.delete = payload;
   }),
-  setmenusError: action((state, payload) => {
+  setMenusError: action((state, payload) => {
     state.menusError = payload;
   }),
   setMenus: action((state, payload) => {
@@ -223,6 +223,7 @@ const storeThunks = {
     return recipes;
   }),
   createRecipe: thunk(async (actions, payload) => {
+    actions.setShowLoadingSpinner();
     const recipe = await recipesApi.createRecipe(payload)
       .then((resp) => resp.data.data)
       .catch((err) => {
@@ -315,6 +316,7 @@ const storeThunks = {
         actions.setMenusError(err.response.data.message);
         throw err;
       });
+
     actions.setShowLoadingSpinner();
 
     return menu;
@@ -351,6 +353,21 @@ const storeThunks = {
     actions.setShowLoadingSpinner();
 
     return menu;
+  }),
+  reduceInventory: thunk(async (actions, payload) => {
+    actions.setShowLoadingSpinner();
+    await menusApi.reduceInventory(payload)
+      .catch((err) => {
+        actions.setMenusError(err.response.data.message);
+        throw err;
+      });
+    actions.setShowLoadingSpinner();
+  }),
+
+  getShoppingList: thunk(async (_, payload) => {
+    const shoppingList = await menusApi.shoppingList(payload);
+
+    return shoppingList.data;
   }),
   getProviders: thunk(async (actions, payload) => {
     actions.setShowLoadingSpinner();

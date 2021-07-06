@@ -40,6 +40,33 @@ const styles = StyleSheet.create({
     color: colors.kitchengramBlack,
   },
 
+  inputWithPrefixContainer: {
+    width: '100%',
+    height: 60,
+    flexDirection: 'row',
+    borderColor: colors.kitchengramGray600,
+    borderWidth: 2,
+    borderRadius: 5,
+    paddingLeft: 15,
+    paddingRight: 15,
+    alignItems: 'center',
+  },
+
+  prefixInput: {
+    width: '100%',
+    height: '100%',
+    fontWeight: 'bold',
+    fontStyle: 'normal',
+    color: colors.kitchengramBlack,
+    fontSize: 14,
+  },
+
+  prefix: {
+    paddingRight: 2,
+    fontWeight: 'bold',
+    color: 'black',
+  },
+
   buttonsContainer: {
     paddingHorizontal: '5%',
     height: 65,

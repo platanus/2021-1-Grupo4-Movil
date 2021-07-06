@@ -1,11 +1,10 @@
 /* eslint-disable max-statements */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { Text, ScrollView, RefreshControl } from 'react-native';
 import { useStoreActions } from 'easy-peasy';
-import { Icon } from 'react-native-elements';
-import colors from '../../styles/appColors';
+import Icon from 'react-native-vector-icons/Ionicons';
 import RecipeRow from '../../components/recipeRow';
-import styles from '../../styles/Recipes';
+import styles from '../../styles/Recipes/indexStyles';
 
 function Recipes(props) {
   const { navigation } = props;
@@ -40,15 +39,13 @@ function Recipes(props) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     navigation.setOptions({
     // eslint-disable-next-line react/display-name
       headerRight: () => (
-        <Icon
-          name='add'
+        <Icon name='add'
           size={30}
-          color={colors.kitchengramWhite}
-          style={{ paddingRight: 10 }}
+          style={styles.navIcon}
           onPress={() => navigation.navigate('Crear receta', {
             recipes,
             setRecipes,

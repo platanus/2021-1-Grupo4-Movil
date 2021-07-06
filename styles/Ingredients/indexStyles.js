@@ -62,6 +62,11 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
 
+  navIcon: {
+    paddingRight: 8,
+    color: colors.kitchengramWhite,
+  },
+
   emptyMessage: {
     color: colors.kitchengramGray600,
     textAlign: 'center',

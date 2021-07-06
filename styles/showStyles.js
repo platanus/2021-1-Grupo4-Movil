@@ -39,6 +39,15 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
   },
 
+  linkValue: {
+    width: '65%',
+    textAlign: 'right',
+    fontSize: 20,
+    color: colors.blue,
+    fontWeight: 'normal',
+    fontStyle: 'normal',
+  },
+
   buttonsContainer: {
     width: '100%',
     height: '15%',
