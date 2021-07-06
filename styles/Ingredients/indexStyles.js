@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
 
   ingredientRow: {
     width: '100%',
-    height: 90,
+    height: 100,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'flex-start',
@@ -19,6 +19,10 @@ const styles = StyleSheet.create({
 
   even: {
     backgroundColor: colors.kitchengramWhite,
+  },
+
+  row: {
+    flexDirection: 'row',
   },
 
   odd: {
@@ -37,7 +41,6 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 20,
     color: colors.kitchengramGray600,
-
     fontWeight: 'normal',
     fontStyle: 'normal',
   },
