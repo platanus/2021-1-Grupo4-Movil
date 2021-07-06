@@ -97,7 +97,7 @@ function InventoryIngredient({ navigation, route }) {
 
   if (mounted && ingredients.length) {
     return (
-      <View style = {styles.container}>
+      <View style={styles.container}>
         <ScrollView>
           {ingredients.map((ingredient, i) => (
             <TouchableOpacity
@@ -105,23 +105,23 @@ function InventoryIngredient({ navigation, route }) {
               key={ingredient.id}
               disabled
             >
-              <View style = {styles.left}>
-                <Text style = {styles.name}>
+              <View style={styles.left}>
+                <Text style={styles.name}>
                   {ingredient.attributes.name}
                 </Text>
-                <Text style = {styles.text}>
+                <Text style={styles.text}>
                   Aumenta en
                 </Text>
-                <Text style = {styles.text}>
+                <Text style={styles.text}>
                   Disminuye en
                 </Text>
               </View>
-              <View style = {styles.right}>
-                <Text style = {styles.measure}>
+              <View style={styles.right}>
+                <Text style={styles.measure}>
                   {`${ingredient.attributes.inventory} ${ingredient.attributes.measure}`}
                 </Text>
-                <View style = {styles.inventory}>
-                  <View style = {styles.inventoryEditPanel}>
+                <View style={styles.inventory}>
+                  <View style={styles.inventoryEditPanel}>
                     <TouchableOpacity
                       style={styles.decreaseInventoryBtn}
                       onPress={() => inventoryModifier(
@@ -154,8 +154,8 @@ function InventoryIngredient({ navigation, route }) {
                     </TouchableOpacity>
                   </View>
                 </View>
-                <View style = {styles.inventory}>
-                  <View style = {styles.inventoryEditPanel}>
+                <View style={styles.inventory}>
+                  <View style={styles.inventoryEditPanel}>
                     <TouchableOpacity
                       style={styles.decreaseInventoryBtn}
                       onPress={() => inventoryModifier(
