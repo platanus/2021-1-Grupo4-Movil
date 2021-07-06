@@ -2,15 +2,16 @@ import React, {
   useState,
 } from 'react';
 import {
+  Alert,
   View,
   TouchableOpacity,
   Text,
   TextInput,
-  Alert,
 } from 'react-native';
 import { useStoreActions } from 'easy-peasy';
 import styles from '../../styles/Providers/formStyles';
 import formatPhone from '../../utils/formatPhone';
+import formatRut from '../../utils/formatRut';
 import KeyboardAvoidWrapper from '../../components/KeyboardAvoidWrapper';
 
 // eslint-disable-next-line max-statements
@@ -26,6 +27,11 @@ function FormProvider({ navigation, route }) {
         webpageUrl: '',
         deliveryDays: 0,
         minimumPurchase: 0,
+        contactName: '',
+        contactRut: '',
+        bankName: '',
+        accountType: '',
+        accountNumber: '',
       },
     },
     providers,
@@ -33,11 +39,17 @@ function FormProvider({ navigation, route }) {
   } = route.params;
 
   const [name, setName] = useState(provider.attributes.name);
-  const [email, setEmail] = useState(provider.attributes.email);
+  const [email, setEmail] = useState(provider.attributes.email ? provider.attributes.email : '');
   const [phone, setPhone] = useState(provider.attributes.phone);
   const [webpageUrl, setWebpageUrl] = useState(provider.attributes.webpageUrl);
   const [time, setTime] = useState(provider.attributes.deliveryDays);
   const [minPurchase, setMinPurchase] = useState(provider.attributes.minimumPurchase);
+
+  const [contactName, setContactName] = useState(provider.attributes.contactName);
+  const [contactRut, setContactRut] = useState(provider.attributes.contactRut);
+  const [bankName, setBankName] = useState(provider.attributes.bankName);
+  const [accountType, setAccountType] = useState(provider.attributes.accountType);
+  const [accountNumber, setAccountNumber] = useState(provider.attributes.accountNumber);
 
   const createProvider = useStoreActions((actions) => actions.createProvider);
   const editProvider = useStoreActions((actions) => actions.editProvider);
@@ -70,6 +82,11 @@ function FormProvider({ navigation, route }) {
       webpageUrl,
       deliveryDays: time,
       minimumPurchase: minPurchase,
+      contactName,
+      contactRut,
+      bankName,
+      accountType,
+      accountNumber,
     };
     provider.attributes = attributes;
     const body = {
@@ -108,7 +125,7 @@ function FormProvider({ navigation, route }) {
         <View style={styles.container}>
           <View style={styles.inputContainer}>
             <Text style={styles.inputLabel}>
-            Nombre
+              Nombre
             </Text>
             <TextInput
               style={styles.input}
@@ -119,7 +136,7 @@ function FormProvider({ navigation, route }) {
           </View>
           <View style={styles.inputContainer}>
             <Text style={styles.inputLabel}>
-            Correo
+              Correo
             </Text>
             <TextInput
               style={styles.input}
@@ -131,7 +148,7 @@ function FormProvider({ navigation, route }) {
           </View>
           <View style={styles.inputContainer}>
             <Text style={styles.inputLabel}>
-            Teléfono
+              Teléfono
             </Text>
             <TextInput
               style={styles.input}
@@ -144,7 +161,7 @@ function FormProvider({ navigation, route }) {
           </View>
           <View style={styles.inputContainer}>
             <Text style={styles.inputLabel}>
-            Página Web
+              Página Web
             </Text>
             <View style={styles.inputWithPrefixContainer}>
               <Text style={styles.prefix}>https://</Text>
@@ -159,7 +176,7 @@ function FormProvider({ navigation, route }) {
           </View>
           <View style={styles.inputContainer}>
             <Text style={styles.inputLabel}>
-            Tiempo de entrega (días)
+              Tiempo de entrega (días)
             </Text>
             <TextInput
               style={styles.input}
@@ -172,7 +189,7 @@ function FormProvider({ navigation, route }) {
           </View>
           <View style={styles.inputContainer}>
             <Text style={styles.inputLabel}>
-            Mínimo de compra
+              Mínimo de compra
             </Text>
             <TextInput
               style={styles.input}
@@ -181,6 +198,67 @@ function FormProvider({ navigation, route }) {
               returnKeyType='done'
               value={minPurchase ? minPurchase.toString() : 0}
               onChangeText={(text) => setMinPurchase(text)}
+            />
+          </View>
+          <Text style={styles.sectionTitleText}>Datos bancarios</Text>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputLabel}>
+              Nombre
+            </Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Nombre..."
+              returnKeyType='done'
+              value={contactName}
+              onChangeText={(text) => setContactName(text)}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputLabel}>
+              Rut
+            </Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Rut..."
+              returnKeyType='done'
+              value={contactRut}
+              onChangeText={(text) => setContactRut(formatRut(text))}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputLabel}>
+              Banco
+            </Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Banco..."
+              returnKeyType='done'
+              value={bankName}
+              onChangeText={(text) => setBankName(text)}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputLabel}>
+              Tipo de cuenta
+            </Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Tipo de cuenta..."
+              returnKeyType='done'
+              value={accountType}
+              onChangeText={(text) => setAccountType(text)}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputLabel}>
+              Número de cuenta
+            </Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Número de cuenta..."
+              returnKeyType='done'
+              value={accountNumber}
+              onChangeText={(text) => setAccountNumber(text)}
             />
           </View>
         </View>
