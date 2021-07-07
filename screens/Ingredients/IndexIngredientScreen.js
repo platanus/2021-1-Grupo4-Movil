@@ -48,18 +48,18 @@ function IndexIngredients({ navigation }) {
   function submitInventoryValue(ingredient) {
     const newInventory = Number(ingredientsInventory[ingredient.id.toString()]);
     if (newInventory < 0) {
-      Alert.alert("El valor del inventario no puede ser negativo")
+      Alert.alert('El valor del inventario no puede ser negativo');
     } else {
-    const ingredientsPayload = [{ ingredientId: ingredient.id, inventory: newInventory }];
-    updateInventory({ ingredients: ingredientsPayload })
-      .then(() => {
-        const index = ingredients.indexOf(ingredient);
-        const ingredientsCopy = [...ingredients];
-        ingredientsCopy[index].attributes.inventory = newInventory;
-        setIngredients(ingredientsCopy);
-      })
-      .catch(() => {
-      });
+      const ingredientsPayload = [{ ingredientId: ingredient.id, inventory: newInventory }];
+      updateInventory({ ingredients: ingredientsPayload })
+        .then(() => {
+          const index = ingredients.indexOf(ingredient);
+          const ingredientsCopy = [...ingredients];
+          ingredientsCopy[index].attributes.inventory = newInventory;
+          setIngredients(ingredientsCopy);
+        })
+        .catch(() => {
+        });
     }
   }
 

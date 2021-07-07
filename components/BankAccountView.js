@@ -11,21 +11,22 @@ import styles from '../styles/showStyles';
 
 const checkValidValues = (bankAccount) => {
   const conditions = [
-    { error: (!bankAccount.contactName), msg: "Se requiere un nombre en los datos" },
-    { error: (!bankAccount.contactRut), msg: "Se requiere un rut en los datos" },
-    { error: (!bankAccount.bankName), msg: "Se requiere el banco en los datos" },
-    { error: (!bankAccount.accountType), msg: "Se requiere el tipo de cuenta en los datos" },
-    { error: (!bankAccount.accountNumber), msg: "Se requiere el numero de cuenta en los datos" },
+    { error: (!bankAccount.contactName), msg: 'Se requiere un nombre en los datos' },
+    { error: (!bankAccount.contactRut), msg: 'Se requiere un rut en los datos' },
+    { error: (!bankAccount.bankName), msg: 'Se requiere el banco en los datos' },
+    { error: (!bankAccount.accountType), msg: 'Se requiere el tipo de cuenta en los datos' },
+    { error: (!bankAccount.accountNumber), msg: 'Se requiere el numero de cuenta en los datos' },
   ];
-  const error = conditions.filter((cond) => (cond.error))
+  const error = conditions.filter((cond) => (cond.error));
 
   if (error.length > 0) {
     Alert.alert(error[0].msg);
+
     return false;
   }
-  return true;
-}
 
+  return true;
+};
 
 export default function BankAccountView({ provider, setShowBankAccount }) {
   const bankAccount = { ...provider.attributes };
