@@ -70,7 +70,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   price: {
-    fontSize: 20,
+    fontSize: 15,
+    width: 80,
     color: colors.kitchengramYellow500,
   },
   submitIngredients: {

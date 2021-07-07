@@ -189,7 +189,7 @@ function FormProvider({ navigation, route }) {
           </View>
           <View style={styles.inputContainer}>
             <Text style={styles.inputLabel}>
-              Mínimo de compra
+              Mínimo de compra ($)
             </Text>
             <TextInput
               style={styles.input}
