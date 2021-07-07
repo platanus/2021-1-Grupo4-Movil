@@ -12,6 +12,7 @@ import {
   TextInput,
   ScrollView,
   RefreshControl,
+  Alert,
 } from 'react-native';
 
 import {
@@ -36,14 +37,19 @@ function IndexIngredients({ navigation }) {
   const [refreshing, setRefreshing] = useState(false);
 
   function inventoryModifier(event, ingId) {
-    const newInventoriesAux = { ...ingredientsInventory };
-    newInventoriesAux[ingId.toString()] = event;
+    if (event >= 0) {
+      const newInventoriesAux = { ...ingredientsInventory };
+      newInventoriesAux[ingId.toString()] = event;
 
-    setIngredientsInventory(newInventoriesAux);
+      setIngredientsInventory(newInventoriesAux);
+    }
   }
 
   function submitInventoryValue(ingredient) {
     const newInventory = Number(ingredientsInventory[ingredient.id.toString()]);
+    if (newInventory < 0) {
+      Alert.alert("El valor del inventario no puede ser negativo")
+    } else {
     const ingredientsPayload = [{ ingredientId: ingredient.id, inventory: newInventory }];
     updateInventory({ ingredients: ingredientsPayload })
       .then(() => {
@@ -54,6 +60,7 @@ function IndexIngredients({ navigation }) {
       })
       .catch(() => {
       });
+    }
   }
 
   function showInventoryInput(ingredient) {
@@ -189,7 +196,10 @@ function IndexIngredients({ navigation }) {
                         style={styles.inventoryInput}
                         keyboardType="number-pad"
                         returnKeyType='done'
-                        value={ingredientsInventory[ingredient.id.toString()].toString()}
+                        value={
+                          ingredientsInventory[
+                            ingredient.id.toString()].toString()
+                        }
                         onChangeText={(event) => inventoryModifier(event, ingredient.id)}
                         editable={true}
                       />
