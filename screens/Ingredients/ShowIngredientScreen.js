@@ -55,20 +55,20 @@ function ShowIngredient({ navigation, route }) {
             <Text style={styles.modalTitle}>
                 Eliminar ingrediente
             </Text>
-            <Text style={styles.modalDescription}>
-              {'Este ingrediente se encuentra en las siguientes recetas:'}
-            </Text>
-            <ScrollView>
-              {dependencies.map((recipe, i) =>
-                (
-                  <Text
-                    key={i}
-                    style={styles.modalText}
-                  >
-                    {recipe.name}
-                  </Text>
-                ))}
-            </ScrollView>
+            {(dependencies.length > 0) && (
+              <>
+                <Text style={styles.modalDescription}>
+                  {'Este ingrediente se encuentra en las siguientes recetas:'}
+                </Text>
+                <ScrollView>
+                  {dependencies.map((recipe, i) =>
+                    (<Text
+                      key={i}
+                      style={styles.modalText}>
+                      {recipe.name}
+                    </Text>))}
+                </ScrollView>
+              </>)}
             <Text style={styles.modalTitle}>
               ¿Estás seguro que deseas eliminar este ingrediente?
             </Text>
@@ -90,7 +90,7 @@ function ShowIngredient({ navigation, route }) {
                 }}
               >
                 <Text style={[styles.buttonText, styles.confirmButtonText]}>
-                  Si, eliminar
+                  Sí, eliminar
                 </Text>
               </TouchableOpacity>
             </View>
