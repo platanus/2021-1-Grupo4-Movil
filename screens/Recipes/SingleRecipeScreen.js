@@ -54,7 +54,7 @@ function Recipe(props) {
         ingredient.attributes.ingredient.quantity,
       unitQuantity: ingredient.attributes.ingredient.quantity,
       recipeQuantity: ingredient.attributes.ingredientQuantity,
-      measure: ingredient.attributes.ingredient.measure,
+      measure: ingredient.attributes.ingredientMeasure,
     };
   }
 

@@ -30,6 +30,7 @@ function FormRecipe(props) {
     recipe && recipe.attributes.steps.data ? JSON.parse(JSON.stringify(recipe.attributes.steps.data)) : []);
 
   const [recipePrice, setRecipePrice] = useState(recipe ? calculateRecipePrice(recipe) : 0);
+  const getRecipe = useStoreActions((actions) => actions.getRecipe);
   const createRecipe = useStoreActions((actions) => actions.createRecipe);
   const editRecipe = useStoreActions((actions) => actions.editRecipe);
 
@@ -55,6 +56,9 @@ function FormRecipe(props) {
           id: ingredient.attributes.ingredient.id,
           recipeIngredientId: ingredient.id,
           recipeQuantity: ingredient.attributes.ingredientQuantity,
+          selectedMeasureName: ingredient.attributes.ingredientMeasure,
+          quantity: ingredient.attributes.ingredient.otherMeasures.data.find(measure =>
+            measure.attributes.name === ingredient.attributes.ingredientMeasure).attributes.quantity,
           isNew: false,
           isDeleted: false,
           isEdited: false,
@@ -95,6 +99,8 @@ function FormRecipe(props) {
             id: ingredient.id,
             recipeIngredientId: null,
             recipeQuantity: 0,
+            selectedMeasureName: ingredient.attributes.measure,
+            selectedMeasureQuantity: ingredient.attributes.quantity,
             isNew: true,
             isEdited: false,
             isDeleted: false,
@@ -116,12 +122,30 @@ function FormRecipe(props) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedIngredients]);
 
+  function ingredientDataChange(id, newAttributes) {
+    const toChangeIngredientDataIdx = ingredientsData.findIndex((data) => data.id.toString() === id.toString());
+    if (toChangeIngredientDataIdx === -1) return;
+    ingredientsData[toChangeIngredientDataIdx] = { ...ingredientsData[toChangeIngredientDataIdx],
+      ...newAttributes, isEdited: true };
+  }
+
   function changeIngredientDataQuantity(ingredientId, newQuantity) {
     const index = ingredientsData.findIndex((data) => data.id.toString() === ingredientId.toString());
     if (index >= 0) {
       ingredientsData[index].recipeQuantity = newQuantity;
       ingredientsData[index].isEdited = true;
     }
+  }
+
+  function handleIngredientChange(id, newIngredientAttributes) {
+    ingredientDataChange(id, newIngredientAttributes);
+    const toChangeIngredientIdx = recipeIngredients.findIndex((data) => data.id.toString() === id.toString());
+    if (toChangeIngredientIdx === -1) return;
+    setRecipeIngredients([
+      ...recipeIngredients.slice(0, toChangeIngredientIdx),
+      { ...recipeIngredients[toChangeIngredientIdx], ...newIngredientAttributes, isEdited: true },
+      ...recipeIngredients.slice(toChangeIngredientIdx + 1),
+    ]);
   }
 
   function deleteIngredient(ingredientId) {
@@ -159,6 +183,7 @@ function FormRecipe(props) {
           ingredientsList.push({
             ingredientId: ingredient.id,
             ingredientQuantity: ingredient.recipeQuantity,
+            ingredientMeasure: ingredient.selectedMeasureName,
           });
         }
       } else if (ingredient.isDeleted) {
@@ -168,6 +193,7 @@ function FormRecipe(props) {
           id: ingredient.recipeIngredientId,
           ingredientId: ingredient.id,
           ingredientQuantity: ingredient.recipeQuantity,
+          ingredientMeasure: ingredient.selectedMeasureName,
           _destroy: false,
         });
       }
@@ -185,55 +211,6 @@ function FormRecipe(props) {
     });
   }
 
-  function changeRecipeLocally(body) {
-    recipe.attributes.name = body.name;
-    recipe.attributes.portions = body.portions;
-    recipe.attributes.cookMinutes = body.cookMinutes;
-    let auxStepsData = recipe.attributes.steps.data;
-    body.stepsAttributes.forEach((step, i) => {
-      // eslint-disable-next-line no-underscore-dangle
-      if (step._destroy) {
-        auxStepsData = auxStepsData.filter((element) => element.id !== step.id);
-      // eslint-disable-next-line no-magic-numbers
-      } else if (Object.keys(step).length > 2) {
-        const index = auxStepsData.findIndex((element) => element.id === step.id);
-        auxStepsData[index].attributes.description = step.description;
-      } else {
-        auxStepsData.push({
-          attributes: {
-            description: step.description,
-          },
-          id: i,
-        });
-      }
-    });
-    recipe.attributes.steps.data = auxStepsData;
-    let auxIngredientsData = recipe.attributes.recipeIngredients.data;
-    body.recipeIngredientsAttributes.forEach((ingredient, i) => {
-      // eslint-disable-next-line no-underscore-dangle
-      if (ingredient._destroy) {
-        auxIngredientsData = auxIngredientsData.filter(
-          (element) => element.id !== ingredient.id);
-      } else {
-        const index = auxIngredientsData.findIndex(
-          (element) => element.attributes.ingredient.id === ingredient.ingredientId);
-        if (index >= 0) {
-          auxIngredientsData[index].attributes.ingredientQuantity = ingredient.ingredientQuantity;
-        } else {
-          const ingredientsDataIndex = ingredientsData.findIndex((element) => element.id === ingredient.ingredientId);
-          auxIngredientsData.push({
-            attributes: {
-              ingredient: ingredientsData[ingredientsDataIndex],
-              ingredientQuantity: ingredientsData[ingredientsDataIndex].recipeQuantity,
-            },
-            id: i,
-          });
-        }
-      }
-    });
-    recipe.attributes.recipeIngredients.data = auxIngredientsData;
-  }
-
   function handleSubmit() {
     const body = {
       name: recipeName,
@@ -244,12 +221,11 @@ function FormRecipe(props) {
     };
 
     if (recipe) {
-      changeRecipeLocally(body);
       editRecipe({ body, id: recipe.id })
-        .then(() => {
+        .then(() => getRecipe({ id: recipe.id }))
+        .then((resp) => {
           const auxRecipes = recipes.filter(item => item.id !== recipe.id);
-          auxRecipes.push(recipe);
-          setRecipes(auxRecipes);
+          setRecipes([...auxRecipes, resp]);
           navigation.navigate('Recetas');
         })
         .catch(() => {
@@ -323,13 +299,14 @@ function FormRecipe(props) {
               setTotalPrice={setRecipePrice}
               changeIngredientDataQuantity={changeIngredientDataQuantity}
               deleteIngredient={deleteIngredient}
+              handleIngredientChange={(newAttributes) => handleIngredientChange(ingredient.id, newAttributes)}
             />,
           )}
         </View>
         <View style={styles.ingredientsContainer}>
           <View style={ styles.totalCostTextBox }>
             <View style={styles.sectionQuantity}>
-              <Text style={styles.totalCostText}>Costo por porción</Text>
+              <Text style={styles.totalCostText}>Precio por porción</Text>
             </View>
             <View style={styles.sectionPrice}>
               <Text style={styles.totalCostPrice}>
@@ -339,7 +316,7 @@ function FormRecipe(props) {
           </View>
           <View style={ styles.totalCostTextBox }>
             <View style={styles.sectionQuantity}>
-              <Text style={styles.totalCostText}>Costo total</Text>
+              <Text style={styles.totalCostText}>Precio total</Text>
             </View>
             <View style={styles.sectionPrice}>
               <Text style={styles.totalCostPrice}>

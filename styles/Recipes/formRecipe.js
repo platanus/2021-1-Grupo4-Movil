@@ -46,9 +46,8 @@ const styles = StyleSheet.create({
   },
   sectionQuantityInput: {
     display: 'flex',
-    width: '30%',
     height: 40,
-    margin: 5,
+    margin: 3,
     borderWidth: 2,
     backgroundColor: colors.kitchengramWhite,
     borderColor: colors.kitchengramGray600,
@@ -56,6 +55,12 @@ const styles = StyleSheet.create({
     marginLeft: 3,
     borderRadius: 5,
     paddingHorizontal: 10,
+  },
+  quantityInput: {
+    width: '60%',
+  },
+  nameMeasureInput: {
+    width: '35%',
   },
   totalCost: {
     bottom: '60%',
