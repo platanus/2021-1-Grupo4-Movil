@@ -172,7 +172,7 @@ const storeThunks = {
   getIngredientAssociations: thunk(async (actions, payload) => {
     actions.setShowLoadingSpinner();
     const associations = await ingredientsApi.getIngredientAssociations(payload)
-      .then((res) => res.data.data)
+      .then((res) => res.data.recipes)
       .catch((err) => {
         actions.setIngredientsError(err.response.data.message);
         throw err;

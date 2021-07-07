@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
 
   text: {
     fontSize: 20,
-    color: colors.black,
+    color: colors.kitchengramBlack,
     fontWeight: '500',
     fontStyle: 'normal',
   },

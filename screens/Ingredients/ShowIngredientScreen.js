@@ -21,6 +21,8 @@ function ShowIngredient({ navigation, route }) {
   const deleteIngredient = useStoreActions((actions) => actions.deleteIngredient);
   const getIngredientAssociations = useStoreActions((actions) => actions.getIngredientAssociations);
   const [showModal, setShowModal] = useState(false);
+  const [dependencies, setDependencies] = useState([]);
+
 
   function handleSubmitDelete() {
     const body = { id: ingredient.id };
@@ -37,7 +39,7 @@ function ShowIngredient({ navigation, route }) {
     const body = { id: ingredient.id };
     getIngredientAssociations(body)
       .then((res) => {
-        console.log(res);
+        setDependencies(res);
         setShowModal(true);
       })
       .catch(() => {
@@ -55,17 +57,22 @@ function ShowIngredient({ navigation, route }) {
             <Text style={styles.modalTitle}>
                 Eliminar ingrediente
             </Text>
+            <Text style={styles.modalTitle}>
+              ¿Estás seguro?
+            </Text>
+            <Text style={styles.modalDescription}>
+              {'Este ingrediente se encuentra en\nlas siguientes recetas:'}
+            </Text>
             <ScrollView>
-              {/* {Object.keys(newIngredientsInventory).map((key, i) =>
-                (!Object.keys(alertIngredients).includes(newIngredientsInventory[key].name)) && (
+              {dependencies.map((recipe, i) =>
+                (
                   <Text
-                    key={i.toString()}
+                    key={i}
                     style={styles.modalText}
                   >
-                    {newIngredientsInventory[key].name}: de {ingredientsInventory[key]} a{' '}
-                    {newIngredientsInventory[key].quantity} {newIngredientsInventory[key].measure}
+                    {recipe.name}
                   </Text>
-                ))} */}
+                ))}
             </ScrollView>
             {/*
             <Text style={styles.modalTitle}>
@@ -101,10 +108,10 @@ function ShowIngredient({ navigation, route }) {
                 }}
               >
                 <Text style={[styles.buttonText, styles.confirmButtonText]}>
-                  Borrar
+                  Confirmar
                 </Text>
               </TouchableOpacity>
-            </View> 
+            </View>
           </View>
         </View>
       </Modal>

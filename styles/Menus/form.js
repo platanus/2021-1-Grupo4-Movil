@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   totalMenuRow: {
     display: 'flex',
     flexDirection: 'row',
-    backgroundColor: colors.black,
+    backgroundColor: colors.kitchengramBlack,
     color: colors.white,
     padding: 15,
     justifyContent: 'space-between',

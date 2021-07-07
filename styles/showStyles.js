@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
   modalText: {
     width: '100%',
     fontSize: 14,
-    color: colors.black,
+    color: colors.kitchengramBlack,
     textAlign: 'center',
     marginVertical: 3,
   },
@@ -187,9 +187,16 @@ const styles = StyleSheet.create({
     width: '100%',
     fontSize: 16,
     fontWeight: 'bold',
-    color: colors.black,
+    color: colors.kitchengramBlack,
     textAlign: 'center',
-    marginBottom: 10,
+    marginBottom: 5,
+  },
+  modalDescription: {
+    width: '100%',
+    fontSize: 16,
+    color: colors.kitchengramBlack,
+    textAlign: 'center',
+    marginBottom: 2,
   },
   modalButtonsContainer: {
     width: '100%',
