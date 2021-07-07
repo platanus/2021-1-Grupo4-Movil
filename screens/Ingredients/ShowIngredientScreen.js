@@ -3,7 +3,6 @@ import {
   View,
   TouchableOpacity,
   Text,
-  Alert,
   Modal,
   ScrollView,
 } from 'react-native';
@@ -22,7 +21,6 @@ function ShowIngredient({ navigation, route }) {
   const getIngredientAssociations = useStoreActions((actions) => actions.getIngredientAssociations);
   const [showModal, setShowModal] = useState(false);
   const [dependencies, setDependencies] = useState([]);
-
 
   function handleSubmitDelete() {
     const body = { id: ingredient.id };
@@ -57,11 +55,8 @@ function ShowIngredient({ navigation, route }) {
             <Text style={styles.modalTitle}>
                 Eliminar ingrediente
             </Text>
-            <Text style={styles.modalTitle}>
-              ¿Estás seguro?
-            </Text>
             <Text style={styles.modalDescription}>
-              {'Este ingrediente se encuentra en\nlas siguientes recetas:'}
+              {'Este ingrediente se encuentra en las siguientes recetas:'}
             </Text>
             <ScrollView>
               {dependencies.map((recipe, i) =>
@@ -74,29 +69,16 @@ function ShowIngredient({ navigation, route }) {
                   </Text>
                 ))}
             </ScrollView>
-            {/*
             <Text style={styles.modalTitle}>
-              {Object.keys(alertIngredients).length > 0 && 'Ingredientes con falta de inventario'}
+              ¿Estás seguro que deseas eliminar este ingrediente?
             </Text>
-            {Object.keys(alertIngredients).length > 0 && (
-              <ScrollView>
-                {Object.keys(alertIngredients).map((key, i) => (
-                  <Text
-                    key={i.toString()}
-                    style={styles.modalText}
-                  >
-                    {`${key}: ${alertIngredients[key].quantity} ${alertIngredients[key].measure}`}
-                  </Text>
-                ))}
-              </ScrollView>
-            )}*/}
             <View style={styles.modalButtonsContainer}>
               <TouchableOpacity
                 style={styles.cancelButton}
                 onPress={() => setShowModal(false)}
               >
                 <Text style={[styles.buttonText, styles.cancelButtonText]}>
-                  Cancelar
+                  No
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -108,7 +90,7 @@ function ShowIngredient({ navigation, route }) {
                 }}
               >
                 <Text style={[styles.buttonText, styles.confirmButtonText]}>
-                  Confirmar
+                  Si, eliminar
                 </Text>
               </TouchableOpacity>
             </View>
@@ -191,13 +173,6 @@ function ShowIngredient({ navigation, route }) {
         <TouchableOpacity
           style={styles.delete}
           onPress={handleGetAssociations}
-          // onPress={() => Alert.alert('¿Estás seguro?', 'Esta acción es irreversible',
-          //   [{ text: 'Cancelar', onPress: () => {}, style: 'default' },
-          //     { text: 'Borrar', onPress: () => {
-          //       handleSubmitDelete();
-          //       navigation.navigate('Ingredientes');
-          //     }, style: 'destructive' }],
-          // )}
         >
           <Text style={styles.deleteText}>
             Borrar

@@ -22,7 +22,6 @@ const ingredientsApi = {
   },
   getIngredientAssociations: (payload) => {
     const url = `${config.endpoints.ingredients.specific}${payload.id}/critical-associations`;
-    console.log(url);
 
     return apiUtils.api({
       method: 'get',

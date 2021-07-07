@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
     maxHeight: '50%',
     minWidth: '90%',
     margin: 20,
-    backgroundColor: 'white',
+    backgroundColor: colors.kitchengramWhite,
     borderRadius: 20,
     padding: 20,
     shadowColor: '#000',
@@ -182,6 +182,7 @@ const styles = StyleSheet.create({
     color: colors.kitchengramBlack,
     textAlign: 'center',
     marginVertical: 3,
+    fontWeight: 'bold',
   },
   modalTitle: {
     width: '100%',
@@ -192,10 +193,10 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   modalDescription: {
-    width: '100%',
+    minWidth: '100%',
     fontSize: 16,
     color: colors.kitchengramBlack,
-    textAlign: 'center',
+    textAlign: 'left',
     marginBottom: 2,
   },
   modalButtonsContainer: {
