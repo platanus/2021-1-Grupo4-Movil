@@ -77,9 +77,16 @@ function Recipes(props) {
 
   if (mounted) {
     return (
-      <Text style={styles.emptyMessage}>
-        Aún no tienes recetas.
-      </Text>
+      <ScrollView style={styles.scroll} refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+        />
+      }>
+        <Text style={styles.emptyMessage}>
+          Aún no tienes recetas.
+        </Text>
+      </ScrollView>
     );
   }
 

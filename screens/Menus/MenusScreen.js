@@ -43,7 +43,7 @@ function Menus({ navigation }) {
       ),
       headerTitle: 'Menus',
     });
-  }, [navigation, menus]);
+  }, [navigation, menus, globalMenus]);
 
   useEffect(() => {
     getMenus()
@@ -85,9 +85,16 @@ function Menus({ navigation }) {
   }
 
   return (mounted) && (
-    <Text style={styles.emptyMessage}>
-      Aún no tienes menús.
-    </Text>
+    <ScrollView style={styles.scroll} refreshControl={
+      <RefreshControl
+        refreshing={refreshing}
+        onRefresh={onRefresh}
+      />
+    }>
+      <Text style={styles.emptyMessage}>
+        Aún no tienes menús.
+      </Text>
+    </ScrollView>
   );
 }
 
