@@ -60,7 +60,6 @@ function ShowMenuOptions(props) {
         setShow={setShowAll}
         dependencies={dependencies}
         handleDelete={deleteElement}
-        navigation={navigation}
         title={isRecipe ? 'Eliminar receta' : 'Eliminar menú'}
         description={'Esta receta se encuentra en los siguientes menús:'}
         sureMessage={isRecipe ? '¿Estás seguro que deseas eliminar esta receta?' :

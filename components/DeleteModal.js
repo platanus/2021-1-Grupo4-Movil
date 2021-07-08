@@ -2,7 +2,7 @@ import { View, Text, Modal, ScrollView, TouchableOpacity } from 'react-native';
 import React from 'react';
 import styles from '../styles/deleteModalStyles';
 
-function DeleteModal({ show, setShow, dependencies, handleDelete, navigation, title, description, sureMessage }) {
+function DeleteModal({ show, setShow, dependencies, handleDelete, title, description, sureMessage }) {
   return (
     <Modal
       visible={show}
@@ -44,7 +44,6 @@ function DeleteModal({ show, setShow, dependencies, handleDelete, navigation, ti
               onPress={() => {
                 setShow(false);
                 handleDelete();
-                navigation.navigate('Ingredientes');
               }}
             >
               <Text style={[styles.buttonText, styles.confirmButtonText]}>
