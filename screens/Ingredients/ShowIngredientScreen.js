@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   TouchableOpacity,
   Text,
-  Alert,
 } from 'react-native';
 import { useStoreActions } from 'easy-peasy';
 import formatMoney from '../../utils/formatMoney';
 import styles from '../../styles/showStyles';
+import DeleteModal from '../../components/DeleteModal';
 
 function ShowIngredient({ navigation, route }) {
   const {
@@ -17,6 +17,9 @@ function ShowIngredient({ navigation, route }) {
   } = route.params;
 
   const deleteIngredient = useStoreActions((actions) => actions.deleteIngredient);
+  const getIngredientAssociations = useStoreActions((actions) => actions.getIngredientAssociations);
+  const [showModal, setShowModal] = useState(false);
+  const [dependencies, setDependencies] = useState([]);
 
   function handleSubmitDelete() {
     const body = { id: ingredient.id };
@@ -29,9 +32,27 @@ function ShowIngredient({ navigation, route }) {
       .catch(() => {
       });
   }
+  function handleGetAssociations() {
+    const body = { id: ingredient.id };
+    getIngredientAssociations(body)
+      .then((res) => {
+        setDependencies(res);
+        setShowModal(true);
+      })
+      .catch(() => {
+      });
+  }
 
   return (
     <View style={styles.container}>
+      <DeleteModal
+        show={showModal}
+        setShow={setShowModal}
+        dependencies={dependencies}
+        handleDelete={handleSubmitDelete}
+        title={'Eliminar ingrediente'}
+        description={'Este ingrediente se encuentra en las siguientes recetas:'}
+        sureMessage={'¿Estás seguro que deseas eliminar este ingrediente?'}/>
       <View style={styles.attributeContainer}>
         <Text style={styles.name}>
           Nombre
@@ -106,13 +127,7 @@ function ShowIngredient({ navigation, route }) {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.delete}
-          onPress={() => Alert.alert('¿Estás seguro?', 'Esta acción es irreversible',
-            [{ text: 'Cancelar', onPress: () => {}, style: 'default' },
-              { text: 'Borrar', onPress: () => {
-                handleSubmitDelete();
-                navigation.navigate('Ingredientes');
-              }, style: 'destructive' }],
-          )}
+          onPress={handleGetAssociations}
         >
           <Text style={styles.deleteText}>
             Borrar

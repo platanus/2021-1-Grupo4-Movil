@@ -147,6 +147,7 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
     fontSize: 16,
   },
+
 });
 
 export default styles;

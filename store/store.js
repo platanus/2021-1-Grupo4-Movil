@@ -169,6 +169,19 @@ const storeThunks = {
 
     return ingredient;
   }),
+  getIngredientAssociations: thunk(async (actions, payload) => {
+    actions.setShowLoadingSpinner();
+    const associations = await ingredientsApi.getIngredientAssociations(payload)
+      .then((res) => res.data.recipes)
+      .catch((err) => {
+        actions.setIngredientsError(err.response.data.message);
+        throw err;
+      });
+    actions.setShowLoadingSpinner();
+
+    return associations;
+  }),
+
   createIngredient: thunk(async (actions, payload) => {
     actions.setShowLoadingSpinner();
     const ingredient = await ingredientsApi.createIngredient(payload)
@@ -268,6 +281,19 @@ const storeThunks = {
         throw err;
       });
     actions.setShowLoadingSpinner();
+  }),
+
+  getRecipeAssociations: thunk(async (actions, payload) => {
+    actions.setShowLoadingSpinner();
+    const associations = await recipesApi.getRecipeAssociations(payload)
+      .then((res) => res.data.menus)
+      .catch((err) => {
+        actions.setDeleteRecipeError(err.response.data.message);
+        throw err;
+      });
+    actions.setShowLoadingSpinner();
+
+    return associations;
   }),
 
   createRecipeStep: thunk(async (actions, payload) => {

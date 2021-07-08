@@ -20,6 +20,15 @@ const ingredientsApi = {
       data: payload.body,
     });
   },
+  getIngredientAssociations: (payload) => {
+    const url = `${config.endpoints.ingredients.specific}${payload.id}/critical-associations`;
+
+    return apiUtils.api({
+      method: 'get',
+      url,
+      data: null,
+    });
+  },
   createIngredient: (payload) => {
     const url = config.endpoints.ingredients.index;
 

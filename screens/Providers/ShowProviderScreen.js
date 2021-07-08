@@ -9,8 +9,8 @@ import { useStoreActions } from 'easy-peasy';
 import BankAccountView from '../../components/BankAccountView';
 
 import styles from '../../styles/showStyles';
-
 import formatMoney from '../../utils/formatMoney';
+import DeleteModal from '../../components/DeleteModal';
 
 function ShowProvider({ navigation, route }) {
   const {
@@ -21,6 +21,8 @@ function ShowProvider({ navigation, route }) {
 
   const deleteProvider = useStoreActions((actions) => actions.deleteProvider);
   const [showBankAccount, setShowBankAccount] = useState(false);
+
+  const [showModal, setShowModal] = useState(false);
 
   function handleSubmitDelete() {
     const body = { id: provider.id };
@@ -37,6 +39,14 @@ function ShowProvider({ navigation, route }) {
   return (
     <>
       <View style={styles.container}>
+        <DeleteModal
+          show={showModal}
+          setShow={setShowModal}
+          dependencies={[]}
+          handleDelete={handleSubmitDelete}
+          title={'Eliminar proveedor'}
+          description={''}
+          sureMessage={'¿Estás seguro que deseas eliminar este proveedor?'}/>
         <View style={styles.attributeContainer}>
           <Text style={styles.name}>
             Nombre
@@ -115,7 +125,7 @@ function ShowProvider({ navigation, route }) {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.delete}
-            onPress={handleSubmitDelete}
+            onPress={() => setShowModal(true)}
           >
             <Text style={styles.deleteText}>
             Borrar

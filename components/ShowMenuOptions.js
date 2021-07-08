@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   TouchableOpacity,
   Text,
-  Alert,
 } from 'react-native';
-
+import { useStoreActions } from 'easy-peasy';
 import styles from '../styles/Recipes/singleRecipe';
+import DeleteModal from './DeleteModal';
 
 function ShowMenuOptions(props) {
   const {
@@ -21,6 +21,10 @@ function ShowMenuOptions(props) {
     isRecipe = false,
   } = props;
 
+  const getRecipeAssociations = useStoreActions((actions) => actions.getRecipeAssociations);
+  const [showModal, setShowModal] = useState(false);
+  const [dependencies, setDependencies] = useState([]);
+
   function deleteElement() {
     deleteApi(element.id)
       .then(() => {
@@ -32,9 +36,34 @@ function ShowMenuOptions(props) {
       });
   }
 
+  function handleGetAssociations() {
+    const body = { id: element.id };
+    getRecipeAssociations(body)
+      .then((res) => {
+        setDependencies(res);
+        setShowModal(true);
+      })
+      .catch(() => {
+      });
+  }
+
+  function setShowAll(condition) {
+    menuVisible(condition);
+    setShowModal(condition);
+  }
+
   return (
 
     <View>
+      <DeleteModal
+        show={showModal}
+        setShow={setShowAll}
+        dependencies={dependencies}
+        handleDelete={deleteElement}
+        title={isRecipe ? 'Eliminar receta' : 'Eliminar menú'}
+        description={'Esta receta se encuentra en los siguientes menús:'}
+        sureMessage={isRecipe ? '¿Estás seguro que deseas eliminar esta receta?' :
+          '¿Estás seguro que deseas eliminar este menú?'}/>
       {(isRecipe) ? (
         <TouchableOpacity style={[styles.menuOption, styles.edit]}
           onPress={() => navigation.navigate(editNavigation, {
@@ -55,13 +84,7 @@ function ShowMenuOptions(props) {
         </TouchableOpacity>
       )}
       <TouchableOpacity style={[styles.menuOption, styles.delete]}
-        onPress={() => Alert.alert('¿Estás seguro?', 'Esta acción es irreversible',
-          [{ text: 'Cancelar', onPress: () => { menuVisible(false); }, style: 'default' },
-            { text: 'Borrar', onPress: () => {
-              deleteElement();
-            }, style: 'destructive' }],
-        )
-        }>
+        onPress={isRecipe ? handleGetAssociations : () => setShowModal(true)}>
         <Text style={styles.delete}>Borrar</Text>
       </TouchableOpacity>
     </View>

@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, ScrollView } from 'react-native';
-
 import { Icon } from 'react-native-elements';
 import { useStoreActions } from 'easy-peasy';
 import colors from '../../styles/appColors';
@@ -21,7 +20,6 @@ function Recipe(props) {
   const [ingredients, setIngredients] = useState([]);
   const deleteRecipe = useStoreActions((actions) => actions.deleteRecipe);
   const [showMenu, setShowMenu] = useState(false);
-  // const setLoadRecipes = useStoreActions((actions) => actions.setLoadRecipes);
 
   const scrollRef = useRef();
 
