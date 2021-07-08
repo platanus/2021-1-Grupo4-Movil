@@ -3,8 +3,10 @@ function calculateRecipePrice(recipe, fromMenu = false) {
   if (fromMenu) {
     sum = recipe.recipeIngredients.data.reduce((result, currentValue) => {
       const currentIngredient = currentValue.attributes;
+      const currentMeasure = currentIngredient.ingredientMeasure ? currentIngredient.ingredientMeasure :
+        currentIngredient.ingredient.measure;
       const measureQty = currentIngredient.ingredient.otherMeasures.data.find((measure =>
-        measure.attributes.name === currentIngredient.ingredientMeasure)).attributes.quantity;
+        measure.attributes.name === currentMeasure)).attributes.quantity;
 
       return (
         result +
@@ -14,8 +16,10 @@ function calculateRecipePrice(recipe, fromMenu = false) {
   } else {
     sum = recipe.attributes.recipeIngredients.data.reduce((result, currentValue) => {
       const currentIngredient = currentValue.attributes;
+      const currentMeasure = currentIngredient.ingredientMeasure ? currentIngredient.ingredientMeasure :
+        currentIngredient.ingredient.measure;
       const measureQty = currentIngredient.ingredient.otherMeasures.data.find((measure =>
-        measure.attributes.name === currentIngredient.ingredientMeasure)).attributes.quantity;
+        measure.attributes.name === currentMeasure)).attributes.quantity;
 
       return (
         result +
