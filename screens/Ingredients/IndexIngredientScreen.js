@@ -244,9 +244,17 @@ function IndexIngredients({ navigation }) {
   }
 
   return (mounted &&
-    <Text style={styles.emptyMessage}>
-      Aún no tienes ingredientes.
-    </Text>
+    <ScrollView
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+        />
+      }>
+      <Text style={styles.emptyMessage}>
+        Aún no tienes ingredientes.
+      </Text>
+    </ScrollView>
   );
 }
 
