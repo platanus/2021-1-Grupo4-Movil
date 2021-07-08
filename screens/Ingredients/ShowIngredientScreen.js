@@ -3,12 +3,11 @@ import {
   View,
   TouchableOpacity,
   Text,
-  Modal,
-  ScrollView,
 } from 'react-native';
 import { useStoreActions } from 'easy-peasy';
 import formatMoney from '../../utils/formatMoney';
 import styles from '../../styles/showStyles';
+import DeleteModal from '../../components/DeleteModal';
 
 function ShowIngredient({ navigation, route }) {
   const {
@@ -46,57 +45,15 @@ function ShowIngredient({ navigation, route }) {
 
   return (
     <View style={styles.container}>
-      <Modal
-        visible={showModal}
-        transparent={true}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalTitle}>
-                Eliminar ingrediente
-            </Text>
-            {(dependencies.length > 0) && (
-              <>
-                <Text style={styles.modalDescription}>
-                  {'Este ingrediente se encuentra en las siguientes recetas:'}
-                </Text>
-                <ScrollView>
-                  {dependencies.map((recipe, i) =>
-                    (<Text
-                      key={i}
-                      style={styles.modalText}>
-                      {recipe.name}
-                    </Text>))}
-                </ScrollView>
-              </>)}
-            <Text style={styles.modalTitle}>
-              ¿Estás seguro que deseas eliminar este ingrediente?
-            </Text>
-            <View style={styles.modalButtonsContainer}>
-              <TouchableOpacity
-                style={styles.cancelButton}
-                onPress={() => setShowModal(false)}
-              >
-                <Text style={[styles.buttonText, styles.cancelButtonText]}>
-                  No
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.confirmButton}
-                onPress={() => {
-                  setShowModal(false);
-                  handleSubmitDelete();
-                  navigation.navigate('Ingredientes');
-                }}
-              >
-                <Text style={[styles.buttonText, styles.confirmButtonText]}>
-                  Sí, eliminar
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-      </Modal>
+      {showModal &&
+      <DeleteModal
+        show={showModal}
+        setShow={setShowModal}
+        dependencies={dependencies}
+        handleDelete={handleSubmitDelete}
+        navigation={navigation}
+        description={'Este ingrediente se encuentra en las siguientes recetas:'}
+        sureMessage={'¿Estás seguro que deseas eliminar este ingrediente?'}/>}
 
       <View style={styles.attributeContainer}>
         <Text style={styles.name}>
