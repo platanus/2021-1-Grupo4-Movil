@@ -85,7 +85,7 @@ function ShowMenuOptions(props) {
         </TouchableOpacity>
       )}
       <TouchableOpacity style={[styles.menuOption, styles.delete]}
-        onPress={isRecipe ? handleGetAssociations : setShowModal(true)}>
+        onPress={isRecipe ? handleGetAssociations : () => setShowModal(true)}>
         <Text style={styles.delete}>Borrar</Text>
       </TouchableOpacity>
     </View>

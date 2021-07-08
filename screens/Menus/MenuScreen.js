@@ -10,6 +10,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Modal,
+  Alert,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import {
@@ -85,8 +86,7 @@ function Menu(props) {
       ),
       headerTitle: menu.attributes.name,
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [navigation, showMenuOptions, menu.attributes.name]);
 
   function reduceInventorySubmit() {
     const newIngredientsInventoryCopy = {};
@@ -118,22 +118,21 @@ function Menu(props) {
     setConfirmReduceInventoryModal(true);
   }
 
-
-  const copyShoppingListToClipboard = () => {
+  function copyShoppingListToClipboard() {
     getShoppingList({ id: menu.id })
       .then((res) => {
         copyList(res);
       })
-      .catch((err) => alert(err))
+      .catch((err) => Alert.alert(err));
   }
 
-  const exportShoppingList = () => {
+  function exportShoppingList() {
     getShoppingList({ id: menu.id })
       .then((res) => {
         createExcel(res);
       })
-      .catch((err) => alert(err))
-  };
+      .catch((err) => Alert.alert(err));
+  }
 
   return (
     <View style={styles.container}>
@@ -287,16 +286,16 @@ function Menu(props) {
           </View>
         ))}
         <View style={styles.infoContainer}>
-        <TouchableOpacity
-          style={styles.shoppingListButton}
-          onPress={() => exportShoppingList()}
-        ><Text style={styles.shoppingListText}>Exportar lista de compras</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.shoppingListButton}
-          onPress={() => copyShoppingListToClipboard()}
-        ><Text style={styles.shoppingListText}>Copiar lista en el portapapeles</Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.shoppingListButton}
+            onPress={() => exportShoppingList()}
+          ><Text style={styles.shoppingListText}>Exportar lista de compras</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.shoppingListButton}
+            onPress={() => copyShoppingListToClipboard()}
+          ><Text style={styles.shoppingListText}>Copiar lista en el portapapeles</Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </View>
