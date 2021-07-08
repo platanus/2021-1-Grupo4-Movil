@@ -283,6 +283,19 @@ const storeThunks = {
     actions.setShowLoadingSpinner();
   }),
 
+  getRecipeAssociations: thunk(async (actions, payload) => {
+    actions.setShowLoadingSpinner();
+    const associations = await recipesApi.getRecipeAssociations(payload)
+      .then((res) => res.data.menus)
+      .catch((err) => {
+        actions.setDeleteRecipeError(err.response.data.message);
+        throw err;
+      });
+    actions.setShowLoadingSpinner();
+
+    return associations;
+  }),
+
   createRecipeStep: thunk(async (actions, payload) => {
     actions.setShowLoadingSpinner();
     const step = await recipesApi.createRecipeStep(payload)

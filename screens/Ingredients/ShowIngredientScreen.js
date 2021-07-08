@@ -45,16 +45,15 @@ function ShowIngredient({ navigation, route }) {
 
   return (
     <View style={styles.container}>
-      {showModal &&
       <DeleteModal
         show={showModal}
         setShow={setShowModal}
         dependencies={dependencies}
         handleDelete={handleSubmitDelete}
         navigation={navigation}
+        title={'Eliminar ingrediente'}
         description={'Este ingrediente se encuentra en las siguientes recetas:'}
-        sureMessage={'¿Estás seguro que deseas eliminar este ingrediente?'}/>}
-
+        sureMessage={'¿Estás seguro que deseas eliminar este ingrediente?'}/>
       <View style={styles.attributeContainer}>
         <Text style={styles.name}>
           Nombre

@@ -47,6 +47,15 @@ const recipesApi = {
       data: null,
     });
   },
+  getRecipeAssociations: (payload) => {
+    const url = `${config.endpoints.recipes.specific}${payload.id}/critical-associations`;
+
+    return apiUtils.api({
+      method: 'get',
+      url,
+      data: null,
+    });
+  },
   createRecipeStep: (payload) => {
     const url = `${config.endpoints.recipes.specific}${payload.id}/${config.endpoints.recipes.steps}`;
 

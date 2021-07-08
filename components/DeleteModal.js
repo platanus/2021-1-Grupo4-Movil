@@ -2,7 +2,7 @@ import { View, Text, Modal, ScrollView, TouchableOpacity } from 'react-native';
 import React from 'react';
 import styles from '../styles/deleteModalStyles';
 
-function DeleteModal({ show, setShow, dependencies, handleDelete, navigation, description, sureMessage }) {
+function DeleteModal({ show, setShow, dependencies, handleDelete, navigation, title, description, sureMessage }) {
   return (
     <Modal
       visible={show}
@@ -11,7 +11,7 @@ function DeleteModal({ show, setShow, dependencies, handleDelete, navigation, de
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
           <Text style={styles.modalTitle}>
-            Eliminar ingrediente
+            {title}
           </Text>
           {(dependencies.length > 0) && (
             <>
