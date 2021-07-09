@@ -21,6 +21,13 @@ function ShowIngredient({ navigation, route }) {
   const [showModal, setShowModal] = useState(false);
   const [dependencies, setDependencies] = useState([]);
 
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      // eslint-disable-next-line react/display-name
+      headerTitle: ingredient.attributes.name,
+    });
+  }, [navigation, ingredient.attributes.name]);
+
   function handleSubmitDelete() {
     const body = { id: ingredient.id };
     deleteIngredient(body)
@@ -105,10 +112,10 @@ function ShowIngredient({ navigation, route }) {
       </View>
       <View style={styles.attributeContainer}>
         <Text style={styles.name}>
-          Inventario
+          Minimo Inventario
         </Text>
         <Text style={styles.value}>
-          {Number(ingredient.attributes.inventory)}
+          {Number(ingredient.attributes.minimumQuantity)}
         </Text>
       </View>
       <View style={styles.buttonsContainer}>
