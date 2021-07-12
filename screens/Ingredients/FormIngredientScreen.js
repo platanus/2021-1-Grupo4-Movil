@@ -32,6 +32,7 @@ function FormIngredient({ navigation, route }) {
         currency: 'CLP',
         providerName: null,
         inventory: 0,
+        minimumQuantity: 0,
       },
     },
     ingredients,
@@ -46,6 +47,7 @@ function FormIngredient({ navigation, route }) {
 
   const [name, setName] = useState(ingredient.attributes.name);
   const [price, setPrice] = useState(ingredient.attributes.price);
+  const [minimumQuantity, setMinimumQuantity] = useState(ingredient.attributes.minimumQuantity);
   const [measures, setMeasures] = useState(isNew ? [{ id: 0, name: '', quantity: '', isNew: true }] :
     ingredient.attributes.otherMeasures.data.map(thisMeasure => ({
       id: thisMeasure.id,
@@ -146,6 +148,7 @@ function FormIngredient({ navigation, route }) {
         ingredientMeasuresAttributes: selectMeasuresToModify(),
         providerName,
         inventory: ingredient.attributes.inventory,
+        minimumQuantity,
       },
     };
 
@@ -173,6 +176,7 @@ function FormIngredient({ navigation, route }) {
         ingredientMeasuresAttributes: selectMeasuresToModify(),
         providerName,
         inventory: ingredient.attributes.inventory,
+        minimumQuantity,
       },
     };
     editIngredient({ body, id: ingredient.id })
@@ -272,6 +276,19 @@ function FormIngredient({ navigation, route }) {
               onChangeText={(text) => setPrice(text)}
             />
           </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputLabel}>
+              Minimo Inventario
+            </Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Minimo inventario ..."
+              keyboardType="number-pad"
+              returnKeyType='done'
+              value={minimumQuantity.toString()}
+              onChangeText={(text) => setMinimumQuantity(text)}
+            />
+          </View>
           <Text style={styles.measureLabel}>
             Unidad por defecto
           </Text>
@@ -322,7 +339,7 @@ function FormIngredient({ navigation, route }) {
           onPress={(isNew) ? handleSubmitNew : handleSubmitEdit}
         >
           <Text style={[styles.buttonText, styles.confirmText]}>
-            {isNew ? 'Crear ingrediente' : 'Editar ingrediente'}
+            {isNew ? 'Crear ingrediente' : 'Guardar'}
           </Text>
         </TouchableOpacity>
       </View>
