@@ -93,12 +93,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 
-  arrowIcon: {
-    position: 'absolute',
-    top: '45%',
-    left: '87%',
-  },
-
   buttonsContainer: {
     paddingHorizontal: '5%',
     height: 65,

@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import colors from './appColors';
 
 const pickers = {
@@ -40,7 +41,8 @@ const pickers = {
       right: 15,
     },
     iconContainer: {
-      top: 5,
+      top: Platform.OS === 'ios' ? '17%' : 0,
+      right: 3,
     },
   },
   providerPicker: {

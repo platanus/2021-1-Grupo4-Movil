@@ -253,14 +253,12 @@ function FormIngredient({ navigation, route }) {
                   value={providerName}
                   onValueChange={(value) => setProviderName(value)}
                   items={providersNames}
+                  Icon={() =>
+                    <Icon name='chevron-down'
+                      size={25}
+                      color={colors.kitchengramGray600}/>}
                 />
-
               </View>
-              <Icon name='chevron-down'
-                size={30}
-                color={colors.kitchengramGray600}
-                style={styles.arrowIcon}
-              />
             </View>
           )}
           <View style={styles.inputContainer}>

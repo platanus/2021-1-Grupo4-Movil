@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 import colors from '../appColors';
 
 const styles = StyleSheet.create({
@@ -52,12 +52,12 @@ const styles = StyleSheet.create({
     backgroundColor: colors.kitchengramWhite,
     borderColor: colors.kitchengramGray600,
     maxWidth: '100%',
-    marginLeft: 3,
     borderRadius: 5,
     paddingHorizontal: 10,
   },
   quantityInput: {
     width: '60%',
+    paddingTop: Platform.OS === 'ios' ? 0 : '2%',
   },
   nameMeasureInput: {
     width: '35%',
