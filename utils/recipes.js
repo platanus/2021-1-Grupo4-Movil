@@ -6,7 +6,11 @@ function minutesToHoursText(minutes) {
   const minutesText = (minutesLeft === 1) ? 'minuto' : 'minutos';
 
   if (hours) {
-    return (`${hours} ${hoursText} ${minutesLeft} ${minutesText}`);
+    if (minutesLeft) {
+      return (`${hours} ${hoursText} ${minutesLeft} ${minutesText}`);
+    }
+
+    return (`${hours} ${hoursText}`);
   }
 
   return (`${minutesLeft} ${minutesText}`);

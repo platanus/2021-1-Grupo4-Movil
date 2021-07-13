@@ -72,7 +72,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     paddingLeft: 15,
     paddingRight: 15,
-    fontWeight: 'bold',
     fontStyle: 'normal',
     color: colors.kitchengramBlack,
   },
