@@ -214,7 +214,7 @@ function Menu(props) {
               {Object.keys(alertIngredients).length > 0 && 'Ingredientes con falta de inventario'}
             </Text>
             <Text style={styles.modalSubtitle}>
-              {Object.keys(alertIngredients).length > 0 && 'Se reducirán quedando en 0'}
+              {Object.keys(alertIngredients).length > 0 && 'Quedarán con inventario 0'}
             </Text>
             {Object.keys(alertIngredients).length > 0 && (
               <ScrollView>
