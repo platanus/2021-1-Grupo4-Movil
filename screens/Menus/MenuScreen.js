@@ -104,14 +104,16 @@ function Menu(props) {
           newInventory = ingredientsInventory[id] - ingredient.attributes.ingredientQuantity;
         }
         newIngredientsInventoryCopy[id] = {
-          quantity: newInventory,
+          // eslint-disable-next-line no-magic-numbers
+          quantity: Math.round(newInventory * 100) / 100,
           measure: ingredient.attributes.ingredient.measure,
           name: ingredient.attributes.ingredient.name,
         };
         if (newInventory < 0) {
           alertIngredientsCopy[ingredient.attributes.ingredient.name] = {
             id,
-            quantity: Math.abs(newInventory),
+            // eslint-disable-next-line no-magic-numbers
+            quantity: Math.abs(Math.round(newInventory * 100) / 100),
             measure: ingredient.attributes.ingredient.measure,
           };
         }
