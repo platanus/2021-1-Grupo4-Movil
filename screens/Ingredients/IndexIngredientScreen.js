@@ -20,15 +20,18 @@ import {
   useStoreState,
 } from 'easy-peasy';
 import Icon from 'react-native-vector-icons/Ionicons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import styles from '../../styles/Ingredients/indexStyles';
 import colors from '../../styles/appColors';
 import formatMoney from '../../utils/formatMoney';
+import InventoryModal from '../../components/InventoryModal';
 
 function IndexIngredients({ navigation }) {
   const getIngredients = useStoreActions((actions) => actions.getIngredients);
   const updateInventory = useStoreActions((actions) => actions.updateInventory);
   const setIngredientsInventory = useStoreActions((actions) => actions.setIngredientsInventory);
   const ingredientsInventory = useStoreState((state) => state.ingredientsInventory);
+  const [showModal, setShowModal] = useState(false);
 
   const [ingredients, setIngredients] = useState([]);
   const evenNumber = 2;
@@ -107,10 +110,16 @@ function IndexIngredients({ navigation }) {
     // eslint-disable-next-line react/display-name
       headerRight: () => (
         <View style={styles.row}>
+          <FontAwesome name='bell-o'
+            size={26}
+            color={colors.kitchengramWhite}
+            style={{ paddingRight: 15 }}
+            onPress={() =>
+              setShowModal(true)}/>
           <Icon name='list'
             size={30}
             color={colors.kitchengramWhite}
-            style={{ paddingRight: 20 }}
+            style={{ paddingRight: 15 }}
             onPress={() => navigation.navigate('Inventario Ingrediente', {
               ingredients,
             })}/>
@@ -142,6 +151,12 @@ function IndexIngredients({ navigation }) {
   if (mounted && ingredients.length) {
     return (
       <View style={styles.container}>
+        <InventoryModal
+          show={showModal}
+          setShow={setShowModal}
+          dependencies={ingredients}
+          title={'Alerta Inventario Ingredientes'}
+          description={'Ingredientes Quiebre de stock'}/>
         <ScrollView
           refreshControl={
             <RefreshControl
