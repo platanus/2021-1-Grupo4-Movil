@@ -60,6 +60,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+  modalButtonsContainer2: {
+    width: '60%',
+    height: 35,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    marginTop: '5%',
+  },
   cancelButton: {
     minWidth: '48%',
     height: '100%',
@@ -76,6 +84,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: colors.kitchengramRed500,
+    borderRadius: 5,
+  },
+  confirmButton2: {
+    minWidth: '48%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.kitchengramGreen500,
     borderRadius: 5,
   },
 
