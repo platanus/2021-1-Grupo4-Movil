@@ -154,8 +154,8 @@ function IndexIngredients({ navigation }) {
           show={showModal}
           setShow={setShowModal}
           dependencies={ingredients}
-          title={'Alerta Inventario'}
-          description={'Ingredientes con quiebre de stock'}/>
+          title={'Alerta Inventario Ingredientes'}
+          description={'Ingredientes Quiebre de stock'}/>
         <ScrollView
           refreshControl={
             <RefreshControl
