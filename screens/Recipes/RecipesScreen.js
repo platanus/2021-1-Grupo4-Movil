@@ -14,7 +14,7 @@ function Recipes(props) {
   const getRecipes = useStoreActions((actions) => actions.getRecipes);
   const setChargeMenus = useStoreActions((actions) => actions.setChargeMenus);
   const setChargeRecipes = useStoreActions((actions) => actions.setChargeRecipes);
-  const chargeRecipes = useStoreState((state) => state.setChargeMenus);
+  const chargeRecipes = useStoreState((state) => state.chargeRecipes);
   const [recipes, setRecipes] = useState([]);
   const [, setShowError] = useState(false);
   const [, setErrorMessage] = useState('');

@@ -231,15 +231,16 @@ const storeThunks = {
 
     return ingredients;
   }),
-  getRecipes: thunk(async (actions, payload) => {
-    actions.setShowLoadingSpinner();
+  getRecipes: thunk(async (actions, payload, { getStoreState }) => {
+    const state = getStoreState();
+    if (!state.chargeRecipes) actions.setShowLoadingSpinner();
     const recipes = await recipesApi.getRecipes(payload)
       .then((res) => res.data.data)
       .catch((err) => {
         actions.setGetRecipesError(err.response.data.message);
         throw err;
       });
-    actions.setShowLoadingSpinner();
+    if (!state.chargeRecipes) actions.setShowLoadingSpinner();
 
     return recipes;
   }),
@@ -342,15 +343,16 @@ const storeThunks = {
 
     return resp;
   }),
-  getMenus: thunk(async (actions, payload) => {
-    actions.setShowLoadingSpinner();
+  getMenus: thunk(async (actions, payload, { getStoreState }) => {
+    const state = getStoreState();
+    if (!state.chargeMenus) actions.setShowLoadingSpinner();
     const menus = await menusApi.getMenus(payload)
       .then((res) => res.data.data)
       .catch((err) => {
         actions.setMenusError(err.response.data.message);
         throw err;
       });
-    actions.setShowLoadingSpinner();
+    if (!state.chargeMenus) actions.setShowLoadingSpinner();
 
     return menus;
   }),
@@ -415,15 +417,16 @@ const storeThunks = {
 
     return shoppingList.data;
   }),
-  getProviders: thunk(async (actions, payload) => {
-    actions.setShowLoadingSpinner();
+  getProviders: thunk(async (actions, payload, { getStoreState }) => {
+    const state = getStoreState();
+    if (!state.chargeProviders) actions.setShowLoadingSpinner();
     const providers = await providersApi.getProviders(payload)
       .then((res) => res.data.data)
       .catch((err) => {
         actions.setProvidersError(err.response.data.message);
         throw err;
       });
-    actions.setShowLoadingSpinner();
+    if (!state.chargeProviders) actions.setShowLoadingSpinner();
 
     return providers;
   }),
