@@ -422,7 +422,12 @@ const storeThunks = {
   createProvider: thunk(async (actions, payload) => {
     actions.setShowLoadingSpinner();
     const provider = await providersApi.createProvider(payload)
-      .then((res) => res.data.data);
+      .then((res) => res.data.data)
+      .catch((err) => {
+        actions.setProvidersError(err.response.data.message);
+        actions.setShowLoadingSpinner();
+        throw err;
+      });
     actions.setShowLoadingSpinner();
 
     return provider;
@@ -441,6 +446,7 @@ const storeThunks = {
     await providersApi.editProvider(payload)
       .catch((err) => {
         actions.setProvidersError(err.response.data.message);
+        actions.setShowLoadingSpinner();
         throw err;
       });
     actions.setShowLoadingSpinner();

@@ -119,6 +119,8 @@ function Menu(props) {
   }
 
   function copyShoppingListToClipboard() {
+    if (!(menu.attributes.menuRecipes.data > 0)) return;
+
     getShoppingList({ id: menu.id })
       .then((res) => {
         copyList(res);
@@ -127,6 +129,8 @@ function Menu(props) {
   }
 
   function exportShoppingList() {
+    if (!(menu.attributes.menuRecipes.data > 0)) return;
+
     getShoppingList({ id: menu.id })
       .then((res) => {
         createExcel(res);
