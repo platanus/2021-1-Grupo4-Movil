@@ -21,6 +21,16 @@ const sessionsApi = {
       data: payload,
     });
   },
+
+  changePassword: (payload) => {
+    const url = config.endpoints.users.password;
+
+    return apiUtils.api({
+      method: 'post',
+      url,
+      data: payload,
+    });
+  },
 };
 export default sessionsApi;
 

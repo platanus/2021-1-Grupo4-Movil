@@ -5,6 +5,7 @@ const config = {
     users: {
       createUser: `${API_VERSION}/users/registrations`,
       logIn: `${API_VERSION}/users/sessions`,
+      password: `${API_VERSION}/users/change-password`,
     },
     ingredients: {
       index: `${API_VERSION}/ingredients`,

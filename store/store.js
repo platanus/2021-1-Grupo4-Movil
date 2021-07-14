@@ -10,6 +10,7 @@ const storeState = {
   currentUser: null,
   loginError: '',
   signUpError: '',
+  changePasswordError: '',
   ingredientsError: '',
   loginView: true,
   recipes: {
@@ -46,6 +47,9 @@ const storeActions = {
   }),
   setSignUpError: action((state, payload) => {
     state.signUpError = payload;
+  }),
+  setChangePasswordError: action((state, payload) => {
+    state.changePasswordError = payload;
   }),
   setLoginView: action((state, payload) => {
     state.loginView = payload;
@@ -133,6 +137,14 @@ const storeThunks = {
         actions.setLoginView(true);
       }).catch((error) => {
         actions.setSignUpError(error.response.data.message);
+      });
+    actions.setShowLoadingSpinner();
+  }),
+  changePassword: thunk(async (actions, payload) => {
+    actions.setShowLoadingSpinner();
+    await sessionsApi.changePassword(payload)
+      .catch((error) => {
+        actions.setChangePasswordError(error.response.data.message);
       });
     actions.setShowLoadingSpinner();
   }),
