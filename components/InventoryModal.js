@@ -1,4 +1,3 @@
-
 import { View, Text, Modal, ScrollView, TouchableOpacity } from 'react-native';
 import React from 'react';
 import styles from '../styles/deleteModalStyles';
@@ -25,7 +24,7 @@ function InventoryModal({ show, setShow, dependencies, title, description }) {
                   (<Text
                     key={i}
                     style={styles.modalText}>
-                    {`${ingredient.attributes.name}  ${ingredient.attributes.inventory}` + 
+                    {`${ingredient.attributes.name}  ${ingredient.attributes.inventory}` +
                     ` / ${ingredient.attributes.minimumQuantity} un.`}
                   </Text>)))}
               </ScrollView>
