@@ -20,6 +20,7 @@ import {
   useStoreState,
 } from 'easy-peasy';
 import Icon from 'react-native-vector-icons/Ionicons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import styles from '../../styles/Ingredients/indexStyles';
 import colors from '../../styles/appColors';
 import formatMoney from '../../utils/formatMoney';
@@ -109,8 +110,8 @@ function IndexIngredients({ navigation }) {
     // eslint-disable-next-line react/display-name
       headerRight: () => (
         <View style={styles.row}>
-          <Icon name='alert-circle-outline'
-            size={30}
+          <FontAwesome name='bell-o'
+            size={26}
             color={colors.kitchengramWhite}
             style={{ paddingRight: 15 }}
             onPress={() =>
