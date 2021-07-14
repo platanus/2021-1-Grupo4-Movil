@@ -1,7 +1,10 @@
 /* eslint-disable max-statements */
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { Text, ScrollView, RefreshControl } from 'react-native';
-import { useStoreActions } from 'easy-peasy';
+import {
+  useStoreActions,
+  useStoreState,
+} from 'easy-peasy';
 import Icon from 'react-native-vector-icons/Ionicons';
 import RecipeRow from '../../components/recipeRow';
 import styles from '../../styles/Recipes/indexStyles';
@@ -9,6 +12,9 @@ import styles from '../../styles/Recipes/indexStyles';
 function Recipes(props) {
   const { navigation } = props;
   const getRecipes = useStoreActions((actions) => actions.getRecipes);
+  const setChargeMenus = useStoreActions((actions) => actions.setChargeMenus);
+  const setChargeRecipes = useStoreActions((actions) => actions.setChargeRecipes);
+  const chargeRecipes = useStoreState((state) => state.setChargeMenus);
   const [recipes, setRecipes] = useState([]);
   const [, setShowError] = useState(false);
   const [, setErrorMessage] = useState('');
@@ -38,6 +44,29 @@ function Recipes(props) {
       });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    setChargeMenus();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [recipes]);
+
+  useEffect(() => {
+    if (chargeRecipes) {
+      getRecipes()
+        .then((res) => {
+          setChargeRecipes();
+          setRecipes(res);
+        })
+        .catch((err) => {
+          setShowError(true);
+          setErrorMessage(err);
+        })
+        .finally(() => {
+          setMounted(true);
+        });
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chargeRecipes]);
 
   useLayoutEffect(() => {
     navigation.setOptions({

@@ -156,10 +156,20 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginVertical: 3,
   },
+  bold: {
+    fontWeight: '600',
+  },
   modalTitle: {
     width: '100%',
     fontSize: 16,
     fontWeight: 'bold',
+    color: colors.kitchengramBlack,
+    textAlign: 'center',
+    marginBottom: 2,
+  },
+  modalSubtitle: {
+    width: '100%',
+    fontSize: 15,
     color: colors.kitchengramBlack,
     textAlign: 'center',
     marginBottom: 10,

@@ -285,7 +285,7 @@ function FormIngredient({ navigation, route }) {
               placeholder="Minimo inventario ..."
               keyboardType="number-pad"
               returnKeyType='done'
-              value={minimumQuantity.toString()}
+              value={(minimumQuantity) && minimumQuantity.toString()}
               onChangeText={(text) => setMinimumQuantity(text)}
             />
           </View>

@@ -27,6 +27,8 @@ const storeState = {
   },
   menusError: '',
   providersError: '',
+  chargeRecipes: false,
+  chargeMenus: false,
   chargeProviders: false,
   showLoadingSpinner: false,
   ingredientsInventory: {},
@@ -99,6 +101,12 @@ const storeActions = {
   }),
   setLoadRecipes: action((state, payload) => {
     state.recipes.load = payload;
+  }),
+  setChargeRecipes: action((state) => {
+    state.chargeRecipes = !state.chargeRecipes;
+  }),
+  setChargeMenus: action((state) => {
+    state.chargeMenus = !state.chargeMenus;
   }),
   setChargeProviders: action((state) => {
     state.chargeProviders = !state.chargeProviders;

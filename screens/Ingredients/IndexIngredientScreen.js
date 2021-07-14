@@ -29,6 +29,7 @@ function IndexIngredients({ navigation }) {
   const updateInventory = useStoreActions((actions) => actions.updateInventory);
   const setIngredientsInventory = useStoreActions((actions) => actions.setIngredientsInventory);
   const ingredientsInventory = useStoreState((state) => state.ingredientsInventory);
+  const setChargeRecipes = useStoreActions((actions) => actions.setChargeRecipes);
 
   const [ingredients, setIngredients] = useState([]);
   const evenNumber = 2;
@@ -86,6 +87,11 @@ function IndexIngredients({ navigation }) {
       });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    setChargeRecipes();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ingredients]);
 
   useEffect(() => {
     if (ingredients.length > 0) {
