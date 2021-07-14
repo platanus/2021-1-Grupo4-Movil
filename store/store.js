@@ -120,7 +120,11 @@ const storeThunks = {
         actions.setLoginError('');
         actions.setLoginView(true);
       }).catch((error) => {
-        actions.setLoginError(error.response.data.message);
+        try {
+          actions.setLoginError(error.response.data.message);
+        } catch (error2) {
+          actions.setLoginError('hubo un problema de red');
+        }
       });
     actions.setShowLoadingSpinner();
   }),
@@ -132,7 +136,11 @@ const storeThunks = {
         actions.setSignUpError('');
         actions.setLoginView(true);
       }).catch((error) => {
-        actions.setSignUpError(error.response.data.message);
+        try {
+          actions.setSignUpError(error.response.data.message);
+        } catch (error2) {
+          actions.setSignUpError('hubo un problema de red');
+        }
       });
     actions.setShowLoadingSpinner();
   }),
@@ -142,6 +150,7 @@ const storeThunks = {
       .then((res) => res.data.data)
       .catch((err) => {
         actions.setIngredientsError(err.response.data.message);
+        actions.setShowLoadingSpinner();
         throw err;
       });
     actions.setShowLoadingSpinner();
@@ -153,6 +162,7 @@ const storeThunks = {
     await ingredientsApi.updateInventory(payload)
       .catch((err) => {
         actions.setIngredientsError(err.response.data.message);
+        actions.setShowLoadingSpinner();
         throw err;
       });
     actions.setShowLoadingSpinner();
@@ -163,6 +173,7 @@ const storeThunks = {
       .then((res) => res.data.data)
       .catch((err) => {
         actions.setIngredientsError(err.response.data.message);
+        actions.setShowLoadingSpinner();
         throw err;
       });
     actions.setShowLoadingSpinner();
@@ -175,6 +186,7 @@ const storeThunks = {
       .then((res) => res.data.recipes)
       .catch((err) => {
         actions.setIngredientsError(err.response.data.message);
+        actions.setShowLoadingSpinner();
         throw err;
       });
     actions.setShowLoadingSpinner();
@@ -188,6 +200,7 @@ const storeThunks = {
       .then((res) => res.data.data)
       .catch((err) => {
         actions.setIngredientsError(err.response.data.message);
+        actions.setShowLoadingSpinner();
         throw err;
       });
     actions.setShowLoadingSpinner();
@@ -199,6 +212,7 @@ const storeThunks = {
     await ingredientsApi.editIngredient(payload)
       .catch((err) => {
         actions.setIngredientsError(err.response.data.message);
+        actions.setShowLoadingSpinner();
         throw err;
       });
     actions.setShowLoadingSpinner();
@@ -208,6 +222,7 @@ const storeThunks = {
     await ingredientsApi.deleteIngredient(payload)
       .catch((err) => {
         actions.setIngredientsError(err.response.data.message);
+        actions.setShowLoadingSpinner();
         throw err;
       });
     actions.setShowLoadingSpinner();
@@ -229,6 +244,7 @@ const storeThunks = {
       .then((res) => res.data.data)
       .catch((err) => {
         actions.setGetRecipesError(err.response.data.message);
+        actions.setShowLoadingSpinner();
         throw err;
       });
     actions.setShowLoadingSpinner();
@@ -241,6 +257,7 @@ const storeThunks = {
       .then((res) => res.data.data)
       .catch((err) => {
         actions.setGetRecipesError(err.response.data.message);
+        actions.setShowLoadingSpinner();
         throw err;
       });
     actions.setShowLoadingSpinner();
@@ -253,6 +270,7 @@ const storeThunks = {
       .then((resp) => resp.data.data)
       .catch((err) => {
         actions.setCreateRecipeError(err.response.data.message);
+        actions.setShowLoadingSpinner();
         throw err;
       });
     actions.setShowLoadingSpinner();
@@ -264,8 +282,8 @@ const storeThunks = {
     await recipesApi.editRecipe(payload)
       .then((resp) => resp.data)
       .catch((err) => {
-        actions.setEditRecipeError(err.response.data.message);
-
+        actions.setCreateRecipeError(err.response.data.message);
+        actions.setShowLoadingSpinner();
         throw err;
       });
     actions.setShowLoadingSpinner();
@@ -278,6 +296,7 @@ const storeThunks = {
       })
       .catch((err) => {
         actions.setDeleteRecipeError(err);
+        actions.setShowLoadingSpinner();
         throw err;
       });
     actions.setShowLoadingSpinner();
@@ -289,6 +308,7 @@ const storeThunks = {
       .then((res) => res.data.menus)
       .catch((err) => {
         actions.setDeleteRecipeError(err.response.data.message);
+        actions.setShowLoadingSpinner();
         throw err;
       });
     actions.setShowLoadingSpinner();
@@ -301,8 +321,8 @@ const storeThunks = {
     const step = await recipesApi.createRecipeStep(payload)
       .then((resp) => resp.data.data)
       .catch((err) => {
-        actions.setEditRecipeError(err.response.data.message);
-
+        actions.setCreateRecipeError(err.response.data.message);
+        actions.setShowLoadingSpinner();
         throw err;
       });
     actions.setShowLoadingSpinner();
@@ -314,8 +334,8 @@ const storeThunks = {
     const step = await recipesApi.editRecipeStep(payload)
       .then((resp) => resp.data)
       .catch((err) => {
-        actions.setEditRecipeError(err.response.data.message);
-
+        actions.setCreateRecipeError(err.response.data.message);
+        actions.setShowLoadingSpinner();
         throw err;
       });
     actions.setShowLoadingSpinner();
@@ -327,7 +347,8 @@ const storeThunks = {
     const resp = await recipesApi.deleteRecipeStep(payload)
       .then((res) => res.data)
       .catch((err) => {
-        actions.setEditRecipeError(err);
+        actions.setCreateRecipeError(err);
+        actions.setShowLoadingSpinner();
         throw err;
       });
     actions.setShowLoadingSpinner();
@@ -340,6 +361,7 @@ const storeThunks = {
       .then((res) => res.data.data)
       .catch((err) => {
         actions.setMenusError(err.response.data.message);
+        actions.setShowLoadingSpinner();
         throw err;
       });
     actions.setShowLoadingSpinner();
@@ -352,6 +374,7 @@ const storeThunks = {
       .then((res) => res.data.data)
       .catch((err) => {
         actions.setMenusError(err.response.data.message);
+        actions.setShowLoadingSpinner();
         throw err;
       });
 
@@ -364,6 +387,7 @@ const storeThunks = {
     await menusApi.deleteMenu(payload)
       .catch((err) => {
         actions.setMenusError(err);
+        actions.setShowLoadingSpinner();
         throw err;
       });
     actions.setShowLoadingSpinner();
@@ -374,6 +398,7 @@ const storeThunks = {
       .then((resp) => resp.data)
       .catch((err) => {
         actions.setMenusError(err.response.data.message);
+        actions.setShowLoadingSpinner();
         throw err;
       });
     actions.setShowLoadingSpinner();
@@ -386,6 +411,7 @@ const storeThunks = {
       .then((resp) => resp.data)
       .catch((err) => {
         actions.setMenusError(err.response.data.message);
+        actions.setShowLoadingSpinner();
         throw err;
       });
     actions.setShowLoadingSpinner();
@@ -397,13 +423,20 @@ const storeThunks = {
     await menusApi.reduceInventory(payload)
       .catch((err) => {
         actions.setMenusError(err.response.data.message);
+        actions.setShowLoadingSpinner();
         throw err;
       });
     actions.setShowLoadingSpinner();
   }),
 
-  getShoppingList: thunk(async (_, payload) => {
-    const shoppingList = await menusApi.shoppingList(payload);
+  getShoppingList: thunk(async (actions, payload) => {
+    actions.setShowLoadingSpinner();
+    const shoppingList = await menusApi.shoppingList(payload)
+      .catch((err) => {
+        actions.setShowLoadingSpinner();
+        throw err;
+      });
+    actions.setShowLoadingSpinner();
 
     return shoppingList.data;
   }),
@@ -413,6 +446,7 @@ const storeThunks = {
       .then((res) => res.data.data)
       .catch((err) => {
         actions.setProvidersError(err.response.data.message);
+        actions.setShowLoadingSpinner();
         throw err;
       });
     actions.setShowLoadingSpinner();
@@ -422,7 +456,12 @@ const storeThunks = {
   createProvider: thunk(async (actions, payload) => {
     actions.setShowLoadingSpinner();
     const provider = await providersApi.createProvider(payload)
-      .then((res) => res.data.data);
+      .then((res) => res.data.data)
+      .catch((err) => {
+        actions.setProvidersError(err.response.data.message);
+        actions.setShowLoadingSpinner();
+        throw err;
+      });
     actions.setShowLoadingSpinner();
 
     return provider;
@@ -432,6 +471,7 @@ const storeThunks = {
     await providersApi.deleteProvider(payload)
       .catch((err) => {
         actions.setProvidersError(err.response.data.message);
+        actions.setShowLoadingSpinner();
         throw err;
       });
     actions.setShowLoadingSpinner();
@@ -441,6 +481,7 @@ const storeThunks = {
     await providersApi.editProvider(payload)
       .catch((err) => {
         actions.setProvidersError(err.response.data.message);
+        actions.setShowLoadingSpinner();
         throw err;
       });
     actions.setShowLoadingSpinner();
