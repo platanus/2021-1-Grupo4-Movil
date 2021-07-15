@@ -62,8 +62,8 @@ const styles = StyleSheet.create({
 
   buttonsContainer: {
     width: '100%',
-    height: 75,
-    flexDirection: 'row',
+    height: 100,
+    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: '5%',
@@ -77,6 +77,14 @@ const styles = StyleSheet.create({
     height: '100%',
     borderRadius: 5,
     backgroundColor: colors.kitchengramGray800,
+  },
+
+  saveButtonContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    height: '100%',
+    paddingBottom: 20,
   },
 
   saveButton: {

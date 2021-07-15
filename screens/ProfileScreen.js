@@ -14,8 +14,9 @@ function Profile() {
   const [hideNewPasswords, setHideNewPasswords] = useState(true);
 
   function handleChangePassword() {
-    if (!password || !passwordConfirmation) {
-      Alert.alert('Debes llenar todos los campos');
+    const PASSWORD_LENGTH = 6;
+    if (password.length < PASSWORD_LENGTH || passwordConfirmation.length < PASSWORD_LENGTH) {
+      Alert.alert('La contraseña debe tener al menos 6 carácteres');
 
       return;
     }
@@ -91,15 +92,17 @@ function Profile() {
               onPress={() => setHideNewPasswords(!hideNewPasswords)}/>
           </View>
           <View style={styles.buttonsContainer}>
+            <View style={styles.saveButtonContainer}>
+              <TouchableOpacity
+                style={styles.saveButton}
+                onPress={handleChangePassword}>
+                <Text style={styles.buttonsText}>Guardar</Text>
+              </TouchableOpacity>
+            </View>
             <TouchableOpacity
               style={styles.sessionButton}
               onPress={() => logout()}>
               <Text style={styles.buttonsText}>Cerrar sesión</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.saveButton}
-              onPress={handleChangePassword}>
-              <Text style={styles.buttonsText}>Guardar</Text>
             </TouchableOpacity>
           </View>
         </View>
