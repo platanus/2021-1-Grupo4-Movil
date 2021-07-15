@@ -145,6 +145,8 @@ const storeThunks = {
     await sessionsApi.changePassword(payload)
       .catch((error) => {
         actions.setChangePasswordError(error.response.data.message);
+        actions.setShowLoadingSpinner();
+        throw error;
       });
     actions.setShowLoadingSpinner();
   }),

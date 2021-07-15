@@ -71,12 +71,13 @@ const styles = StyleSheet.create({
   },
 
   sessionButton: {
+    backgroundColor: colors.kitchengramGray800,
+    padding: 12,
+    borderRadius: 5,
+    width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-    width: '48%',
-    height: '100%',
-    borderRadius: 5,
-    backgroundColor: colors.kitchengramGray800,
+    marginTop: 10,
   },
 
   saveButtonContainer: {
@@ -84,16 +85,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '100%',
     height: '100%',
-    paddingBottom: 20,
   },
 
   saveButton: {
+    backgroundColor: colors.kitchengramGreen500,
+    padding: 12,
+    borderRadius: 5,
+    width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-    width: '48%',
-    height: '100%',
-    borderRadius: 5,
-    backgroundColor: colors.kitchengramGreen500,
+    marginTop: 10,
   },
 
   buttonsText: {
