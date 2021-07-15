@@ -1,6 +1,6 @@
 /* eslint-disable max-statements */
 import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { Text, ScrollView, RefreshControl } from 'react-native';
+import { Text, ScrollView, RefreshControl, View } from 'react-native';
 import {
   useStoreActions,
   useStoreState,
@@ -8,6 +8,7 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 import RecipeRow from '../../components/recipeRow';
 import styles from '../../styles/Recipes/indexStyles';
+import SearchElements from '../../components/searchElementsAndFilter';
 
 function Recipes(props) {
   const { navigation } = props;
@@ -20,6 +21,7 @@ function Recipes(props) {
   const [, setErrorMessage] = useState('');
   const [mounted, setMounted] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
+  const [recipesToShow, setRecipesToShow] = useState([]);
 
   function onRefresh() {
     setRefreshing(true);
@@ -85,22 +87,28 @@ function Recipes(props) {
 
   if (mounted && recipes.length) {
     return (
-      <ScrollView style={styles.scroll} refreshControl={
-        <RefreshControl
-          refreshing={refreshing}
-          onRefresh={onRefresh}
-        />
-      }>
-        {recipes.map((recipe) => (
-          <RecipeRow
-            key={recipe.id}
-            recipe={recipe}
-            navigation={navigation}
-            recipes={recipes}
-            setRecipes={setRecipes}
+      <View style={styles.whiteContainer}>
+        <SearchElements
+          elements={recipes}
+          setFilteredElements={setRecipesToShow}
+          elementName='Receta'/>
+        <ScrollView style={styles.scroll} refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
           />
-        ))}
-      </ScrollView>
+        }>
+          {recipesToShow.map((recipe) => (
+            <RecipeRow
+              key={recipe.id}
+              recipe={recipe}
+              navigation={navigation}
+              recipes={recipes}
+              setRecipes={setRecipes}
+            />
+          ))}
+        </ScrollView>
+      </View>
     );
   }
 

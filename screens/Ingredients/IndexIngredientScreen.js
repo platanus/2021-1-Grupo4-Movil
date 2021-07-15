@@ -25,6 +25,7 @@ import styles from '../../styles/Ingredients/indexStyles';
 import colors from '../../styles/appColors';
 import formatMoney from '../../utils/formatMoney';
 import InventoryModal from '../../components/InventoryModal';
+import SearchElements from '../../components/searchElementsAndFilter';
 
 function IndexIngredients({ navigation }) {
   const getIngredients = useStoreActions((actions) => actions.getIngredients);
@@ -39,6 +40,7 @@ function IndexIngredients({ navigation }) {
   const [mounted, setMounted] = useState(false);
   const [editableInventories, setEditableInventories] = useState({});
   const [refreshing, setRefreshing] = useState(false);
+  const [ingredientsToShow, setIngredientsToShow] = useState([]);
 
   function inventoryModifier(event, ingId) {
     if (event >= 0) {
@@ -163,6 +165,10 @@ function IndexIngredients({ navigation }) {
           dependencies={ingredients}
           title={'Alerta Inventario Ingredientes'}
           description={'Ingredientes Quiebre de stock'}/>
+        <SearchElements
+          elements={ingredients}
+          setFilteredElements={setIngredientsToShow}
+          elementName='Ingrediente'/>
         <ScrollView
           refreshControl={
             <RefreshControl
@@ -170,7 +176,7 @@ function IndexIngredients({ navigation }) {
               onRefresh={onRefresh}
             />
           }>
-          {ingredients.map((ingredient, i) => (
+          {ingredientsToShow.map((ingredient, i) => (
             <TouchableOpacity
               style={[styles.ingredientRow, (i % evenNumber === 0) ? styles.even : styles.odd]}
               key={ingredient.id}

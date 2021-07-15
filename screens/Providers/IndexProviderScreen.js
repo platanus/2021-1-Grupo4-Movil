@@ -17,6 +17,7 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 import styles from '../../styles/Providers/indexStyles';
 import colors from '../../styles/appColors';
+import SearchElements from '../../components/searchElementsAndFilter';
 
 function IndexProviders({ navigation }) {
   const getProviders = useStoreActions((actions) => actions.getProviders);
@@ -25,6 +26,7 @@ function IndexProviders({ navigation }) {
   const [mounted, setMounted] = useState(false);
   const [providers, setProviders] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
+  const [providersToShow, setProvidersToShow] = useState([]);
 
   function onRefresh() {
     setRefreshing(true);
@@ -80,6 +82,10 @@ function IndexProviders({ navigation }) {
   if (providers.length) {
     return (
       <View style={styles.container}>
+        <SearchElements
+          elements={providers}
+          setFilteredElements={setProvidersToShow}
+          elementName='Proveedor'/>
         <ScrollView
           refreshControl={
             <RefreshControl
@@ -87,7 +93,7 @@ function IndexProviders({ navigation }) {
               onRefresh={onRefresh}
             />
           }>
-          {providers.map((provider, i) => (
+          {providersToShow.map((provider, i) => (
             <TouchableOpacity
               // eslint-disable-next-line no-magic-numbers
               style={[styles.providerRow, (i % 2 === 0) ? styles.even : styles.odd]}
