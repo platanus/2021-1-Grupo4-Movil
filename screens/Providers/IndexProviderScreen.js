@@ -1,3 +1,4 @@
+/* eslint-disable max-statements */
 import React, {
   useEffect,
   useState,
@@ -9,13 +10,18 @@ import {
   ScrollView,
   RefreshControl,
 } from 'react-native';
-import { useStoreActions } from 'easy-peasy';
+import {
+  useStoreActions,
+  useStoreState,
+} from 'easy-peasy';
 import Icon from 'react-native-vector-icons/Ionicons';
 import styles from '../../styles/Providers/indexStyles';
 import colors from '../../styles/appColors';
 
 function IndexProviders({ navigation }) {
   const getProviders = useStoreActions((actions) => actions.getProviders);
+  const hasToGetProviders = useStoreState((state) => state.hasToGetProviders);
+  const setHasToGetProviders = useStoreActions((actions) => actions.setHasToGetProviders);
   const [mounted, setMounted] = useState(false);
   const [providers, setProviders] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
@@ -56,6 +62,21 @@ function IndexProviders({ navigation }) {
       .catch(() => {
       });
   }, [getProviders]);
+
+  useEffect(() => {
+    if (hasToGetProviders) {
+      getProviders()
+        .then((res) => {
+          setHasToGetProviders();
+          setProviders(res);
+          setMounted(true);
+        })
+        .catch(() => {
+        });
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hasToGetProviders]);
+
   if (providers.length) {
     return (
       <View style={styles.container}>

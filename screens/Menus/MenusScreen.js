@@ -1,3 +1,4 @@
+/* eslint-disable max-statements */
 import React, {
   useEffect,
   useState,
@@ -13,6 +14,8 @@ function Menus({ navigation }) {
   const getMenus = useStoreActions((actions) => actions.getMenus);
   const globalMenus = useStoreState((state) => state.menus.menus);
   const setGlobalMenus = useStoreActions((actions) => actions.setMenus);
+  const setHasToGetMenus = useStoreActions((actions) => actions.setHasToGetMenus);
+  const hasToGetMenus = useStoreState((state) => state.hasToGetMenus);
 
   const [mounted, setMounted] = useState(false);
   const [menus, setMenus] = useState([]);
@@ -55,6 +58,20 @@ function Menus({ navigation }) {
       });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (hasToGetMenus) {
+      getMenus()
+        .then((res) => {
+          setHasToGetMenus();
+          setGlobalMenus(res);
+          setMounted(true);
+        })
+        .catch(() => {
+        });
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hasToGetMenus]);
 
   useEffect(() => {
     setMenus(globalMenus);
