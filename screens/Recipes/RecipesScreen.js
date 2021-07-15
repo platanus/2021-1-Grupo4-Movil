@@ -12,9 +12,9 @@ import styles from '../../styles/Recipes/indexStyles';
 function Recipes(props) {
   const { navigation } = props;
   const getRecipes = useStoreActions((actions) => actions.getRecipes);
-  const setChargeMenus = useStoreActions((actions) => actions.setChargeMenus);
-  const setChargeRecipes = useStoreActions((actions) => actions.setChargeRecipes);
-  const chargeRecipes = useStoreState((state) => state.chargeRecipes);
+  const setHasToGetMenus = useStoreActions((actions) => actions.setHasToGetMenus);
+  const setHasToGetRecipes = useStoreActions((actions) => actions.setHasToGetRecipes);
+  const hasToGetRecipes = useStoreState((state) => state.hasToGetRecipes);
   const [recipes, setRecipes] = useState([]);
   const [, setShowError] = useState(false);
   const [, setErrorMessage] = useState('');
@@ -46,15 +46,15 @@ function Recipes(props) {
   }, []);
 
   useEffect(() => {
-    setChargeMenus();
+    setHasToGetMenus();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [recipes]);
 
   useEffect(() => {
-    if (chargeRecipes) {
+    if (hasToGetRecipes) {
       getRecipes()
         .then((res) => {
-          setChargeRecipes();
+          setHasToGetRecipes();
           setRecipes(res);
         })
         .catch((err) => {
@@ -66,7 +66,7 @@ function Recipes(props) {
         });
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chargeRecipes]);
+  }, [hasToGetRecipes]);
 
   useLayoutEffect(() => {
     navigation.setOptions({

@@ -20,8 +20,8 @@ import colors from '../../styles/appColors';
 
 function IndexProviders({ navigation }) {
   const getProviders = useStoreActions((actions) => actions.getProviders);
-  const chargeProviders = useStoreState((state) => state.chargeProviders);
-  const setChargeProviders = useStoreActions((actions) => actions.setChargeProviders);
+  const hasToGetProviders = useStoreState((state) => state.hasToGetProviders);
+  const setHasToGetProviders = useStoreActions((actions) => actions.setHasToGetProviders);
   const [mounted, setMounted] = useState(false);
   const [providers, setProviders] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
@@ -64,10 +64,10 @@ function IndexProviders({ navigation }) {
   }, [getProviders]);
 
   useEffect(() => {
-    if (chargeProviders) {
+    if (hasToGetProviders) {
       getProviders()
         .then((res) => {
-          setChargeProviders();
+          setHasToGetProviders();
           setProviders(res);
           setMounted(true);
         })
@@ -75,7 +75,7 @@ function IndexProviders({ navigation }) {
         });
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chargeProviders]);
+  }, [hasToGetProviders]);
 
   if (providers.length) {
     return (

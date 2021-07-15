@@ -56,6 +56,8 @@ function FormProvider({ navigation, route }) {
   const createProvider = useStoreActions((actions) => actions.createProvider);
   const editProvider = useStoreActions((actions) => actions.editProvider);
 
+  const BAD_REQUEST = 400;
+
   function checkValidInputs() {
     const validations = [
       { error: !name.length, message: 'Debes asignar un nombre al proveedor' },
@@ -103,8 +105,7 @@ function FormProvider({ navigation, route }) {
           navigation.navigate('Proveedores');
         })
         .catch((err) => {
-          // eslint-disable-next-line no-magic-numbers
-          if (err.response.status === 400) {
+          if (err.response.status === BAD_REQUEST) {
             setShowModalError(true);
           }
         });
@@ -121,8 +122,7 @@ function FormProvider({ navigation, route }) {
           });
         })
         .catch((err) => {
-          // eslint-disable-next-line no-magic-numbers
-          if (err.response.status === 400) {
+          if (err.response.status === BAD_REQUEST) {
             setShowModalError(true);
           }
         });

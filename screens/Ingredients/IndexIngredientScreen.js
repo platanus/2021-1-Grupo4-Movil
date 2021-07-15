@@ -31,7 +31,7 @@ function IndexIngredients({ navigation }) {
   const updateInventory = useStoreActions((actions) => actions.updateInventory);
   const setIngredientsInventory = useStoreActions((actions) => actions.setIngredientsInventory);
   const ingredientsInventory = useStoreState((state) => state.ingredientsInventory);
-  const setChargeRecipes = useStoreActions((actions) => actions.setChargeRecipes);
+  const setHasToGetRecipes = useStoreActions((actions) => actions.setHasToGetRecipes);
   const [showModal, setShowModal] = useState(false);
 
   const [ingredients, setIngredients] = useState([]);
@@ -92,7 +92,7 @@ function IndexIngredients({ navigation }) {
   }, []);
 
   useEffect(() => {
-    setChargeRecipes();
+    setHasToGetRecipes();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ingredients]);
 

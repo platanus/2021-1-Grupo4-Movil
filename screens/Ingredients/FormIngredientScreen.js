@@ -43,7 +43,7 @@ function FormIngredient({ navigation, route }) {
   const createIngredient = useStoreActions((actions) => actions.createIngredient);
   const editIngredient = useStoreActions((actions) => actions.editIngredient);
   const getProviders = useStoreActions((actions) => actions.getProviders);
-  const setChargeProviders = useStoreActions((actions) => actions.setChargeProviders);
+  const setHasToGetProviders = useStoreActions((actions) => actions.setHasToGetProviders);
 
   const [name, setName] = useState(ingredient.attributes.name);
   const [price, setPrice] = useState(ingredient.attributes.price);
@@ -156,7 +156,7 @@ function FormIngredient({ navigation, route }) {
       .then((res) => {
         setIngredients([...ingredients, res]);
         if (isFromSearch) {
-          setChargeProviders();
+          setHasToGetProviders();
         }
         navigation.navigate('Ingredientes');
       })

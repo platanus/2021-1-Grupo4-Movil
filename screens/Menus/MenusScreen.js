@@ -14,8 +14,8 @@ function Menus({ navigation }) {
   const getMenus = useStoreActions((actions) => actions.getMenus);
   const globalMenus = useStoreState((state) => state.menus.menus);
   const setGlobalMenus = useStoreActions((actions) => actions.setMenus);
-  const setChargeMenus = useStoreActions((actions) => actions.setChargeMenus);
-  const chargeMenus = useStoreState((state) => state.chargeMenus);
+  const setHasToGetMenus = useStoreActions((actions) => actions.setHasToGetMenus);
+  const hasToGetMenus = useStoreState((state) => state.hasToGetMenus);
 
   const [mounted, setMounted] = useState(false);
   const [menus, setMenus] = useState([]);
@@ -60,10 +60,10 @@ function Menus({ navigation }) {
   }, []);
 
   useEffect(() => {
-    if (chargeMenus) {
+    if (hasToGetMenus) {
       getMenus()
         .then((res) => {
-          setChargeMenus();
+          setHasToGetMenus();
           setGlobalMenus(res);
           setMounted(true);
         })
@@ -71,7 +71,7 @@ function Menus({ navigation }) {
         });
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chargeMenus]);
+  }, [hasToGetMenus]);
 
   useEffect(() => {
     setMenus(globalMenus);

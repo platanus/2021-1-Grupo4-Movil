@@ -27,9 +27,9 @@ const storeState = {
   },
   menusError: '',
   providersError: '',
-  chargeRecipes: false,
-  chargeMenus: false,
-  chargeProviders: false,
+  hasToGetRecipes: false,
+  hasToGetMenus: false,
+  hasToGetProviders: false,
   showLoadingSpinner: false,
   ingredientsInventory: {},
 };
@@ -102,14 +102,14 @@ const storeActions = {
   setLoadRecipes: action((state, payload) => {
     state.recipes.load = payload;
   }),
-  setChargeRecipes: action((state) => {
-    state.chargeRecipes = !state.chargeRecipes;
+  setHasToGetRecipes: action((state) => {
+    state.hasToGetRecipes = !state.hasToGetRecipes;
   }),
-  setChargeMenus: action((state) => {
-    state.chargeMenus = !state.chargeMenus;
+  setHasToGetMenus: action((state) => {
+    state.hasToGetMenus = !state.hasToGetMenus;
   }),
-  setChargeProviders: action((state) => {
-    state.chargeProviders = !state.chargeProviders;
+  setHasToGetProviders: action((state) => {
+    state.hasToGetProviders = !state.hasToGetProviders;
   }),
   setShowLoadingSpinner: action((state) => {
     state.showLoadingSpinner = !state.showLoadingSpinner;
@@ -233,14 +233,14 @@ const storeThunks = {
   }),
   getRecipes: thunk(async (actions, payload, { getStoreState }) => {
     const state = getStoreState();
-    if (!state.chargeRecipes) actions.setShowLoadingSpinner();
+    if (!state.hasToGetRecipes) actions.setShowLoadingSpinner();
     const recipes = await recipesApi.getRecipes(payload)
       .then((res) => res.data.data)
       .catch((err) => {
         actions.setGetRecipesError(err.response.data.message);
         throw err;
       });
-    if (!state.chargeRecipes) actions.setShowLoadingSpinner();
+    if (!state.hasToGetRecipes) actions.setShowLoadingSpinner();
 
     return recipes;
   }),
@@ -345,14 +345,14 @@ const storeThunks = {
   }),
   getMenus: thunk(async (actions, payload, { getStoreState }) => {
     const state = getStoreState();
-    if (!state.chargeMenus) actions.setShowLoadingSpinner();
+    if (!state.hasToGetMenus) actions.setShowLoadingSpinner();
     const menus = await menusApi.getMenus(payload)
       .then((res) => res.data.data)
       .catch((err) => {
         actions.setMenusError(err.response.data.message);
         throw err;
       });
-    if (!state.chargeMenus) actions.setShowLoadingSpinner();
+    if (!state.hasToGetMenus) actions.setShowLoadingSpinner();
 
     return menus;
   }),
@@ -419,14 +419,14 @@ const storeThunks = {
   }),
   getProviders: thunk(async (actions, payload, { getStoreState }) => {
     const state = getStoreState();
-    if (!state.chargeProviders) actions.setShowLoadingSpinner();
+    if (!state.hasToGetProviders) actions.setShowLoadingSpinner();
     const providers = await providersApi.getProviders(payload)
       .then((res) => res.data.data)
       .catch((err) => {
         actions.setProvidersError(err.response.data.message);
         throw err;
       });
-    if (!state.chargeProviders) actions.setShowLoadingSpinner();
+    if (!state.hasToGetProviders) actions.setShowLoadingSpinner();
 
     return providers;
   }),
