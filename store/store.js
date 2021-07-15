@@ -10,8 +10,9 @@ const storeState = {
   currentUser: null,
   loginError: '',
   signUpError: '',
+  forgotPasswordError: '',
   ingredientsError: '',
-  loginView: true,
+  loggedOutView: true,
   recipes: {
     getErrors: '',
     createErrors: '',
@@ -47,8 +48,11 @@ const storeActions = {
   setSignUpError: action((state, payload) => {
     state.signUpError = payload;
   }),
-  setLoginView: action((state, payload) => {
-    state.loginView = payload;
+  setForgotPasswordError: action((state, payload) => {
+    state.forgotPasswordError = payload;
+  }),
+  setLoggedOutView: action((state, payload) => {
+    state.loggedOutView = payload;
   }),
   setUserAndApiHeaders: action((state, payload) => {
     if (payload.status === apiUtils.statusCodes.ok || payload.status === apiUtils.statusCodes.created) {
@@ -118,7 +122,7 @@ const storeThunks = {
       .then((resp) => {
         actions.setUserAndApiHeaders(resp);
         actions.setLoginError('');
-        actions.setLoginView(true);
+        actions.setLoggedOutView('login');
       }).catch((error) => {
         actions.setLoginError(error.response.data.message);
       });
@@ -130,9 +134,20 @@ const storeThunks = {
       .then((resp) => {
         actions.setUserAndApiHeaders(resp);
         actions.setSignUpError('');
-        actions.setLoginView(true);
+        actions.setLoggedOutView('login');
       }).catch((error) => {
-        actions.setSignUpError(error.response.data.message);
+        actions.setSignUpError(error.response.data.errors.email[0]);
+      });
+    actions.setShowLoadingSpinner();
+  }),
+  forgotPassword: thunk(async (actions, payload) => {
+    actions.setShowLoadingSpinner();
+    await sessionsApi.forgotPassword(payload)
+      .then(() => {
+        actions.setForgotPasswordError('');
+        actions.setLoggedOutView('login');
+      }).catch((error) => {
+        actions.setForgotPasswordError(error.response.data.message);
       });
     actions.setShowLoadingSpinner();
   }),
