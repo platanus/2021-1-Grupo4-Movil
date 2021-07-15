@@ -13,8 +13,8 @@ function SearchElements({ elements, setFilteredElements, elementName }) {
 
   useEffect(() => {
     if (searchText) {
-      setFilteredElements(elements.filter((ingredient) =>
-        removeSpecialCharacters(ingredient.attributes.name).includes(removeSpecialCharacters(searchText))));
+      setFilteredElements(elements.filter((element) =>
+        removeSpecialCharacters(element.attributes.name).includes(removeSpecialCharacters(searchText))));
     } else {
       setFilteredElements(elements);
     }
