@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Text,
   TextInput,
+  Modal,
 } from 'react-native';
 import { useStoreActions } from 'easy-peasy';
 import styles from '../../styles/Providers/formStyles';
@@ -38,6 +39,7 @@ function FormProvider({ navigation, route }) {
     setProviders,
   } = route.params;
 
+  const [showModalError, setShowModalError] = useState(false);
   const [name, setName] = useState(provider.attributes.name);
   const [email, setEmail] = useState(provider.attributes.email ? provider.attributes.email : '');
   const [phone, setPhone] = useState(provider.attributes.phone);
@@ -53,6 +55,8 @@ function FormProvider({ navigation, route }) {
 
   const createProvider = useStoreActions((actions) => actions.createProvider);
   const editProvider = useStoreActions((actions) => actions.editProvider);
+
+  const BAD_REQUEST = 400;
 
   function checkValidInputs() {
     const validations = [
@@ -100,7 +104,10 @@ function FormProvider({ navigation, route }) {
           setProviders(auxProviders);
           navigation.navigate('Proveedores');
         })
-        .catch(() => {
+        .catch((err) => {
+          if (err.response.status === BAD_REQUEST) {
+            setShowModalError(true);
+          }
         });
     } else {
       editProvider({ body, id: provider.id })
@@ -114,7 +121,10 @@ function FormProvider({ navigation, route }) {
             setProviders,
           });
         })
-        .catch(() => {
+        .catch((err) => {
+          if (err.response.status === BAD_REQUEST) {
+            setShowModalError(true);
+          }
         });
     }
   }
@@ -123,6 +133,28 @@ function FormProvider({ navigation, route }) {
     <>
       <KeyboardAvoidWrapper>
         <View style={styles.container}>
+          <Modal
+            visible={showModalError}
+            transparent={true}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Text style={styles.modalTitle}>
+                  Ya existe un proveedor con este nombre
+                </Text>
+                <View style={styles.modalButtonContainer}>
+                  <TouchableOpacity
+                    style={styles.confirmButton}
+                    onPress={() => setShowModalError(false)}
+                  >
+                    <Text style={styles.confirmButtonText}>
+                      Aceptar
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          </Modal>
           <View style={styles.inputContainer}>
             <Text style={styles.inputLabel}>
               Nombre
@@ -282,7 +314,6 @@ function FormProvider({ navigation, route }) {
           </Text>
         </TouchableOpacity>
       </View>
-
     </>
   );
 }

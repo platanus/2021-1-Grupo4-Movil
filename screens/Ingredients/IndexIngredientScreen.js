@@ -32,6 +32,7 @@ function IndexIngredients({ navigation }) {
   const updateInventory = useStoreActions((actions) => actions.updateInventory);
   const setIngredientsInventory = useStoreActions((actions) => actions.setIngredientsInventory);
   const ingredientsInventory = useStoreState((state) => state.ingredientsInventory);
+  const setHasToGetRecipes = useStoreActions((actions) => actions.setHasToGetRecipes);
   const [showModal, setShowModal] = useState(false);
 
   const [ingredients, setIngredients] = useState([]);
@@ -91,6 +92,11 @@ function IndexIngredients({ navigation }) {
       });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    setHasToGetRecipes();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ingredients]);
 
   useEffect(() => {
     if (ingredients.length > 0) {

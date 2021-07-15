@@ -77,7 +77,9 @@ function ShowProvider({ navigation, route }) {
           </Text>
           <Text
             style={styles.linkValue}
-            onPress={() => Linking.openURL(`https://${provider.attributes.webpageUrl}`)}
+            onPress={(provider.attributes.webpageUrl) ?
+              () => Linking.openURL(`https://${provider.attributes.webpageUrl}`) :
+              null}
           >
             {provider.attributes.webpageUrl}
           </Text>

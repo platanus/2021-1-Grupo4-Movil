@@ -52,6 +52,7 @@ function Menu(props) {
   const [newIngredientsInventory, setNewIngredientsInventory] = useState({});
   const [confirmReduceInventory, setConfirmReduceInventory] = useState(false);
   const [confirmReduceInventoryModal, setConfirmReduceInventoryModal] = useState(false);
+  const [allIngredientsEmpty, setAllIngredientsEmpty] = useState(false);
   const [reduceInventorySuccessful, setReduceInventorySuccessful] = useState(false);
 
   useEffect(() => {
@@ -91,6 +92,7 @@ function Menu(props) {
   function reduceInventorySubmit() {
     const newIngredientsInventoryCopy = {};
     const alertIngredientsCopy = {};
+    let totalIngredients = 0;
     menu.attributes.menuRecipes.data.forEach((recipe) => {
       recipe.attributes.recipe.recipeIngredients.data.forEach((ingredient) => {
         const id = ingredient.attributes.ingredient.id.toString();
@@ -98,27 +100,36 @@ function Menu(props) {
         if (Object.keys(newIngredientsInventoryCopy).includes(id)) {
           newInventory = newIngredientsInventoryCopy[id] - ingredient.attributes.ingredientQuantity;
         } else {
+          totalIngredients += 1;
           newInventory = ingredientsInventory[id] - ingredient.attributes.ingredientQuantity;
         }
         newIngredientsInventoryCopy[id] = {
-          quantity: newInventory,
+          // eslint-disable-next-line no-magic-numbers
+          quantity: Math.round(newInventory * 100) / 100,
           measure: ingredient.attributes.ingredient.measure,
           name: ingredient.attributes.ingredient.name,
         };
         if (newInventory < 0) {
           alertIngredientsCopy[ingredient.attributes.ingredient.name] = {
-            quantity: Math.abs(newInventory),
+            id,
+            // eslint-disable-next-line no-magic-numbers
+            quantity: Math.abs(Math.round(newInventory * 100) / 100),
             measure: ingredient.attributes.ingredient.measure,
           };
         }
       });
     });
+    if (Object.keys(alertIngredientsCopy).length === totalIngredients) {
+      setAllIngredientsEmpty(true);
+    }
     setNewIngredientsInventory(newIngredientsInventoryCopy);
     setAlertIngredients(alertIngredientsCopy);
     setConfirmReduceInventoryModal(true);
   }
 
   function copyShoppingListToClipboard() {
+    if (!(menu.attributes.menuRecipes.data > 0)) return;
+
     getShoppingList({ id: menu.id })
       .then((res) => {
         copyList(res);
@@ -127,6 +138,8 @@ function Menu(props) {
   }
 
   function exportShoppingList() {
+    if (!(menu.attributes.menuRecipes.data > 0)) return;
+
     getShoppingList({ id: menu.id })
       .then((res) => {
         createExcel(res);
@@ -177,32 +190,46 @@ function Menu(props) {
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Text style={styles.modalTitle}>
-              Ingredientes modificados
+              {(!allIngredientsEmpty) && 'Ingredientes a modificar'}
             </Text>
-            <ScrollView>
-              {Object.keys(newIngredientsInventory).map((key, i) =>
-                (!Object.keys(alertIngredients).includes(newIngredientsInventory[key].name)) && (
-                  <Text
-                    key={i.toString()}
-                    style={styles.modalText}
-                  >
-                    {newIngredientsInventory[key].name}: de {ingredientsInventory[key]} a{' '}
-                    {newIngredientsInventory[key].quantity} {newIngredientsInventory[key].measure}
-                  </Text>
-                ))}
-            </ScrollView>
+            {(!allIngredientsEmpty) && (
+              <ScrollView>
+                {Object.keys(newIngredientsInventory).map((key, i) =>
+                  (!Object.keys(alertIngredients).includes(newIngredientsInventory[key].name)) && (
+                    <View key={i.toString()}>
+                      <Text
+                        style={[styles.modalText, styles.bold]}
+                      >
+                        {`${newIngredientsInventory[key].name}:`}
+                      </Text>
+                      <Text style={styles.modalText}>
+                        {`Tienes ${ingredientsInventory[key]} - ` +
+                        `Quedarán ${newIngredientsInventory[key].quantity} ${newIngredientsInventory[key].measure}`}
+                      </Text>
+                    </View>
+                  ))}
+              </ScrollView>
+            )}
             <Text style={styles.modalTitle}>
               {Object.keys(alertIngredients).length > 0 && 'Ingredientes con falta de inventario'}
+            </Text>
+            <Text style={styles.modalSubtitle}>
+              {Object.keys(alertIngredients).length > 0 && 'Quedarán con inventario 0'}
             </Text>
             {Object.keys(alertIngredients).length > 0 && (
               <ScrollView>
                 {Object.keys(alertIngredients).map((key, i) => (
-                  <Text
-                    key={i.toString()}
-                    style={styles.modalText}
-                  >
-                    {`${key}: ${alertIngredients[key].quantity} ${alertIngredients[key].measure}`}
-                  </Text>
+                  <View key={i.toString()}>
+                    <Text
+                      style={[styles.modalText, styles.bold]}
+                    >
+                      {`${key}:`}
+                    </Text>
+                    <Text style={styles.modalText}>
+                      {`Tienes ${ingredientsInventory[alertIngredients[key].id]} - ` +
+                      `Faltan ${alertIngredients[key].quantity} ${alertIngredients[key].measure}`}
+                    </Text>
+                  </View>
                 ))}
               </ScrollView>
             )}
@@ -289,12 +316,12 @@ function Menu(props) {
           <TouchableOpacity
             style={styles.shoppingListButton}
             onPress={() => exportShoppingList()}
-          ><Text style={styles.shoppingListText}>Exportar lista de compras</Text>
+          ><Text style={styles.shoppingListText}>Exportar</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.shoppingListButton}
             onPress={() => copyShoppingListToClipboard()}
-          ><Text style={styles.shoppingListText}>Copiar lista en el portapapeles</Text>
+          ><Text style={styles.shoppingListText}>Copiar</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

@@ -117,6 +117,66 @@ const styles = StyleSheet.create({
   confirmText: {
     color: colors.kitchengramWhite,
   },
+
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 25,
+  },
+
+  modalView: {
+    minHeight: '20%',
+    maxHeight: '50%',
+    minWidth: '90%',
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 20,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    position: 'relative',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  modalTitle: {
+    width: '100%',
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: colors.kitchengramBlack,
+    textAlign: 'center',
+    marginBottom: 10,
+  },
+
+  modalButtonContainer: {
+    width: '100%',
+    height: 30,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+
+  confirmButton: {
+    width: '48%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.kitchengramGreen500,
+    borderRadius: 5,
+  },
+
+  confirmButtonText: {
+    color: colors.kitchengramWhite,
+  },
 });
 
 export default styles;
