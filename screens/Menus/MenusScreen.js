@@ -6,6 +6,7 @@ import { useStoreActions, useStoreState } from 'easy-peasy';
 import { Text, ScrollView, View, RefreshControl } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MenuRow from '../../components/menuRow';
+import SearchElements from '../../components/searchElementsAndFilter';
 import styles from '../../styles/Menus/indexStyles';
 
 /* eslint max-statements: [2, 15] */
@@ -17,6 +18,7 @@ function Menus({ navigation }) {
   const [mounted, setMounted] = useState(false);
   const [menus, setMenus] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
+  const [menusToShow, setMenusToShow] = useState([]);
 
   function onRefresh() {
     setRefreshing(true);
@@ -63,6 +65,10 @@ function Menus({ navigation }) {
   if (menus.length && mounted) {
     return (
       <View style={styles.container}>
+        <SearchElements
+          elements={menus}
+          setFilteredElements={setMenusToShow}
+          elementName='Menú'/>
         <ScrollView
           refreshControl={
             <RefreshControl
@@ -70,7 +76,7 @@ function Menus({ navigation }) {
               onRefresh={onRefresh}
             />
           }>
-          {menus.map((menu) => (
+          {menusToShow.map((menu) => (
             <MenuRow
               key={menu.id}
               navigation={navigation}

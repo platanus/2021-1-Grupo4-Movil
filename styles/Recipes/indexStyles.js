@@ -13,6 +13,10 @@ const styles = StyleSheet.create({
     backgroundColor: colors.kitchengramWhite,
     flex: 1,
   },
+  whiteContainer: {
+    backgroundColor: colors.kitchengramWhite,
+    flex: 1,
+  },
   left: {
     width: '60%',
     height: '100%',
