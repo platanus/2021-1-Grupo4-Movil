@@ -35,7 +35,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     paddingLeft: 15,
     paddingRight: 15,
-    fontWeight: 'bold',
     fontStyle: 'normal',
     color: colors.kitchengramBlack,
   },
@@ -55,7 +54,6 @@ const styles = StyleSheet.create({
   prefixInput: {
     width: '100%',
     height: '100%',
-    fontWeight: 'bold',
     fontStyle: 'normal',
     color: colors.kitchengramBlack,
     fontSize: 14,
@@ -63,7 +61,6 @@ const styles = StyleSheet.create({
 
   prefix: {
     paddingRight: 2,
-    fontWeight: 'bold',
     color: 'black',
   },
 

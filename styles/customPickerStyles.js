@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import colors from './appColors';
 
 const pickers = {
@@ -14,14 +15,12 @@ const pickers = {
       paddingTop: 13,
       paddingLeft: 15,
       paddingBottom: 12,
-      fontWeight: 'bold',
     },
     inputAndroid: {
       color: colors.kitchengramBlack,
       paddingTop: 13,
       paddingLeft: 15,
       paddingBottom: 12,
-      fontWeight: 'bold',
     },
     placeholderColor: 'colors.kitchengramBlack',
     underline: { borderTopWidth: 0 },
@@ -40,7 +39,8 @@ const pickers = {
       right: 15,
     },
     iconContainer: {
-      top: 5,
+      top: Platform.OS === 'ios' ? '17%' : 0,
+      right: 3,
     },
   },
   providerPicker: {

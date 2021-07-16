@@ -3,7 +3,7 @@ import colors from '../appColors';
 
 const styles = StyleSheet.create({
   mainContainer: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.kitchengramWhite,
     paddingTop: 5,
     height: '100%',
     width: '100%',
@@ -20,17 +20,16 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   subtitle: {
-    color: colors.grayName,
-    paddingTop: 8,
-    fontSize: 16,
-    // paddingVertical: 2,
+    fontSize: 14,
+    color: colors.kitchengramBlack,
+    marginTop: 5,
   },
   textInput: {
     width: '100%',
     height: 50,
     paddingHorizontal: 5,
     borderWidth: 2,
-    borderColor: colors.tableBorder,
+    borderColor: colors.kitchengramGray600,
     borderRadius: 5,
     alignSelf: 'center',
     marginTop: 5,
@@ -50,15 +49,15 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     backgroundColor: colors.kitchengramBlack,
-    color: colors.white,
+    color: colors.kitchengramWhite,
     padding: 15,
     justifyContent: 'space-between',
   },
   totalPriceText: {
-    color: colors.white,
+    color: colors.kitchengramWhite,
   },
   totalPriceNumber: {
-    color: colors.white,
+    color: colors.kitchengramWhite,
     fontWeight: 'bold',
   },
   menuButtonsRow: {
@@ -94,15 +93,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   actionButton: {
-    backgroundColor: colors.greenButtons,
-    borderColor: colors.greenButtons,
+    backgroundColor: colors.kitchengramGreen500,
+    borderColor: colors.kitchengramGreen500,
   },
   searchButton: {
-    borderColor: colors.yellow,
+    borderColor: colors.kitchengramYellow500,
     borderWidth: 2,
   },
   actionText: {
-    color: colors.white,
+    color: colors.kitchengramWhite,
   },
   searchText: {
     color: colors.yellow,
@@ -119,7 +118,7 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     // borderEndWidth: 2,
     borderBottomWidth: 1,
-    borderColor: colors.grayIcon,
+    borderColor: colors.kitchengramGray400,
 
   },
   recipeMoreAndLessRow: {
@@ -136,20 +135,20 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: colors.grayIcon,
+    backgroundColor: colors.kitchengramGray400,
     margin: 2,
   },
   moreAndLessButtonText: {
-    color: colors.white,
+    color: colors.kitchengramWhite,
     fontSize: 20,
   },
   moreAndLessNumberArea: {
     width: 50,
     height: 34,
-    borderColor: colors.tableBorder,
+    borderColor: colors.kitchengramGray600,
     borderWidth: 1.5,
     borderRadius: 5,
-    color: colors.tableBorder,
+    color: colors.kitchengramGray600,
     fontSize: 16,
     textAlign: 'center',
     margin: 2,
@@ -161,7 +160,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '500',
     marginHorizontal: 4,
-    // paddingTop: 5,
   },
   priceAndRemoveRow: {
     display: 'flex',
@@ -169,7 +167,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   recipePriceText: {
-    color: colors.yellow,
+    color: colors.kitchengramYellow500,
     fontSize: 20,
     fontWeight: 'bold',
     paddingHorizontal: 10,

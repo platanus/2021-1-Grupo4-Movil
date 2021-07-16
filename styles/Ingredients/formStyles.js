@@ -72,7 +72,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     paddingLeft: 15,
     paddingRight: 15,
-    fontWeight: 'bold',
     fontStyle: 'normal',
     color: colors.kitchengramBlack,
   },
@@ -91,12 +90,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     fontSize: 16,
-  },
-
-  arrowIcon: {
-    position: 'absolute',
-    top: '45%',
-    left: '87%',
   },
 
   buttonsContainer: {
