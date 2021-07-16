@@ -7,11 +7,12 @@ import {
   Text,
   TextInput,
 } from 'react-native';
-import { Icon } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/Ionicons';
 import RNPickerSelect from 'react-native-picker-select';
 import styles from '../styles/Recipes/formRecipe';
 import pickers from '../styles/customPickerStyles';
 import formatMoney from '../utils/formatMoney';
+import colors from '../styles/appColors';
 
 function IngredientRow(props) {
   const {
@@ -75,6 +76,7 @@ function IngredientRow(props) {
               items={
                 ingredient.otherMeasures.data.map((measure, index) => ({
                   key: index, value: measure.attributes.name, label: measure.attributes.name }))}
+              Icon={() => <Icon name='chevron-down' size={22} color={colors.kitchengramGray600} />}
             />
           </View>
         </View>

@@ -43,7 +43,7 @@ function FormIngredient({ navigation, route }) {
   const createIngredient = useStoreActions((actions) => actions.createIngredient);
   const editIngredient = useStoreActions((actions) => actions.editIngredient);
   const getProviders = useStoreActions((actions) => actions.getProviders);
-  const setChargeProviders = useStoreActions((actions) => actions.setChargeProviders);
+  const setHasToGetProviders = useStoreActions((actions) => actions.setHasToGetProviders);
 
   const [name, setName] = useState(ingredient.attributes.name);
   const [price, setPrice] = useState(ingredient.attributes.price);
@@ -156,7 +156,7 @@ function FormIngredient({ navigation, route }) {
       .then((res) => {
         setIngredients([...ingredients, res]);
         if (isFromSearch) {
-          setChargeProviders();
+          setHasToGetProviders();
         }
         navigation.navigate('Ingredientes');
       })
@@ -253,14 +253,12 @@ function FormIngredient({ navigation, route }) {
                   value={providerName}
                   onValueChange={(value) => setProviderName(value)}
                   items={providersNames}
+                  Icon={() =>
+                    <Icon name='chevron-down'
+                      size={25}
+                      color={colors.kitchengramGray600}/>}
                 />
-
               </View>
-              <Icon name='chevron-down'
-                size={30}
-                color={colors.kitchengramGray600}
-                style={styles.arrowIcon}
-              />
             </View>
           )}
           <View style={styles.inputContainer}>
@@ -285,7 +283,7 @@ function FormIngredient({ navigation, route }) {
               placeholder="Minimo inventario ..."
               keyboardType="number-pad"
               returnKeyType='done'
-              value={minimumQuantity.toString()}
+              value={(minimumQuantity) && minimumQuantity.toString()}
               onChangeText={(text) => setMinimumQuantity(text)}
             />
           </View>

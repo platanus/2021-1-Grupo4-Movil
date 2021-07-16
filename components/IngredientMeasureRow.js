@@ -64,7 +64,7 @@ function IngredientMeasureRow({ measure, handleMeasureChange, isDefault, hasLabe
               value={measureName}
               onValueChange={(value) => handleMeasureChange({ name: value })}
               items={measuresOptions.map((name, index) => ({ label: name, value: name, key: index }))}
-              Icon={() => <Icon name='chevron-down' size={27} color={colors.kitchengramGray600} />}
+              Icon={() => <Icon name='chevron-down' size={25} color={colors.kitchengramGray600} />}
             />
 
           </View>

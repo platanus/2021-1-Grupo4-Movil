@@ -122,8 +122,13 @@ function NewStep(props) {
         returnKeyType='done'
       />
       <View style={styles.sectionNewStep}>
-        <TouchableOpacity style={styles.stepButton} onPress={addStep}>
-          <Text style={styles.ingredientButtonText}>Agregar paso</Text>
+        <TouchableOpacity
+          style={styles.stepButton}
+          onPress={(newStepDescription) ? addStep : null}
+        >
+          <Text style={styles.ingredientButtonText}>
+            Agregar paso
+          </Text>
         </TouchableOpacity>
       </View>
     </>
