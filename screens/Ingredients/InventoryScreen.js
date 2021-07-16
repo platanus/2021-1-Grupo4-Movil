@@ -6,7 +6,7 @@ import React, {
 import {
   View,
   TouchableOpacity,
-  ScrollView,
+  FlatList,
   Text,
   TextInput,
 } from 'react-native';
@@ -28,7 +28,6 @@ function InventoryIngredient({ navigation, route }) {
 
   const updateInventory = useStoreActions((actions) => actions.updateInventory);
   const [sumInventories, setSumInventories] = useState({});
-  const colorNumber = 2;
   const [subtractionInventories, setSubtractionInventories] = useState({});
   const [mounted, setMounted] = useState(false);
 
@@ -98,16 +97,17 @@ function InventoryIngredient({ navigation, route }) {
   if (mounted && ingredients.length) {
     return (
       <View style={styles.container}>
-        <ScrollView>
-          {ingredients.map((ingredient, i) => (
+        <FlatList
+          keyExtractor={(item) => item.id}
+          data={ingredients}
+          renderItem={({ item }) => (
             <TouchableOpacity
-              style = {[styles.inventoryRow, (i % colorNumber === 0) ? styles.even : styles.odd]}
-              key={ingredient.id}
+              style = {[styles.inventoryRow, styles.odd]}
               disabled
             >
               <View style={styles.left}>
                 <Text style={styles.name}>
-                  {ingredient.attributes.name}
+                  {item.attributes.name}
                 </Text>
                 <Text style={styles.text}>
                   Aumenta en
@@ -118,14 +118,14 @@ function InventoryIngredient({ navigation, route }) {
               </View>
               <View style={styles.right}>
                 <Text style={styles.measure}>
-                  {`${ingredient.attributes.inventory} ${ingredient.attributes.measure}`}
+                  {`${item.attributes.inventory} ${item.attributes.measure}`}
                 </Text>
                 <View style={styles.inventory}>
                   <View style={styles.inventoryEditPanel}>
                     <TouchableOpacity
                       style={styles.decreaseInventoryBtn}
                       onPress={() => inventoryModifier(
-                        sumInventories[ingredient.id.toString()] - 1, ingredient.id, true)}
+                        sumInventories[item.id.toString()] - 1, item.id, true)}
                     >
                       <Icon
                         name='remove-circle-outline'
@@ -137,14 +137,14 @@ function InventoryIngredient({ navigation, route }) {
                       style={styles.inventoryInput}
                       keyboardType="number-pad"
                       returnKeyType='done'
-                      value={sumInventories[ingredient.id.toString()].toString()}
-                      onChangeText={(event) => inventoryModifier(event, ingredient.id, true)}
+                      value={sumInventories[item.id.toString()].toString()}
+                      onChangeText={(event) => inventoryModifier(event, item.id, true)}
                       editable={true}
                     />
                     <TouchableOpacity
                       style={styles.increaseInventoryBtn}
                       onPress={() => inventoryModifier(
-                        sumInventories[ingredient.id.toString()] + 1, ingredient.id, true)}
+                        sumInventories[item.id.toString()] + 1, item.id, true)}
                     >
                       <Icon
                         name='add-circle-outline'
@@ -159,7 +159,7 @@ function InventoryIngredient({ navigation, route }) {
                     <TouchableOpacity
                       style={styles.decreaseInventoryBtn}
                       onPress={() => inventoryModifier(
-                        subtractionInventories[ingredient.id.toString()] - 1, ingredient.id, false)}
+                        subtractionInventories[item.id.toString()] - 1, item.id, false)}
                     >
                       <Icon
                         name='remove-circle-outline'
@@ -171,14 +171,14 @@ function InventoryIngredient({ navigation, route }) {
                       style={styles.inventoryInput}
                       keyboardType="number-pad"
                       returnKeyType='done'
-                      value={subtractionInventories[ingredient.id.toString()].toString()}
-                      onChangeText={(event) => inventoryModifier(event, ingredient.id, false)}
+                      value={subtractionInventories[item.id.toString()].toString()}
+                      onChangeText={(event) => inventoryModifier(event, item.id, false)}
                       editable={true}
                     />
                     <TouchableOpacity
                       style={styles.increaseInventoryBtn}
                       onPress={() => inventoryModifier(
-                        subtractionInventories[ingredient.id.toString()] + 1, ingredient.id, false)}
+                        subtractionInventories[item.id.toString()] + 1, item.id, false)}
                     >
                       <Icon
                         name='add-circle-outline'
@@ -189,9 +189,8 @@ function InventoryIngredient({ navigation, route }) {
                   </View>
                 </View>
               </View>
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
+            </TouchableOpacity>)}
+        />
         <View styles = {styles.container2}>
           <TouchableOpacity
             style={styles.buttonAccept}
