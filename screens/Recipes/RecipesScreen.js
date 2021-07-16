@@ -1,6 +1,6 @@
 /* eslint-disable max-statements */
 import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { Text, ScrollView, RefreshControl, View } from 'react-native';
+import { Text, ScrollView, RefreshControl, View, FlatList } from 'react-native';
 import {
   useStoreActions,
   useStoreState,
@@ -92,22 +92,23 @@ function Recipes(props) {
           elements={recipes}
           setFilteredElements={setRecipesToShow}
           elementName='Receta'/>
-        <ScrollView style={styles.scroll} refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-          />
-        }>
-          {recipesToShow.map((recipe) => (
+        <FlatList
+          keyExtractor={(item) => item.id}
+          data={recipesToShow}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+            />}
+          renderItem={({ item }) => (
             <RecipeRow
-              key={recipe.id}
-              recipe={recipe}
+              recipe={item}
               navigation={navigation}
               recipes={recipes}
               setRecipes={setRecipes}
             />
-          ))}
-        </ScrollView>
+          )}
+        />
       </View>
     );
   }

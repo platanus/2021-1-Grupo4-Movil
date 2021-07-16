@@ -4,7 +4,7 @@ import React, {
   useState,
 } from 'react';
 import { useStoreActions, useStoreState } from 'easy-peasy';
-import { Text, ScrollView, View, RefreshControl } from 'react-native';
+import { Text, ScrollView, View, RefreshControl, FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MenuRow from '../../components/menuRow';
 import SearchElements from '../../components/searchElementsAndFilter';
@@ -86,23 +86,23 @@ function Menus({ navigation }) {
           elements={menus}
           setFilteredElements={setMenusToShow}
           elementName='Menú'/>
-        <ScrollView
+        <FlatList
+          keyExtractor={(item) => item.id}
+          data={menusToShow}
           refreshControl={
             <RefreshControl
               refreshing={refreshing}
               onRefresh={onRefresh}
-            />
-          }>
-          {menusToShow.map((menu) => (
+            />}
+          renderItem={({ item }) => (
             <MenuRow
-              key={menu.id}
               navigation={navigation}
-              menu={menu}
+              menu={item}
               menus={menus}
               setMenus={setMenus}
             />
-          ))}
-        </ScrollView>
+          )}
+        />
       </View>
     );
   }
