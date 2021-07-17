@@ -102,16 +102,20 @@ function RecipeIngredients(props) {
       <ScrollView style={styles.scroll}>
         {
           shownIngredients.map((ingredient, i) => (
+            <TouchableOpacity
+            key={i}
+            onPress={() => {
+              changeIngredientChecked(ingredient.id);
+            }}
+            >
             <View
-              key={i}
               style={styles.ingredientRow}
             >
+
+
               <View style={styles.ingredientData}>
                 <CheckBox
                   checked={selecteds.includes(ingredient.id)}
-                  onPress={() => {
-                    changeIngredientChecked(ingredient.id);
-                  }}
                   style={styles.checkbox}
                   checkedColor={colors.kitchengramYellow500}
                   checkedIcon = 'check-square'
@@ -134,6 +138,7 @@ function RecipeIngredients(props) {
                 </Text>
               </View>
             </View>
+            </TouchableOpacity>
           ),
           )}
       </ScrollView>
