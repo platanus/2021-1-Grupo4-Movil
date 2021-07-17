@@ -116,7 +116,6 @@ const styles = StyleSheet.create({
   },
 
   addUnit: {
-    bottom: 15,
     width: '48%',
     backgroundColor: colors.kitchengramYellow500,
     borderRadius: 5,
