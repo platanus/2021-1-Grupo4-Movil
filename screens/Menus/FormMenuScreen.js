@@ -166,7 +166,7 @@ function MenuForm({ navigation, route }) {
         </View>
         <View style={styles.twoButtonContainer}>
           <TouchableOpacity onPress={handleSubmit} style={[styles.button, styles.actionButton]}>
-            <Text style={styles.actionText}>{menu ? 'Editar Menú' : 'Crear Menú'}</Text>
+            <Text style={styles.actionText}>{menu ? 'Guardar' : 'Crear Menú'}</Text>
           </TouchableOpacity>
         </View>
       </View>

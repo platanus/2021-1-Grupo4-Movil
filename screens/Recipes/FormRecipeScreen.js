@@ -331,7 +331,7 @@ function FormRecipe(props) {
         />
         <View style={styles.container}>
           <TouchableOpacity style={styles.submitNewRecipe} onPress={handleSubmit}>
-            <Text style={styles.newRecipeButtonText}>{recipe ? 'Editar receta' : 'Crear receta'}</Text>
+            <Text style={styles.newRecipeButtonText}>{recipe ? 'Guardar' : 'Crear receta'}</Text>
           </TouchableOpacity>
         </View>
       </View>

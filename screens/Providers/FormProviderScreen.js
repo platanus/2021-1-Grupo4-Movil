@@ -310,7 +310,7 @@ function FormProvider({ navigation, route }) {
           onPress={() => handleSubmit(isNew)}
         >
           <Text style={[styles.buttonText, styles.confirmText]}>
-            {isNew ? 'Agregar proveedor' : 'Editar proveedor' }
+            {isNew ? 'Agregar proveedor' : 'Guardar' }
           </Text>
         </TouchableOpacity>
       </View>
