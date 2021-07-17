@@ -111,8 +111,6 @@ function RecipeIngredients(props) {
             <View
               style={styles.ingredientRow}
             >
-
-
               <View style={styles.ingredientData}>
                 <CheckBox
                   checked={selecteds.includes(ingredient.id)}
