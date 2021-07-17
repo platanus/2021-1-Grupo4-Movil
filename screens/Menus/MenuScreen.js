@@ -128,7 +128,7 @@ function Menu(props) {
   }
 
   function copyShoppingListToClipboard() {
-    if (!(menu.attributes.menuRecipes.data > 0)) return;
+    if (!(menu.attributes.menuRecipes.data.length > 0)) return;
 
     getShoppingList({ id: menu.id })
       .then((res) => {
@@ -138,8 +138,7 @@ function Menu(props) {
   }
 
   function exportShoppingList() {
-    if (!(menu.attributes.menuRecipes.data > 0)) return;
-
+    if (!(menu.attributes.menuRecipes.data.length > 0)) return;
     getShoppingList({ id: menu.id })
       .then((res) => {
         createExcel(res);
@@ -312,6 +311,9 @@ function Menu(props) {
             </View>
           </View>
         ))}
+        <Text style={styles.title}>
+          {'Lista de compras'}
+        </Text>
         <View style={styles.infoContainer}>
           <TouchableOpacity
             style={styles.shoppingListButton}

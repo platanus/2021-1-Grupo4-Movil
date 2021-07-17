@@ -13,7 +13,9 @@ const formatListForClipboard = (shoppingList) => {
     provider.ingredients.forEach((ingredient) => {
       const totalPriceIngredient = Number(ingredient.quantity) * Number(ingredient.totalPrice);
       totalPrice += totalPriceIngredient;
-      shoppingListString += `${ingredient.name} (${ingredient.quantity}): $${totalPriceIngredient}\n`;
+      shoppingListString += `${ingredient.name} (${ingredient.quantity} ${
+        ingredient.measure
+      }}): $${totalPriceIngredient}\n`;
     });
     shoppingListString += `*Precio total: $${totalPrice}*\n\n`;
   });
