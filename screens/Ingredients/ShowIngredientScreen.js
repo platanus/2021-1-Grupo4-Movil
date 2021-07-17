@@ -50,7 +50,6 @@ function ShowIngredient({ navigation, route }) {
       });
   }
 
-
   return (
     <View style={styles.container}>
       <DeleteModal
