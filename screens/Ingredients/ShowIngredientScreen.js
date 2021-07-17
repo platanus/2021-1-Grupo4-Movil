@@ -50,7 +50,6 @@ function ShowIngredient({ navigation, route }) {
       });
   }
 
-  console.log('Ingrediente: ', ingredient.attributes.otherMeasures.data)
 
   return (
     <View style={styles.container}>
