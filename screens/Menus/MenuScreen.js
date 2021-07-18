@@ -312,7 +312,7 @@ function Menu(props) {
           </View>
         ))}
         <Text style={styles.title}>
-          {'Lista de compras'}
+          Lista de compras
         </Text>
         <View style={styles.infoContainer}>
           <TouchableOpacity
