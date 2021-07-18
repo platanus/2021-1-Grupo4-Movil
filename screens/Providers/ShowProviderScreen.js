@@ -36,6 +36,12 @@ function ShowProvider({ navigation, route }) {
       });
   }
 
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: provider.attributes.name,
+    });
+  }, [navigation, provider.attributes.name]);
+
   return (
     <>
       <View style={styles.container}>
