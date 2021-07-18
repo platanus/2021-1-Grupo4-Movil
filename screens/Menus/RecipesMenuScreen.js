@@ -25,8 +25,8 @@ function RecipesMenu({ navigation }) {
       name: recipe.attributes.name,
       price: calculateRecipePrice(recipe),
       selected: false,
-      quantity: 1,
-      quantityText: '1',
+      quantity: 0,
+      quantityText: '0',
       isNew: true,
     };
   }
