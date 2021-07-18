@@ -129,12 +129,13 @@ const styles = StyleSheet.create({
   },
   modalView: {
     minHeight: '35%',
-    maxHeight: '50%',
-    minWidth: '90%',
+    maxHeight: '75%',
+    width: '85%',
     margin: 20,
     backgroundColor: 'white',
     borderRadius: 20,
-    padding: 20,
+    paddingTop: 5,
+    paddingHorizontal: 15,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -165,14 +166,18 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: colors.kitchengramBlack,
     textAlign: 'center',
-    marginBottom: 2,
+    marginTop: 15,
+    marginBottom: 15,
   },
   modalSubtitle: {
     width: '100%',
     fontSize: 15,
     color: colors.kitchengramBlack,
     textAlign: 'center',
-    marginBottom: 10,
+    paddingBottom: 10,
+  },
+  modalScrollView: {
+    minWidth: '100%',
   },
   modalButtonsContainer: {
     width: '100%',
@@ -180,6 +185,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginVertical: 20,
   },
   cancelButton: {
     width: '48%',
