@@ -4,11 +4,11 @@ import { StatusBar } from 'expo-status-bar';
 import { Text, View, TextInput, TouchableOpacity } from 'react-native';
 import { useStoreState, useStoreActions } from 'easy-peasy';
 import Icon from 'react-native-vector-icons/Ionicons';
-import styles from '../styles/authStyles';
-import colors from '../styles/appColors';
+import styles from '../../styles/authStyles';
+import colors from '../../styles/appColors';
 
 function LogIn() {
-  const setLoginView = useStoreActions((actions) => actions.setLoginView);
+  const setLoggedOutView = useStoreActions((actions) => actions.setLoggedOutView);
   const setLoginError = useStoreActions((actions) => actions.setLoginError);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -31,7 +31,12 @@ function LogIn() {
   }
 
   function goToSignUp() {
-    setLoginView(false);
+    setLoggedOutView('sign_up');
+    setLoginError(false);
+  }
+
+  function goToRecoverPassword() {
+    setLoggedOutView('forgot_password');
     setLoginError(false);
   }
 
@@ -80,6 +85,12 @@ function LogIn() {
           </Text>
         </TouchableOpacity>
 
+        <TouchableOpacity
+          onPress={goToRecoverPassword}>
+          <Text style={styles.forgotPasswordText}>
+            ¿Olvidaste tu contraseña?
+          </Text>
+        </TouchableOpacity>
       </View>
 
       <StatusBar style="auto" />

@@ -22,8 +22,8 @@ const sessionsApi = {
     });
   },
 
-  changePassword: (payload) => {
-    const url = config.endpoints.users.password;
+  forgotPassword: (payload) => {
+    const url = config.endpoints.users.forgotPassword;
 
     return apiUtils.api({
       method: 'post',
@@ -31,6 +31,17 @@ const sessionsApi = {
       data: payload,
     });
   },
+
+  changePassword: (payload) => {
+    const url = config.endpoints.users.password;
+    
+    return apiUtils.api({
+      method: 'post',
+      url,
+      data: payload,
+    });
+  },
+
 };
 export default sessionsApi;
 

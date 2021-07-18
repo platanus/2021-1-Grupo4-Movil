@@ -11,8 +11,9 @@ const storeState = {
   loginError: '',
   signUpError: '',
   changePasswordError: '',
+  forgotPasswordError: '',
   ingredientsError: '',
-  loginView: true,
+  loggedOutView: true,
   recipes: {
     getErrors: '',
     createErrors: '',
@@ -49,6 +50,12 @@ const storeActions = {
   }),
   setSignUpError: action((state, payload) => {
     state.signUpError = payload;
+  }),
+  setForgotPasswordError: action((state, payload) => {
+    state.forgotPasswordError = payload;
+  }),
+  setLoggedOutView: action((state, payload) => {
+    state.loggedOutView = payload;
   }),
   setChangePasswordError: action((state, payload) => {
     state.changePasswordError = payload;
@@ -130,7 +137,7 @@ const storeThunks = {
       .then((resp) => {
         actions.setUserAndApiHeaders(resp);
         actions.setLoginError('');
-        actions.setLoginView(true);
+        actions.setLoggedOutView('login');
       }).catch((error) => {
         try {
           actions.setLoginError(error.response.data.message);
@@ -146,13 +153,20 @@ const storeThunks = {
       .then((resp) => {
         actions.setUserAndApiHeaders(resp);
         actions.setSignUpError('');
-        actions.setLoginView(true);
+        actions.setLoggedOutView('login');
       }).catch((error) => {
-        try {
-          actions.setSignUpError(error.response.data.message);
-        } catch (error2) {
-          actions.setSignUpError('hubo un problema de red');
-        }
+        actions.setSignUpError(error.response.data.errors.email[0]);
+      });
+    actions.setShowLoadingSpinner();
+  }),
+  forgotPassword: thunk(async (actions, payload) => {
+    actions.setShowLoadingSpinner();
+    await sessionsApi.forgotPassword(payload)
+      .then(() => {
+        actions.setForgotPasswordError('');
+        actions.setLoggedOutView('login');
+      }).catch((error) => {
+        actions.setForgotPasswordError(error.response.data.message);
       });
     actions.setShowLoadingSpinner();
   }),

@@ -26,7 +26,13 @@ const styles = StyleSheet.create({
 
   errorMessage: {
     textAlign: 'center',
-    color: colors.kitchengramYellow500 },
+    color: colors.kitchengramYellow500,
+  },
+
+  infoMessage: {
+    paddingTop: '5%',
+    color: colors.kitchengramGray400,
+  },
 
   eye: {
     position: 'absolute',
@@ -37,7 +43,14 @@ const styles = StyleSheet.create({
   haveAccountText: {
     textAlign: 'center',
     color: colors.kitchengramGray600,
-    marginTop: '4%' },
+    marginTop: '6%',
+  },
+
+  forgotPasswordText: {
+    textAlign: 'center',
+    color: colors.yellow,
+    marginTop: '8%',
+  },
 
   helloText: {
     marginTop: 0,
