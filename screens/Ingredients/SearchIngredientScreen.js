@@ -95,7 +95,7 @@ function SearchIngredient({ navigation, route }) {
                   setName(product.name);
                   setPrice(product.price);
                   setProviderName(searchResponse[actualProvider].provider.name);
-                  setMeasure({ name: product.measure, quantity: 1 });
+                  setMeasure({ name: product.measure, quantity: product.quantity });
                   navigation.navigate('Nuevo Ingrediente', {
                     isFromSearch: true,
                   });

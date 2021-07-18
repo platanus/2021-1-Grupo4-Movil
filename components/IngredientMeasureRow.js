@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, TextInput, View } from 'react-native';
+import { TextInput, View } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -7,7 +7,7 @@ import styles from '../styles/Ingredients/formStyles';
 import pickers from '../styles/customPickerStyles';
 import colors from '../styles/appColors';
 
-function IngredientMeasureRow({ measure, handleMeasureChange, isDefault, hasLabels }) {
+function IngredientMeasureRow({ measure, handleMeasureChange, isDefault }) {
   const [measuresOptions, setMeasuresOptions] = useState(['Unidad', 'Kilo', 'Gramo', 'Litro', 'Mililitro',
     'Oz', 'Taza', 'Cucharada', 'Cucharadita', 'Otra']);
   const [measureName, setMeasureName] = useState(measure.name);
@@ -33,11 +33,6 @@ function IngredientMeasureRow({ measure, handleMeasureChange, isDefault, hasLabe
     <>
       <View style={styles.rowContainer}>
         <View style={styles.inputUnitContainer}>
-          { hasLabels ?
-            <Text style={styles.inputLabel}>
-              Cantidad
-            </Text> : null
-          }
           <TextInput
             style={styles.input}
             placeholder="Cantidad de ingrediente..."
@@ -48,11 +43,6 @@ function IngredientMeasureRow({ measure, handleMeasureChange, isDefault, hasLabe
           />
         </View>
         <View style={styles.inputUnitContainer}>
-          {hasLabels ?
-            <Text style={styles.inputLabel}>
-              Unidad
-            </Text> : null
-          }
           <View style={styles.dropDown}>
             <RNPickerSelect
               style={pickers.customPickerStyles}
