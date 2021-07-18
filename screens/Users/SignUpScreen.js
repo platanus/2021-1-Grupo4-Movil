@@ -1,7 +1,7 @@
 /* eslint-disable max-statements */
 import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { Text, View, TextInput, TouchableOpacity, Image } from 'react-native';
 import { useStoreActions, useStoreState } from 'easy-peasy';
 import Icon from 'react-native-vector-icons/Ionicons';
 import styles from '../../styles/authStyles';
@@ -63,7 +63,11 @@ function SignUp() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.helloText}>Hola KitchenGram!</Text>
+      <Image source={require('../assets/chef.png')} style={styles.chefIcon} />
+      <View style={styles.helloContainer}>
+        <Text style={styles.helloText}>¡Bienvenido/a a Kitchengram!</Text>
+        <Text style={styles.descriptionText}>La nueva forma de gestionar tu cocina y negocio</Text>
+      </View>
       <View style={styles.logContainer}>
         <Text style={styles.loginText}>
           Email:
