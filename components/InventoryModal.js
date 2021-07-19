@@ -15,7 +15,7 @@ function InventoryModal({ show, setShow, dependencies, title, description }) {
           </Text>
           {(dependencies.length > 0) && (
             <>
-              <Text style={styles.modalDescription2}>
+              <Text style={styles.modalDescriptionCentered}>
                 {description}
               </Text>
               <ScrollView>
@@ -29,7 +29,7 @@ function InventoryModal({ show, setShow, dependencies, title, description }) {
                   </Text>)))}
               </ScrollView>
             </>)}
-          <View style={styles.modalButtonsContainer2}>
+          <View style={styles.modalButtonsContainerColumn}>
             <TouchableOpacity
               style={styles.confirmButton2}
               onPress={() => setShow(false)}

@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     marginBottom: 20,
   },
-  modalDescription2: {
+  modalDescriptionCentered: {
     minWidth: '100%',
     fontSize: 16,
     color: colors.kitchengramBlack,
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  modalButtonsContainer2: {
+  modalButtonsContainerColumn: {
     width: '60%',
     height: 35,
     display: 'flex',

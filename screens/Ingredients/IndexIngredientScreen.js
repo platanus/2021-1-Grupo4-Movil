@@ -164,7 +164,7 @@ function IndexIngredients({ navigation }) {
           setShow={setShowModal}
           dependencies={ingredients}
           title={'Alerta Inventario Ingredientes'}
-          description={'Ingredientes Bajo Inventario Minimo'}/>
+          description={'Ingredientes Bajo Inventario Mínimo'}/>
         <SearchElements
           elements={ingredients}
           setFilteredElements={setIngredientsToShow}

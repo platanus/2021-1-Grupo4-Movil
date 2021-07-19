@@ -116,7 +116,7 @@ function FormIngredient({ navigation, route }) {
       { error: !name.length, message: 'Debes asignar un nombre al ingrediente' },
       { error: price <= 0, message: 'Debes ingresar un precio válido' },
       { error: measures[0].quantity <= 0, message: 'Debes ingresar una cantidad por defecto' },
-      { error: minimumQuantity <= 0, message: 'Debes ingresar un minimo inventario válido' },
+      { error: minimumQuantity <= 0, message: 'Debes ingresar un mínimo inventario válido' },
       { error: !measures[0].name, message: 'Debes ingresar una medida por defecto' },
       ...measures.slice(1).map(thisMeasure => ({
         error: !thisMeasure.isRemoved && !thisMeasure.name,
