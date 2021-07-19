@@ -21,8 +21,7 @@ function RecipeRow(props) {
         recipe,
         recipes,
         setRecipes,
-      })}
-      key={recipe.id}>
+      })}>
       <View style={styles.left}>
         <Text style={styles.name} >{(recipe) ? recipe.attributes.name : '---'}</Text>
         <View style={styles.recipeInfo}>

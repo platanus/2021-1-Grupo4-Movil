@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     borderBottomColor: colors.kitchengramGray400,
     borderBottomWidth: 1,
+    paddingHorizontal: '5%',
   },
   row: {
     flexDirection: 'row',
@@ -39,7 +40,7 @@ const styles = StyleSheet.create({
   right: {
     width: '35%',
     height: '100%',
-    paddingRight: '10%',
+    paddingRight: '5%',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'flex-end',
@@ -100,7 +101,7 @@ const styles = StyleSheet.create({
     fontWeight: 'normal',
     fontStyle: 'normal',
   },
-  container2: {
+  containerCentered: {
     paddingVertical: 5,
     marginTop: '5%',
     display: 'flex',

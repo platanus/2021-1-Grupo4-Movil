@@ -1,4 +1,5 @@
-import { createStore, action, thunk } from 'easy-peasy';
+import { createStore, action, thunk, persist } from 'easy-peasy';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import apiUtils from '../api/api';
 import sessionsApi from '../api/sessions';
 import ingredientsApi from '../api/ingredients';
@@ -6,13 +7,31 @@ import recipesApi from '../api/recipes';
 import menusApi from '../api/menus';
 import providersApi from '../api/providers';
 
+const reactNativeStorage = {
+  async getItem(key) {
+    const rawValue = await AsyncStorage.getItem(key);
+
+    return JSON.parse(rawValue);
+  },
+  setItem(key, data) {
+    const parsedValue = JSON.stringify(data);
+
+    return AsyncStorage.setItem(key, parsedValue);
+  },
+  removeItem(key) {
+    return AsyncStorage.removeItem(key);
+  },
+};
+
 const storeState = {
-  currentUser: null,
+  currentUser: persist({ email: '', authenticationToken: '' },
+    { storage: reactNativeStorage }),
   loginError: '',
   signUpError: '',
   changePasswordError: '',
+  forgotPasswordError: '',
   ingredientsError: '',
-  loginView: true,
+  loggedOutView: true,
   recipes: {
     getErrors: '',
     createErrors: '',
@@ -49,6 +68,12 @@ const storeActions = {
   }),
   setSignUpError: action((state, payload) => {
     state.signUpError = payload;
+  }),
+  setForgotPasswordError: action((state, payload) => {
+    state.forgotPasswordError = payload;
+  }),
+  setLoggedOutView: action((state, payload) => {
+    state.loggedOutView = payload;
   }),
   setChangePasswordError: action((state, payload) => {
     state.changePasswordError = payload;
@@ -99,7 +124,7 @@ const storeActions = {
     state.providersError = payload;
   }),
   setLogOut: action((state) => {
-    state.currentUser = null;
+    state.currentUser = { email: '', authenticationToken: '' };
     apiUtils.api.defaults.headers = { 'Accept': 'application/json',
       'Content-Type': 'application/json' };
   }),
@@ -130,7 +155,7 @@ const storeThunks = {
       .then((resp) => {
         actions.setUserAndApiHeaders(resp);
         actions.setLoginError('');
-        actions.setLoginView(true);
+        actions.setLoggedOutView('login');
       }).catch((error) => {
         try {
           actions.setLoginError(error.response.data.message);
@@ -146,13 +171,20 @@ const storeThunks = {
       .then((resp) => {
         actions.setUserAndApiHeaders(resp);
         actions.setSignUpError('');
-        actions.setLoginView(true);
+        actions.setLoggedOutView('login');
       }).catch((error) => {
-        try {
-          actions.setSignUpError(error.response.data.message);
-        } catch (error2) {
-          actions.setSignUpError('hubo un problema de red');
-        }
+        actions.setSignUpError(error.response.data.errors.email[0]);
+      });
+    actions.setShowLoadingSpinner();
+  }),
+  forgotPassword: thunk(async (actions, payload) => {
+    actions.setShowLoadingSpinner();
+    await sessionsApi.forgotPassword(payload)
+      .then(() => {
+        actions.setForgotPasswordError('');
+        actions.setLoggedOutView('login');
+      }).catch((error) => {
+        actions.setForgotPasswordError(error.response.data.message);
       });
     actions.setShowLoadingSpinner();
   }),
@@ -513,6 +545,8 @@ const storeThunks = {
   }),
 };
 
+// eslint-disable-next-line no-undef
+window.requestIdleCallback = null;
 const generateStore = createStore({
   ...storeState,
   ...getters,

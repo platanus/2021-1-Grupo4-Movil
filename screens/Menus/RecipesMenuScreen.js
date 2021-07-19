@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useStoreActions, useStoreState } from 'easy-peasy';
-import { View, Text, ScrollView, TextInput } from 'react-native';
+import { View, Text, TextInput, FlatList } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import RecipeRow from '../../components/menuSelectRecipesRow';
 import calculateRecipePrice from '../../utils/calculateRecipePrice';
@@ -25,8 +25,8 @@ function RecipesMenu({ navigation }) {
       name: recipe.attributes.name,
       price: calculateRecipePrice(recipe),
       selected: false,
-      quantity: 1,
-      quantityText: '1',
+      quantity: 0,
+      quantityText: '0',
       isNew: true,
     };
   }
@@ -67,18 +67,17 @@ function RecipesMenu({ navigation }) {
         <Text style={styles.subtitle}>Nombre de la receta</Text>
         <TextInput style={styles.textInput} value={searchText} onChangeText={setSearchText}/>
       </View>
-      <ScrollView>
-        <View>
-          {recipesToShow.map((recipe) => (
-            <RecipeRow
-              key={recipe.id}
-              recipe={recipe}
-              select={true}
-              handleRecipeChange={(newAttributes) => handleRecipeChange(recipe.id, newAttributes)}
-            />
-          ))}
-        </View>
-      </ScrollView>
+      <FlatList
+        keyExtractor={(item) => item.id}
+        data={recipesToShow}
+        renderItem={({ item }) => (
+          <RecipeRow
+            recipe={item}
+            select={true}
+            handleRecipeChange={(newAttributes) => handleRecipeChange(item.id, newAttributes)}
+          />
+        )}
+      />
       <View style={styles.menuButtonsRow}>
         <View style={styles.oneButtonContainer}>
           <TouchableOpacity

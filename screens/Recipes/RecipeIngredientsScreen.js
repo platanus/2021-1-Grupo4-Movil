@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useStoreActions, useStoreState } from 'easy-peasy';
-import { View, Text, TextInput, ScrollView } from 'react-native'; // ActionSheetIOS,
+import { View, Text, TextInput, FlatList } from 'react-native'; // ActionSheetIOS,
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { CheckBox } from 'react-native-elements';
 import styles from '../../styles/Recipes/ingredientRecipe';
@@ -99,19 +99,21 @@ function RecipeIngredients(props) {
           value={currentSearch}
           onChangeText={setCurrentSearch}/>
       </View>
-      <ScrollView style={styles.scroll}>
-        {
-          shownIngredients.map((ingredient, i) => (
+      <FlatList
+        keyExtractor={(item) => item.id}
+        data={shownIngredients}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            onPress={() => {
+              changeIngredientChecked(item.id);
+            }}
+          >
             <View
-              key={i}
               style={styles.ingredientRow}
             >
               <View style={styles.ingredientData}>
                 <CheckBox
-                  checked={selecteds.includes(ingredient.id)}
-                  onPress={() => {
-                    changeIngredientChecked(ingredient.id);
-                  }}
+                  checked={selecteds.includes(item.id)}
                   style={styles.checkbox}
                   checkedColor={colors.kitchengramYellow500}
                   checkedIcon = 'check-square'
@@ -120,31 +122,34 @@ function RecipeIngredients(props) {
                   size={30}
                 />
                 <Text style={styles.name}>
-                  {ingredient.attributes.name}
+                  {item.attributes.name}
                 </Text>
               </View>
               <View style={styles.ingredientPrice}>
                 <Text style={styles.price}>
                   {
                     `${formatMoney(
-                      ingredient.attributes.price / ingredient.attributes.quantity, '$'
-                    )
-                    } / ${ingredient.attributes.measure}`
+                      item.attributes.price / item.attributes.quantity, '$')
+                    } / ${item.attributes.measure}`
                   }
                 </Text>
               </View>
             </View>
-          ),
-          )}
-      </ScrollView>
-      <TouchableOpacity
-        style={styles.submitIngredients}
-        onPress={saveSelectedIngredients}
-      >
-        <Text style={styles.saveButton}>
-            Guardar cambios
-        </Text>
-      </TouchableOpacity>
+          </TouchableOpacity>
+        )}
+      />
+      <View style={styles.menuButtonsRow}>
+        <View style={styles.oneButtonContainer}>
+          <TouchableOpacity
+            style={styles.submitIngredients}
+            onPress={saveSelectedIngredients}
+          >
+            <Text style={styles.saveButton}>
+                Guardar cambios
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     </View>
   );
 }

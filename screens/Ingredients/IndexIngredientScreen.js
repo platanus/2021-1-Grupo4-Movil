@@ -11,6 +11,7 @@ import {
   Text,
   TextInput,
   ScrollView,
+  FlatList,
   RefreshControl,
   Alert,
 } from 'react-native';
@@ -36,7 +37,6 @@ function IndexIngredients({ navigation }) {
   const [showModal, setShowModal] = useState(false);
 
   const [ingredients, setIngredients] = useState([]);
-  const evenNumber = 2;
   const [mounted, setMounted] = useState(false);
   const [editableInventories, setEditableInventories] = useState({});
   const [refreshing, setRefreshing] = useState(false);
@@ -119,9 +119,9 @@ function IndexIngredients({ navigation }) {
       headerRight: () => (
         <View style={styles.row}>
           <FontAwesome name='bell-o'
-            size={26}
+            size={22}
             color={colors.kitchengramWhite}
-            style={{ paddingRight: 15 }}
+            style={{ paddingRight: 15, marginTop: 6 }}
             onPress={() =>
               setShowModal(true)}/>
           <Icon name='list'
@@ -164,25 +164,25 @@ function IndexIngredients({ navigation }) {
           setShow={setShowModal}
           dependencies={ingredients}
           title={'Alerta Inventario Ingredientes'}
-          description={'Ingredientes Quiebre de stock'}/>
+          description={'Ingredientes Bajo Inventario Mínimo'}/>
         <SearchElements
           elements={ingredients}
           setFilteredElements={setIngredientsToShow}
           elementName='Ingrediente'/>
-        <ScrollView
+        <FlatList
+          keyExtractor={(item) => item.id}
+          data={ingredientsToShow}
           refreshControl={
             <RefreshControl
               refreshing={refreshing}
               onRefresh={onRefresh}
-            />
-          }>
-          {ingredientsToShow.map((ingredient, i) => (
+            />}
+          renderItem={({ item }) => (
             <TouchableOpacity
-              style={[styles.ingredientRow, (i % evenNumber === 0) ? styles.even : styles.odd]}
-              key={ingredient.id}
+              style={[styles.ingredientRow, styles.even]}
               onPress={() => {
                 navigation.navigate('Ingrediente', {
-                  ingredient,
+                  ingredient: item,
                   ingredients,
                   setIngredients,
                 });
@@ -190,28 +190,28 @@ function IndexIngredients({ navigation }) {
             >
               <View style={styles.left}>
                 <Text style={styles.name}>
-                  {ingredient.attributes.name}
+                  {item.attributes.name}
                 </Text>
                 <Text style={styles.measure}>
-                  {`${ingredient.attributes.quantity} ${ingredient.attributes.measure}`}
+                  {`${item.attributes.quantity} ${item.attributes.measure}`}
                 </Text>
               </View>
               <View style={styles.right}>
                 <Text style={styles.price}>
-                  {formatMoney(ingredient.attributes.price, '$')}
+                  {formatMoney(item.attributes.price, '$')}
                 </Text>
                 <Text style={styles.measure}>
                   {`${formatMoney(
-                    ingredient.attributes.price / ingredient.attributes.quantity, '$')
-                  } / ${ingredient.attributes.measure}`}
+                    item.attributes.price / item.attributes.quantity, '$')
+                  } / ${item.attributes.measure}`}
                 </Text>
                 <View style={styles.inventory}>
-                  {editableInventories[ingredient.id] ? (
+                  {editableInventories[item.id] ? (
                     <View style={styles.inventoryEditPanel}>
                       <TouchableOpacity
                         style={styles.decreaseInventoryBtn}
                         onPress={() => inventoryModifier(
-                          ingredientsInventory[ingredient.id.toString()] - 1, ingredient.id)}
+                          ingredientsInventory[item.id.toString()] - 1, item.id)}
                       >
                         <Icon
                           name='remove-circle-outline'
@@ -225,15 +225,15 @@ function IndexIngredients({ navigation }) {
                         returnKeyType='done'
                         value={
                           ingredientsInventory[
-                            ingredient.id.toString()].toString()
+                            item.id.toString()].toString()
                         }
-                        onChangeText={(event) => inventoryModifier(event, ingredient.id)}
+                        onChangeText={(event) => inventoryModifier(event, item.id)}
                         editable={true}
                       />
                       <TouchableOpacity
                         style={styles.increaseInventoryBtn}
                         onPress={() => inventoryModifier(
-                          ingredientsInventory[ingredient.id.toString()] + 1, ingredient.id)}
+                          ingredientsInventory[item.id.toString()] + 1, item.id)}
                       >
                         <Icon
                           name='add-circle-outline'
@@ -246,11 +246,11 @@ function IndexIngredients({ navigation }) {
                     <Text
                       style={styles.measure}
                     >
-                      {`${ingredientsInventory[ingredient.id.toString()]} un.`}
+                      {`${ingredientsInventory[item.id.toString()]} un.`}
                     </Text>
                   )}
-                  <TouchableOpacity onPress={() => showInventoryInput(ingredient)}>
-                    {editableInventories[ingredient.id] ? (
+                  <TouchableOpacity onPress={() => showInventoryInput(item)}>
+                    {editableInventories[item.id] ? (
                       <Text style={styles.saveInventoryButton}>
                         Guardar
                       </Text>
@@ -264,8 +264,8 @@ function IndexIngredients({ navigation }) {
                 </View>
               </View>
             </TouchableOpacity>
-          ))}
-        </ScrollView>
+          )}
+        />
       </View>
     );
   }

@@ -98,10 +98,11 @@ function Menu(props) {
         const id = ingredient.attributes.ingredient.id.toString();
         let newInventory = 0;
         if (Object.keys(newIngredientsInventoryCopy).includes(id)) {
-          newInventory = newIngredientsInventoryCopy[id] - ingredient.attributes.ingredientQuantity;
+          newInventory = parseFloat(
+            newIngredientsInventoryCopy[id].quantity) - ingredient.attributes.ingredientQuantity;
         } else {
           totalIngredients += 1;
-          newInventory = ingredientsInventory[id] - ingredient.attributes.ingredientQuantity;
+          newInventory = parseFloat(ingredientsInventory[id]) - ingredient.attributes.ingredientQuantity;
         }
         newIngredientsInventoryCopy[id] = {
           // eslint-disable-next-line no-magic-numbers
@@ -128,7 +129,7 @@ function Menu(props) {
   }
 
   function copyShoppingListToClipboard() {
-    if (!(menu.attributes.menuRecipes.data > 0)) return;
+    if (!(menu.attributes.menuRecipes.data.length > 0)) return;
 
     getShoppingList({ id: menu.id })
       .then((res) => {
@@ -138,8 +139,7 @@ function Menu(props) {
   }
 
   function exportShoppingList() {
-    if (!(menu.attributes.menuRecipes.data > 0)) return;
-
+    if (!(menu.attributes.menuRecipes.data.length > 0)) return;
     getShoppingList({ id: menu.id })
       .then((res) => {
         createExcel(res);
@@ -205,8 +205,9 @@ function Menu(props) {
                           {`${newIngredientsInventory[key].name}:`}
                         </Text>
                         <Text style={styles.modalText}>
-                          {`Tienes ${ingredientsInventory[key]} - ` +
-                          `Quedarán ${newIngredientsInventory[key].quantity} ${newIngredientsInventory[key].measure}`}
+                          {`Tienes ${ingredientsInventory[key].toFixed(1)} - ` +
+                          `Quedarán ${
+                            newIngredientsInventory[key].quantity.toFixed(1)} ${newIngredientsInventory[key].measure}`}
                         </Text>
                       </View>
                     ))}
@@ -230,8 +231,8 @@ function Menu(props) {
                       {`${key}:`}
                     </Text>
                     <Text style={styles.modalText}>
-                      {`Tienes ${ingredientsInventory[alertIngredients[key].id]} - ` +
-                      `Faltan ${alertIngredients[key].quantity} ${alertIngredients[key].measure}`}
+                      {`Tienes ${ingredientsInventory[alertIngredients[key].id].toFixed(1)} - ` +
+                      `Faltan ${alertIngredients[key].quantity.toFixed(1)} ${alertIngredients[key].measure}`}
                     </Text>
                   </View>
                 ))}
@@ -316,6 +317,9 @@ function Menu(props) {
             </View>
           </View>
         ))}
+        <Text style={styles.title}>
+          Lista de compras
+        </Text>
         <View style={styles.infoContainer}>
           <TouchableOpacity
             style={styles.shoppingListButton}
