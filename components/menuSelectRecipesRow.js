@@ -11,19 +11,26 @@ function SelectRecipeRow({ select, recipe, handleRecipeChange }) {
     const newQuantity = recipe.quantity + diff;
     if (newQuantity > 0) {
       handleRecipeChange({ quantity: newQuantity, quantityText: newQuantity.toString(), selected: true });
-    } else if (newQuantity === 0) handleRecipeChange({ quantity: 0, quantityText: '0', selected: false });
+    } else if (newQuantity === 0) {
+      handleRecipeChange({ quantity: 0, quantityText: '0', selected: false });
+    }
   }
 
   function changeRecipeQtyTo() {
     if (!recipe.quantityText || Number(recipe.quantityText) <= 0) {
       handleRecipeChange({ quantityText: '0', quantity: 0, selected: false });
-    } else handleRecipeChange({ quantity: Number(recipe.quantityText), selected: true });
+    } else {
+      handleRecipeChange({ quantity: Number(recipe.quantityText), selected: true });
+    }
   }
 
   function pressCheckBox() {
     const newQty = recipe.quantity ? recipe.quantity : 1;
-    if (recipe.selected) handleRecipeChange({ selected: false, quantity: 0, quantityText: '0' });
-    else handleRecipeChange({ selected: true, quantity: newQty, quantityText: newQty.toString() });
+    if (recipe.selected) {
+      handleRecipeChange({ selected: false, quantity: 0, quantityText: '0' });
+    } else {
+      handleRecipeChange({ selected: true, quantity: newQty, quantityText: newQty.toString() });
+    }
   }
 
   return (
