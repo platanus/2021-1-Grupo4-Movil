@@ -17,11 +17,23 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 
+  chefIcon: {
+    width: 65,
+    height: 65,
+  },
+
   container: {
     flex: 1,
     backgroundColor: colors.kitchengramWhite,
     alignItems: 'center',
-    paddingTop: '30%',
+    paddingTop: '20%',
+  },
+
+  descriptionText: {
+    position: 'absolute',
+    paddingTop: 40,
+    color: colors.kitchengramGray800,
+    fontSize: 15,
   },
 
   errorMessage: {
@@ -46,18 +58,22 @@ const styles = StyleSheet.create({
     marginTop: '6%',
   },
 
+  helloText: {
+    marginTop: 5,
+    fontSize: 24,
+    color: colors.kitchengramGray800,
+    fontWeight: 'bold',
+    marginBottom: '13%',
+  },
+
   forgotPasswordText: {
     textAlign: 'center',
     color: colors.yellow,
     marginTop: '8%',
   },
 
-  helloText: {
-    marginTop: 0,
-    fontSize: 24,
-    color: colors.kitchengramBlack,
-    fontWeight: 'bold',
-    marginBottom: '20%',
+  helloContainer: {
+    alignItems: 'center',
   },
 
   input: {
