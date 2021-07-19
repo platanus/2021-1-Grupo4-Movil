@@ -45,23 +45,25 @@ const pickers = {
   },
   providerPicker: {
     inputIOS: {
+      textAlign: 'left',
       color: colors.kitchengramGreen500,
-      textAlign: 'center',
-      paddingTop: 13,
-      paddingHorizontal: 10,
-      paddingBottom: 12,
+      paddingTop: 10,
+      marginHorizontal: 10,
       fontSize: 16,
 
     },
     inputAndroid: {
-      textAlign: 'center',
+      textAlign: 'left',
       color: colors.kitchengramGreen500,
-      paddingTop: 20,
-      paddingBottom: 13,
+      paddingTop: 40,
       marginHorizontal: 10,
       fontSize: 16,
     },
     placeholderColor: colors.kitchengramGreen500,
+    iconContainer: {
+      top: Platform.OS === 'ios' ? '23%' : '20%',
+      right: '10%',
+    },
   },
 };
 
