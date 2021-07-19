@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     fontWeight: 'normal',
     fontStyle: 'normal',
   },
-  container2: {
+  containerCentered: {
     paddingVertical: 5,
     marginTop: '5%',
     display: 'flex',
