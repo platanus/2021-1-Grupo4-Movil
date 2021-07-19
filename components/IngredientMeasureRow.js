@@ -78,6 +78,7 @@ function IngredientMeasureRow({ measure, handleMeasureChange, isDefault }) {
               returnKeyType='done'
               value={otherMeasureName}
               onChangeText={setOtherMeasureName}
+              onEndEditing={() => handleNewMeasure()}
             />
           </View>
           <View>

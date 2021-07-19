@@ -78,6 +78,10 @@ function FormIngredient({ navigation, route }) {
   function handleMeasureChange(id, newMeasureAttributes) {
     const toChangeMeasureIndex = measures.findIndex((thisMeasure) => thisMeasure.id === id);
     if (toChangeMeasureIndex === -1) return;
+    if (newMeasureAttributes.name &&
+      measures.findIndex(measure => !measure.isRemoved && measure.name === newMeasureAttributes.name) !== -1) {
+      return;
+    }
     const toChangeMeasure = { ...measures[toChangeMeasureIndex], ...newMeasureAttributes };
     const auxMeasures = [
       ...measures.slice(0, toChangeMeasureIndex),
@@ -145,8 +149,8 @@ function FormIngredient({ navigation, route }) {
       { error: measures[0].quantity <= 0, message: 'Debes ingresar una cantidad por defecto' },
       { error: !measures[0].name, message: 'Debes ingresar una medida por defecto' },
       ...measures.slice(1).map(thisMeasure => ({
-        error: !thisMeasure.isRemoved && !thisMeasure.name,
-        message: 'Debes ingresar una medida a la unidad equivalente',
+        error: !thisMeasure.isRemoved && (!thisMeasure.name || thisMeasure.name === 'Otra'),
+        message: 'Debes ingresar una medida válida a la unidad equivalente',
       })),
       ...measures.slice(1).map(thisMeasure => ({
         error: !thisMeasure.isRemoved && !thisMeasure.quantity,
