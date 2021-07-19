@@ -57,7 +57,7 @@ function Main() {
   return (
     <>
       {rehydrated &&
-      <SignUp />}
+      <LogIn />}
       {showLoadingSpinner && <Spinner /> }
     </>
   );
