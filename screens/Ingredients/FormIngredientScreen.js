@@ -85,7 +85,7 @@ function FormIngredient({ navigation, route }) {
       ...measures.slice(toChangeMeasureIndex + 1),
     ];
 
-    const equivalentMeasures = ['Kilo', 'Gramo', 'Oz', 'Litro', 'Mililitro'];
+    const equivalentMeasures = ['Kilo', 'Gramo', 'Oz', 'Litro', 'Mililitro', 'Taza', 'Cucharada', 'Cucharadita'];
     if (!toChangeMeasure.isRemoved && toChangeMeasure.name && toChangeMeasure.quantity &&
       equivalentMeasures.includes(toChangeMeasure.name)) {
       const conversions = {
@@ -94,6 +94,9 @@ function FormIngredient({ navigation, route }) {
         Oz: [{ name: 'Kilo', quantity: 0.02835 }, { name: 'Gramo', quantity: 0.00002835 }],
         Litro: [{ name: 'Mililitro', quantity: 1000 }],
         Mililitro: [{ name: 'Litro', quantity: 0.001 }],
+        Taza: [{ name: 'Cucharada', quantity: 16 }, { name: 'Cucharadita', quantity: 48 }],
+        Cucharada: [{ name: 'Cucharadita', quantity: 3 }, { name: 'Taza', quantity: 0.0625 }],
+        Cucharadita: [{ name: 'Taza', quantity: 0.0283 }, { name: 'Cucharada', quantity: 0.33 }],
       };
       conversions[toChangeMeasure.name].forEach(conv => {
         const newId = Math.max(...auxMeasures.map(measure => Number(measure.id)), 0) + 1;
