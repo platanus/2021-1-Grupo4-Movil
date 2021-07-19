@@ -53,6 +53,13 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     marginBottom: 20,
   },
+  modalDescription2: {
+    minWidth: '100%',
+    fontSize: 16,
+    color: colors.kitchengramBlack,
+    textAlign: 'center',
+    marginBottom: 20,
+  },
   modalButtonsContainer: {
     width: '100%',
     height: 30,

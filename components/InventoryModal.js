@@ -15,7 +15,7 @@ function InventoryModal({ show, setShow, dependencies, title, description }) {
           </Text>
           {(dependencies.length > 0) && (
             <>
-              <Text style={styles.modalDescription}>
+              <Text style={styles.modalDescription2}>
                 {description}
               </Text>
               <ScrollView>
