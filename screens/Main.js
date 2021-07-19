@@ -1,5 +1,6 @@
+/* eslint-disable max-statements */
 import React, { useEffect } from 'react';
-import { useStoreState } from 'easy-peasy';
+import { useStoreState, useStoreRehydrated } from 'easy-peasy';
 import { NavigationContainer } from '@react-navigation/native';
 import apiUtils from '../api/api';
 import LogIn from './Users/LogInScreen';
@@ -9,6 +10,7 @@ import HomeTabs from '../navigators/bottomNavigation';
 import Spinner from '../components/Spinner';
 
 function Main() {
+  const rehydrated = useStoreRehydrated();
   const currentUser = useStoreState((state) => state.currentUser);
   const loggedOutView = useStoreState((state) => state.loggedOutView);
   const showLoadingSpinner = useStoreState((state) => state.showLoadingSpinner);
@@ -24,9 +26,11 @@ function Main() {
   if (currentUser.email) {
     return (
       <>
+        {rehydrated &&
         <NavigationContainer>
           <HomeTabs />
         </NavigationContainer>
+        }
         {showLoadingSpinner && <Spinner /> }
       </>
     );
@@ -35,14 +39,16 @@ function Main() {
   if (loggedOutView === 'login') {
     return (
       <>
-        <LogIn />
+        {rehydrated &&
+        <LogIn />}
         {showLoadingSpinner && <Spinner /> }
       </>
     );
   } else if (loggedOutView === 'forgot_password') {
     return (
       <>
-        <ForgotPassword />
+        {rehydrated &&
+        <ForgotPassword />}
         {showLoadingSpinner && <Spinner /> }
       </>
     );
@@ -50,7 +56,8 @@ function Main() {
 
   return (
     <>
-      <SignUp />
+      {rehydrated &&
+      <SignUp />}
       {showLoadingSpinner && <Spinner /> }
     </>
   );

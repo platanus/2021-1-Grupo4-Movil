@@ -7,9 +7,25 @@ import recipesApi from '../api/recipes';
 import menusApi from '../api/menus';
 import providersApi from '../api/providers';
 
+const reactNativeStorage = {
+  async getItem(key) {
+    const rawValue = await AsyncStorage.getItem(key);
+
+    return JSON.parse(rawValue);
+  },
+  setItem(key, data) {
+    const parsedValue = JSON.stringify(data);
+
+    return AsyncStorage.setItem(key, parsedValue);
+  },
+  removeItem(key) {
+    return AsyncStorage.removeItem(key);
+  },
+};
+
 const storeState = {
   currentUser: persist({ email: '', authenticationToken: '' },
-    { storage: AsyncStorage }),
+    { storage: reactNativeStorage }),
   loginError: '',
   signUpError: '',
   changePasswordError: '',
@@ -69,6 +85,9 @@ const storeActions = {
     if (payload.status === apiUtils.statusCodes.ok || payload.status === apiUtils.statusCodes.created) {
       const user = payload.data.data.attributes;
       state.currentUser = user;
+      apiUtils.api.defaults.headers = { 'Accept': 'application/json',
+        'Content-Type': 'application/json', 'X-User-Email': user.email,
+        'X-User-Token': user.authenticationToken };
     }
   }),
   setIngredientsError: action((state, payload) => {
@@ -526,6 +545,8 @@ const storeThunks = {
   }),
 };
 
+// eslint-disable-next-line no-undef
+window.requestIdleCallback = null;
 const generateStore = createStore({
   ...storeState,
   ...getters,
