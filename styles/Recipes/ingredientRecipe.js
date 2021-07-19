@@ -5,9 +5,11 @@ const styles = StyleSheet.create({
 
   container: {
     backgroundColor: colors.kitchengramWhite,
-    display: 'flex',
-    paddingHorizontal: '5%',
     paddingTop: 15,
+    height: '100%',
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
   },
 
   scroll: {
@@ -76,8 +78,8 @@ const styles = StyleSheet.create({
   },
   submitIngredients: {
     width: '100%',
-    height: 45,
-    marginTop: 5,
+    height: 36,
+    marginVertical: 10,
     paddingHorizontal: 10,
     backgroundColor: colors.kitchengramGreen500,
     borderRadius: 5,
@@ -87,6 +89,18 @@ const styles = StyleSheet.create({
   saveButton: {
     color: 'white',
     fontSize: 16,
+  },
+  menuButtonsRow: {
+    display: 'flex',
+    flexDirection: 'row',
+    paddingVertical: 7,
+    paddingHorizontal: 13,
+    justifyContent: 'space-between',
+    height: 50,
+    alignItems: 'center',
+  },
+  oneButtonContainer: {
+    width: '100%',
   },
 });
 

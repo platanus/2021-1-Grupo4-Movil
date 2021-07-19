@@ -9,6 +9,7 @@ import {
   Text,
   ScrollView,
   RefreshControl,
+  FlatList,
 } from 'react-native';
 import {
   useStoreActions,
@@ -86,21 +87,22 @@ function IndexProviders({ navigation }) {
           elements={providers}
           setFilteredElements={setProvidersToShow}
           elementName='Proveedor'/>
-        <ScrollView
+        <FlatList
+          keyExtractor={(item) => item.id}
+          data={providersToShow}
           refreshControl={
             <RefreshControl
               refreshing={refreshing}
               onRefresh={onRefresh}
-            />
-          }>
-          {providersToShow.map((provider, i) => (
+            />}
+          renderItem={({ item }) => (
+
             <TouchableOpacity
               // eslint-disable-next-line no-magic-numbers
-              style={[styles.providerRow, (i % 2 === 0) ? styles.even : styles.odd]}
-              key={provider.id}
+              style={[styles.providerRow, styles.odd]}
               onPress={() => {
                 navigation.navigate('Proveedor', {
-                  provider,
+                  provider: item,
                   providers,
                   setProviders,
                 });
@@ -108,7 +110,7 @@ function IndexProviders({ navigation }) {
             >
               <View style={styles.left}>
                 <Text style={styles.name}>
-                  {provider.attributes.name}
+                  {item.attributes.name}
                 </Text>
                 <View style={styles.phone}>
                   <Icon name='call'
@@ -116,7 +118,7 @@ function IndexProviders({ navigation }) {
                     color={colors.gray}
                   />
                   <Text style={styles.phoneText}>
-                    {(provider.attributes.phone) && provider.attributes.phone}
+                    {(item.attributes.phone) && item.attributes.phone}
                   </Text>
                 </View>
               </View>
@@ -127,8 +129,8 @@ function IndexProviders({ navigation }) {
                 />
               </View>
             </TouchableOpacity>
-          ))}
-        </ScrollView>
+          )}
+        />
       </View>
     );
   }

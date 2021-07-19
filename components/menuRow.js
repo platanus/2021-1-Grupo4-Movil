@@ -35,7 +35,6 @@ function MenuRow(props) {
         menus,
         menuPrice,
       })}
-      key={menu.id}
     >
       <View style={styles.left}>
         <Text style={styles.name}>
