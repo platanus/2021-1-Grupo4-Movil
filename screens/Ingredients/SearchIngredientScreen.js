@@ -79,11 +79,12 @@ function SearchIngredient({ navigation, route }) {
                   label: element.provider.name,
                   value: i,
                 }))}
-              />
-              <Icon name='chevron-down'
-                size={25}
-                color={colors.kitchengramGreen500}
-                style={styles.arrowIcon}
+                Icon={() =>
+                  <Icon name='chevron-down'
+                    size={25}
+                    color={colors.kitchengramGreen500}
+                    style={styles.arrowIcon}
+                  />}
               />
             </View>
             {searchResponse[actualProvider].products.map((product, i) => (
