@@ -52,12 +52,20 @@ function Main() {
         {showLoadingSpinner && <Spinner /> }
       </>
     );
+  } else if (loggedOutView === 'sign_up') {
+    return (
+      <>
+        {rehydrated &&
+        <SignUp />}
+        {showLoadingSpinner && <Spinner /> }
+      </>
+    );
   }
 
   return (
     <>
       {rehydrated &&
-      <SignUp />}
+      <LogIn />}
       {showLoadingSpinner && <Spinner /> }
     </>
   );

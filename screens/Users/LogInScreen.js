@@ -53,7 +53,7 @@ function LogIn() {
           Email:
         </Text>
         <TextInput
-          onChangeText={(mail) => setEmail(mail)}
+          onChangeText={(mail) => setEmail(mail.trim())}
           style={styles.input}
           autoCapitalize="none"/>
 
