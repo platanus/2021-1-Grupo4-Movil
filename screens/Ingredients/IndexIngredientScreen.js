@@ -119,9 +119,9 @@ function IndexIngredients({ navigation }) {
       headerRight: () => (
         <View style={styles.row}>
           <FontAwesome name='bell-o'
-            size={26}
+            size={22}
             color={colors.kitchengramWhite}
-            style={{ paddingRight: 15 }}
+            style={{ paddingRight: 15, marginTop: 6 }}
             onPress={() =>
               setShowModal(true)}/>
           <Icon name='list'
@@ -164,7 +164,7 @@ function IndexIngredients({ navigation }) {
           setShow={setShowModal}
           dependencies={ingredients}
           title={'Alerta Inventario Ingredientes'}
-          description={'Ingredientes Quiebre de stock'}/>
+          description={'Ingredientes Bajo Inventario Mínimo'}/>
         <SearchElements
           elements={ingredients}
           setFilteredElements={setIngredientsToShow}

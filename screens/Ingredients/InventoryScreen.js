@@ -192,7 +192,7 @@ function InventoryIngredient({ navigation, route }) {
             </TouchableOpacity>
           ))}
         </ScrollView>
-        <View styles = {styles.container2}>
+        <View styles = {styles.containerCentered}>
           <TouchableOpacity
             style={styles.buttonAccept}
             onPress={submitInventory}
