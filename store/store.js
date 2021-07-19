@@ -1,4 +1,5 @@
-import { createStore, action, thunk } from 'easy-peasy';
+import { createStore, action, thunk, persist } from 'easy-peasy';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import apiUtils from '../api/api';
 import sessionsApi from '../api/sessions';
 import ingredientsApi from '../api/ingredients';
@@ -7,7 +8,8 @@ import menusApi from '../api/menus';
 import providersApi from '../api/providers';
 
 const storeState = {
-  currentUser: null,
+  currentUser: persist({ email: '', authenticationToken: '' },
+    { storage: AsyncStorage }),
   loginError: '',
   signUpError: '',
   changePasswordError: '',
@@ -67,9 +69,6 @@ const storeActions = {
     if (payload.status === apiUtils.statusCodes.ok || payload.status === apiUtils.statusCodes.created) {
       const user = payload.data.data.attributes;
       state.currentUser = user;
-      apiUtils.api.defaults.headers = { 'Accept': 'application/json',
-        'Content-Type': 'application/json', 'X-User-Email': user.email,
-        'X-User-Token': user.authenticationToken };
     }
   }),
   setIngredientsError: action((state, payload) => {
@@ -106,7 +105,7 @@ const storeActions = {
     state.providersError = payload;
   }),
   setLogOut: action((state) => {
-    state.currentUser = null;
+    state.currentUser = { email: '', authenticationToken: '' };
     apiUtils.api.defaults.headers = { 'Accept': 'application/json',
       'Content-Type': 'application/json' };
   }),

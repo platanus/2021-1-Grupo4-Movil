@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useStoreState } from 'easy-peasy';
 import { NavigationContainer } from '@react-navigation/native';
-
+import apiUtils from '../api/api';
 import LogIn from './Users/LogInScreen';
 import SignUp from './Users/SignUpScreen';
 import ForgotPassword from './Users/forgotPasswordScreen';
@@ -13,7 +13,15 @@ function Main() {
   const loggedOutView = useStoreState((state) => state.loggedOutView);
   const showLoadingSpinner = useStoreState((state) => state.showLoadingSpinner);
 
-  if (currentUser) {
+  useEffect(() => {
+    if (currentUser.email) {
+      apiUtils.api.defaults.headers = { 'Accept': 'application/json',
+        'Content-Type': 'application/json', 'X-User-Email': currentUser.email,
+        'X-User-Token': currentUser.authenticationToken };
+    }
+  }, [currentUser]);
+
+  if (currentUser.email) {
     return (
       <>
         <NavigationContainer>
