@@ -4,7 +4,6 @@ import { useStoreState, useStoreRehydrated } from 'easy-peasy';
 import { NavigationContainer } from '@react-navigation/native';
 import apiUtils from '../api/api';
 import LogIn from './Users/LogInScreen';
-import SignUp from './Users/SignUpScreen';
 import ForgotPassword from './Users/forgotPasswordScreen';
 import HomeTabs from '../navigators/bottomNavigation';
 import Spinner from '../components/Spinner';
