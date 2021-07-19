@@ -189,36 +189,40 @@ function Menu(props) {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalTitle}>
-              {(!allIngredientsEmpty) && 'Ingredientes a modificar'}
-            </Text>
-            {(!allIngredientsEmpty) && (
-              <ScrollView>
-                {Object.keys(newIngredientsInventory).map((key, i) =>
-                  (!Object.keys(alertIngredients).includes(newIngredientsInventory[key].name)) && (
-                    <View key={i.toString()}>
-                      <Text
-                        style={[styles.modalText, styles.bold]}
-                      >
-                        {`${newIngredientsInventory[key].name}:`}
-                      </Text>
-                      <Text style={styles.modalText}>
-                        {`Tienes ${ingredientsInventory[key].toFixed(1)} - ` +
-                        `Quedarán ${
-                          newIngredientsInventory[key].quantity.toFixed(1)} ${newIngredientsInventory[key].measure}`}
-                      </Text>
-                    </View>
-                  ))}
-              </ScrollView>
+            {(!allIngredientsEmpty) &&
+            (
+              <>
+                <Text style={styles.modalTitle}>
+                  Ingredientes a modificar
+                </Text>
+                <ScrollView persistentScrollbar={true} fadingEdgeLength={80} style={styles.modalScrollView}>
+                  {Object.keys(newIngredientsInventory).map((key, i) =>
+                    (!Object.keys(alertIngredients).includes(newIngredientsInventory[key].name)) && (
+                      <View key={i.toString()}>
+                        <Text
+                          style={[styles.modalText, styles.bold]}
+                        >
+                          {`${newIngredientsInventory[key].name}:`}
+                        </Text>
+                        <Text style={styles.modalText}>
+                          {`Tienes ${ingredientsInventory[key].toFixed(1)} - ` +
+                          `Quedarán ${
+                            newIngredientsInventory[key].quantity.toFixed(1)} ${newIngredientsInventory[key].measure}`}
+                        </Text>
+                      </View>
+                    ))}
+                </ScrollView>
+              </>
             )}
-            <Text style={styles.modalTitle}>
-              {Object.keys(alertIngredients).length > 0 && 'Ingredientes con falta de inventario'}
-            </Text>
-            <Text style={styles.modalSubtitle}>
-              {Object.keys(alertIngredients).length > 0 && 'Quedarán con inventario 0'}
-            </Text>
-            {Object.keys(alertIngredients).length > 0 && (
-              <ScrollView>
+            {Object.keys(alertIngredients).length > 0 &&
+            (<>
+              <Text style={styles.modalTitle}>
+                Ingredientes con falta de inventario
+              </Text>
+              <Text style={styles.modalSubtitle}>
+                Quedarán con inventario 0
+              </Text>
+              <ScrollView persistentScrollbar={true} fadingEdgeLength={80} style={styles.modalScrollView}>
                 {Object.keys(alertIngredients).map((key, i) => (
                   <View key={i.toString()}>
                     <Text
@@ -233,7 +237,7 @@ function Menu(props) {
                   </View>
                 ))}
               </ScrollView>
-            )}
+            </>)}
             <View style={styles.modalButtonsContainer}>
               <TouchableOpacity
                 style={styles.cancelButton}
