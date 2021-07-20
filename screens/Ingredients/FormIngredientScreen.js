@@ -78,14 +78,45 @@ function FormIngredient({ navigation, route }) {
   function handleMeasureChange(id, newMeasureAttributes) {
     const toChangeMeasureIndex = measures.findIndex((thisMeasure) => thisMeasure.id === id);
     if (toChangeMeasureIndex === -1) return;
-    setMeasures([
+    if (newMeasureAttributes.name &&
+      measures.findIndex(measure => !measure.isRemoved && measure.name === newMeasureAttributes.name) !== -1) {
+      return;
+    }
+    const toChangeMeasure = { ...measures[toChangeMeasureIndex], ...newMeasureAttributes };
+    const auxMeasures = [
       ...measures.slice(0, toChangeMeasureIndex),
-      { ...measures[toChangeMeasureIndex], ...newMeasureAttributes },
+      toChangeMeasure,
       ...measures.slice(toChangeMeasureIndex + 1),
-    ]);
+    ];
+
+    const equivalentMeasures = ['Kilo', 'Gramo', 'Oz', 'Litro', 'Mililitro', 'Taza', 'Cucharada', 'Cucharadita'];
+    if (!toChangeMeasure.isRemoved && toChangeMeasure.name && toChangeMeasure.quantity &&
+      equivalentMeasures.includes(toChangeMeasure.name)) {
+      const conversions = {
+        Kilo: [{ name: 'Gramo', quantity: 1000 }, { name: 'Oz', quantity: 35.27 }],
+        Gramo: [{ name: 'Kilo', quantity: 0.001 }, { name: 'Oz', quantity: 0.03527 }],
+        Oz: [{ name: 'Kilo', quantity: 0.02835 }, { name: 'Gramo', quantity: 0.00002835 }],
+        Litro: [{ name: 'Mililitro', quantity: 1000 }],
+        Mililitro: [{ name: 'Litro', quantity: 0.001 }],
+        Taza: [{ name: 'Cucharada', quantity: 16 }, { name: 'Cucharadita', quantity: 48 }],
+        Cucharada: [{ name: 'Cucharadita', quantity: 3 }, { name: 'Taza', quantity: 0.0625 }],
+        Cucharadita: [{ name: 'Taza', quantity: 0.0283 }, { name: 'Cucharada', quantity: 0.33 }],
+      };
+      conversions[toChangeMeasure.name].forEach(conv => {
+        const newId = Math.max(...auxMeasures.map(measure => Number(measure.id)), 0) + 1;
+        const equivQty = Math.round((Number(toChangeMeasure.quantity) * conv.quantity + Number.EPSILON) * 100) / 100;
+        const equivalentMeasure = { id: newId, name: conv.name, quantity: equivQty, isNew: true, isRemoved: false };
+        const equivalentMeasureIndex = auxMeasures.findIndex(measure => measure.name === conv.name);
+        if (equivalentMeasureIndex === -1 || auxMeasures[equivalentMeasureIndex].isRemoved) {
+          auxMeasures.push(equivalentMeasure);
+        } else auxMeasures[equivalentMeasureIndex] = equivalentMeasure;
+      });
+    }
+    setMeasures(auxMeasures);
   }
 
   function addNewMeasure() {
+    if (measures.findIndex(measure => !measure.isRemoved && (!measure.name || !measure.quantity)) !== -1) return;
     setMeasures([
       ...measures,
       {
@@ -119,8 +150,8 @@ function FormIngredient({ navigation, route }) {
       { error: minimumQuantity <= 0, message: 'Debes ingresar un mínimo inventario válido' },
       { error: !measures[0].name, message: 'Debes ingresar una medida por defecto' },
       ...measures.slice(1).map(thisMeasure => ({
-        error: !thisMeasure.isRemoved && !thisMeasure.name,
-        message: 'Debes ingresar una medida a la unidad equivalente',
+        error: !thisMeasure.isRemoved && (!thisMeasure.name || thisMeasure.name === 'Otra'),
+        message: 'Debes ingresar una medida válida a la unidad equivalente',
       })),
       ...measures.slice(1).map(thisMeasure => ({
         error: !thisMeasure.isRemoved && !thisMeasure.quantity,
@@ -291,23 +322,38 @@ function FormIngredient({ navigation, route }) {
           <Text style={styles.measureLabel}>
             Unidad por defecto
           </Text>
+          <View style={styles.rowContainer}>
+            <View style={styles.qtyAndUnitLabel}>
+              <Text style={styles.inputLabel}>Cantidad</Text>
+            </View>
+            <View style={styles.qtyAndUnitLabel}>
+              <Text style={styles.inputLabel}>Unidad</Text>
+            </View>
+          </View>
           <IngredientMeasureRow
             key={measures[0].id}
             measure={measures[0]}
             handleMeasureChange={(newAttributes) => handleMeasureChange(measures[0].id, newAttributes)}
             isDefault={true}
-            hasLabels={true}
           />
           <Text style={styles.measureLabel}>
             Unidades alternativas
           </Text>
-          {measures.filter((thisMeasure, index) => !thisMeasure.isRemoved && index).map((thisMeasure, index) => (
+          {(measures.filter(measure => !measure.isRemoved).length) > 1 ?
+            <View style={styles.rowContainer}>
+              <View style={styles.qtyAndUnitLabel}>
+                <Text style={styles.inputLabel}>Cantidad</Text>
+              </View>
+              <View style={styles.qtyAndUnitLabel}>
+                <Text style={styles.inputLabel}>Unidad</Text>
+              </View>
+            </View> : null}
+          {measures.filter((thisMeasure, index) => !thisMeasure.isRemoved && index).map((thisMeasure) => (
             <IngredientMeasureRow
               key={thisMeasure.id}
               measure={thisMeasure}
               handleMeasureChange={(newAttributes) => handleMeasureChange(thisMeasure.id, newAttributes)}
               isDefault={false}
-              hasLabels={!index}
             />
           ))}
           <View style={styles.buttonContainer}>

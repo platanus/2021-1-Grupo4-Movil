@@ -37,6 +37,15 @@ const styles = StyleSheet.create({
     backgroundColor: colors.kitchengramWhite,
   },
 
+  qtyAndUnitLabel: {
+    width: '40%',
+    marginRight: '5%',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    marginVertical: -10,
+  },
+
   inputNewMeasureContainer: {
     width: '86%',
     height: 60,
