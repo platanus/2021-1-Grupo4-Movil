@@ -19,6 +19,7 @@ import pickers from '../../styles/customPickerStyles';
 import colors from '../../styles/appColors';
 import KeyboardAvoidWrapper from '../../components/KeyboardAvoidWrapper';
 import IngredientMeasureRow from '../../components/IngredientMeasureRow';
+import regexNumber from '../../utils/regexNumber';
 
 function FormIngredient({ navigation, route }) {
   const {
@@ -147,7 +148,7 @@ function FormIngredient({ navigation, route }) {
       { error: !name.length, message: 'Debes asignar un nombre al ingrediente' },
       { error: price <= 0, message: 'Debes ingresar un precio válido' },
       { error: measures[0].quantity <= 0, message: 'Debes ingresar una cantidad por defecto' },
-      { error: minimumQuantity <= 0, message: 'Debes ingresar un mínimo inventario válido' },
+      { error: minimumQuantity < 0, message: 'Debes ingresar un mínimo inventario válido' },
       { error: !measures[0].name, message: 'Debes ingresar una medida por defecto' },
       ...measures.slice(1).map(thisMeasure => ({
         error: !thisMeasure.isRemoved && (!thisMeasure.name || thisMeasure.name === 'Otra'),
@@ -303,7 +304,7 @@ function FormIngredient({ navigation, route }) {
               keyboardType="number-pad"
               returnKeyType='done'
               value={price.toString()}
-              onChangeText={(text) => setPrice(text)}
+              onChangeText={(text) => setPrice(regexNumber(text))}
             />
           </View>
           <View style={styles.inputContainer}>
@@ -316,7 +317,7 @@ function FormIngredient({ navigation, route }) {
               keyboardType="numeric"
               returnKeyType='done'
               value={(minimumQuantity) && minimumQuantity.toString()}
-              onChangeText={(text) => setMinimumQuantity(text.replace(',', '.'))}
+              onChangeText={(text) => setMinimumQuantity(regexNumber(text, true).replace(',', '.'))}
             />
           </View>
           <Text style={styles.measureLabel}>

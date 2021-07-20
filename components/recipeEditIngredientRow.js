@@ -82,9 +82,9 @@ function IngredientRow(props) {
         </View>
         <View style={styles.sectionPrice}>
           <Text style={styles.singleIngredientPriceText}>{formatMoney(Math.round(currentPrice), '$')}</Text>
-        </View>
-        <View>
-          <Icon name='close' onPress={() => deleteIngredient(ingredient.id)} size={20} />
+          <View style={styles.icon}>
+            <Icon name='close' onPress={() => deleteIngredient(ingredient.id)} size={20} />
+          </View>
         </View>
       </View>
     </View>

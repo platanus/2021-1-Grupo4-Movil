@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { TextInput, View } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import Icon from 'react-native-vector-icons/Ionicons';
-
+import regexNumber from '../utils/regexNumber';
 import styles from '../styles/Ingredients/formStyles';
 import pickers from '../styles/customPickerStyles';
 import colors from '../styles/appColors';
@@ -39,7 +39,7 @@ function IngredientMeasureRow({ measure, handleMeasureChange, isDefault }) {
             keyboardType="number-pad"
             returnKeyType='done'
             value={measure.quantity.toString()}
-            onChangeText={(text) => handleMeasureChange({ quantity: text })}
+            onChangeText={(text) => handleMeasureChange({ quantity: regexNumber(text.replace(',', '.')) })}
           />
         </View>
         <View style={styles.inputUnitContainer}>

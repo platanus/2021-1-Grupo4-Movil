@@ -108,19 +108,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   decreaseInventoryBtn: {
-    width: 40,
-    left: 16,
+    width: 50,
+    left: 22,
     display: 'flex',
   },
   increaseInventoryBtn: {
-    width: 40,
+    width: 50,
   },
   inventoryEditPanel: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    left: 5,
+    left: 15,
   },
   inventoryInput: {
     width: 50,

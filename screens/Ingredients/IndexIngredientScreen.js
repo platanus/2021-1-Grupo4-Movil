@@ -215,7 +215,7 @@ function IndexIngredients({ navigation }) {
                       >
                         <Icon
                           name='remove-circle-outline'
-                          size={25}
+                          size={30}
                           color={colors.grayIcon}
                         />
                       </TouchableOpacity>
@@ -237,7 +237,7 @@ function IndexIngredients({ navigation }) {
                       >
                         <Icon
                           name='add-circle-outline'
-                          size={25}
+                          size={30}
                           color={colors.grayIcon}
                         />
                       </TouchableOpacity>
