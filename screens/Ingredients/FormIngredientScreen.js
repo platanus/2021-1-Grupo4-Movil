@@ -104,6 +104,7 @@ function FormIngredient({ navigation, route }) {
       };
       conversions[toChangeMeasure.name].forEach(conv => {
         const newId = Math.max(...auxMeasures.map(measure => Number(measure.id)), 0) + 1;
+        // eslint-disable-next-line no-magic-numbers
         const equivQty = Math.round((Number(toChangeMeasure.quantity) * conv.quantity + Number.EPSILON) * 100) / 100;
         const equivalentMeasure = { id: newId, name: conv.name, quantity: equivQty, isNew: true, isRemoved: false };
         const equivalentMeasureIndex = auxMeasures.findIndex(

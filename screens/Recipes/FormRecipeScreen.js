@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  Alert,
+} from 'react-native';
 import { useStoreActions, useStoreState } from 'easy-peasy';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import styles from '../../styles/Recipes/formRecipe';
@@ -212,6 +217,19 @@ function FormRecipe(props) {
   }
 
   function handleSubmit() {
+    const validations = [
+      { error: !recipeName, message: 'Debes asignarle un nombre a la receta' },
+      { error: !recipePortions || Number(recipePortions) < 0, message:
+        'Debes asignar un valor mayor o igual a 0 a porciones' },
+      { error: !recipeTime || Number(!recipeTime) < 0, message:
+          'Debes asignar un valor mayor o igual a 0 a tiempo' },
+    ];
+    const error = validations.find((validation) => (validation.error));
+    if (error) {
+      Alert.alert(error.message);
+
+      return;
+    }
     const body = {
       name: recipeName,
       portions: parseInt(recipePortions, 10),

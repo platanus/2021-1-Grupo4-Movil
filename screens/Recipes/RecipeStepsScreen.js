@@ -80,7 +80,7 @@ function RecipeStep(props) {
         <TouchableOpacity style={styles.stepCancelEditButton} onPress={cancelEditStep}>
           <Text style={styles.cancelButtonText}>Cancelar</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.stepEditButton} onPress={editStep}>
+        <TouchableOpacity style={styles.stepEditButton} onPress={(currentStepText) ? editStep : null}>
           <Text style={styles.editButtonText}>Editar</Text>
         </TouchableOpacity>
       </View>

@@ -211,7 +211,7 @@ function IndexIngredients({ navigation }) {
                       <TouchableOpacity
                         style={styles.decreaseInventoryBtn}
                         onPress={() => inventoryModifier(
-                          ingredientsInventory[item.id.toString()] - 1, item.id)}
+                          Number(ingredientsInventory[item.id.toString()]) - 1, item.id)}
                       >
                         <Icon
                           name='remove-circle-outline'
@@ -233,7 +233,7 @@ function IndexIngredients({ navigation }) {
                       <TouchableOpacity
                         style={styles.increaseInventoryBtn}
                         onPress={() => inventoryModifier(
-                          ingredientsInventory[item.id.toString()] + 1, item.id)}
+                          Number(ingredientsInventory[item.id.toString()]) + 1, item.id)}
                       >
                         <Icon
                           name='add-circle-outline'
