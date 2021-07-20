@@ -9,7 +9,7 @@ import Clipboard from 'expo-clipboard';
 
 import styles from '../styles/showStyles';
 
-const checkValidValues = (bankAccount) => {
+function checkValidValues(bankAccount) {
   const conditions = [
     { error: (!bankAccount.contactName), msg: 'Se requiere un nombre en los datos' },
     { error: (!bankAccount.contactRut), msg: 'Se requiere un rut en los datos' },
@@ -26,7 +26,7 @@ const checkValidValues = (bankAccount) => {
   }
 
   return true;
-};
+}
 
 export default function BankAccountView({ provider, setShowBankAccount }) {
   const bankAccount = { ...provider.attributes };

@@ -34,7 +34,7 @@ const sessionsApi = {
 
   changePassword: (payload) => {
     const url = config.endpoints.users.password;
-    
+
     return apiUtils.api({
       method: 'post',
       url,

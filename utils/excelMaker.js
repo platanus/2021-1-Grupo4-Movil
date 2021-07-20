@@ -2,7 +2,7 @@ import XLSX from 'xlsx';
 import { cacheDirectory, writeAsStringAsync, EncodingType } from 'expo-file-system';
 import { shareAsync } from 'expo-sharing';
 
-const formatListForExcel = (shoppingList) => {
+function formatListForExcel(shoppingList) {
   shoppingList.forEach((provider) => {
     provider.ingredients.forEach((ingredient) => {
       ingredient.total = Number(ingredient.quantity) * Number(ingredient.totalPrice);
@@ -10,10 +10,9 @@ const formatListForExcel = (shoppingList) => {
   });
 
   return shoppingList;
-};
+}
 
-const exportExcel = async (providers) => {
-
+async function exportExcel(providers) {
   const formattedProviders = formatListForExcel(providers);
 
   const wb = XLSX.utils.book_new();
@@ -39,6 +38,6 @@ const exportExcel = async (providers) => {
     dialogTitle: 'shopping_list data',
     UTI: 'com.microsoft.excel.xlsx',
   });
-};
+}
 
 export default exportExcel;

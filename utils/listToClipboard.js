@@ -3,7 +3,7 @@ import {
 } from 'react-native';
 import Clipboard from 'expo-clipboard';
 
-const formatListForClipboard = (shoppingList) => {
+function formatListForClipboard(shoppingList) {
   let shoppingListString = '';
 
   shoppingList.forEach((provider) => {
@@ -21,9 +21,9 @@ const formatListForClipboard = (shoppingList) => {
   });
 
   return shoppingListString;
-};
+}
 
-const copyList = (providers) => {
+function copyList(providers) {
   const listString = formatListForClipboard(providers);
 
   Clipboard.setString(listString);
@@ -31,6 +31,6 @@ const copyList = (providers) => {
   Alert.alert('¡Los datos han sido copiados con éxito!', '',
     [{ text: 'Ok', style: 'default' }],
   );
-};
+}
 
 export default copyList;
