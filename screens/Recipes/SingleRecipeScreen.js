@@ -104,7 +104,8 @@ function Recipe(props) {
             <View style={ styles.ingredientTextBox }>
               <Text style={styles.ingredientTextLeft}>{ingredient.name}</Text>
               <Text style={styles.ingredientTextRight}>
-                {ingredient.recipeQuantity} {ingredient.measure}.
+                {/* eslint-disable-next-line no-magic-numbers */}
+                {Math.round(ingredient.recipeQuantity * 100) / 100} {ingredient.measure}.
               </Text>
             </View>
           </View>,

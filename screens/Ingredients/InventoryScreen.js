@@ -125,7 +125,7 @@ function InventoryIngredient({ navigation, route }) {
                     <TouchableOpacity
                       style={styles.decreaseInventoryBtn}
                       onPress={() => inventoryModifier(
-                        sumInventories[item.id.toString()] - 1, item.id, true)}
+                        Number(sumInventories[item.id.toString()]) - 1, item.id, true)}
                     >
                       <Icon
                         name='remove-circle-outline'
@@ -144,7 +144,7 @@ function InventoryIngredient({ navigation, route }) {
                     <TouchableOpacity
                       style={styles.increaseInventoryBtn}
                       onPress={() => inventoryModifier(
-                        sumInventories[item.id.toString()] + 1, item.id, true)}
+                        Number(sumInventories[item.id.toString()]) + 1, item.id, true)}
                     >
                       <Icon
                         name='add-circle-outline'
@@ -159,7 +159,7 @@ function InventoryIngredient({ navigation, route }) {
                     <TouchableOpacity
                       style={styles.decreaseInventoryBtn}
                       onPress={() => inventoryModifier(
-                        subtractionInventories[item.id.toString()] - 1, item.id, false)}
+                        Number(subtractionInventories[item.id.toString()]) - 1, item.id, false)}
                     >
                       <Icon
                         name='remove-circle-outline'
@@ -178,7 +178,7 @@ function InventoryIngredient({ navigation, route }) {
                     <TouchableOpacity
                       style={styles.increaseInventoryBtn}
                       onPress={() => inventoryModifier(
-                        subtractionInventories[item.id.toString()] + 1, item.id, false)}
+                        Number(subtractionInventories[item.id.toString()]) + 1, item.id, false)}
                     >
                       <Icon
                         name='add-circle-outline'
