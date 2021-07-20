@@ -106,10 +106,13 @@ function FormIngredient({ navigation, route }) {
         const newId = Math.max(...auxMeasures.map(measure => Number(measure.id)), 0) + 1;
         const equivQty = Math.round((Number(toChangeMeasure.quantity) * conv.quantity + Number.EPSILON) * 100) / 100;
         const equivalentMeasure = { id: newId, name: conv.name, quantity: equivQty, isNew: true, isRemoved: false };
-        const equivalentMeasureIndex = auxMeasures.findIndex(measure => measure.name === conv.name);
-        if (equivalentMeasureIndex === -1 || auxMeasures[equivalentMeasureIndex].isRemoved) {
+        const equivalentMeasureIndex = auxMeasures.findIndex(
+          measure => measure.name === conv.name && !measure.isRemoved);
+        if (equivalentMeasureIndex === -1) {
           auxMeasures.push(equivalentMeasure);
-        } else auxMeasures[equivalentMeasureIndex] = equivalentMeasure;
+        } else {
+          auxMeasures[equivalentMeasureIndex].quantity = equivQty;
+        }
       });
     }
     setMeasures(auxMeasures);
