@@ -73,6 +73,10 @@ function IngredientRow(props) {
               style={pickers.customPickerStyles}
               value={ingredient.selectedMeasureName}
               onValueChange={(value) => changeMeasure(value)}
+              placeholder={{
+                label: 'Selecciona unidad...',
+                value: null,
+              }}
               items={
                 ingredient.otherMeasures.data.map((measure, index) => ({
                   key: index, value: measure.attributes.name, label: measure.attributes.name }))}
