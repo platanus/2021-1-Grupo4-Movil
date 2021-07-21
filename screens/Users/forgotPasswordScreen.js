@@ -41,7 +41,7 @@ function SignUp() {
     <View style={styles.container}>
       <Image source={require('../../assets/chef.png')} style={styles.chefIcon} />
       <View style={styles.helloContainer}>
-        <Text style={styles.helloText}>¡Bienvenido/a a Kitchengram!</Text>
+        <Text style={styles.helloText}>KitchenGram</Text>
         <Text style={styles.descriptionText}>La nueva forma de gestionar tu cocina y negocio</Text>
       </View>
       <View style={styles.logContainer}>
