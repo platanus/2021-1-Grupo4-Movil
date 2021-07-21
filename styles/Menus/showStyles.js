@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
     height: 30,
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     marginVertical: 20,
   },
   cancelButton: {
@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
   buttonText: {
     fontWeight: 'normal',
     fontStyle: 'normal',
-    fontSize: 16,
+    fontSize: 15,
   },
   cancelButtonText: {
     color: colors.kitchengramGray600,

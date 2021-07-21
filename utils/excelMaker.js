@@ -5,7 +5,7 @@ import { shareAsync } from 'expo-sharing';
 function formatListForExcel(shoppingList) {
   shoppingList.forEach((provider) => {
     provider.ingredients.forEach((ingredient) => {
-      ingredient.total = Number(ingredient.quantity) * Number(ingredient.totalPrice);
+      ingredient.totalPrice = Math.ceil(Number(ingredient.totalPrice));
     });
   });
 

@@ -38,6 +38,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 
+  inventoryModalText: {
+    width: '100%',
+    fontSize: 14,
+    color: colors.kitchengramBlack,
+    textAlign: 'center',
+    marginVertical: 3,
+  },
+
   modalTitle: {
     width: '100%',
     fontSize: 16,
