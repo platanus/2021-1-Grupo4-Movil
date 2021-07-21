@@ -26,14 +26,14 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.kitchengramWhite,
     alignItems: 'center',
-    paddingTop: '20%',
+    paddingTop: '25%',
   },
 
   descriptionText: {
     position: 'absolute',
-    paddingTop: 40,
+    paddingTop: 48,
     color: colors.kitchengramGray800,
-    fontSize: 15,
+    fontSize: 12,
   },
 
   errorMessage: {
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: colors.kitchengramGray800,
     fontWeight: 'bold',
-    marginBottom: '13%',
+    marginBottom: '17%',
   },
 
   forgotPasswordText: {
