@@ -18,7 +18,7 @@ function InventoryModal({ show, setShow, dependencies, title, description }) {
               <Text style={styles.modalDescriptionCentered}>
                 {description}
               </Text>
-              <ScrollView>
+              <ScrollView style={styles.scroll}>
                 {dependencies.filter((ingredient) => ingredient.attributes.minimumQuantity >
                  ingredient.attributes.inventory).map((ingredient, i) => (
                   (<Text

@@ -113,6 +113,9 @@ const styles = StyleSheet.create({
   confirmButtonText: {
     color: colors.kitchengramWhite,
   },
+  scroll: {
+    width: '100%',
+  },
 
 });
 
