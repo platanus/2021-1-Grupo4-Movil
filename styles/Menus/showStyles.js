@@ -187,6 +187,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginVertical: 20,
   },
+  acceptModalButtonContainer: {
+    width: '100%',
+    height: 30,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginVertical: 20,
+  },
   cancelButton: {
     width: '48%',
     height: '100%',
