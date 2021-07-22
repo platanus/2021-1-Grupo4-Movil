@@ -177,7 +177,7 @@ function Menu(props) {
             <Text style={styles.modalTitle}>
               Reducción de inventario exitosa
             </Text>
-            <View style={styles.modalButtonsContainer}>
+            <View style={styles.acceptModalButtonContainer}>
               <TouchableOpacity
                 style={styles.confirmButton}
                 onPress={() => setReduceInventorySuccessful(false)}
