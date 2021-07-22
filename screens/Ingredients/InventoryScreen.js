@@ -17,6 +17,7 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 import colors from '../../styles/appColors';
 import styles from '../../styles/Ingredients/InventoryStyles';
+import SearchElements from '../../components/searchElementsAndFilter';
 
 function InventoryIngredient({ navigation, route }) {
   const {
@@ -30,6 +31,7 @@ function InventoryIngredient({ navigation, route }) {
   const [sumInventories, setSumInventories] = useState({});
   const [subtractionInventories, setSubtractionInventories] = useState({});
   const [mounted, setMounted] = useState(false);
+  const [ingredientsToShow, setIngredientsToShow] = useState([]);
 
   useEffect(() => {
     if (ingredients.length > 0) {
@@ -97,9 +99,14 @@ function InventoryIngredient({ navigation, route }) {
   if (mounted && ingredients.length) {
     return (
       <View style={styles.container}>
+        <SearchElements
+          elements={ingredients}
+          setFilteredElements={setIngredientsToShow}
+          elementName='Ingrediente'
+        />
         <FlatList
           keyExtractor={(item) => item.id}
-          data={ingredients}
+          data={ingredientsToShow}
           renderItem={({ item }) => (
             <TouchableOpacity
               style = {[styles.inventoryRow, styles.odd]}
@@ -118,7 +125,7 @@ function InventoryIngredient({ navigation, route }) {
               </View>
               <View style={styles.right}>
                 <Text style={styles.measure}>
-                  {`${item.attributes.inventory} ${item.attributes.measure}`}
+                  {`${Math.round(item.attributes.inventory * 100) / 100} ${item.attributes.measure}`}
                 </Text>
                 <View style={styles.inventory}>
                   <View style={styles.inventoryEditPanel}>
