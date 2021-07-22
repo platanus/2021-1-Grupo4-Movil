@@ -2,6 +2,7 @@ import {
   Alert,
 } from 'react-native';
 import Clipboard from 'expo-clipboard';
+import formatMoney from './formatMoney';
 
 function formatListForClipboard(shoppingList) {
   let shoppingListString = '';
@@ -11,13 +12,13 @@ function formatListForClipboard(shoppingList) {
 
     let totalPrice = 0;
     provider.ingredients.forEach((ingredient) => {
-      const totalPriceIngredient = Number(ingredient.quantity) * Number(ingredient.totalPrice);
+      const totalPriceIngredient = Number(ingredient.totalPrice);
       totalPrice += totalPriceIngredient;
       shoppingListString += `${ingredient.name} (${ingredient.quantity} ${
         ingredient.measure
-      }}): $${totalPriceIngredient}\n`;
+      }}): ${formatMoney(Math.ceil(totalPriceIngredient), '$')}\n`;
     });
-    shoppingListString += `*Precio total: $${totalPrice}*\n\n`;
+    shoppingListString += `*Precio total: ${formatMoney(Math.ceil(totalPrice), '$')}*\n\n`;
   });
 
   return shoppingListString;

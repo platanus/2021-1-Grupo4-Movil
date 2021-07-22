@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { useStoreActions } from 'easy-peasy';
+import { HeaderBackButton } from '@react-navigation/stack';
 import colors from '../../styles/appColors';
 import styles from '../../styles/Recipes/singleRecipe';
 import minutesToHoursText from '../../utils/recipes';
@@ -25,6 +26,12 @@ function Recipe(props) {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
+      // eslint-disable-next-line react/display-name
+      headerLeft: () => (
+        <HeaderBackButton onPress={() => navigation.navigate('Recetas')}
+          tintColor={colors.kitchengramWhite}
+          labelVisible={false}/>
+      ),
       // eslint-disable-next-line react/display-name
       headerRight: () => (
         <Icon name='more-vert'

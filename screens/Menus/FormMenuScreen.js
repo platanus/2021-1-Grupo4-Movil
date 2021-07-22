@@ -95,13 +95,21 @@ function MenuForm({ navigation, route }) {
         .then(() => getMenu({ id: menu.id }))
         .then((resp) => {
           const toChangeMenueIndex = globalMenus.findIndex((otherMenu) => otherMenu.id === menu.id);
-          setGlobalMenus([
+          const newMenus = [
             ...globalMenus.slice(0, toChangeMenueIndex),
             resp,
             ...globalMenus.slice(toChangeMenueIndex + 1),
-          ]);
-          const numberScreensBack = 2;
-          navigation.pop(numberScreensBack);
+          ];
+          setGlobalMenus(newMenus);
+          let menuPrice = 0;
+          resp.attributes.menuRecipes.data.forEach((recipe) => {
+            menuPrice += calculateRecipePrice(recipe.attributes.recipe, true) * recipe.attributes.recipeQuantity;
+          });
+          navigation.navigate('Menu', {
+            menu: resp,
+            menus: newMenus,
+            menuPrice,
+          });
         });
     } else {
       body.menuRecipesAttributes = recipes.filter((recipe) => (recipe.selected))
@@ -111,8 +119,17 @@ function MenuForm({ navigation, route }) {
         }));
       createMenu(body)
         .then((resp) => {
-          setGlobalMenus([...globalMenus, resp.data]);
-          navigation.goBack();
+          const newMenus = [...globalMenus, resp.data];
+          setGlobalMenus(newMenus);
+          let menuPrice = 0;
+          resp.data.attributes.menuRecipes.data.forEach((recipe) => {
+            menuPrice += calculateRecipePrice(recipe.attributes.recipe, true) * recipe.attributes.recipeQuantity;
+          });
+          navigation.navigate('Menu', {
+            menu: resp.data,
+            menus: newMenus,
+            menuPrice,
+          });
         });
     }
   }

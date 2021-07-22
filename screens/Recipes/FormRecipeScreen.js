@@ -243,8 +243,13 @@ function FormRecipe(props) {
         .then(() => getRecipe({ id: recipe.id }))
         .then((resp) => {
           const auxRecipes = recipes.filter(item => item.id !== recipe.id);
-          setRecipes([...auxRecipes, resp]);
-          navigation.navigate('Recetas');
+          const newRecipes = [...auxRecipes, resp];
+          setRecipes(newRecipes);
+          navigation.navigate('Receta', {
+            recipe: resp,
+            newRecipes,
+            setRecipes,
+          });
         })
         .catch(() => {
         });
@@ -254,7 +259,11 @@ function FormRecipe(props) {
           const auxRecipes = [...recipes];
           auxRecipes.push(resp);
           setRecipes(auxRecipes);
-          navigation.navigate('Recetas');
+          navigation.navigate('Receta', {
+            recipe: resp,
+            newRecipes: auxRecipes,
+            setRecipes,
+          });
         })
         .catch(() => {
         });

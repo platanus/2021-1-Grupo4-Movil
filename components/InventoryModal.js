@@ -22,12 +22,17 @@ function InventoryModal({ show, setShow, dependencies, title, description }) {
               <ScrollView style={styles.scroll}>
                 {dependencies.filter((ingredient) => ingredient.attributes.minimumQuantity >
                  ingredient.attributes.inventory).map((ingredient, i) => (
-                  (<Text
-                    key={i}
-                    style={styles.modalText}>
-                    {`${ingredient.attributes.name}  ${Math.round(ingredient.attributes.inventory * 100) / 100}` +
-                    ` / ${ingredient.attributes.minimumQuantity} un.`}
-                  </Text>)))}
+                  (<View key={i}>
+                    <Text
+                      style={styles.inventoryModalText}>
+                      {ingredient.attributes.name}
+                    </Text>
+                    <Text
+                      style={styles.modalText}>
+                      {`${Math.round(ingredient.attributes.inventory * 100) / 100}` +
+                      ` / ${ingredient.attributes.minimumQuantity} un.`}
+                    </Text>
+                  </View>)))}
               </ScrollView>
             </>)}
           <View style={styles.modalButtonsContainerColumn}>
