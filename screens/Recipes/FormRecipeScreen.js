@@ -246,7 +246,7 @@ function FormRecipe(props) {
           const newRecipes = [...auxRecipes, resp];
           setRecipes(newRecipes);
           navigation.navigate('Receta', {
-            recipe,
+            recipe: resp,
             newRecipes,
             setRecipes,
           });
