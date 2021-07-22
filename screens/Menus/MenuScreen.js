@@ -12,6 +12,7 @@ import {
   Modal,
   Alert,
 } from 'react-native';
+import { HeaderBackButton } from '@react-navigation/stack';
 import { Icon } from 'react-native-elements';
 import {
   useStoreActions,
@@ -76,6 +77,12 @@ function Menu(props) {
 
   useLayoutEffect(() => {
     navigation.setOptions({
+      // eslint-disable-next-line react/display-name
+      headerLeft: () => (
+        <HeaderBackButton onPress={() => navigation.navigate('Menus')}
+          tintColor={colors.kitchengramWhite}
+          labelVisible={false}/>
+      ),
       // eslint-disable-next-line react/display-name
       headerRight: () => (
         <Icon

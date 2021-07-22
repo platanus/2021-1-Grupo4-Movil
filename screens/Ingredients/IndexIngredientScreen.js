@@ -246,7 +246,10 @@ function IndexIngredients({ navigation }) {
                     <Text
                       style={styles.measure}
                     >
-                      {`${ingredientsInventory[item.id.toString()]} un.`}
+                      {
+                        // eslint-disable-next-line no-magic-numbers
+                        `${Math.round(ingredientsInventory[item.id.toString()] * 100) / 100} un.`
+                      }
                     </Text>
                   )}
                   <TouchableOpacity onPress={() => showInventoryInput(item)}>

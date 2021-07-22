@@ -66,20 +66,28 @@ function ShowMenuOptions(props) {
           '¿Estás seguro que deseas eliminar este menú?'}/>
       {(isRecipe) ? (
         <TouchableOpacity style={[styles.menuOption, styles.edit]}
-          onPress={() => navigation.navigate(editNavigation, {
-            recipe: element.recipe,
-            recipes: elementsArray,
-            setRecipes: setElementsArray,
-          })}>
+          onPress={() => {
+            menuVisible(false);
+            navigation.navigate(editNavigation, {
+              recipe: element.recipe,
+              recipes: elementsArray,
+              setRecipes: setElementsArray,
+            });
+          }
+          }>
           <Text style={styles.edit}>Editar</Text>
         </TouchableOpacity>
       ) : (
         <TouchableOpacity style={[styles.menuOption, styles.edit]}
-          onPress={() => navigation.navigate(editNavigation, {
-            menu: element.menu,
-            menus: elementsArray,
-            setMenus: setElementsArray,
-          })}>
+          onPress={() => {
+            menuVisible(false);
+            navigation.navigate(editNavigation, {
+              menu: element.menu,
+              menus: elementsArray,
+              setMenus: setElementsArray,
+            });
+          }
+          }>
           <Text style={styles.edit}>Editar</Text>
         </TouchableOpacity>
       )}
